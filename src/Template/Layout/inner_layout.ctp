@@ -46,14 +46,24 @@ $(window).load(function(){
       <div class="scroll-sidebar">
         <ul id="sidebar-menu">
           <li class="header"><span>Overview</span></li>
-          <li><a href="<?= $this->Url->build(array("action" => "company"));?>" title="Admin Dashboard"><i class="glyph-icon icon-linecons-tv"></i> <span>Company</span></a></li>
-          <li><a href="<?= $this->Url->build(array("action" => "projects"));?>" title="Admin Dashboard"><i class="glyph-icon icon-linecons-diamond"></i> <span>Projects</span></a></li>
+          <li><a href="<?= $this->Url->build(array("action" => "company"));?>" title="Company"><i class="glyph-icon icon-linecons-tv"></i> <span>Company</span></a></li>
+          <li><a href="<?= $this->Url->build(array("action" => "projects"));?>" title="Projects Menu"><i class="glyph-icon icon-linecons-diamond"></i> <span>Projects</span></a>
+              <div class="sidebar-submenu" style="display: block;">
+              <ul>
+              <li><a href="<?= $this->Url->build(array("action" => "projects"));?>" title="Projects"><span>Projects</span></a></li>
+              <li><a href="<?= $this->Url->build(array("action" => "clients"));?>" title="Clients"><span>Clients</span></a></li>
+              <li><a href="<?= $this->Url->build(array("action" => "teams"));?>" title="Teams"><span>Teams</span></a></li>
+              <li><a href="icons.html" title="Icons"><span>Icons</span></a></li>
+              <li><a href="nav-menus.html" title="Navigation menus"><span>Navigation menus</span></a></li>
+              <li><a href="response-messages.html" title="Response messages"><span>Response messages</span></a></li>
+              <li><a href="images.html" title="Images"><span>Images</span></a></li>
+              </ul></div>
+          </li>
           <li><a href="<?= $this->Url->build(array("action" => "users"));?>" title="Add Users"><i class="glyph-icon icon-elusive-group"></i> <span>Users</span></a></li>
-          <li><a href="<?= $this->Url->build(array("action" => "handles"));?>" title="Admin Dashboard"><i class="glyph-icon icon-linecons-tv"></i> <span>Handles</span></a></li>
-          <li><a href="<?= $this->Url->build(array("action" => "category"));?>" title="Admin Dashboard"><i class="glyph-icon icon-linecons-tv"></i> <span>Category</span></a></li>
-          <li><a href="<?= $this->Url->build(array("action" => "color"));?>" title="Admin Dashboard"><i class="glyph-icon icon-linecons-tv"></i> <span>Color</span></a></li>
-          <li><a href="<?= $this->Url->build(array("action" => "tickets"));?>" title="Admin Dashboard"><i class="glyph-icon icon-linecons-tv"></i> <span>Tickets</span><span class="bs-badge badge-danger"><?=  $this->Custom->get_ticket_count();?></span></a></li>
+
+          
         </ul>
+
       </div>
     </div>
     <div id="page-content-wrapper">
@@ -93,7 +103,7 @@ $(window).load(function(){
     </div>
   </div>
   
-  <?= $this->Html->script(array('../assets/widgets/dropdown/dropdown', '../assets/widgets/tooltip/tooltip', '../assets/widgets/popover/popover', '../assets/widgets/progressbar/progressbar', '../assets/widgets/button/button', '../assets/widgets/collapse/collapse', '../assets/widgets/superclick/superclick', '../assets/widgets/input-switch/inputswitch-alt', '../assets/widgets/slimscroll/slimscroll', '../assets/widgets/slimscroll/slimscroll', '../assets/widgets/slidebars/slidebars', '../assets/widgets/slidebars/slidebars-demo', '../assets/widgets/charts/piegage/piegage', '../assets/widgets/charts/piegage/piegage-demo', '../assets/widgets/screenfull/screenfull', '../assets/widgets/content-box/contentbox', '../assets/widgets/material/material', '../assets/widgets/material/ripples', '../assets/widgets/overlay/overlay', '../assets/js-init/widgets-init', '../assets/themes/admin/layout','../assets/widgets/datatable/datatable','../assets/widgets/datatable/datatable-bootstrap','../assets/widgets/datatable/datatable-tabletools','../assets/widgets/parsley/parsley')) ?>
+  <?= $this->Html->script(array('../assets/widgets/dropdown/dropdown', '../assets/widgets/tooltip/tooltip', '../assets/widgets/popover/popover', '../assets/widgets/progressbar/progressbar', '../assets/widgets/button/button', '../assets/widgets/collapse/collapse', '../assets/widgets/superclick/superclick', '../assets/widgets/input-switch/inputswitch-alt', '../assets/widgets/slimscroll/slimscroll', '../assets/widgets/slimscroll/slimscroll', '../assets/widgets/slidebars/slidebars', '../assets/widgets/slidebars/slidebars-demo', '../assets/widgets/charts/piegage/piegage', '../assets/widgets/charts/piegage/piegage-demo', '../assets/widgets/screenfull/screenfull', '../assets/widgets/content-box/contentbox', '../assets/widgets/material/material', '../assets/widgets/material/ripples', '../assets/widgets/overlay/overlay', '../assets/js-init/widgets-init', '../assets/themes/admin/layout','../assets/widgets/datatable/datatable','../assets/widgets/datatable/datatable-bootstrap','../assets/widgets/datatable/datatable-tabletools','../assets/widgets/parsley/parsley','../assets/widgets/multi-select/multiselect')) ?>
 
         
   <script>
@@ -106,6 +116,9 @@ $(window).load(function(){
         $('.bootstrap-datepicker1').bsdatepicker({
             format: 'yyyy-mm-dd'
         });
+
+        $(".multi-select").multiSelect();
+        $(".ms-container").append('<i class="glyph-icon icon-exchange"></i>');
     });
 
   </script>

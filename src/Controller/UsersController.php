@@ -74,7 +74,7 @@ class UsersController extends AppController
             $user = $this->Auth->identify();
 
 	        if ($user) {
-                if($user['userrole'] == 'admin' || ($user['userrole'] == 'company'))
+                if($user['status'] == 1)
                 {
                    $this->Auth->setUser($user);
                     return $this->redirect(str_replace("zenstill.com", $user['username']."zenstill.com", $this->Auth->redirectUrl())); 
@@ -91,7 +91,7 @@ class UsersController extends AppController
                     $this->request->data['username'] = $user->username;
                    // $user = $this->Auth->identify();
                   //  print_r($user);exit;
-                    if($user['userrole'] == 'admin' || ($user['userrole'] == 'company'))
+                    if($user['status'] == 1)
                     {
                         $this->Auth->setUser($user);
                         return $this->redirect(str_replace("zenstill.com", $user['username']."zenstill.com", $this->Auth->redirectUrl()));
@@ -439,12 +439,11 @@ class UsersController extends AppController
        $this->UserDetails = TableRegistry::get('user_details');
        $this->Projects = TableRegistry::get('projects');
        $this->ProjectTimeline = TableRegistry::get('project_timeline');
+       $this->ProjectTeams = TableRegistry::get('project_teams');
        $siteurl =  Router::url('/', true);
 
        if($action == 'delete')
        {
-
-
             $this->ProjectTimeline->deleteAll(['project_id' => $id]);
             $this->Projects->delete($this->Projects->get($id));
             $this->Flash->success('Project has been deleted successfully!!');
@@ -474,6 +473,15 @@ class UsersController extends AppController
                     $this->request->data['status'] = "New";
                     $project = $this->Projects->patchEntity($project, $this->request->data);
                     $project_save  = $this->Projects->save($project);
+
+                    $teams = $this->request->data['teams'];
+                    foreach($teams as $team) {
+                        $team_data['user_id'] = $team;
+                        $team_data['project_id'] = $project_save->id;
+                        $teamdata = $this->ProjectTeams->newEntity();
+                        $teamdata = $this->ProjectTeams->patchEntity($teamdata, $this->request->data);
+                        $teamdata_save  = $this->ProjectTeams->save($teamdata);
+                    }
                     if ($project_save) {    
                         $project_timeline = $this->ProjectTimeline->newEntity();
                         $data['project_id'] = $project_save->id;
@@ -497,9 +505,11 @@ class UsersController extends AppController
             $this->set('project', $project);
        }
 
-       $projects =  $this->Projects->find('all');
+       $comp_id = $this->Auth->user('userrole') == "company" ? $this->Auth->user('id') : $this->Auth->user('parent_id');
+       $projects =  $this->Projects->find('all',['conditions' => ['company_id' => $comp_id]]);
        $conn = ConnectionManager::get('default');
        $clients = $conn->execute('select a.* from user_details a, users b where a.user_id = b.id and b.userrole="company"');
+       $team_members = $conn->execute('select a.* from user_details a, users b where a.user_id = b.id and b.userrole="user" and b.parent_id = '.$comp_id);
       // $clients = $stmt->fetch('assoc');
        //$clients =  $this->UserDetails->find('all',['conditions' => ['user']]);
       // $users = $this->ClientDetails->find('all')->all()->contain('users');
@@ -507,6 +517,7 @@ class UsersController extends AppController
        
        $this->set('projects', $projects);
        $this->set('clients', $clients);
+       $this->set('team_members', $team_members);
        $this->set('siteurl', $siteurl);
 
     }
@@ -664,7 +675,7 @@ class UsersController extends AppController
             $this->UserDetails->deleteAll(['user_id' => $id]);
             $this->Users->delete($this->Users->get($id));
             $this->Flash->success('User has been deleted successfully!!');
-            $this->redirect(array("action" => 'company'));
+            $this->redirect(array("action" => 'users'));
        }
        elseif ($this->request->is('post') )
        {
@@ -687,7 +698,8 @@ class UsersController extends AppController
                 $user = $this->Users->newEntity();
                 $this->request->data['userrole'] = 'user';
                 $this->request->data['status'] = 1;
-              //  $this->Auth->user('userrole') == "company" ? : ;
+                if($this->Auth->user('userrole') != "admin")
+                $this->request->data['parent_id'] = $this->Auth->user('userrole') == "company" ? $this->Auth->user('id') : $this->Auth->user('parent_id');
                 $user = $this->Users->patchEntity($user, $this->request->data);
                 $hasher = new DefaultPasswordHasher();
                 $user->password = $hasher->hash($user->password);
@@ -715,14 +727,85 @@ class UsersController extends AppController
                 $this->set('client', $client);
        }
 
-       $conn = ConnectionManager::get('default');
-       $users = $conn->execute('select a.*,b.* from user_details a, users b where a.user_id = b.id and b.userrole="user"');
-       //print_r($users);
+      $parent_id = $this->Auth->user('userrole') == "company" ? $this->Auth->user('id') : $this->Auth->user('parent_id');
+       $users = $this->UserDetails->find('all', ['conditions' => ['Users.userrole' => 'user', 'Users.parent_id' => $parent_id]])->contain('Users')->all();
        $designation = $this->Designation->find('all')->all();
       
        
        $this->set('users', $users);
        $this->set('designation', $designation);
+       $this->set('siteurl', $siteurl);
+    }
+
+
+    public function clients($id = 0, $action = '')
+    {
+       $this->Users = TableRegistry::get('users');
+       $this->UserDetails = TableRegistry::get('user_details');
+       $siteurl =  Router::url('/', true);
+
+       if($action == 'delete')
+       {
+            $this->UserDetails->deleteAll(['user_id' => $id]);
+            $this->Users->delete($this->Users->get($id));
+            $this->Flash->success('User has been deleted successfully!!');
+            $this->redirect(array("action" => 'clients'));
+       }
+       elseif ($this->request->is('post'))
+       {
+            $data = $this->request->data;
+
+            if(isset($data['id'])){
+                $user = $this->Users->get($data['id']);
+                $user = $this->Users->patchEntity($user, $this->request->data);
+                $user_save  = $this->Users->save($user);
+                if ($user_save) {
+                    //echo  $data['id'];
+                    $client = $this->UserDetails->find('all',['conditions' => ['user_details.user_id' => $data["id"]]])->first();
+                    $client = $this->UserDetails->patchEntity($client, $this->request->data);
+                    $client_save  = $this->UserDetails->save($client);
+                    $this->Flash->success('Client Details has been updated successfully!!');
+                    //$this->set('success_msg', 'Client Details has been updated successfully!!');
+                }
+            }
+            else{
+                $user = $this->Users->newEntity();
+                $this->request->data['userrole'] = 'client';
+                $this->request->data['status'] = 1;
+                if($this->Auth->user('userrole') != "admin")
+                $this->request->data['parent_id'] = $this->Auth->user('userrole') == "company" ? $this->Auth->user('id') : $this->Auth->user('parent_id');
+                $user = $this->Users->patchEntity($user, $this->request->data);
+                $hasher = new DefaultPasswordHasher();
+                $user->password = $hasher->hash($user->password);
+                $user_save  = $this->Users->save($user);
+                //pr($user);exit;
+                if ($user_save) {
+                    $client = $this->UserDetails->newEntity();
+                    $this->request->data['user_id'] = $user_save->id;
+                    $client = $this->UserDetails->patchEntity($client, $this->request->data);
+                    $client_save  = $this->UserDetails->save($client);
+                    $this->Flash->success('New Client has been added successfully!!');
+                    //$this->set('success_msg', 'New Client has been added successfully!!');
+
+                }else
+                $this->Flash->error('Unable to add Client!!');
+                }
+
+            $this->redirect(array("action" => 'clients'));
+       }
+       elseif($id)
+       {
+            $client = $this->UserDetails->find('all', ['conditions' => ['users.id' => $id]])->contain('Users', function(\Cake\ORM\Query $q) {
+                    return $q->where(['Users.id' => $id]);
+                   })->first();
+                $this->set('client', $client);
+       }
+
+      $parent_id = $this->Auth->user('userrole') == "company" ? $this->Auth->user('id') : $this->Auth->user('parent_id');
+       $users = $this->UserDetails->find('all', ['conditions' => ['Users.userrole' => 'client', 'Users.parent_id' => $parent_id]])->contain('Users')->all();
+      
+       
+       $this->set('users', $users);
        $this->set('siteurl', $siteurl);
     }
 
