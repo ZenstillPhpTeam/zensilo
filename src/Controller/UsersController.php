@@ -74,10 +74,10 @@ class UsersController extends AppController
             $user = $this->Auth->identify();
 
 	        if ($user) {
-                if($user['userrole'] == 'admin' || ($user['userrole'] == 'company' && $user['status'] == 2))
+                if($user['userrole'] == 'admin' || ($user['userrole'] == 'company'))
                 {
                    $this->Auth->setUser($user);
-                    return $this->redirect($this->Auth->redirectUrl()); 
+                    return $this->redirect(str_replace("zenstill.com", $user['username']."zenstill.com", $this->Auth->redirectUrl())); 
                 }
 	            //$this->Flash->error(__('Your account is under admin approval'));
                 $this->set('error_msg', 'Your account is under admin approval');
@@ -91,10 +91,10 @@ class UsersController extends AppController
                     $this->request->data['username'] = $user->username;
                    // $user = $this->Auth->identify();
                   //  print_r($user);exit;
-                    if($user['userrole'] == 'admin' || ($user['userrole'] == 'company' && $user['status'] == 2))
+                    if($user['userrole'] == 'admin' || ($user['userrole'] == 'company'))
                     {
                         $this->Auth->setUser($user);
-                        return $this->redirect($this->Auth->redirectUrl());
+                        return $this->redirect(str_replace("zenstill.com", $user['username']."zenstill.com", $this->Auth->redirectUrl()));
                     }
                     //$this->Flash->error(__('Your account is under admin approval'));
                     $this->set('error_msg', 'Your account is under admin approval');
@@ -133,7 +133,7 @@ class UsersController extends AppController
                 if($user['userrole'] == 'admin' || ($user['userrole'] == 'company' && $user['status'] == 2))
                 {
                    $this->Auth->setUser($user);
-                    return $this->redirect($this->Auth->redirectUrl()); 
+                    return $this->redirect(str_replace("zenstill.com", $user['username']."zenstill.com", $this->Auth->redirectUrl())); 
                 }
                 //$this->Flash->error(__('Your account is under admin approval'));
                 $this->set('error_msg', 'Your account is under admin approval');
@@ -177,7 +177,7 @@ class UsersController extends AppController
     public function add()
     {
         $this->viewBuilder()->layout('admin_login');
-
+        $this->Users = TableRegistry::get('Users');
         $user = $this->Users->newEntity();
         if ($this->request->is('post')) {
             $this->request->data['role'] = 'admin';
