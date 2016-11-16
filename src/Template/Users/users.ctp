@@ -44,13 +44,17 @@
         </tr>
         </thead>
         <tbody>
-          <?php foreach($users as $k=>$user_det){?>
+          <?php foreach ($designation as $key => $design) { 
+          $designation1[$design['id']] = $design['designation'];
+          }
+          //print_r( $designation1);
+        foreach($users as $k=>$user_det){?>
         <tr class="gradeA <?php if($k%2 == 0) {?>odd <?php } else { ?> even <?php } ?>" role="row">
         <td><?= $k+1?></td>
         <td class="sorting_1"><?= $user_det->client_name ?></td>
         <td><?= $user_det->user->email ?></td>
         <td><?= $user_det->mobile ?></td>
-        <td class="center"><?= $user_det->designation ?></td>
+        <td class="center"><?= $designation1[$user_det->designation] ?></td>
         <td class="center">
           <a href="<?= $this->Url->build(array("action" => "users", $user_det->user_id));?>"><i class="glyph-icon demo-icon tooltip-button icon-elusive-pencil"></i></a>&nbsp;&nbsp;
           <a href="<?= $this->Url->build(array("action" => "users", $user_det->user_id, "delete"));?>" onclick="javascript:confirm('Are you sure want to delete this User?')"><i class="glyph-icon demo-icon tooltip-button icon-elusive-trash"></i></a>
@@ -106,12 +110,7 @@
                     <input name="client_name" class="form-control" id="" placeholder="Client Name" type="text" required="" value="<?= $client->client_name ?>" />
                   </div>
                 </div>
-                <div class="form-group">
-                  <label class="col-sm-3 control-label">About Company</label>
-                  <div class="col-sm-6">
-                    <textarea name="about_client" id="" class="form-control" required=""><?= $client->about_client ?></textarea>
-                  </div>
-                </div>
+                
                 <div class="form-group">
                   <label class="col-sm-3 control-label">Email</label>
                   <div class="col-sm-6">
@@ -128,6 +127,17 @@
                   <label class="col-sm-3 control-label">Username</label>
                   <div class="col-sm-6">
                     <input name="username" class="form-control" id="" type="text" data-parsley-type="alphanum" required="" readonly value="<?= $client->user->username ?>">
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="col-sm-3 control-label">Designation</label>
+                  <div class="col-sm-6">
+                    <select class="form-control" name="designation">
+                      <option value="0">Select Designation</option>
+                      <?php foreach ($designation as $key => $design) { ?>
+                      <option value="<?php echo $design['id']; ?>" <?= $client->designation == $design['id'] ? 'selected' : '';?>><?php echo $design['designation']; ?></option>
+                      <?php } ?>
+                    </select>
                   </div>
                 </div>
 
