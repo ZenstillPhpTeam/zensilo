@@ -35,17 +35,40 @@ class UsersController extends AppController
 	    // You should not add the "login" action to allow list. Doing so would
 	    // cause problems with normal functioning of AuthComponent.
 
-	    $this->Auth->allow(['index', 'add', 'logout', 'forgotPassword', 'resetPassword','view', 'verify']);
+	    $this->Auth->allow(['index', 'add', 'logout', 'forgotPassword', 'resetPassword','view', 'verify', 'setlogin']);
 
         if($this->Auth->user())
         {
             $this->viewBuilder()->layout('inner_layout');
             $this->set('loggedInUser', $this->Auth->user());
         }
-        
+        elseif($this->request->params['action'] != 'setlogin')
+        {
+            if($this->is_sub_domain())
+                return $this->redirect("http://zensilo.com/".strtolower($this->request->params['controller']).'/'.strtolower($this->request->params['action']));
+        }
 	}
 
     
+
+    public function setlogin($id=0)
+    {
+        $arr = explode(".", $_SERVER['HTTP_HOST']);
+        if($this->is_sub_domain())
+        {
+            $this->User = TableRegistry::get('users');
+            $user = $this->User->find("all", ["conditions" => ["username" => $this->is_sub_domain()]])->first();
+            $this->Auth->setUser($user);
+        }
+        elseif($id)
+        {
+            $this->User = TableRegistry::get('users');
+            $user = $this->User->get($id);
+            $this->Auth->setUser($user);
+        }
+        
+        return $this->redirect($this->Auth->redirectUrl());  
+    }
 
     public function dashboard()
     {
@@ -53,8 +76,8 @@ class UsersController extends AppController
     }
 
     public function index($st=0)
-	{
-	    
+	{ 
+
 		if($this->Auth->user())
             $this->redirect($this->Auth->redirectUrl());
 
@@ -74,10 +97,15 @@ class UsersController extends AppController
             $user = $this->Auth->identify();
 
 	        if ($user) {
-                if($user['userrole'] == 'admin' || ($user['userrole'] == 'company' && $user['status'] == 2))
+                if($user['status'] == 1)
                 {
-                   $this->Auth->setUser($user);
-                    return $this->redirect($this->Auth->redirectUrl()); 
+                    if($this->is_localhost() || !$user['username'])
+                    {    
+                        $this->Auth->setUser($user);
+                        return $this->redirect($this->Auth->redirectUrl()); 
+                    }
+                    else
+                        return $this->redirect("http://".$user['username'].".zensilo.com/users/setlogin"); 
                 }
 	            //$this->Flash->error(__('Your account is under admin approval'));
                 $this->set('error_msg', 'Your account is under admin approval');
@@ -91,10 +119,15 @@ class UsersController extends AppController
                     $this->request->data['username'] = $user->username;
                    // $user = $this->Auth->identify();
                   //  print_r($user);exit;
-                    if($user['userrole'] == 'admin' || ($user['userrole'] == 'company' && $user['status'] == 2))
+                    if($user['status'] == 1)
                     {
-                        $this->Auth->setUser($user);
-                        return $this->redirect($this->Auth->redirectUrl());
+                        if($this->is_localhost() || !$user->username)
+                        {    
+                            $this->Auth->setUser($user);
+                            return $this->redirect($this->Auth->redirectUrl()); 
+                        }
+                        else
+                            return $this->redirect("http://".$user->username.".zensilo.com/users/setlogin"); 
                     }
                     //$this->Flash->error(__('Your account is under admin approval'));
                     $this->set('error_msg', 'Your account is under admin approval');
@@ -110,58 +143,7 @@ class UsersController extends AppController
 
     public function login($st=0)
     {
-        
-        if($this->Auth->user())
-            $this->redirect($this->Auth->redirectUrl());
-
-        $this->viewBuilder()->layout('admin_login');
-
-        if(isset($this->request->query['st']) && $this->request->query['st'] == 1)
-            $this->Flash->error(__('Invalid App or Subdomain!!'));
-
-        if(isset($this->request->query['st']) && $this->request->query['st'] == 2)
-            $this->Flash->error(__('Your session has timed out!!'));
-
-        if(isset($this->request->query['id']))
-            $this->request->data['username'] = base64_decode($this->request->query['id']);
-
-        if ($this->request->is('post') && $this->request->data['username'] && $this->request->data['password']) {
-
-            $user = $this->Auth->identify();
-
-            if ($user) {
-                if($user['userrole'] == 'admin' || ($user['userrole'] == 'company' && $user['status'] == 2))
-                {
-                   $this->Auth->setUser($user);
-                    return $this->redirect($this->Auth->redirectUrl()); 
-                }
-                //$this->Flash->error(__('Your account is under admin approval'));
-                $this->set('error_msg', 'Your account is under admin approval');
-            }
-            else
-            {
-                $this->User = TableRegistry::get('users');
-                $user = $this->User->find("all", ["conditions" => ["email" => $this->request->data['username'], "userrole !=" => "user"]])->first();
-
-               if (count($user)) {
-                    $this->request->data['username'] = $user->username;
-                   // $user = $this->Auth->identify();
-                  //  print_r($user);exit;
-                    if($user['userrole'] == 'admin' || ($user['userrole'] == 'company' && $user['status'] == 2))
-                    {
-                        $this->Auth->setUser($user);
-                        return $this->redirect($this->Auth->redirectUrl());
-                    }
-                    //$this->Flash->error(__('Your account is under admin approval'));
-                    $this->set('error_msg', 'Your account is under admin approval');
-                }
-                else
-                {
-                    //$this->Flash->error(__('Invalid username or password, try again'));
-                    $this->set('error_msg', 'Wrong credentials.Please try again.');
-                }   
-            }
-        }
+        $this->index($st);
     }
 
 	public function logout()
@@ -177,7 +159,7 @@ class UsersController extends AppController
     public function add()
     {
         $this->viewBuilder()->layout('admin_login');
-
+        $this->Users = TableRegistry::get('Users');
         $user = $this->Users->newEntity();
         if ($this->request->is('post')) {
             $this->request->data['role'] = 'admin';
@@ -439,12 +421,11 @@ class UsersController extends AppController
        $this->UserDetails = TableRegistry::get('user_details');
        $this->Projects = TableRegistry::get('projects');
        $this->ProjectTimeline = TableRegistry::get('project_timeline');
+       $this->ProjectTeams = TableRegistry::get('project_teams');
        $siteurl =  Router::url('/', true);
 
        if($action == 'delete')
        {
-
-
             $this->ProjectTimeline->deleteAll(['project_id' => $id]);
             $this->Projects->delete($this->Projects->get($id));
             $this->Flash->success('Project has been deleted successfully!!');
@@ -474,6 +455,15 @@ class UsersController extends AppController
                     $this->request->data['status'] = "New";
                     $project = $this->Projects->patchEntity($project, $this->request->data);
                     $project_save  = $this->Projects->save($project);
+
+                    $teams = $this->request->data['teams'];
+                    foreach($teams as $team) {
+                        $team_data['user_id'] = $team;
+                        $team_data['project_id'] = $project_save->id;
+                        $teamdata = $this->ProjectTeams->newEntity();
+                        $teamdata = $this->ProjectTeams->patchEntity($teamdata, $this->request->data);
+                        $teamdata_save  = $this->ProjectTeams->save($teamdata);
+                    }
                     if ($project_save) {    
                         $project_timeline = $this->ProjectTimeline->newEntity();
                         $data['project_id'] = $project_save->id;
@@ -497,9 +487,11 @@ class UsersController extends AppController
             $this->set('project', $project);
        }
 
-       $projects =  $this->Projects->find('all');
+       $comp_id = $this->Auth->user('userrole') == "company" ? $this->Auth->user('id') : $this->Auth->user('parent_id');
+       $projects =  $this->Projects->find('all',['conditions' => ['company_id' => $comp_id]]);
        $conn = ConnectionManager::get('default');
        $clients = $conn->execute('select a.* from user_details a, users b where a.user_id = b.id and b.userrole="company"');
+       $team_members = $conn->execute('select a.* from user_details a, users b where a.user_id = b.id and b.userrole="user" and b.parent_id = '.$comp_id);
       // $clients = $stmt->fetch('assoc');
        //$clients =  $this->UserDetails->find('all',['conditions' => ['user']]);
       // $users = $this->ClientDetails->find('all')->all()->contain('users');
@@ -507,6 +499,7 @@ class UsersController extends AppController
        
        $this->set('projects', $projects);
        $this->set('clients', $clients);
+       $this->set('team_members', $team_members);
        $this->set('siteurl', $siteurl);
 
     }
@@ -664,7 +657,7 @@ class UsersController extends AppController
             $this->UserDetails->deleteAll(['user_id' => $id]);
             $this->Users->delete($this->Users->get($id));
             $this->Flash->success('User has been deleted successfully!!');
-            $this->redirect(array("action" => 'company'));
+            $this->redirect(array("action" => 'users'));
        }
        elseif ($this->request->is('post') )
        {
@@ -687,7 +680,8 @@ class UsersController extends AppController
                 $user = $this->Users->newEntity();
                 $this->request->data['userrole'] = 'user';
                 $this->request->data['status'] = 1;
-              //  $this->Auth->user('userrole') == "company" ? : ;
+                if($this->Auth->user('userrole') != "admin")
+                $this->request->data['parent_id'] = $this->Auth->user('userrole') == "company" ? $this->Auth->user('id') : $this->Auth->user('parent_id');
                 $user = $this->Users->patchEntity($user, $this->request->data);
                 $hasher = new DefaultPasswordHasher();
                 $user->password = $hasher->hash($user->password);
@@ -715,14 +709,85 @@ class UsersController extends AppController
                 $this->set('client', $client);
        }
 
-       $conn = ConnectionManager::get('default');
-       $users = $conn->execute('select a.*,b.* from user_details a, users b where a.user_id = b.id and b.userrole="user"');
-       //print_r($users);
+      $parent_id = $this->Auth->user('userrole') == "company" ? $this->Auth->user('id') : $this->Auth->user('parent_id');
+       $users = $this->UserDetails->find('all', ['conditions' => ['Users.userrole' => 'user', 'Users.parent_id' => $parent_id]])->contain('Users')->all();
        $designation = $this->Designation->find('all')->all();
       
        
        $this->set('users', $users);
        $this->set('designation', $designation);
+       $this->set('siteurl', $siteurl);
+    }
+
+
+    public function clients($id = 0, $action = '')
+    {
+       $this->Users = TableRegistry::get('users');
+       $this->UserDetails = TableRegistry::get('user_details');
+       $siteurl =  Router::url('/', true);
+
+       if($action == 'delete')
+       {
+            $this->UserDetails->deleteAll(['user_id' => $id]);
+            $this->Users->delete($this->Users->get($id));
+            $this->Flash->success('User has been deleted successfully!!');
+            $this->redirect(array("action" => 'clients'));
+       }
+       elseif ($this->request->is('post'))
+       {
+            $data = $this->request->data;
+
+            if(isset($data['id'])){
+                $user = $this->Users->get($data['id']);
+                $user = $this->Users->patchEntity($user, $this->request->data);
+                $user_save  = $this->Users->save($user);
+                if ($user_save) {
+                    //echo  $data['id'];
+                    $client = $this->UserDetails->find('all',['conditions' => ['user_details.user_id' => $data["id"]]])->first();
+                    $client = $this->UserDetails->patchEntity($client, $this->request->data);
+                    $client_save  = $this->UserDetails->save($client);
+                    $this->Flash->success('Client Details has been updated successfully!!');
+                    //$this->set('success_msg', 'Client Details has been updated successfully!!');
+                }
+            }
+            else{
+                $user = $this->Users->newEntity();
+                $this->request->data['userrole'] = 'client';
+                $this->request->data['status'] = 1;
+                if($this->Auth->user('userrole') != "admin")
+                $this->request->data['parent_id'] = $this->Auth->user('userrole') == "company" ? $this->Auth->user('id') : $this->Auth->user('parent_id');
+                $user = $this->Users->patchEntity($user, $this->request->data);
+                $hasher = new DefaultPasswordHasher();
+                $user->password = $hasher->hash($user->password);
+                $user_save  = $this->Users->save($user);
+                //pr($user);exit;
+                if ($user_save) {
+                    $client = $this->UserDetails->newEntity();
+                    $this->request->data['user_id'] = $user_save->id;
+                    $client = $this->UserDetails->patchEntity($client, $this->request->data);
+                    $client_save  = $this->UserDetails->save($client);
+                    $this->Flash->success('New Client has been added successfully!!');
+                    //$this->set('success_msg', 'New Client has been added successfully!!');
+
+                }else
+                $this->Flash->error('Unable to add Client!!');
+                }
+
+            $this->redirect(array("action" => 'clients'));
+       }
+       elseif($id)
+       {
+            $client = $this->UserDetails->find('all', ['conditions' => ['users.id' => $id]])->contain('Users', function(\Cake\ORM\Query $q) {
+                    return $q->where(['Users.id' => $id]);
+                   })->first();
+                $this->set('client', $client);
+       }
+
+      $parent_id = $this->Auth->user('userrole') == "company" ? $this->Auth->user('id') : $this->Auth->user('parent_id');
+       $users = $this->UserDetails->find('all', ['conditions' => ['Users.userrole' => 'client', 'Users.parent_id' => $parent_id]])->contain('Users')->all();
+      
+       
+       $this->set('users', $users);
        $this->set('siteurl', $siteurl);
     }
 

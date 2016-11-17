@@ -59,4 +59,15 @@ class AppController extends Controller
             $this->set('_serialize', true);
         }
     }
+
+    public function is_sub_domain() {
+        $arr = explode(".", $_SERVER['HTTP_HOST']);
+        return count($arr) == 3 ? $arr[0] : false;
+    }
+
+    public function is_localhost() {
+        $whitelist = array( '127.0.0.1', '::1' );
+        if( in_array( $_SERVER['REMOTE_ADDR'], $whitelist) )
+            return true;
+    }
 }

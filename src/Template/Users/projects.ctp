@@ -183,7 +183,7 @@
                 elseif($loggedInUser['userrole'] == "user") { $comp = $loggedInUser['parent_id']; }else { $comp = '';} ?>
                   <label class="col-sm-3 control-label">Company Name</label>
                   <div class="col-sm-6">
-                    <select class="form-control" name="client_id">
+                    <select class="form-control" name="company_id">
                       <option value="0">Select Company Name</option>
                       <?php foreach ($clients as $key => $value) { ?>
                       <option value="<?php echo $value['user_id']; ?>" <?= $comp == $value['user_id'] ? 'selected' : '';?>><?php echo $value['client_name']; ?></option>
@@ -210,7 +210,31 @@
                     <input name="estimated_end_date"  id="" type="text" class="bootstrap-datepicker1 form-control"  data-date-format="yyyy-mm-dd" required="">
                   </div>
                 </div>
-     
+
+
+                <div class="form-group">
+                  <label class="col-sm-3 control-label">Assign Team</label>
+                  <div class="col-sm-6">
+                    <select multiple="multiple" class="multi-select" name="teams[]" id="14multiselect" style="position: absolute; left: -9999px;">
+                    <?php foreach($team_members as $key => $value) { ?>
+                      <option value="<?php echo $value['user_id']; ?>"><?php echo $value['client_name']; ?></option>
+                      <?php } ?>
+                    </select>
+                  </div>
+                </div>
+
+                <div class="form-group">
+                  <label class="col-sm-3 control-label">Assign Client</label>
+                  <div class="col-sm-6">
+                    <select  class="form-control" name="client_id"  required="">
+                      <option value="">Select Client</option>
+                    <?php foreach($team_members as $key => $value) { ?>
+                      <option value="<?php echo $value['user_id']; ?>"><?php echo $value['client_name']; ?></option>
+                      <?php } ?>
+                    </select>
+                  </div>
+                </div>
+
                 </div>
 
             </div>
