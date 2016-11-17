@@ -35,17 +35,40 @@ class UsersController extends AppController
 	    // You should not add the "login" action to allow list. Doing so would
 	    // cause problems with normal functioning of AuthComponent.
 
-	    $this->Auth->allow(['index', 'add', 'logout', 'forgotPassword', 'resetPassword','view', 'verify']);
+	    $this->Auth->allow(['index', 'add', 'logout', 'forgotPassword', 'resetPassword','view', 'verify', 'setlogin']);
 
         if($this->Auth->user())
         {
             $this->viewBuilder()->layout('inner_layout');
             $this->set('loggedInUser', $this->Auth->user());
         }
-        
+        elseif($this->request->params['action'] != 'setlogin')
+        {
+            if($this->is_sub_domain())
+                return $this->redirect("http://zensilo.com/".strtolower($this->request->params['controller']).'/'.strtolower($this->request->params['action']));
+        }
 	}
 
     
+
+    public function setlogin($id=0)
+    {
+        $arr = explode(".", $_SERVER['HTTP_HOST']);
+        if($this->is_sub_domain())
+        {
+            $this->User = TableRegistry::get('users');
+            $user = $this->User->find("all", ["conditions" => ["username" => $this->is_sub_domain()]])->first();
+            $this->Auth->setUser($user);
+        }
+        elseif($id)
+        {
+            $this->User = TableRegistry::get('users');
+            $user = $this->User->get($id);
+            $this->Auth->setUser($user);
+        }
+        
+        return $this->redirect($this->Auth->redirectUrl());  
+    }
 
     public function dashboard()
     {
@@ -53,8 +76,8 @@ class UsersController extends AppController
     }
 
     public function index($st=0)
-	{
-	    
+	{ 
+
 		if($this->Auth->user())
             $this->redirect($this->Auth->redirectUrl());
 
@@ -76,8 +99,13 @@ class UsersController extends AppController
 	        if ($user) {
                 if($user['status'] == 1)
                 {
-                   $this->Auth->setUser($user);
-                    return $this->redirect(str_replace("zenstill.com", $user['username']."zenstill.com", $this->Auth->redirectUrl())); 
+                    if($this->is_localhost() || !$user['username'])
+                    {    
+                        $this->Auth->setUser($user);
+                        return $this->redirect($this->Auth->redirectUrl()); 
+                    }
+                    else
+                        return $this->redirect("http://".$user['username'].".zensilo.com/users/setlogin"); 
                 }
 	            //$this->Flash->error(__('Your account is under admin approval'));
                 $this->set('error_msg', 'Your account is under admin approval');
@@ -93,8 +121,13 @@ class UsersController extends AppController
                   //  print_r($user);exit;
                     if($user['status'] == 1)
                     {
-                        $this->Auth->setUser($user);
-                        return $this->redirect(str_replace("zenstill.com", $user['username']."zenstill.com", $this->Auth->redirectUrl()));
+                        if($this->is_localhost() || !$user->username)
+                        {    
+                            $this->Auth->setUser($user);
+                            return $this->redirect($this->Auth->redirectUrl()); 
+                        }
+                        else
+                            return $this->redirect("http://".$user->username.".zensilo.com/users/setlogin"); 
                     }
                     //$this->Flash->error(__('Your account is under admin approval'));
                     $this->set('error_msg', 'Your account is under admin approval');
@@ -110,58 +143,7 @@ class UsersController extends AppController
 
     public function login($st=0)
     {
-        
-        if($this->Auth->user())
-            $this->redirect($this->Auth->redirectUrl());
-
-        $this->viewBuilder()->layout('admin_login');
-
-        if(isset($this->request->query['st']) && $this->request->query['st'] == 1)
-            $this->Flash->error(__('Invalid App or Subdomain!!'));
-
-        if(isset($this->request->query['st']) && $this->request->query['st'] == 2)
-            $this->Flash->error(__('Your session has timed out!!'));
-
-        if(isset($this->request->query['id']))
-            $this->request->data['username'] = base64_decode($this->request->query['id']);
-
-        if ($this->request->is('post') && $this->request->data['username'] && $this->request->data['password']) {
-
-            $user = $this->Auth->identify();
-
-            if ($user) {
-                if($user['userrole'] == 'admin' || ($user['userrole'] == 'company' && $user['status'] == 2))
-                {
-                   $this->Auth->setUser($user);
-                    return $this->redirect(str_replace("zenstill.com", $user['username']."zenstill.com", $this->Auth->redirectUrl())); 
-                }
-                //$this->Flash->error(__('Your account is under admin approval'));
-                $this->set('error_msg', 'Your account is under admin approval');
-            }
-            else
-            {
-                $this->User = TableRegistry::get('users');
-                $user = $this->User->find("all", ["conditions" => ["email" => $this->request->data['username'], "userrole !=" => "user"]])->first();
-
-               if (count($user)) {
-                    $this->request->data['username'] = $user->username;
-                   // $user = $this->Auth->identify();
-                  //  print_r($user);exit;
-                    if($user['userrole'] == 'admin' || ($user['userrole'] == 'company' && $user['status'] == 2))
-                    {
-                        $this->Auth->setUser($user);
-                        return $this->redirect($this->Auth->redirectUrl());
-                    }
-                    //$this->Flash->error(__('Your account is under admin approval'));
-                    $this->set('error_msg', 'Your account is under admin approval');
-                }
-                else
-                {
-                    //$this->Flash->error(__('Invalid username or password, try again'));
-                    $this->set('error_msg', 'Wrong credentials.Please try again.');
-                }   
-            }
-        }
+        $this->index($st);
     }
 
 	public function logout()
