@@ -71,8 +71,10 @@
       $(".company_registration .form-control").each(function(){
         if($(this).val() && !$(this).hasClass("error_unique"))
           $(this).removeClass("error");
+        else if(!$(this).val())
+          $(this).addClass("error").removeClass("invalid_email").removeClass("error_unique");
         else
-          $(this).addClass("error");
+          $(this).addClass("error")
       });
 
       if($(".company_registration .form-control.error").length)
@@ -81,30 +83,42 @@
         $(".login_form .btn-default").addClass("all_data_filled");
     }
 
-    $(".company_registration .form-control").keyup(function(){
+    $(".company_registration .form-control").bind('keyup change', function(e){
       validate();
     });
 
     $("#company_name").keyup(function(){
       $this = $(this); 
-      $this.addClass("error").addClass("error_unique");
+      $this.addClass("error");
       $.get("<?= $this->Url->build(["controller" => "ajax", "action" => "checkUniqueData"]); ?>/username/"+$(this).val(), function(res){
           if(res == "0")
             $this.removeClass("error_unique");
-
+          else
+            $this.addClass("error_unique");
           validate();
       });
     });
 
+    $("#email,#pwd,#company_name").val("");
+
     $("#email").keyup(function(){
       $this = $(this); 
-      $this.addClass("error").addClass("error_unique");
-      if(!validateEmail($(this).val()))return;
+      $this.addClass("error").addClass("invalid_email");
+
+      if(!validateEmail($(this).val()))
+      {
+        validate();
+        return;
+      } 
+
+      $this.removeClass("invalid_email");
+
       $.get("<?= $this->Url->build(["controller" => "ajax", "action" => "checkUniqueData"]); ?>/email/"+$(this).val(), function(res){
         console.log(res);
           if(res == "0")
             $this.removeClass("error_unique");
-
+          else
+            $this.addClass("error_unique");
           validate();
       });
     });
@@ -150,18 +164,21 @@
               <div class="l_pwd">
                 <img class="close_container getting_started" src="<?= $this->Url->build("/"); ?>img/icons/delete.png" alt="Image" />
                 <h3>Enter your details</h3>
-                <form role="form" method="post" class="company_registration" novalidate="">
+                <form autocomplete="off" role="form" method="post" class="company_registration" novalidate="">
                   <div class="form-group" >
                     <label for="email">Company name:</label>
-                    <input type="text" class="form-control" id="company_name" name="name">
+                    <input autocomplete="off" type="text" class="form-control" id="company_name" name="name">
+                    <p class="error_text">Company name Already exist</p>
                   </div>
                   <div class="form-group" >
                     <label for="email">Email address:</label>
-                    <input type="email" class="form-control" id="email" name="email" ng-model="user.email">
+                    <input autocomplete="off" type="email" class="form-control" id="email" name="email">
+                    <p class="error_text">Email Already exist</p>
+                    <p class="error_text_email">Invalid Email</p>
                   </div>
                   <div class="form-group">
                     <label for="pwd">Password:</label>
-                    <input type="password" class="form-control" id="pwd" name="password" ng-model="user.pwd">
+                    <input autocomplete="off" type="password" class="form-control" id="pwd" name="password">
                   </div>
                   <button type="submit" class="btn btn-default">Submit</button>
                 </form>

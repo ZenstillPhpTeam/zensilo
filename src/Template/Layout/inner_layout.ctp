@@ -2,13 +2,8 @@
 <head><style>#loading .svg-icon-loader {position: absolute;top: 50%;left: 50%;margin: -50px 0 0 -50px;}</style>
 <meta charset="UTF-8">
 <!--[if IE]><meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'><![endif]-->
-<<<<<<< HEAD
-<title><?= 'Zensilo'; ?>: <?= $this->fetch('title') ?></title>
-<meta name="description" content=""> 
-=======
 <title><?= 'Zensilo'; ?>: <?= $this->fetch('title').' | '. $this->request->params['action']; ?></title>
 <meta name="description" content="">
->>>>>>> 2097616228edcfff48fa9aae6d988a115e604b65
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
 <link rel="apple-touch-icon-precomposed" sizes="144x144" href="<?= $this->Url->build("/"); ?>assets/images/icons/apple-touch-icon-144-precomposed.png">
 <link rel="apple-touch-icon-precomposed" sizes="114x114" href="<?= $this->Url->build("/"); ?>assets/images/icons/apple-touch-icon-114-precomposed.png">

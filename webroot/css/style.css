@@ -118,3 +118,5 @@ header .login_form {
 .home_index header .login_form .l_pwd .close_container {cursor: pointer;position: absolute;right: 5%;top: 5%;transform: scale(2);-webkit-transform:scale(2);-moz-transform:scale(2)-o-transform:scale(2);}
 .home_index header .login_form .btn.btn-default{opacity: 0.5;pointer-events: none;}
 .home_index header .login_form .btn.btn-default.all_data_filled{opacity: 1;pointer-events: auto;}
+.home_index header .login_form .error_text,.home_index header .login_form .error_text_email{display: none;}
+.home_index header .login_form .error_unique+.error_text, .home_index header .login_form .invalid_email+.error_text+.error_text_email{display: block;text-align: right;color: #E7505A;}

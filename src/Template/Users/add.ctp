@@ -1,7 +1,7 @@
 <?= $this->Html->script(array('../assets/widgets/wizard/wizard', '../assets/widgets/wizard/wizard-demo', '../assets/widgets/tabs/tabs')) ?>
 <div class="center-vertical">
     <div class="center-content">
-	    <div class="col-md-3 center-margin">
+	    <div class="col-md-5 center-margin">
 	    	<form method="post" action="#">
 			    <div class="content-box wow bounceInDown modal-content">
 				    <h3 class="content-box-header content-box-header-alt bg-default">
@@ -24,7 +24,7 @@
 					    </div>
 					    <div class="form-group">
 					    	<div class="input-group">
-					    		<input type="text" class="form-control" name="email"  placeholder="Username"> 
+					    		<input type="text" class="form-control" name="email"  placeholder="Email"> 
 					    		<span class="input-group-addon bg-blue"><i class="glyph-icon icon-envelope-o"></i></span>
 					    	</div>
 					    </div>

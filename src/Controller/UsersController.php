@@ -41,6 +41,9 @@ class UsersController extends AppController
         {
             $this->viewBuilder()->layout('inner_layout');
             $this->set('loggedInUser', $this->Auth->user());
+
+            if($this->Auth->user()['status'] == 0)
+                $this->render('verfiy_email');
         }
         elseif($this->request->params['action'] != 'setlogin')
         {
@@ -83,32 +86,18 @@ class UsersController extends AppController
 
         $this->viewBuilder()->layout('admin_login');
 
-        if(isset($this->request->query['st']) && $this->request->query['st'] == 1)
-            $this->Flash->error(__('Invalid App or Subdomain!!'));
-
-        if(isset($this->request->query['st']) && $this->request->query['st'] == 2)
-            $this->Flash->error(__('Your session has timed out!!'));
-
-        if(isset($this->request->query['id']))
-            $this->request->data['username'] = base64_decode($this->request->query['id']);
-
 	    if ($this->request->is('post') && $this->request->data['username'] && $this->request->data['password']) {
 
             $user = $this->Auth->identify();
 
 	        if ($user) {
-                if($user['status'] == 1)
-                {
-                    if($this->is_localhost() || !$user['username'])
-                    {    
-                        $this->Auth->setUser($user);
-                        return $this->redirect($this->Auth->redirectUrl()); 
-                    }
-                    else
-                        return $this->redirect("http://".$user['username'].".zensilo.com/users/setlogin"); 
+                if($this->is_localhost() || !$user['username'])
+                {    
+                    $this->Auth->setUser($user);
+                    return $this->redirect($this->Auth->redirectUrl()); 
                 }
-	            //$this->Flash->error(__('Your account is under admin approval'));
-                $this->set('error_msg', 'Your account is under admin approval');
+                else
+                    return $this->redirect("http://".$user['username'].".zensilo.com/users/setlogin");
 	        }
             else
             {
@@ -117,20 +106,14 @@ class UsersController extends AppController
 
                if (count($user)) {
                     $this->request->data['username'] = $user->username;
-                   // $user = $this->Auth->identify();
-                  //  print_r($user);exit;
-                    if($user['status'] == 1)
+                    if($this->is_localhost() || !$user->username)
                     {
-                        if($this->is_localhost() || !$user->username)
-                        {    
-                            $this->Auth->setUser($user);
-                            return $this->redirect($this->Auth->redirectUrl()); 
-                        }
-                        else
-                            return $this->redirect("http://".$user->username.".zensilo.com/users/setlogin"); 
+                        $user = $this->Auth->identify(); 
+                        $this->Auth->setUser($user);
+                        return $this->redirect($this->Auth->redirectUrl()); 
                     }
-                    //$this->Flash->error(__('Your account is under admin approval'));
-                    $this->set('error_msg', 'Your account is under admin approval');
+                    else
+                        return $this->redirect("http://".$user['username'].".zensilo.com/users/setlogin"); 
                 }
                 else
     	        {
@@ -139,6 +122,8 @@ class UsersController extends AppController
                 }   
             }
 	    }
+
+        $this->render('index');
 	}
 
     public function login($st=0)
@@ -190,29 +175,8 @@ class UsersController extends AppController
         
         $res = $this->Users->save($user);
 
-        $profile = $this->UserProfiles->find('all', ['conditions' => ['UserProfiles.user_id' => $user_id]])->first();
-        $this->send_custom_mail(array(
-                            'html_content' => $this->getEmailTemplate('new_account', 
-                                            array('###SITEURL###' => Router::url('/', true),
-                                                '###COMPANYNAME###' => $profile->company_name,
-                                                '###USERNAME###' => $user->username,
-                                                '###SUBDOMAIN###' => $profile->subdomain,
-                                                '###LOGINLINK###' => Router::url('/', true).'?id='.base64_encode($user->email)
-                                                )
-                                            ),
-                            'email_id' => array($user->email),
-                            'subject' => 'Account Created successfully',
-                            'apikey' => 'summa_token'
-                            ));
-
-        $this->send_custom_mail(array(
-                            'html_content' => $this->getEmailTemplate('welcome', 
-                                            array('###SITEURL###' => Router::url('/', true), 
-                                                '###USERNAME###' => $user->username)),
-                            'email_id' => array($user->email),
-                            'subject' => 'Welcome to MyBuzztm',
-                            'apikey' => 'summa_token'
-                            ));
+        $vars = ['username' => $user->username];
+        $this->send_email('account_verified', $user->email, 'Account Verified', $vars);
 
         $this->redirect(['action' => 'login']);
     }
@@ -225,25 +189,14 @@ class UsersController extends AppController
         $this->Users = TableRegistry::get('Users');
 
         $user = $this->Users->find('all', ['conditions' => ['Users.email' => $this->request->data['email']]])->first();
-           if($user)
-           {
-                    /*$email = new Email('default');
-                    $email->from(['me@example.com' => 'Buzztm'])
-                            ->to($data['email'])
-                            ->subject('Mybuzztm Verify Email')
-                            ->send('Please click the following link to verify your email . <a href="'.Router::url('/users/verify/'.base64_encode(base64_encode($user->id)), true).'">Click Here</a>');*/
-                    $this->send_custom_mail(array(
-                            'html_content' => $this->getEmailTemplate('email_verification', 
-                                            array('###SITEURL###' => Router::url('/', true), 
-                                                  '###VERIFYLINK###' => Router::url('/users/verify/'.base64_encode(base64_encode($user->id)), true))),
-                            'email_id' => array($data['email']),
-                            'subject' => 'Mybuzztm Verify Email',
-                            'apikey' => 'summa_token'
-                            ));
-                            echo "success";
-                }
-                else
-                             echo "error";
+            if($user)
+            {
+                $vars = ['username' => $user->username, "link" => Router::url('/users/verify/'.base64_encode(base64_encode($user->id)), true)];
+                $this->send_email('verify_email', $data['email'], 'Verify Email', $vars); 
+                echo "success";
+            }
+            else
+                echo "error";
     }
 
     public function changePassword()

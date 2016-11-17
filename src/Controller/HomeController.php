@@ -23,6 +23,7 @@ class HomeController extends AppController
 	public function index()
 	{
 		$this->Users = TableRegistry::get('Users');
+		$this->UserDetails = TableRegistry::get('user_details');
 
 		if ($this->request->is('post')) {
 			$data = $this->request->data;
@@ -34,9 +35,17 @@ class HomeController extends AppController
             $user = $this->Users->patchEntity($user, $data);
             $res = $this->Users->save($user);
             if ($res) {
+
+            	$client = $this->UserDetails->newEntity();
+                $client = $this->UserDetails->patchEntity($client, array('client_name' => $res->name, 'user_id' => $res->id));
+                $client_save  = $this->UserDetails->save($client);
+
+            	$vars = ['username' => $res->username, "link" => Router::url('/users/verify/'.base64_encode(base64_encode($res->id)), true)];
+                $this->send_email('verify_email', $res->email, 'Verify Email', $vars);
+
                 $this->Flash->success(__('Your tool is ready. Login and check it now'));
                 if($this->is_localhost())
-                    return $this->redirect(['action' => 'setlogin', $res->id]); 
+                    return $this->redirect(['controller' => 'users', 'action' => 'setlogin', $res->id]); 
                 else
                     return $this->redirect("http://".$data['username'].".zensilo.com/users/setlogin");
             }
