@@ -3,7 +3,7 @@
 <meta charset="UTF-8">
 <!--[if IE]><meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'><![endif]-->
 <title><?= 'Zensilo'; ?>: <?= $this->fetch('title') ?></title>
-<meta name="description" content="">
+<meta name="description" content=""> 
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
 <link rel="apple-touch-icon-precomposed" sizes="144x144" href="<?= $this->Url->build("/"); ?>assets/images/icons/apple-touch-icon-144-precomposed.png">
 <link rel="apple-touch-icon-precomposed" sizes="114x114" href="<?= $this->Url->build("/"); ?>assets/images/icons/apple-touch-icon-114-precomposed.png">
@@ -53,6 +53,19 @@ $(window).load(function(){
           <li><a href="<?= $this->Url->build(array("action" => "category"));?>" title="Admin Dashboard"><i class="glyph-icon icon-linecons-tv"></i> <span>Category</span></a></li>
           <li><a href="<?= $this->Url->build(array("action" => "color"));?>" title="Admin Dashboard"><i class="glyph-icon icon-linecons-tv"></i> <span>Color</span></a></li>
           <li><a href="<?= $this->Url->build(array("action" => "tickets"));?>" title="Admin Dashboard"><i class="glyph-icon icon-linecons-tv"></i> <span>Tickets</span><span class="bs-badge badge-danger"><?=  $this->Custom->get_ticket_count();?></span></a></li>
+
+
+          <!-- elango menus -->
+          <li><a href="<?= $this->Url->build(array("action" => "response"));?>" title="Leave Requests">
+          <i class="glyph-icon icon-linecons-tv">
+          <i class="bs-badge badge-warning"><?=  $this->Custom->get_leave_equest_count();?></i></i> 
+          <span>Leave Requests</span></a></li>
+
+          <li><a href="<?= $this->Url->build(array("action" => "request"));?>" title="Leave Requests">
+          <i class="glyph-icon icon-linecons-tv"></i> <span>My Leave Requests</span></a></li>
+
+          <!-- elango menus end -->
+
         </ul>
       </div>
     </div>
