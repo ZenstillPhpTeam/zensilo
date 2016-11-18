@@ -26,7 +26,7 @@
   javascript:window.history.forward(1);
 
   $(document).ready(function(){
-    $(".getting_started").click(function(){
+    $(".getting_started").click(function(e){
       $("body").toggleClass('show_company_creation_container');
     });
     
@@ -144,7 +144,7 @@
                 <ul class="nav navbar-nav navbar-right">
                   <li><a href="<?= $this->Url->build(array("controller" => "home")); ?>">Home</a></li>
                   <li><a href="https://sway.com/ZJ89kOSbMDBL3cXC">Features</a></li>
-                  <li><a href="<?= $this->Url->build(array("controller" => "home")); ?>">Contact Us</a></li>
+                  <li><a href="<?= $this->Url->build(array("controller" => "home", "action" => "contact-us")); ?>">Contact Us</a></li>
                 </ul>
               </div>
             </nav>
@@ -153,13 +153,14 @@
         <div class="col-lg-4 col-md-4 col-sm-4 text-right">
           <div class="login">
             <ul class="list-inline">
-              <li><select ng-model="selectedItem" ng-change="langauge_update()">
+              <!-- <li><select ng-model="selectedItem" ng-change="langauge_update()">
                  <option value="">Select language</option>
                   <option value="lang_english_text" selected="selected">English</option>
                   <option value="lang_tamil_text">தமிழ்</option>
-                </select></li>
+                </select></li> -->
               <li><a href="<?= $this->Url->build(array("controller" => "users")); ?>">login</a></li>
             </ul>
+            <?php if($this->request->params['action'] == 'index'){?>
             <div class="login_form  text-left">
               <div class="l_pwd">
                 <img class="close_container getting_started" src="<?= $this->Url->build("/"); ?>img/icons/delete.png" alt="Image" />
@@ -184,6 +185,7 @@
                 </form>
               </div>
             </div>
+            <?php }?>
           </div>
         </div>
       </div>
@@ -192,6 +194,7 @@
   </div>
   </div>
 </header>
+<?= $this->Flash->render() ?>
 <?= $this->fetch('content') ?>
 <footer>
   <div class="container">
@@ -205,9 +208,9 @@
         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
           <div class="footer_content2">
             <ul class="list-inline">
-              <li><a href="#"><img src="img/icons/facebook.png" /></a></li>
-              <li><a href="#"><img src="img/icons/twitter.png" /></a></li>
-              <li><a href="#"><img src="img/icons/google_plus.png" /></a></li>
+              <li><a href="#"><img src="<?= $this->Url->build("/"); ?>img/icons/facebook.png" /></a></li>
+              <li><a href="#"><img src="<?= $this->Url->build("/"); ?>img/icons/twitter.png" /></a></li>
+              <li><a href="#"><img src="<?= $this->Url->build("/"); ?>img/icons/google_plus.png" /></a></li>
             </ul>
           </div>
         </div>

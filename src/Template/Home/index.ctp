@@ -1,5 +1,5 @@
-<div class="row">
-  <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 "> 
+<div class="row" style="margin:0;">
+  <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 " style="padding:0;"> 
     <img src="<?= $this->Url->build("/"); ?>img/banner.jpg" alt="image" width="100%" class="img-responsive" /> 
     <div class="banner_container">
       <p class="head1">Zensilo Project management tool is available for you</p>

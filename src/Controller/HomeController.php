@@ -43,7 +43,7 @@ class HomeController extends AppController
             	$vars = ['username' => $res->username, "link" => Router::url('/users/verify/'.base64_encode(base64_encode($res->id)), true)];
                 $this->send_email('verify_email', $res->email, 'Verify Email', $vars);
 
-                $this->Flash->success(__('Your tool is ready. Login and check it now'));
+                //$this->Flash->success(__('Your tool is ready. Login and check it now'));
                 if($this->is_localhost())
                     return $this->redirect(['controller' => 'users', 'action' => 'setlogin', $res->id]); 
                 else
@@ -52,4 +52,13 @@ class HomeController extends AppController
             $this->Flash->error(__('Sorry!! Unable to create your company tool. Please try again.'));
 		}
 	}
+
+    public function contactUs()
+    {
+        if ($this->request->is('post')) {
+            $vars = $this->request->data;
+            $this->send_email('enquiry', 'krishc@zenstill.com', 'Zensilo Enquiry', $vars, $vars['email'], $vars['name']);
+            $this->Flash->success(__('Your enquiry submitted successfully. Our Zensilo Team will contact you soon.'));
+        }
+    }
 }
