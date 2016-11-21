@@ -24,7 +24,9 @@
 
 <script>
   javascript:window.history.forward(1);
-
+  $(window).load(function(){
+    $("#email,#pwd,#company_name").val("");
+  });
   $(document).ready(function(){
     $(".getting_started").click(function(e){
       $("body").toggleClass('show_company_creation_container');
@@ -98,8 +100,6 @@
           validate();
       });
     });
-
-    $("#email,#pwd,#company_name").val("");
 
     $("#email").keyup(function(){
       $this = $(this); 
