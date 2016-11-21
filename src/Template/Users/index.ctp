@@ -1,6 +1,6 @@
 <div class="center-vertical">
     <div class="center-content">
-	    <div class="col-md-3 center-margin">
+	    <div class="col-md-4 center-margin">
 	    	<form method="post" action="#">
 			    <div class="content-box wow bounceInDown modal-content">
 				    <h3 class="content-box-header content-box-header-alt bg-default">

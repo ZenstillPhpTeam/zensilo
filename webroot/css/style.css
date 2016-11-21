@@ -1,0 +1,124 @@
+h2{ text-transform:uppercase; color:#364150; font-size:20px; font-weight:bold; margin-bottom:25px; }
+*{ font-family: 'Lato', sans-serif;} 
+*{ letter-spacing:2px; }
+*{ line-height:1.5; }
+/* Header Section */
+header{}
+header .header_logo{ margin-top:10px; }
+header .header_top{ margin-top:20px; }
+header .mainmenu{}
+header .nav{}
+header .navbar{}
+header .navbar ul{ }
+header .navbar ul li{}
+header .navbar ul li a{ padding-right:35px; color:#454545; text-transform:capitalize; font-size:14px;  }
+header .navbar ul li a:hover{ color:#e96069; background:none; }
+header .login{ padding-top:12px;/* margin-left: 110px;*/ }
+
+header .login_form h3{ text-transform:capitalize; color:#fff; font-weight:400; }
+header .login_form span{ float:right; text-decoration:underline; color:#fff; }
+header .login_form a{ color:#fff; }
+header .login_form .reset_pwd{display:none;}
+header .login ul{  }
+header .login ul li{  }
+header .login ul li a{ text-decoration:none; text-transform:capitalize; color:#454545; font-size:14px;  }
+header .login p{ color:#af4249; text-shadow:0 0 14px #fff; }
+header .login ul li a:hover{ color:#e96069; }
+header .login option{ text-transform:capitalize; font-size:14px; }
+header .login select{ text-transform:capitalize; font-size:14px; }
+
+
+
+/* Content Section */
+content{}
+content .welcome_text{  }
+content .welcome_text .main_title{ text-align:center; }
+content .welcome_text .main_title h3{ color:#364150; text-transform:capitalize; font-weight:700; font-size:24px; }
+content .welcome_text .main_content{ text-align:center; }
+content .main_content p{ color:#454545; font-size:14px; line-height:2; border-bottom:1px solid #e5e5e5; padding-bottom:30px; }
+content .left_widget{ border-right:1px solid #e5e5e5; }
+content .two_column{ border-bottom:1px solid #e5e5e5; padding-bottom:30px;  }
+content .left_widget .title_left{}
+content .left_widget .title_left h3{ color:#364150; text-transform:capitalize; font-weight:700; font-size:24px; }
+content .left_widget .widget_content{}
+content .left_widget .widget_content p{ color:#454545; font-size:14px; line-height:2;}
+content .left_widget .widget_content a{ text-decoration:none; color:#e7505a; font-size:14px;}
+content .right_widget{}
+content .right_widget .title_left{}
+content .right_widget .title_left h3{ color:#364150; text-transform:capitalize; font-weight:700; font-size:24px; }
+content .right_widget .widget_content{}
+content .right_widget .widget_content p{ color:#454545; font-size:14px; line-height:2;}
+content .right_widget .widget_content a{ text-decoration:none; color:#e7505a; font-size:14px;}
+
+/* Footer Section */
+footer{}
+footer .footer_content{ margin-top:30px; }
+footer .footer_content .footer_content1{ text-align:center; }
+footer .footer_content .footer_content1 a{ text-decoration:none; color:#b2b2b2; font-size:14px; }
+footer .footer_content .footer_content1 span{color:#364150; font-size:14px; }
+footer .footer_content .footer_content2{ text-align:center; margin-top:12px; }
+footer .footer_content .footer_content2 ul{}
+footer .footer_content .footer_content2 ul li{}
+footer .footer_content .footer_content2 ul li a{}
+
+@media (max-width: 980px) { 
+header .navbar ul li a{ padding-right:5px;}
+header .login{ margin-left:0; }
+.navbar-right {
+    float: right !important;
+    margin-right: -62px;
+}
+	}
+@media (max-width: 768px) { 
+header .navbar ul li a{ padding-right:10px;}
+	}
+@media (max-width: 360px) {
+	 header .login{ margin-left:0; margin-right:15px; }
+	 header .navbar ul li a{ padding-right:0;}
+	
+}
+@media (max-width: 1023px){ header .login_form {
+       background: #7a818a none repeat scroll 0 0;
+    max-width: 310px;
+    padding: 20px;
+    position: absolute;
+    z-index: 10;
+}}
+@media (min-width: 1024px) {
+header .login_form {
+       background: #7a818a none repeat scroll 0 0;
+    left: 25px;
+    min-width: 310px; 
+    padding: 18px;
+    position: absolute;
+    top: 72px;
+    z-index: 10;
+}}
+@media (min-width: 320px){ header .login_form {
+ background: #7a818a none repeat scroll 0 0;
+    max-width: 288px;
+    padding: 20px;
+    position: absolute;
+    z-index: 10;}
+ }
+@media (min-width: 768px){
+	header .login_form{ top:72px;}}
+
+.banner_container{position: absolute;width: 80%;margin:auto;left: 0;right: 0;top: 30%;text-align: center;color: #fff;}
+.banner_container .head1{font-weight: bold;font-size: 30px;}
+.home_index .banner_container .head2{font-size: 16px;}
+.home_index .banner_container .getting_started{margin-top:30px;background: #6AA74C;padding: 10px 20px;border:none;font-size: 20px;border-radius:5px;opacity: 0.7;}
+.home_index .banner_container .getting_started:hover{opacity: 1;}
+.home_index header .login_form{background:#2A2C2E;transition:all 0.5s ease 0s;left: 0;margin: auto;max-width: none;position: fixed;right: 0;top: 0;width: 100%;height:100%;
+    transform:scale(0);-webkit-transform:scale(0);-moz-transform:scale(0)-o-transform:scale(0);}
+.home_index header .login_form .l_pwd{position:relative;width: 50%;margin:0 auto;padding: 15px;margin-top: 50px;}
+.show_company_creation_container.home_index header .login_form{transform:scale(1);-webkit-transform:scale(1);-moz-transform:scale(1)-o-transform:scale(1);z-index: 1001;top:0 !important;left:0 !important;}
+.home_index .modal_custom_layer{display: none;}
+.home_index header .login_form .form-group{margin-bottom: 25px;}
+.home_index header .login_form .l_pwd .close_container {cursor: pointer;position: absolute;right: 5%;top: 5%;transform: scale(2);-webkit-transform:scale(2);-moz-transform:scale(2)-o-transform:scale(2);}
+.home_index header .login_form .btn.btn-default{opacity: 0.5;pointer-events: none;}
+.home_index header .login_form .btn.btn-default.all_data_filled{opacity: 1;pointer-events: auto;}
+.home_index header .login_form .error_text,.home_index header .login_form .error_text_email{display: none;}
+.home_index header .login_form .error_unique+.error_text, .home_index header .login_form .invalid_email+.error_text+.error_text_email{display: block;text-align: right;color: #E7505A;}
+.home_contactus .right_widget .widget_content form input, .home_contactus .right_widget .widget_content form textarea{margin-bottom: 15px;}
+.home_contactus .right_widget .widget_content form textarea.form-control{height: 150px;}

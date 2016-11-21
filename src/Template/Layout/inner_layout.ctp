@@ -2,7 +2,7 @@
 <head><style>#loading .svg-icon-loader {position: absolute;top: 50%;left: 50%;margin: -50px 0 0 -50px;}</style>
 <meta charset="UTF-8">
 <!--[if IE]><meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'><![endif]-->
-<title><?= 'Zensilo'; ?>: <?= $this->fetch('title') ?></title>
+<title><?= 'Zensilo'; ?>: <?= $this->fetch('title').' | '. $this->request->params['action']; ?></title>
 <meta name="description" content="">
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
 <link rel="apple-touch-icon-precomposed" sizes="144x144" href="<?= $this->Url->build("/"); ?>assets/images/icons/apple-touch-icon-144-precomposed.png">
@@ -61,16 +61,23 @@ $(window).load(function(){
           </li>
           <li><a href="<?= $this->Url->build(array("controller"=> "users","action" => "users"));?>" title="Add Users"><i class="glyph-icon icon-elusive-group"></i> <span>Users</span></a></li>
 
+          <!-- elango menus -->
+          <li><a href="<?= $this->Url->build(array("action" => "response"));?>" title="Leave Requests">
+          <i class="glyph-icon icon-linecons-tv">
+          <i class="bs-badge badge-warning"><?=  $this->Custom->get_leave_equest_count();?></i></i> 
+          <span>Leave Requests</span></a></li>
+
+          <li><a href="<?= $this->Url->build(array("action" => "request"));?>" title="Leave Requests">
+          <i class="glyph-icon icon-linecons-tv"></i> <span>My Leave Requests</span></a></li>
+
+          <!-- elango menus end -->
+
           <li><a href="#" title="Projects Menu"><i class="glyph-icon icon-linecons-diamond"></i> <span>Setting</span></a>
               <div class="sidebar-submenu" style="display: block;">
               <ul>
               <li><a href="<?= $this->Url->build(array("controller"=> "company", "action" => "designation"));?>" title="Projects"><span>Designation</span></a></li>
               <li><a href="<?= $this->Url->build(array("controller"=> "company","action" => "leavetypes"));?>" title="Clients"><span>Leave Types</span></a></li>
               <li><a href="<?= $this->Url->build(array("action" => "teams"));?>" title="Teams"><span>Teams</span></a></li>
-              <li><a href="icons.html" title="Icons"><span>Icons</span></a></li>
-              <li><a href="nav-menus.html" title="Navigation menus"><span>Navigation menus</span></a></li>
-              <li><a href="response-messages.html" title="Response messages"><span>Response messages</span></a></li>
-              <li><a href="images.html" title="Images"><span>Images</span></a></li>
               </ul>
               </div>
           </li>
