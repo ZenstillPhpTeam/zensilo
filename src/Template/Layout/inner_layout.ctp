@@ -46,22 +46,34 @@ $(window).load(function(){
       <div class="scroll-sidebar">
         <ul id="sidebar-menu">
           <li class="header"><span>Overview</span></li>
-          <li><a href="<?= $this->Url->build(array("action" => "company"));?>" title="Company"><i class="glyph-icon icon-linecons-tv"></i> <span>Company</span></a></li>
-          <li><a href="<?= $this->Url->build(array("action" => "projects"));?>" title="Projects Menu"><i class="glyph-icon icon-linecons-diamond"></i> <span>Projects</span></a>
+          <li><a href="<?= $this->Url->build(array("controller"=> "users","action" => "company"));?>" title="Company"><i class="glyph-icon icon-linecons-tv"></i> <span>Company</span></a></li>
+          <li><a href="<?= $this->Url->build(array("controller"=> "users","action" => "projects"));?>" title="Projects Menu"><i class="glyph-icon icon-linecons-diamond"></i> <span>Projects</span></a>
               <div class="sidebar-submenu" style="display: block;">
               <ul>
-              <li><a href="<?= $this->Url->build(array("action" => "projects"));?>" title="Projects"><span>Projects</span></a></li>
-              <li><a href="<?= $this->Url->build(array("action" => "clients"));?>" title="Clients"><span>Clients</span></a></li>
-              <li><a href="<?= $this->Url->build(array("action" => "teams"));?>" title="Teams"><span>Teams</span></a></li>
+              <li><a href="<?= $this->Url->build(array("controller"=> "users","action" => "projects"));?>" title="Projects"><span>Projects</span></a></li>
+              <li><a href="<?= $this->Url->build(array("controller"=> "users","action" => "clients"));?>" title="Clients"><span>Clients</span></a></li>
+              <li><a href="<?= $this->Url->build(array("controller"=> "users","action" => "teams"));?>" title="Teams"><span>Teams</span></a></li>
               <li><a href="icons.html" title="Icons"><span>Icons</span></a></li>
               <li><a href="nav-menus.html" title="Navigation menus"><span>Navigation menus</span></a></li>
               <li><a href="response-messages.html" title="Response messages"><span>Response messages</span></a></li>
               <li><a href="images.html" title="Images"><span>Images</span></a></li>
               </ul></div>
           </li>
-          <li><a href="<?= $this->Url->build(array("action" => "users"));?>" title="Add Users"><i class="glyph-icon icon-elusive-group"></i> <span>Users</span></a></li>
+          <li><a href="<?= $this->Url->build(array("controller"=> "users","action" => "users"));?>" title="Add Users"><i class="glyph-icon icon-elusive-group"></i> <span>Users</span></a></li>
 
-          
+          <li><a href="#" title="Projects Menu"><i class="glyph-icon icon-linecons-diamond"></i> <span>Setting</span></a>
+              <div class="sidebar-submenu" style="display: block;">
+              <ul>
+              <li><a href="<?= $this->Url->build(array("controller"=> "company", "action" => "designation"));?>" title="Projects"><span>Designation</span></a></li>
+              <li><a href="<?= $this->Url->build(array("controller"=> "company","action" => "leavetypes"));?>" title="Clients"><span>Leave Types</span></a></li>
+              <li><a href="<?= $this->Url->build(array("action" => "teams"));?>" title="Teams"><span>Teams</span></a></li>
+              <li><a href="icons.html" title="Icons"><span>Icons</span></a></li>
+              <li><a href="nav-menus.html" title="Navigation menus"><span>Navigation menus</span></a></li>
+              <li><a href="response-messages.html" title="Response messages"><span>Response messages</span></a></li>
+              <li><a href="images.html" title="Images"><span>Images</span></a></li>
+              </ul>
+              </div>
+          </li>
         </ul>
 
       </div>

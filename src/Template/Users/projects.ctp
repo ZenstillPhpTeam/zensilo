@@ -58,7 +58,7 @@
                 <a href="<?= $this->Url->build(array("action" => "projects", $project_det->id, "delete"));?>" onclick="javascript:confirm('Are you sure want to delete this Project?')"><i class="glyph-icon demo-icon tooltip-button icon-elusive-trash" data-toggle="tooltip" data-placement="top" title="" data-original-title="Delete"></i></a>
                 <a href="#" data-toggle="modal" data-target=".bs-document-modal-lg" onclick="setprojectid('<?= $project_det->id ?>');"><i class="glyph-icon demo-icon tooltip-button icon-elusive-doc-new" data-toggle="tooltip" data-placement="top" title="" data-original-title="Documents"></i></a>
                 <a href="<?= $this->Url->build(array("action" => "projectdetail", $project_det->id));?>" ><i class="glyph-icon demo-icon tooltip-button icon-elusive-slideshare" data-toggle="tooltip" data-placement="top" title="" data-original-title="View Timeline"></i></a>
-                </td>
+        </td>
         </tr>
         <?php } ?>
         
@@ -137,6 +137,28 @@
                   </div>
                 </div>
                 
+                <div class="form-group">
+                  <label class="col-sm-3 control-label">Assign Team</label>
+                  <div class="col-sm-6">
+                    <select multiple="multiple" class="multi-select" name="teams[]" id="14multiselect" style="position: absolute; left: -9999px;">
+                    <?php foreach($team_members as $key => $value) { ?>
+                      <option value="<?php echo $value['user_id']; ?>" <?= $project->client_id == $value['user_id'] ? 'selected' : '';?> ><?php echo $value['client_name']; ?></option>
+                      <?php } ?>
+                    </select>
+                  </div>
+                </div>
+
+                <div class="form-group">
+                  <label class="col-sm-3 control-label">Assign Client</label>
+                  <div class="col-sm-6">
+                    <select  class="form-control" name="client_id"  required="">
+                      <option value="">Select Client</option>
+                    <?php foreach($project_clients as $key => $value) { ?>
+                      <option value="<?php echo $value['user_id']; ?>" <?= $project->client_id == $value['user_id'] ? 'selected' : '';?>><?php echo $value['client_name']; ?></option>
+                      <?php } ?>
+                    </select>
+                  </div>
+                </div>
 
                 </div>
                 </div>
@@ -228,7 +250,7 @@
                   <div class="col-sm-6">
                     <select  class="form-control" name="client_id"  required="">
                       <option value="">Select Client</option>
-                    <?php foreach($team_members as $key => $value) { ?>
+                    <?php foreach($project_clients as $key => $value) { ?>
                       <option value="<?php echo $value['user_id']; ?>"><?php echo $value['client_name']; ?></option>
                       <?php } ?>
                     </select>

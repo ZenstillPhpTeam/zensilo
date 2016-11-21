@@ -19,8 +19,9 @@
         <br/>
         <div class="col-md-2"></div>
        <div class="col-md-2"><a href="#" title="Example tile shortcut" class="tile-box tile-box-alt btn-primary"><div class="tile-header">Tasks</div><div class="tile-content-wrapper"><div class="chart-alt-10 easyPieChart" data-percent="21" style="width: 100px; height: 100px; line-height: 100px;"><span>20</span>%<canvas width="100" height="100"></canvas></div></div></a></div>
+       <a href="#" class="btn btn-default popover-button-default btn-md" data-content="" title="" data-placement="top" data-original-title="Team Members" aria-describedby="popover746254">Top popover<div class="ripple-wrapper"></div></a>
 
-       <div class="col-md-2"><a href="#" title="Example tile shortcut" class="tile-box tile-box-alt btn-black"><div class="tile-header">Team Members</div><div class="tile-content-wrapper"><div class="chart-alt-10 easyPieChart" data-percent="67" style="width: 100px; height: 100px; line-height: 100px;"><span>66</span>%<canvas width="100" height="100"></canvas></div></div></a></div>
+       <div class="col-md-2"><a href="#" title="Example tile shortcut" class="tile-box tile-box-alt btn-black"><div class="tile-header">Team Members</div><div class="tile-content-wrapper"><div class="chart-alt-10 easyPieChart" data-percent="<?= count($teams); ?>" style="width: 100px; height: 100px; line-height: 100px;"><span><?= count($teams); ?></span>%<canvas width="100" height="100"></canvas></div></div></a></div>
 
        <div class="col-md-2"><a href="#" title="Example tile shortcut" class="tile-box tile-box-alt btn-danger"><div class="tile-header">Conversations</div><div class="tile-content-wrapper"><div class="chart-alt-10 easyPieChart" data-percent="55" style="width: 100px; height: 100px; line-height: 100px;"><span>54</span>%<canvas width="100" height="100"></canvas></div></div></a></div>
 

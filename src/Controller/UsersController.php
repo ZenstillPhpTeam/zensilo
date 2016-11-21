@@ -469,17 +469,19 @@ class UsersController extends AppController
                 $this->Flash->success('Project has been updated successfully!!');
             }
             else{
-                    $project = $this->Projects->newEntity();
+                //print_r($this->request->data);
+                   $project = $this->Projects->newEntity();
                     $this->request->data['status'] = "New";
                     $project = $this->Projects->patchEntity($project, $this->request->data);
                     $project_save  = $this->Projects->save($project);
 
                     $teams = $this->request->data['teams'];
                     foreach($teams as $team) {
-                        $team_data['user_id'] = $team;
-                        $team_data['project_id'] = $project_save->id;
+                         $team_data['user_id'] = $team;
+                       $team_data['project_id'] = $project_save->id;
+                        //exit;
                         $teamdata = $this->ProjectTeams->newEntity();
-                        $teamdata = $this->ProjectTeams->patchEntity($teamdata, $this->request->data);
+                        $teamdata = $this->ProjectTeams->patchEntity($teamdata, $team_data);
                         $teamdata_save  = $this->ProjectTeams->save($teamdata);
                     }
                     if ($project_save) {    
@@ -502,7 +504,9 @@ class UsersController extends AppController
        elseif($id)
        {
             $project = $this->Projects->get($id);
+            $project_team = $this->ProjectTeams->find('all', ['conditions' => ['project_id' => $id]]);
             $this->set('project', $project);
+            $this->set('project_team', $project_team);
        }
 
        $comp_id = $this->Auth->user('userrole') == "company" ? $this->Auth->user('id') : $this->Auth->user('parent_id');
@@ -510,6 +514,7 @@ class UsersController extends AppController
        $conn = ConnectionManager::get('default');
        $clients = $conn->execute('select a.* from user_details a, users b where a.user_id = b.id and b.userrole="company"');
        $team_members = $conn->execute('select a.* from user_details a, users b where a.user_id = b.id and b.userrole="user" and b.parent_id = '.$comp_id);
+       $project_clients = $conn->execute('select a.* from user_details a, users b where a.user_id = b.id and b.userrole="client"');
       // $clients = $stmt->fetch('assoc');
        //$clients =  $this->UserDetails->find('all',['conditions' => ['user']]);
       // $users = $this->ClientDetails->find('all')->all()->contain('users');
@@ -518,6 +523,7 @@ class UsersController extends AppController
        $this->set('projects', $projects);
        $this->set('clients', $clients);
        $this->set('team_members', $team_members);
+       $this->set('project_clients', $project_clients);
        $this->set('siteurl', $siteurl);
 
     }
@@ -543,6 +549,7 @@ class UsersController extends AppController
        $this->Projects = TableRegistry::get('projects');
        $this->ProjectTimeline = TableRegistry::get('project_timeline');
        $this->ProjectDocuments = TableRegistry::get('project_documents');
+       $this->ProjectTeams = TableRegistry::get('project_teams');
        $siteurl =  Router::url('/', true);
 
        if($action == 'delete')
@@ -595,11 +602,13 @@ class UsersController extends AppController
             $project = $this->Projects->get($id);
             $project_timeline = $this->ProjectTimeline->find('all',['conditions' => ['project_id' => $id]]);
             $documents = $this->ProjectDocuments->find('all',['conditions' => ['project_id' => $id]]);
+            $teams = $this->ProjectTeams->find('all',['conditions' => ['project_id' => $id]]);
             //$this->dateDiff("2010-01-26", "2004-01-26");exit;
 
             $this->set('project', $project);
             $this->set('project_timeline', $project_timeline);
             $this->set('documents', $documents);
+            $this->set('teams', $teams);
        }
 
       
@@ -667,7 +676,7 @@ class UsersController extends AppController
     {
        $this->Users = TableRegistry::get('users');
        $this->UserDetails = TableRegistry::get('user_details');
-       $this->Designation = TableRegistry::get('designation');
+       $this->Designation = TableRegistry::get('designations');
        $siteurl =  Router::url('/', true);
 
        if($action == 'delete')
@@ -729,7 +738,7 @@ class UsersController extends AppController
 
       $parent_id = $this->Auth->user('userrole') == "company" ? $this->Auth->user('id') : $this->Auth->user('parent_id');
        $users = $this->UserDetails->find('all', ['conditions' => ['Users.userrole' => 'user', 'Users.parent_id' => $parent_id]])->contain('Users')->all();
-       $designation = $this->Designation->find('all')->all();
+       $designation = $this->Designation->find('all',['conditions' =>['company_id' => $parent_id ]])->all();
       
        
        $this->set('users', $users);
