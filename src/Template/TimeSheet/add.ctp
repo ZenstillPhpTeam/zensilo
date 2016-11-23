@@ -1,6 +1,5 @@
-<?= $this->Html->script(array('../assets/widgets/wizard/wizard', '../assets/widgets/wizard/wizard-demo', '../assets/widgets/tabs/tabs', '../assets/widgets/chosen/chosen', '../assets/widgets/chosen/chosen-demo','../assets/widgets/parsley/parsley','../assets/widgets/datepicker/datepicker','../assets/widgets/datepicker-ui/datepicker','../assets/angular/angular.min','../assets/angular/timesheet')) ?>
 
-  <div ng-app="TimesheetApp" ng-controller="TimesheetCtrl" class="panel">
+  <div ng-controller="TimesheetCtrl" class="panel">
     <div class="panel-body content-box">
       <h3 class="title-hero bg-primary">Time Sheet</h3>
       <div class="example-box-wrapper">

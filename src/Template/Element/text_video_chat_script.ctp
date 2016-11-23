@@ -1,4 +1,4 @@
-angular.module('zensilo', ['opentok', 'opentok-whiteboard'])
+angular_module
     .directive('ngEnter', function() {
         return function(scope, element, attrs) {
             element.bind("keydown keypress", function(event) {
