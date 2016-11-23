@@ -28,5 +28,14 @@ class AjaxController extends AppController
 		exit;
 	}
 
+	public function copyTask($id)
+	{
+		
+		$this->Tasks = TableRegistry::get('Tasks');
+
+		echo $this->Tasks->get($id);
+		exit;
+	}
+
 
 }
