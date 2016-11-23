@@ -53,10 +53,8 @@ $(window).load(function(){
       <div class="scroll-sidebar">
         <ul id="sidebar-menu">
           <li class="header"><span>Overview</span></li>
-
           <li><a href="<?= $this->Url->build(array("controller"=> "users","action" => "company"));?>" title="Company"><i class="glyph-icon icon-linecons-tv"></i> <span>Company</span></a></li>
           <li><a href="<?= $this->Url->build(array("controller"=> "users","action" => "projects"));?>" title="Projects Menu"><i class="glyph-icon icon-linecons-diamond"></i> <span>Projects</span></a>
-
               <div class="sidebar-submenu" style="display: block;">
               <ul>
               <li><a href="<?= $this->Url->build(array("controller"=> "users","action" => "projects"));?>" title="Projects"><span>Projects</span></a></li>
@@ -73,11 +71,13 @@ $(window).load(function(){
 
           <li><a href="<?= $this->Url->build(array("controller"=> "users","action" => "users"));?>" title="Add Users"><i class="glyph-icon icon-elusive-group"></i> <span>Users</span></a></li>
 
+          <li><a href="<?= $this->Url->build(array("controller"=> "expenses","action" => "request"));?>" title="Add Expenses"><i class="glyph-icon icon-elusive-group"></i><span>Expenses</span></a></li>
+
 
           <!-- elango menus -->
           <li><a href="<?= $this->Url->build(array("controller" => "leaverequests","action" => "response"));?>" title="Leave Requests">
           <i class="glyph-icon icon-linecons-tv">
-          <i class="bs-badge badge-warning"><?=  $this->Custom->get_leave_request_count($loggedInUser['id']);?></i></i> 
+          <i class="bs-badge badge-warning"><?=  $this->Custom->get_leave_request_count($loggedInUser['id']); ?></i></i> 
           <span>Leave Requests</span></a></li>
 
           <li><a href="<?= $this->Url->build(array("controller" => "leaverequests","action" => "request"));?>" title="Leave Requests">
@@ -88,8 +88,9 @@ $(window).load(function(){
           <li><a href="#" title="Projects Menu"><i class="glyph-icon icon-linecons-diamond"></i> <span>Setting</span></a>
               <div class="sidebar-submenu" style="display: block;">
               <ul>
-              <li><a href="<?= $this->Url->build(array("controller"=> "company", "action" => "designation"));?>" title="Projects"><span>Designation</span></a></li>
-              <li><a href="<?= $this->Url->build(array("controller"=> "company","action" => "leavetypes"));?>" title="Clients"><span>Leave Types</span></a></li>
+              <li><a href="<?= $this->Url->build(array("controller"=> "company", "action" => "designation"));?>" title="Designation"><span>Designation</span></a></li>
+              <li><a href="<?= $this->Url->build(array("controller"=> "company","action" => "leavetypes"));?>" title="Leave Types"><span>Leave Types</span></a></li>
+              <li><a href="<?= $this->Url->build(array("controller"=> "company","action" => "expensetypes"));?>" title="Expense Types"><span>Expense Types</span></a></li>
               <li><a href="<?= $this->Url->build(array("action" => "teams"));?>" title="Teams"><span>Teams</span></a></li>
               </ul>
               </div>
@@ -142,6 +143,8 @@ $(window).load(function(){
 
   <script type="text/javascript">
     var angular_module = angular.module('zensilo', ['opentok', 'opentok-whiteboard']);
+
+
   </script>
 
   <?= $this->Html->script(array('../assets/widgets/dropdown/dropdown', '../assets/widgets/tooltip/tooltip', '../assets/widgets/popover/popover', '../assets/widgets/progressbar/progressbar', '../assets/widgets/button/button', '../assets/widgets/collapse/collapse', '../assets/widgets/superclick/superclick', '../assets/widgets/input-switch/inputswitch-alt', '../assets/widgets/slimscroll/slimscroll', '../assets/widgets/slimscroll/slimscroll', '../assets/widgets/slidebars/slidebars', '../assets/widgets/slidebars/slidebars-demo', '../assets/widgets/charts/piegage/piegage', '../assets/widgets/charts/piegage/piegage-demo', '../assets/widgets/screenfull/screenfull', '../assets/widgets/content-box/contentbox', '../assets/widgets/material/material', '../assets/widgets/material/ripples', '../assets/widgets/overlay/overlay', '../assets/js-init/widgets-init', '../assets/themes/admin/layout','../assets/widgets/datatable/datatable','../assets/widgets/datatable/datatable-bootstrap','../assets/widgets/datatable/datatable-tabletools','../assets/widgets/parsley/parsley','../assets/widgets/multi-select/multiselect', '../assets/widgets/wizard/wizard', '../assets/widgets/wizard/wizard-demo', '../assets/widgets/tabs/tabs', '../assets/widgets/chosen/chosen', '../assets/widgets/chosen/chosen-demo','../assets/widgets/parsley/parsley','../assets/widgets/datepicker/datepicker','../assets/widgets/datepicker-ui/datepicker','../assets/widgets/interactions-ui/resizable','../assets/widgets/interactions-ui/draggable','../assets/widgets/interactions-ui/sortable', 'opentok-layout', 'opentok-angular', 'opentok-whiteboard','../assets/angular/timesheet')) ?>
@@ -152,6 +155,10 @@ $(window).load(function(){
      
   <script>
      $(document).ready(function() {
+
+        $("[type='submit']").click(function(){
+           $(this).parents("form").submit();
+        });
         $('#datatable-example').dataTable();
 
         $('.bootstrap-datepicker').bsdatepicker({
