@@ -40,9 +40,28 @@ class UsersController extends AppController
         if($this->Auth->user())
         {
             $this->viewBuilder()->layout('inner_layout');
-            $this->set('loggedInUser', $this->Auth->user());
 
-            if($this->Auth->user()['status'] == 0)
+            $this->User = TableRegistry::get('users');
+            $this->Designation = TableRegistry::get('designations');
+
+            $user = $this->User->get($this->Auth->user()['id']);
+            $this->loggedInUser = $this->Auth->user();
+            $this->loggedInUser['status'] = $user->status;
+            $this->set('loggedInUser', $this->loggedInUser);
+
+            $this->company_id = ($this->loggedInUser['userrole'] == 'company') ? $this->loggedInUser['id'] : $this->loggedInUser['parent_id'];
+            $this->set('company_id', $this->company_id);
+
+            $company_users = $this->User->find("all", ["conditions" => ['OR' => [["parent_id" => $this->company_id], ["id" => $this->company_id]], "NOT" => ["id" => $this->loggedInUser['id']], "userrole IN" => ["user", "company"]], "order" => "username"])->all();
+            $this->set('company_users', $company_users);
+
+            $company_clients = $this->User->find("all", ["conditions" => ["parent_id" => $this->company_id, "userrole" => "client"], "order" => "username"])->all();
+            $this->set('company_clients', $company_clients);
+            
+            $designation = $this->Designation->find('all',['conditions' =>['company_id' => $this->company_id ]])->all();
+            $this->set('designation', $designation);
+
+            if($this->loggedInUser['status'] == 0)
                 $this->render('verfiy_email');
         }
         elseif($this->request->params['action'] != 'setlogin')
@@ -611,7 +630,6 @@ class UsersController extends AppController
     {
        $this->Users = TableRegistry::get('users');
        $this->UserDetails = TableRegistry::get('user_details');
-       $this->Designation = TableRegistry::get('designations');
        $siteurl =  Router::url('/', true);
 
        if($action == 'delete')
@@ -673,11 +691,8 @@ class UsersController extends AppController
 
       $parent_id = $this->Auth->user('userrole') == "company" ? $this->Auth->user('id') : $this->Auth->user('parent_id');
        $users = $this->UserDetails->find('all', ['conditions' => ['Users.userrole' => 'user', 'Users.parent_id' => $parent_id]])->contain('Users')->all();
-       $designation = $this->Designation->find('all',['conditions' =>['company_id' => $parent_id ]])->all();
-      
        
        $this->set('users', $users);
-       $this->set('designation', $designation);
        $this->set('siteurl', $siteurl);
     }
 

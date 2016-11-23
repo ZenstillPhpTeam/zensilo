@@ -28,6 +28,7 @@ class HomeController extends AppController
 		if ($this->request->is('post')) {
 			$data = $this->request->data;
 			$data['username'] = Inflector::slug(strtolower($data['name']), "-");
+            $data['userrole'] = 'company';
 			$password = $data['password'];
 			$hasher = new DefaultPasswordHasher();
             $data['password'] = $hasher->hash($password);

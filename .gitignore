@@ -1,3 +1,4 @@
 /tmp/*
 /logs/*
 /webroot/upload/*
+/vendor/*
