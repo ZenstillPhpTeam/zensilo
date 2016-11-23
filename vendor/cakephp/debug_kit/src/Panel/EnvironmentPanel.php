@@ -33,7 +33,6 @@ class EnvironmentPanel extends DebugPanel
     protected function _prepare()
     {
         $return = [];
-
         // PHP Data
         $phpVer = phpversion();
         $return['php'] = array_merge(

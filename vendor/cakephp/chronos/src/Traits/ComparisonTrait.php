@@ -138,7 +138,7 @@ trait ComparisonTrait
 
         return $this->gt($dt1) && $this->lt($dt2);
     }
-    
+
     /**
      * Get the closest date from the instance.
      *
@@ -406,8 +406,9 @@ trait ComparisonTrait
     {
         $now = new static();
         $interval = $now->copy()->modify('-' . $timeInterval);
+        $thisTime = $this->format('U');
 
-        return $this >= $interval && $this <= $now;
+        return $thisTime >= $interval->format('U') && $thisTime <= $now->format('U');
     }
 
     /**
@@ -421,8 +422,9 @@ trait ComparisonTrait
     {
         $now = new static();
         $interval = $now->copy()->modify('+' . $timeInterval);
+        $thisTime = $this->format('U');
 
-        return $this <= $interval && $this >= $now;
+        return $thisTime <= $interval->format('U') && $thisTime >= $now->format('U');
     }
 
     /**

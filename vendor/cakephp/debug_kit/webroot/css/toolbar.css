@@ -246,6 +246,13 @@ pre,
 	word-break: break-all;
 	word-break: break-word; /* Not standard for webkit */
 }
+.debug-table th.left,
+.debug-table td.left {
+    text-align: left;
+}
+.debug-table .highlighted td {
+	background: #e7e9fd;
+}
 
 .list {
 	list-style: disc;
@@ -513,4 +520,9 @@ pre,
 		-webkit-transform: rotate(360deg);
 		transform: rotate(360deg);
 	}
+}
+
+.panel-content .filtered-credentials {
+    text-decoration: underline;
+    cursor:pointer;
 }

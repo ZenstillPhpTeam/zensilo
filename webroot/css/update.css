@@ -1,0 +1,91 @@
+.chat_container{
+    bottom: 0;
+    position: fixed;
+    right: 0;
+    z-index: 10000;
+}
+.chat_container .chat_box{
+	float: right;
+	width: 250px;
+	height: 350px;
+    background: #d9d9d9;
+    margin-right: 30px;
+    position: relative;
+}
+.chat_container .chat_box .chat_header{
+    background: #272634 none repeat scroll 0 0;
+    color: #fff;
+    padding: 5px 10px;
+}
+.chat_container .chat_box .chat_header b{vertical-align: top;}
+.chat_container .chat_box .chat_header a{
+    cursor: pointer;
+    float: right;
+    padding: 0 5px;
+    vertical-align: top;
+}
+.chat_container .chat_box .chat_conversation_box {
+    height: 250px;
+    overflow: auto;
+    margin: 10px 0;
+}
+.chat_container .chat_box .chat_input{
+    bottom: 0;
+    padding: 5px;
+    position: absolute;
+    width: 100%;
+}
+.chat_container .chat_box .chat_input input{
+    padding: 10px 0;
+    width: 100%;
+}
+.chat_container .chat_box .chat_conversation_box .own_msg,.chat_container .chat_box .chat_conversation_box .opponent_msg{margin-top: 15px;}
+.chat_container .chat_box .chat_conversation_box .own_msg div div{    background: #fff;
+    display: inline-block;
+    margin: 0 10px;padding: 0 5px;
+    width: 75%;}
+.chat_container .chat_box .chat_conversation_box .own_msg div img{border-radius: 50%;
+    float: right;
+    margin-right: 10px;}
+.chat_container .chat_box .chat_conversation_box .opponent_msg div div{    background: #fff;
+    display: inline-block;
+    margin: 0 10px;padding: 0 5px;
+    width: 75%;
+float: right;}
+.chat_container .chat_box .chat_conversation_box .opponent_msg div img{border-radius: 50%;margin-left: 10px;float: left;}
+.chat_container .chat_box .chat_conversation_box .opponent_msg+.opponent_msg{margin:0;}
+.chat_container .chat_box .chat_conversation_box .own_msg+.own_msg{margin:0;}
+.chat_container .chat_box .chat_conversation_box .opponent_msg+.opponent_msg img{visibility: hidden;}
+.chat_container .chat_box .chat_conversation_box .own_msg+.own_msg img{visibility: hidden;}
+.video_chat_container{background:#2A2C2E;transition:all 0.5s ease 0s;left: 0;margin: auto;max-width: none;position: fixed;right: 0;top: 0;width: 100%;height:100%;
+    transform:scale(0);-webkit-transform:scale(0);-moz-transform:scale(0)-o-transform:scale(0);}
+.video_chat_container.start_video_chat{transform:scale(1);-webkit-transform:scale(1);-moz-transform:scale(1)-o-transform:scale(1);z-index: 1001;top:0 !important;left:0 !important;}
+.video_chat_container .OT_publisher{width: 250px !important; height: 160px !important;top: 30px !important; right: 30px;}
+.subscriber_layout {
+    background: #000 none repeat scroll 0 0;
+    bottom: 0;
+    display: block;
+    height: 80%;
+    left: 100px;
+    margin: auto;
+    position: absolute;
+    top: 0;
+    width: 60%;
+}
+.video_chat_container .subscriber_layout .loading_image{
+    height: auto !important;
+    left: 0 !important;
+    position: absolute;
+    top: 0 !important;
+    width: 100px !important;
+    right: 0 !important;
+    bottom: 0 !important;
+    margin: auto !important;
+}
+.video_chat_container .OT_subscriber{width: 100% !important; height: 100% !important;}
+.video_chat_container .video_call_action{
+    position: absolute;
+    text-align: center;
+    top: 103%;
+    width: 100%;
+}

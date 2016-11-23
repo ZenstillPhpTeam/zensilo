@@ -32,6 +32,7 @@ class ComposerStaticInitf2fc2d4aac1ffb07bdda93aac775927e
             'Symfony\\Component\\Yaml\\' => 23,
             'Symfony\\Component\\VarDumper\\' => 28,
             'Symfony\\Component\\Filesystem\\' => 29,
+            'Symfony\\Component\\EventDispatcher\\' => 34,
             'Symfony\\Component\\Debug\\' => 24,
             'Symfony\\Component\\Console\\' => 26,
             'Symfony\\Component\\Config\\' => 25,
@@ -42,6 +43,10 @@ class ComposerStaticInitf2fc2d4aac1ffb07bdda93aac775927e
             'Psr\\Http\\Message\\' => 17,
             'PhpParser\\' => 10,
             'Phinx\\' => 6,
+        ),
+        'O' => 
+        array (
+            'OpenTok\\' => 8,
         ),
         'M' => 
         array (
@@ -96,6 +101,10 @@ class ComposerStaticInitf2fc2d4aac1ffb07bdda93aac775927e
         array (
             0 => __DIR__ . '/..' . '/symfony/filesystem',
         ),
+        'Symfony\\Component\\EventDispatcher\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/symfony/event-dispatcher',
+        ),
         'Symfony\\Component\\Debug\\' => 
         array (
             0 => __DIR__ . '/..' . '/symfony/debug',
@@ -123,6 +132,10 @@ class ComposerStaticInitf2fc2d4aac1ffb07bdda93aac775927e
         'Phinx\\' => 
         array (
             0 => __DIR__ . '/..' . '/robmorgan/phinx/src/Phinx',
+        ),
+        'OpenTok\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/opentok/opentok/src/OpenTok',
         ),
         'Migrations\\' => 
         array (
@@ -180,6 +193,10 @@ class ComposerStaticInitf2fc2d4aac1ffb07bdda93aac775927e
         ),
         'J' => 
         array (
+            'JohnStevenson\\JsonWorks' => 
+            array (
+                0 => __DIR__ . '/..' . '/aoberoi/json-works/src',
+            ),
             'JakubOnderka\\PhpConsoleHighlighter' => 
             array (
                 0 => __DIR__ . '/..' . '/jakub-onderka/php-console-highlighter/src',
@@ -187,6 +204,17 @@ class ComposerStaticInitf2fc2d4aac1ffb07bdda93aac775927e
             'JakubOnderka\\PhpConsoleColor' => 
             array (
                 0 => __DIR__ . '/..' . '/jakub-onderka/php-console-color/src',
+            ),
+        ),
+        'G' => 
+        array (
+            'Guzzle\\Tests' => 
+            array (
+                0 => __DIR__ . '/..' . '/guzzle/guzzle/tests',
+            ),
+            'Guzzle' => 
+            array (
+                0 => __DIR__ . '/..' . '/guzzle/guzzle/src',
             ),
         ),
         'D' => 

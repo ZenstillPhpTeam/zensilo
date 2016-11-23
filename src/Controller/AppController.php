@@ -66,8 +66,8 @@ class AppController extends Controller
     }
 
     public function is_localhost() {
-        $whitelist = array( '127.0.0.1', '::1' );
-        if( in_array( $_SERVER['REMOTE_ADDR'], $whitelist) )
+        $whitelist = array( '127.0.0.1', '::1', );
+        if( in_array( $_SERVER['REMOTE_ADDR'], $whitelist) || is_numeric(strpos($_SERVER['REMOTE_ADDR'], '192.168.1.')))
             return true;
     }
 
