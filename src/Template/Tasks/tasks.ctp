@@ -1,11 +1,13 @@
+<?= $this->Html->script(array('../assets/widgets/wizard/wizard', '../assets/widgets/wizard/wizard-demo', '../assets/widgets/tabs/tabs', '../assets/widgets/chosen/chosen', '../assets/widgets/chosen/chosen-demo','../assets/widgets/parsley/parsley')) ?>
+
         <div class="panel">
           <div class="panel-body content-box">
-            <h3 class="title-hero bg-primary">Projects</h3>
+            <h3 class="title-hero bg-primary">Task</h3>
             <div class="example-box-wrapper">
 
             <div class="panel">
         <div class="panel-body">
-        <h3 class="title-hero">Projects List <button class="btn btn-alt btn-hover btn-primary float-right"  data-toggle="modal" data-target=".bs-example-modal-lg"><span>Add New</span> <i class="glyph-icon icon-arrow-right"></i><div class="ripple-wrapper"></div></button></h3>
+        <h3 class="title-hero">List <button id="addclient" class="btn btn-alt btn-hover btn-primary float-right"  data-toggle="modal" data-target=".bs-example-modal-lg" ><span>Add New</span> <i class="glyph-icon icon-arrow-right"></i><div class="ripple-wrapper"></div></button></h3>
 
         <div class="example-box-wrapper">
         <div id="datatable-example_wrapper" class="dataTables_wrapper form-inline no-footer">
@@ -25,43 +27,53 @@
         </div>
         </div>
         </div>
-        <table cellpadding="0" cellspacing="0" border="0" class="table table-striped table-bordered dataTable no-footer" id="datatable-example" role="grid" aria-describedby="datatable-example_info">
-        <thead>
-        <tr role="row">
-        <th class="sorting_asc" tabindex="0" aria-controls="datatable-example" rowspan="1" colspan="1" aria-label="Rendering engine: activate to sort column ascending" aria-sort="ascending">
-        #
-        </th>
-        <th class="sorting_asc" tabindex="0" aria-controls="datatable-example" rowspan="1" colspan="1" aria-label="Rendering engine: activate to sort column ascending" style="width: 201px;" aria-sort="ascending">
-        Project Name
-        </th>
-        <th class="sorting" tabindex="0" aria-controls="datatable-example" rowspan="1" colspan="1" aria-label="Browser: activate to sort column ascending" style="width: 258px;">Description</th>
-        <th class="sorting" tabindex="0" aria-controls="datatable-example" rowspan="1" colspan="1" aria-label="Platform(s): activate to sort column ascending" >Estimated Hours</th>
-        <th class="sorting" tabindex="0" aria-controls="datatable-example" rowspan="1" colspan="1" aria-label="Engine version: activate to sort column ascending" >Estimated Start Date</th>
-        <th class="sorting" tabindex="0" aria-controls="datatable-example" rowspan="1" colspan="1" aria-label="Engine version: activate to sort column ascending" >Estimated End Date</th>
-        <th tabindex="0" aria-controls="datatable-example" rowspan="1" colspan="1">Actions</th>
         
-        </tr>
-        </thead>
-        <tbody>
-          <?php foreach($projects as $k=>$project_det){?>
-        <tr class="gradeA <?php if($k%2 == 0) {?>odd <?php } else { ?> even <?php } ?>" role="row">
-        <td><?= $k+1?></td>
-        <td class="sorting_1"><?= $project_det->project_name ?></td>
-        <td><?= $project_det->description ?></td>
-        <td><?= $project_det->estimated_time ?></td>
-        <td class="center"><?= $project_det->estimated_start_date ?></td>
-        <td class="center"><?= $project_det->estimated_end_date ?></td>
-        <td class="center">
-              <a href="<?= $this->Url->build(array("action" => "projects", $project_det->id));?>"><i class="glyph-icon demo-icon tooltip-button icon-elusive-pencil" data-toggle="tooltip" data-placement="top" title="" data-original-title="Edit"></i></a>&nbsp;&nbsp;
-                <a href="<?= $this->Url->build(array("action" => "projects", $project_det->id, "delete"));?>" onclick="javascript:confirm('Are you sure want to delete this Project?')"><i class="glyph-icon demo-icon tooltip-button icon-elusive-trash" data-toggle="tooltip" data-placement="top" title="" data-original-title="Delete"></i></a>
-                <a href="#" data-toggle="modal" data-target=".bs-document-modal-lg" onclick="setprojectid('<?= $project_det->id ?>');"><i class="glyph-icon demo-icon tooltip-button icon-elusive-doc-new" data-toggle="tooltip" data-placement="top" title="" data-original-title="Documents"></i></a>
-                <a href="<?= $this->Url->build(array("action" => "projectdetail", $project_det->id));?>" ><i class="glyph-icon demo-icon tooltip-button icon-elusive-slideshare" data-toggle="tooltip" data-placement="top" title="" data-original-title="View Timeline"></i></a>
-        </td>
-        </tr>
+
+        <?php foreach($tasks as $k=>$value){?>
+        <div class="content-box mrg25B">
+        <h3 class="content-box-header bg-blue text-left">
+        <i class="glyph-icon icon-comments"></i> <?= $value->project_name ?></h3>
+        <div class="content-box-wrapper">
+        <div class="scrollable-content scrollable-nice scrollable-medium">
+        <ul class="todo-box todo-sort ui-sortable">
+        <?php foreach($value->tasks as $tas) { ?>
+          <?php if($tas->parent_task_id == 0) { ?>
+        <li class="border-red">
+        <div class="glyph-icon sort-handle icon-ellipsis-v ui-sortable-handle"></div>
+        <label for="sec-todo-1"><?= $tas->task_name ?></label><span class="bs-label bg-red" title=""><?= $tas->priority ?></span>
+        <div class="float-right">
+        <div class="input-group-btn ">
+                            <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-expanded="true">Actions <span class="caret"></span><div class="ripple-wrapper"></div></button>
+                            <ul class="dropdown-menu " role="menu">
+                              <li class="ms-hover"><a href="#">View</a></li>
+                              <li class="ms-hover"><a href="#" onclick="settaskid('<?= $tas->id ?>');">Sub Task</a></li>
+                              <li class="ms-hover"><a href="<?= $this->Url->build(array("action" => "tasks", $tas->id,"copy"));?>">Copy</a></li>
+                              <li class="ms-hover"><a href="#" data-toggle="modal" data-target=".bs-document-modal-lg" onclick="setprojectid('<?= $value->id ?>','<?= $tas->id ?>');" >Documents</a></li>
+                              <li class="ms-hover"><a href="<?= $this->Url->build(array("action" => "tasks", $tas->id));?>">Edit</a></li>
+                              <li class="ms-hover"><a href="<?= $this->Url->build(array("action" => "tasks", $tas->id,"delete"));?>">Delete</a></li>
+                            </ul>
+                          </div>
+          
+        </div>
+        </li><?php foreach($value->tasks as $tas2) { ?>
+         <?php if($tas2->parent_task_id == $tas->id) {  ?>
+          <li class="border-blue" style="margin-left:30px;">
+        <div class="glyph-icon sort-handle icon-ellipsis-v ui-sortable-handle"></div>
+        <label for="sec-todo-1"><?= $tas2->task_name ?></label><span class="bs-label bg-red" title=""><?= $tas2->priority ?></span>
+        <div class="float-right">
+          <button class="btn btn-azure tooltip-button" data-toggle="tooltip" data-placement="top" title="" data-original-title="View"><i class="glyph-icon icon-eye" ></i><div class="ripple-wrapper"></div></button>
+          <a href="<?= $this->Url->build(array("action" => "tasks", $tas2->id));?>" class="btn btn-info tooltip-button" data-toggle="tooltip" data-placement="top" title="" data-original-title="Edit"><i class="glyph-icon icon-edit " ></i><div class="ripple-wrapper"></div></a>       
+          <button class="btn btn-danger tooltip-button" data-toggle="tooltip" data-placement="top" title="" data-original-title="Remove"><i class="glyph-icon icon-remove " ></i><div class="ripple-wrapper"></div></button>
+        </div>
+        </li>
+          <?php } } ?>
         <?php } ?>
-        
-        </tbody>
-        </table>
+        <?php } ?>
+
+      
+        </ul></div></div></div>
+        <?php } ?>
+
         <div class="row">
         <div class="col-sm-6">
         <div class="dataTables_info" id="datatable-example_info" role="status" aria-live="polite"></div>
@@ -81,87 +93,106 @@
           </div>
         </div>
         
-<?php if(isset($project)){?> 
-<button id="editclient" class="btn btn-default" style="display:none;" data-toggle="modal" data-target=".bs-edit-modal-lg">Add New</button>
+<?php if(isset($task)){ ?> 
+<button id="editclient" class="btn btn-default" style="display:none;" data-toggle="modal" data-target=".bs-edit-modal-lg">Edit Task</button>
 <script type="text/javascript">
   $(document).ready(function(){
     $("#editclient").trigger("click");
   });
+ 
 </script>  
+ <?php if(isset($copy_task)){ ?> 
+  <script type="text/javascript">
+  
+     $("#addclient").trigger("click");
+    
+  </script>  <?php } ?>
+    
 <div class="modal fade bs-edit-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
   <div class="modal-dialog modal-lg">
     <div class="modal-content">
       <form method="post" enctype="multipart/form-data" class="form-horizontal bordered-row" data-parsley-validate=""> 
         <div class="modal-header">
           <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-          <h4 class="modal-title">Edit Project</h4>
+          <h4 class="modal-title">Edit Task</h4>
         </div>
         <div class="modal-body">
           <div class="content-box-wrapper">
 
               <div class="row">
-                  <div class="col-md-12">
+                  <div >
 
-                  <div class="form-group">
-                  <label class="col-sm-3 control-label">Project Name</label>
+                <div class="form-group">
+                  <label class="col-sm-3 control-label">Task Name</label>
                   <div class="col-sm-6">
-                    <input name="project_name" class="form-control" id="" placeholder="Client Name" type="text" required="" value="<?= $project->project_name ?>">
+                    <input name="task_name" class="form-control" id="" placeholder="Task Name" type="text" value="<?= $task->task_name ?>" required="">
                   </div>
                 </div>
                 <div class="form-group">
                   <label class="col-sm-3 control-label">Description</label>
                   <div class="col-sm-6">
-                    <textarea name="description" id="" class="form-control" required=""><?= $project->description ?></textarea>
+                    <textarea name="description" class="form-control" id="" placeholder="Description"  required=""><?= $task->description ?></textarea>
                   </div>
                 </div>
-                
+
                 <div class="form-group">
-                  <label class="col-sm-3 control-label">Estimated Hours</label>
+                  <label class="col-sm-3 control-label">Choose Project</label>
                   <div class="col-sm-6">
-                    <input name="estimated_time" class="form-control" id="" type="text" data-parsley-type="digits" required=""  data-parsley-maxlength="10" value="<?= $project->estimated_time ?>">
+                    <select  class="form-control" name="project_id"  required="">
+                      <option value="">Select Project</option>
+                    <?php foreach($projects as $key => $value) { ?>
+                      <option value="<?php echo $value['id']; ?>" <?= $task->project_id == $value['id'] ? 'selected' : '';?> ><?php echo $value['project_name']; ?></option>
+                      <?php } ?>
+                    </select>
                   </div>
                 </div>
+
+                <div class="form-group">
+                  <label class="col-sm-3 control-label">Estimated Effort</label>
+                  <div class="col-sm-6">
+                    <input name="estimated_effort" class="form-control" id="" placeholder="Estimated Effort"  required="" value="<?= $task->estimated_effort ?>"/>
+                  </div>
+                </div>
+
+                <div class="form-group">
+                  <label class="col-sm-3 control-label">Priority</label>
+                  <div class="col-sm-6">
+                    <select  class="form-control" name="priority"  required="">
+                      <option value="">Select Priority</option>
+                      <option value="High" <?= $task->priority == "High" ? 'selected' : '';?>>High</option>
+                      <option value="Low" <?= $task->priority == "Low" ? 'selected' : '';?>>Low</option>
+                      <option value="Medium" <?= $task->priority == "Medium" ? 'selected' : '';?>>Medium</option>
+                    </select>
+                  </div>
+                </div>
+
+                <div class="form-group">
+                  <label class="col-sm-3 control-label">Status</label>
+                  <div class="col-sm-6">
+                    <select  class="form-control" name="status"  required="">
+                      <option value="">Select Status</option>
+                      <option value="New" <?= $task->status == "New" ? 'selected' : '';?>>New</option>
+                      <option value="In Progress" <?= $task->status == "In Progress" ? 'selected' : '';?>>In Progress</option>
+                      <option value="Ready To Test" <?= $task->status == "Ready To Test" ? 'selected' : '';?>>Ready To Test</option>
+                      <option value="Completed" <?= $task->status == "Completed" ? 'selected' : '';?>>Completed</option>
+                      <option value="Cancelled" <?= $task->status == "Cancelled" ? 'selected' : '';?>>Cancelled</option>
+                    </select>
+                  </div>
+                </div> 
+
                 <div class="form-group .bordered-row">
-                  <label class="col-sm-3 control-label">Estimated Start Date</label>
-                  <div class="col-sm-6 input-prepend">
-                    <span class="add-on input-group-addon"><i class="glyph-icon icon-calendar"></i></span><input name="estimated_start_date"  id="" type="text" class="bootstrap-datepicker form-control"  data-date-format="yyyy-mm-dd" required="" value="<?= $project->estimated_start_date ?>"/>
-                  </div>
-                </div>
-
-                <div class="form-group">
-                  <label class="col-sm-3 control-label">Estimated End Date</label>
-                  <div class="col-sm-6 input-prepend">
-                    <span class="add-on input-group-addon"><i class="glyph-icon icon-calendar"></i></span><input name="estimated_end_date"  id="" type="text" class="bootstrap-datepicker1 form-control"   required="" data-date-format="yyyy-mm-dd" value="<?= $project->estimated_end_date ?>" />
-                  </div>
-                </div>
-                
-                <div class="form-group">
-                  <label class="col-sm-3 control-label">Assign Team</label>
+                  <label class="col-sm-3 control-label">Due Date</label>
                   <div class="col-sm-6">
-                    <select multiple="multiple" class="multi-select" name="teams[]" id="14multiselect" style="position: absolute; left: -9999px;">
-                    <?php foreach($team_members as $key => $value) { ?>
-                      <option value="<?php echo $value['user_id']; ?>" <?= $project->client_id == $value['user_id'] ? 'selected' : '';?> ><?php echo $value['client_name']; ?></option>
-                      <?php } ?>
-                    </select>
+                    <input name="due_date"  id="" type="text" class="bootstrap-datepicker2 form-control"  data-date-format="yyyy-mm-dd" required="" value="<?= $task->due_date ?>">
                   </div>
                 </div>
-
-                <div class="form-group">
-                  <label class="col-sm-3 control-label">Assign Client</label>
-                  <div class="col-sm-6">
-                    <select  class="form-control" name="client_id"  required="">
-                      <option value="">Select Client</option>
-                    <?php foreach($project_clients as $key => $value) { ?>
-                      <option value="<?php echo $value['user_id']; ?>" <?= $project->client_id == $value['user_id'] ? 'selected' : '';?>><?php echo $value['client_name']; ?></option>
-                      <?php } ?>
-                    </select>
-                  </div>
-                </div>
+                  
+                <input type="hidden" name="id" value="<?= $task->id ?>">
 
                 </div>
                 </div>
 
-             <input type="hidden" name="id" value="<?= $project->id ?>">
+            </div>
           
         </div>
         <div class="modal-footer">
@@ -179,86 +210,96 @@
       <form method="post" enctype="multipart/form-data" class="form-horizontal bordered-row" data-parsley-validate=""> 
         <div class="modal-header">
           <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-          <h4 class="modal-title">New Project</h4>
+          <h4 class="modal-title">New Task</h4>
         </div>
         <div class="modal-body">
           <div class="content-box-wrapper">
 
-          <div class="row">
-                 
+              <div class="row">
+                  <div >
+
                 <div class="form-group">
-                  <label class="col-sm-3 control-label">Project Name</label>
+                  <label class="col-sm-3 control-label">Task Name</label>
                   <div class="col-sm-6">
-                    <input name="project_name" class="form-control" id="" placeholder="Client Name" type="text" required="">
+                    <input name="task_name" class="form-control" id="" placeholder="Task Name" type="text" required="" value="<?= isset($copy_task) ? $copy_task->task_name: ''?>">
                   </div>
                 </div>
+
                 <div class="form-group">
                   <label class="col-sm-3 control-label">Description</label>
                   <div class="col-sm-6">
-                    <textarea name="description" id="" class="form-control" required=""></textarea>
+                    <textarea name="description" class="form-control" id="" placeholder="Description"  required=""><?= isset($copy_task) ? $copy_task->description: ''?></textarea>
                   </div>
                 </div>
-                <div class="form-group" <?php if($loggedInUser['userrole'] != "admin") { ?> style="display:none;" <?php } ?>>
-                <?php if($loggedInUser['userrole'] == "company") { $comp = $loggedInUser['id']; }
-                elseif($loggedInUser['userrole'] == "user") { $comp = $loggedInUser['parent_id']; }else { $comp = '';} ?>
-                  <label class="col-sm-3 control-label">Company Name</label>
+
+                <div class="form-group">
+                  <label class="col-sm-3 control-label">Choose Project</label>
                   <div class="col-sm-6">
-                    <select class="form-control" name="company_id">
-                      <option value="0">Select Company Name</option>
-                      <?php foreach ($clients as $key => $value) { ?>
-                      <option value="<?php echo $value['user_id']; ?>" <?= $comp == $value['user_id'] ? 'selected' : '';?>><?php echo $value['client_name']; ?></option>
+                    <select  class="form-control" name="project_id"  required="">
+                      <option value="">Select Project</option>
+                    <?php foreach($projects as $key => $value) { ?>
+                      <option value="<?php echo $value['id']; ?>" <?= isset($copy_task) ? $copy_task->project_id == $value['id'] ? 'selected' : '' : '';?> ><?php echo $value['project_name']; ?></option>
                       <?php } ?>
                     </select>
                   </div>
                 </div>
+
                 <div class="form-group">
-                  <label class="col-sm-3 control-label">Estimated Hours</label>
+                  <label class="col-sm-3 control-label">Estimated Effort</label>
                   <div class="col-sm-6">
-                    <input name="estimated_time" class="form-control" id="" type="text" data-parsley-type="digits" required=""  data-parsley-maxlength="10">
+                    <input name="estimated_effort" class="form-control" id="" placeholder="Estimated Effort"  required="" value="<?= isset($copy_task) ? $copy_task->estimated_effort: ''?>"/>
                   </div>
                 </div>
+
+                <div class="form-group">
+                  <label class="col-sm-3 control-label">Priority</label>
+                  <div class="col-sm-6">
+                    <select  class="form-control" name="priority"  required="">
+                      <option value="">Select Priority</option>
+                      <option value="High" <?= isset($copy_task) ? $copy_task->priority == "High" ? 'selected' : '' : '';?>>High</option>
+                      <option value="Low" <?= isset($copy_task) ? $copy_task->priority == "Low" ? 'selected' : '' : '';?>>Low</option>
+                      <option value="Medium" <?= isset($copy_task) ? $copy_task->priority == "Medium" ? 'selected' : '' : '';?>>Medium</option>
+                    </select>
+                  </div>
+                </div>
+
+                <div class="form-group">
+                  <label class="col-sm-3 control-label">Status</label>
+                  <div class="col-sm-6">
+                    <select  class="form-control" name="status"  required="">
+                      <option value="">Select Status</option>
+                      <option value="New" <?= isset($copy_task) ? $copy_task->status == "New" ? 'selected' : '' : '';?>>New</option>
+                      <option value="In Progress" <?= isset($copy_task) ? $copy_task->status == "In Progress" ? 'selected' : '' : '';?>>In Progress</option>
+                      <option value="Ready To Test" <?= isset($copy_task) ? $copy_task->status == "Ready To Test" ? 'selected' : '' : '';?>>Ready To Test</option>
+                      <option value="Completed" <?= isset($copy_task) ? $copy_task->status == "Completed" ? 'selected' : '' : '';?>>Completed</option>
+                      <option value="Cancelled" <?= isset($copy_task) ? $copy_task->status == "Cancelled" ? 'selected' : '' : '';?>>Cancelled</option>
+                    </select>
+                  </div>
+                </div> 
+
                 <div class="form-group .bordered-row">
-                  <label class="col-sm-3 control-label">Estimated Start Date</label>
+                  <label class="col-sm-3 control-label">Due Date</label>
                   <div class="col-sm-6">
-                    <input name="estimated_start_date"  id="" type="text" class="bootstrap-datepicker form-control"  data-date-format="yyyy-mm-dd" required="">
+                    <input name="due_date"  id="" type="text" class="bootstrap-datepicker2 form-control"  data-date-format="yyyy-mm-dd" required="" value="<?= isset($copy_task) ? $copy_task->due_date: ''?>">
                   </div>
                 </div>
-
-                <div class="form-group">
-                  <label class="col-sm-3 control-label">Estimated End Date</label>
-                  <div class="col-sm-6">
-                    <input name="estimated_end_date"  id="" type="text" class="bootstrap-datepicker1 form-control"  data-date-format="yyyy-mm-dd" required="">
-                  </div>
-                </div>
-
 
                 <div class="form-group">
                   <label class="col-sm-3 control-label">Assign Team</label>
                   <div class="col-sm-6">
-                    <select multiple="multiple" class="multi-select" name="teams[]" id="14multiselect" style="position: absolute; left: -9999px;">
+                    <select multiple="multiple" class="multi-select" name="assigned_to[]" id="14multiselect" style="position: absolute; left: -9999px;">
                     <?php foreach($team_members as $key => $value) { ?>
-                      <option value="<?php echo $value['user_id']; ?>"><?php echo $value['client_name']; ?></option>
+                      <option value="<?php echo $value['user_id']; ?>"  ><?php echo $value['client_name']; ?></option>
                       <?php } ?>
                     </select>
-                  </div>
-                </div>
 
-                <div class="form-group">
-                  <label class="col-sm-3 control-label">Assign Client</label>
-                  <div class="col-sm-6">
-                    <select  class="form-control" name="client_id"  required="">
-                      <option value="">Select Client</option>
-                    <?php foreach($project_clients as $key => $value) { ?>
-                      <option value="<?php echo $value['user_id']; ?>"><?php echo $value['client_name']; ?></option>
-                      <?php } ?>
-                    </select>
+                    <input type="hidden" name="parent_task_id" value="" id="parent_task_id" />
                   </div>
                 </div>
 
                 </div>
-
-            </div>
-          
+                </div>
+            </div>         
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-default " data-dismiss="modal">Close</button> 
@@ -268,6 +309,7 @@
     </div>
   </div>
 </div>
+
  <div class="modal fade bs-document-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
   <div class="modal-dialog modal-lg">
     <div class="modal-content">
@@ -282,8 +324,9 @@
           <div class="panel-body">
             <h3 class="title-hero">Add Documents</h3>
             <div class="example-box-wrapper">
-              <form id="fileupload" action="<?= $this->Url->build(array("action" => "server")) ?>" method="POST" enctype="multipart/form-data">
+              <form id="fileupload" action="<?= $this->Url->build(array("controller" => "tasks","action" => "server")) ?>" method="POST" enctype="multipart/form-data">
                       <input type="hidden" name="project_doc_id" value="" id="project_doc_id" />
+                      <input type="hidden" name="task_doc_id" value="" id="task_doc_id" />
                 <div class="row fileupload-buttonbar">
                   <div class="col-lg-12">
                     <div class="float-left"><span class="btn btn-md btn-success fileinput-button"><i class="glyph-icon icon-plus"></i> Add files...
@@ -414,9 +457,13 @@
 <![endif]-->
 
 <script>
-function setprojectid(id){
-  //console.log(id);
-  $('#project_doc_id').val(id);
-  //console.log($('#project_doc_id').val());
+function setprojectid(pid, tid ){
+  $('#project_doc_id').val(pid);
+  $('#task_doc_id').val(tid);
+}
+
+function settaskid(tid){
+  $('#parent_task_id').val(tid);
+  $('#addclient').trigger('click');
 }
 </script>

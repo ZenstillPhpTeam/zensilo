@@ -59,6 +59,8 @@ $(window).load(function(){
               <li><a href="images.html" title="Images"><span>Images</span></a></li>
               </ul></div>
           </li>
+          <li><a href="<?= $this->Url->build(array("controller"=> "tasks","action" => "tasks"));?>" title="Add Tasks"><i class="glyph-icon icon-elusive-group"></i> <span>Tasks</span></a></li>
+
           <li><a href="<?= $this->Url->build(array("controller"=> "users","action" => "users"));?>" title="Add Users"><i class="glyph-icon icon-elusive-group"></i> <span>Users</span></a></li>
 
           <!-- elango menus -->
@@ -122,7 +124,7 @@ $(window).load(function(){
     </div>
   </div>
   
-  <?= $this->Html->script(array('../assets/widgets/dropdown/dropdown', '../assets/widgets/tooltip/tooltip', '../assets/widgets/popover/popover', '../assets/widgets/progressbar/progressbar', '../assets/widgets/button/button', '../assets/widgets/collapse/collapse', '../assets/widgets/superclick/superclick', '../assets/widgets/input-switch/inputswitch-alt', '../assets/widgets/slimscroll/slimscroll', '../assets/widgets/slimscroll/slimscroll', '../assets/widgets/slidebars/slidebars', '../assets/widgets/slidebars/slidebars-demo', '../assets/widgets/charts/piegage/piegage', '../assets/widgets/charts/piegage/piegage-demo', '../assets/widgets/screenfull/screenfull', '../assets/widgets/content-box/contentbox', '../assets/widgets/material/material', '../assets/widgets/material/ripples', '../assets/widgets/overlay/overlay', '../assets/js-init/widgets-init', '../assets/themes/admin/layout','../assets/widgets/datatable/datatable','../assets/widgets/datatable/datatable-bootstrap','../assets/widgets/datatable/datatable-tabletools','../assets/widgets/parsley/parsley','../assets/widgets/multi-select/multiselect')) ?>
+  <?= $this->Html->script(array('../assets/widgets/dropdown/dropdown', '../assets/widgets/tooltip/tooltip', '../assets/widgets/popover/popover', '../assets/widgets/progressbar/progressbar', '../assets/widgets/button/button', '../assets/widgets/collapse/collapse', '../assets/widgets/superclick/superclick', '../assets/widgets/input-switch/inputswitch-alt', '../assets/widgets/slimscroll/slimscroll', '../assets/widgets/slimscroll/slimscroll', '../assets/widgets/slidebars/slidebars', '../assets/widgets/slidebars/slidebars-demo', '../assets/widgets/charts/piegage/piegage', '../assets/widgets/charts/piegage/piegage-demo', '../assets/widgets/screenfull/screenfull', '../assets/widgets/content-box/contentbox', '../assets/widgets/material/material', '../assets/widgets/material/ripples', '../assets/widgets/overlay/overlay', '../assets/js-init/widgets-init', '../assets/themes/admin/layout','../assets/widgets/datatable/datatable','../assets/widgets/datatable/datatable-bootstrap','../assets/widgets/datatable/datatable-tabletools','../assets/widgets/parsley/parsley','../assets/widgets/multi-select/multiselect', '../assets/widgets/wizard/wizard', '../assets/widgets/wizard/wizard-demo', '../assets/widgets/tabs/tabs', '../assets/widgets/chosen/chosen', '../assets/widgets/chosen/chosen-demo','../assets/widgets/parsley/parsley','../assets/widgets/datepicker/datepicker','../assets/widgets/datepicker-ui/datepicker','../assets/widgets/interactions-ui/resizable','../assets/widgets/interactions-ui/draggable','../assets/widgets/interactions-ui/sortable')) ?>
 
         
   <script>
@@ -136,8 +138,16 @@ $(window).load(function(){
             format: 'yyyy-mm-dd'
         });
 
+        $('.bootstrap-datepicker2').bsdatepicker({
+            format: 'yyyy-mm-dd'
+        });
+
         $(".multi-select").multiSelect();
         $(".ms-container").append('<i class="glyph-icon icon-exchange"></i>');
+
+         $(".todo-sort").sortable({
+            handle: ".sort-handle"
+        });
     });
 
   </script>
