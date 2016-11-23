@@ -19,6 +19,7 @@
         #
         </th>
         <th class="sorting" tabindex="0" aria-controls="datatable-example" rowspan="1" colspan="1" aria-label="Engine version: activate to sort column ascending" > Name </th>
+        <th class="sorting" tabindex="0" aria-controls="datatable-example" rowspan="1" colspan="1" aria-label="Engine version: activate to sort column ascending" > Type </th>
         <th class="sorting" tabindex="0" aria-controls="datatable-example" rowspan="1" colspan="1" aria-label="Engine version: activate to sort column ascending" > Start Date</th>
         <th class="sorting" tabindex="0" aria-controls="datatable-example" rowspan="1" colspan="1" aria-label="Engine version: activate to sort column ascending" > End Date</th>
         <th class="sorting" tabindex="0" aria-controls="datatable-example" rowspan="1" colspan="1" aria-label="Rendering engine: activate to sort column ascending">
@@ -38,6 +39,7 @@
             <tr class="gradeA <?php if($k%2 == 0) {?>odd <?php } else { ?> even <?php } ?>" role="row">
               <td><?= $k+1?></td>
               <td class="sorting_1"><?= $request_det->users['username']; ?></td>
+              <td class="sorting_1"><?= $request_det->leave_types['type']; ?></td>
               <td class="sorting_1"><?= $request_det->start_date ?></td>
               <td class="center"><?= $request_det->end_date ?></td>
               <td class="center"><?= $request_det->no_of_days ?></td>
@@ -101,10 +103,18 @@
 
               <div class="row">
                 <?php foreach($request as $k=>$req){ ?>
+
                 <div class="form-group">
                   <label class="col-sm-3 control-label">Name</label>
                   <div class="col-sm-6">
                     <span><?= $req->users['username']; ?></span>
+                  </div>
+                </div>
+
+                <div class="form-group">
+                  <label class="col-sm-3 control-label">Type</label>
+                  <div class="col-sm-6">
+                    <span><?= $req->leave_types['type']; ?></span>
                   </div>
                 </div>
 
@@ -176,11 +186,6 @@
 <script src="http://blueimp.github.io/JavaScript-Load-Image/js/load-image.all.min.js"></script>
 <script src="http://blueimp.github.io/JavaScript-Canvas-to-Blob/js/canvas-to-blob.min.js"></script>
 <script src="http://blueimp.github.io/Gallery/js/jquery.blueimp-gallery.min.js"></script>
-
-<?= $this->Html->script(array('../assets/widgets/multi-upload/jquery.iframe-transport', '../assets/widgets/multi-upload/jquery.fileupload', '../assets/widgets/multi-upload/jquery.fileupload-process', '../assets/widgets/multi-upload/jquery.fileupload-image', '../assets/widgets/multi-upload/jquery.fileupload-audio', '../assets/widgets/multi-upload/jquery.fileupload-video', '../assets/widgets/multi-upload/jquery.fileupload-validate', '../assets/widgets/multi-upload/jquery.fileupload-ui', '../assets/widgets/multi-upload/main')); ?>
-<!--[if (gte IE 8)&(lt IE 10)]>
-<?= $this->Html->script(array('../assets/widgets/multi-upload/cors/jquery.xdr-transport')); ?>
-<![endif]-->
 
 <script>
 function setprojectid(id){

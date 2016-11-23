@@ -22,6 +22,7 @@
         <th class="sorting_asc" tabindex="0" aria-controls="datatable-example" rowspan="1" colspan="1" aria-label="Rendering engine: activate to sort column ascending" aria-sort="ascending">
         #
         </th>
+        <th class="sorting" tabindex="0" aria-controls="datatable-example" rowspan="1" colspan="1" aria-label="Engine version: activate to sort column ascending" > Leave Type</th>
         <th class="sorting" tabindex="0" aria-controls="datatable-example" rowspan="1" colspan="1" aria-label="Engine version: activate to sort column ascending" > Start Date</th>
         <th class="sorting" tabindex="0" aria-controls="datatable-example" rowspan="1" colspan="1" aria-label="Engine version: activate to sort column ascending" > End Date</th>
         <th class="sorting" tabindex="0" aria-controls="datatable-example" rowspan="1" colspan="1" aria-label="Rendering engine: activate to sort column ascending">
@@ -40,7 +41,8 @@
 
             <tr class="gradeA <?php if($k%2 == 0) {?>odd <?php } else { ?> even <?php } ?>" role="row">
               <td><?= $k+1?></td>
-              <td class="sorting_1"><?= $request_det->start_date ?></td>
+              <td><?= $request_det->leave_types['type'] ?></td>
+              <td><?= $request_det->start_date ?></td>
               <td><?= $request_det->end_date ?></td>
               <td><?= $request_det->no_of_days ?></td>
               <td class="center"><?= $request_det->reason ?></td>
@@ -118,6 +120,18 @@
                 </div>
 
                 <div class="form-group">
+                  <label class="col-sm-3 control-label">Type</label>
+                  <div class="col-sm-6">
+                     <select name="type_id" class="form-control"> 
+                        <?php foreach($leavetype as $k=>$type){?>
+                        <option selected="<?php ($type->id == $request->typeid) ? 'selected' : '' ?>" value="<?= $type->id ?>">
+                        <?= $type->type ?></option>
+                        <?php } ?>
+                     </select>
+                  </div>
+                </div>
+
+                <div class="form-group">
                   <label class="col-sm-3 control-label">No of days</label>
                   <div class="col-sm-6">
                     <input name="no_of_days" class="form-control" type="number" value="<?= $request->no_of_days; ?>">
@@ -125,19 +139,19 @@
                 </div>
 
                 <div class="form-group .bordered-row">
-                  <label class="col-sm-3 control-label">Estimated Start Date</label>
+                  <label class="col-sm-3 control-label"> Start Date</label>
                   <div class="col-sm-6">
-                    <input name="start_date"  id="" type="text" class="bootstrap-datepicker form-control"  data-date-format="yyyy-mm-dd" required="" value="<?= $request->start_date ?>">
+                    <input name="start_date" type="text" class="bootstrap-datepicker2 form-control"  data-date-format="yyyy-mm-dd" required="" value="<?= $request->start_date ?>">
                   </div>
                 </div>
 
                 <div class="form-group">
-                  <label class="col-sm-3 control-label">Estimated End Date</label>
-                  <div class="col-sm-6">
-                    <input name="end_date"  id="" type="text" class="bootstrap-datepicker1 form-control"  data-date-format="yyyy-mm-dd" value="<?= $request->end_date ?>">
+                  <label class="col-sm-3 control-label"> End Date</label>
+                  <div class="col-sm-6 end_date_container">
+                    <input name="end_date" readonly type="text" class="bootstrap-datepicker2_end_date form-control"  data-date-format="yyyy-mm-dd" value="<?= $request->end_date ?>">
                   </div>
                 </div>
-                
+
               </div>
 
              <input type="hidden" name="id" value="<?= $request->id ?>">
@@ -174,6 +188,17 @@
                 </div>
 
                 <div class="form-group">
+                  <label class="col-sm-3 control-label">Type</label>
+                  <div class="col-sm-6">
+                     <select name="type_id" class="form-control">
+                        <?php foreach($leavetype as $k=>$type){ ?>
+                        <option value="<?= $type->id ?>"><?= $type->type ?></option>
+                        <?php } ?>
+                     </select>
+                  </div>
+                </div>
+
+                <div class="form-group">
                   <label class="col-sm-3 control-label">No of days</label>
                   <div class="col-sm-6">
                     <input name="no_of_days" class="form-control" type="number">
@@ -181,16 +206,16 @@
                 </div>
 
                 <div class="form-group .bordered-row">
-                  <label class="col-sm-3 control-label">Estimated Start Date</label>
+                  <label class="col-sm-3 control-label"> Start Date</label>
                   <div class="col-sm-6">
-                    <input name="start_date"  id="" type="text" class="bootstrap-datepicker form-control"  data-date-format="yyyy-mm-dd" required="">
+                    <input name="start_date" type="text" class="bootstrap-datepicker2 form-control"  data-date-format="yyyy-mm-dd" required="">
                   </div>
                 </div>
 
                 <div class="form-group">
-                  <label class="col-sm-3 control-label">Estimated End Date</label>
-                  <div class="col-sm-6">
-                    <input name="end_date"  id="" type="text" class="bootstrap-datepicker1 form-control"  data-date-format="yyyy-mm-dd">
+                  <label class="col-sm-3 control-label"> End Date</label>
+                  <div class="col-sm-6 end_date_container">
+                    <input name="end_date" readonly type="text" class="bootstrap-datepicker2_end_date form-control"  data-date-format="yyyy-mm-dd">
                   </div>
                 </div>
 
@@ -212,15 +237,41 @@
 <script src="http://blueimp.github.io/JavaScript-Canvas-to-Blob/js/canvas-to-blob.min.js"></script>
 <script src="http://blueimp.github.io/Gallery/js/jquery.blueimp-gallery.min.js"></script>
 
-<?= $this->Html->script(array('../assets/widgets/multi-upload/jquery.iframe-transport', '../assets/widgets/multi-upload/jquery.fileupload', '../assets/widgets/multi-upload/jquery.fileupload-process', '../assets/widgets/multi-upload/jquery.fileupload-image', '../assets/widgets/multi-upload/jquery.fileupload-audio', '../assets/widgets/multi-upload/jquery.fileupload-video', '../assets/widgets/multi-upload/jquery.fileupload-validate', '../assets/widgets/multi-upload/jquery.fileupload-ui', '../assets/widgets/multi-upload/main')); ?>
-<!--[if (gte IE 8)&(lt IE 10)]>
-<?= $this->Html->script(array('../assets/widgets/multi-upload/cors/jquery.xdr-transport')); ?>
-<![endif]-->
-
 <script>
 function setprojectid(id){
   //console.log(id);
   $('#project_doc_id').val(id);
   //console.log($('#project_doc_id').val());
 }
+
+
+$(document).ready(function () {
+
+
+    $(".bootstrap-datepicker2").datepicker({ 
+        autoclose: true,
+        minDate: new Date(),
+        maxDate: '+2y',
+    });
+
+    $(".bootstrap-datepicker2_end_date").datepicker({ 
+        autoclose: true,
+        minDate: new Date(),
+        maxDate: '+2y',
+    });
+    
+    $(".bootstrap-datepicker2").change(function(){
+
+      $(".bootstrap-datepicker2_end_date").remove();
+      $(".end_date_container").html('<input name="end_date" readonly type="text" class="bootstrap-datepicker2_end_date form-control"  data-date-format="yyyy-mm-dd">');
+      $(".bootstrap-datepicker2_end_date").datepicker({ 
+          autoclose: true,
+          minDate: $(this).val(),
+          maxDate: '+2y',
+      });
+
+    });
+});
+
+
 </script>

@@ -14,6 +14,7 @@
 <?= $this->Html->css(array('../assets/helpers/animate', '../assets/helpers/boilerplate', '../assets/helpers/border-radius', '../assets/helpers/grid', '../assets/helpers/page-transitions', '../assets/helpers/spacing', '../assets/helpers/typography', '../assets/helpers/utils', '../assets/helpers/colors', '../assets/material/ripple', '../assets/elements/badges', '../assets/elements/buttons', '../assets/elements/content-box', '../assets/elements/dashboard-box', '../assets/elements/forms', '../assets/elements/images', '../assets/elements/info-box', '../assets/elements/invoice', '../assets/elements/loading-indicators', '../assets/elements/menus', '../assets/elements/panel-box', '../assets/elements/response-messages', '../assets/elements/responsive-tables', '../assets/elements/ribbon', '../assets/elements/social-box', '../assets/elements/tables', '../assets/elements/tile-box', '../assets/elements/timeline', '../assets/icons/fontawesome/fontawesome', '../assets/icons/linecons/linecons', '../assets/icons/spinnericon/spinnericon', '../assets/widgets/accordion-ui/accordion', '../assets/widgets/calendar/calendar', '../assets/widgets/carousel/carousel', '../assets/widgets/charts/justgage/justgage', '../assets/widgets/charts/justgage/justgage', '../assets/widgets/charts/morris/morris', '../assets/widgets/charts/piegage/piegage', '../assets/widgets/charts/xcharts/xcharts', '../assets/widgets/chosen/chosen', '../assets/widgets/colorpicker/colorpicker', '../assets/widgets/datatable/datatable', '../assets/widgets/datepicker/datepicker', '../assets/widgets/datepicker-ui/datepicker', '../assets/widgets/daterangepicker/daterangepicker' ,'../assets/widgets/dialog/dialog', '../assets/widgets/dropdown/dropdown', '../assets/widgets/dropzone/dropzone', '../assets/widgets/file-input/fileinput', '../assets/widgets/input-switch/inputswitch', '../assets/widgets/input-switch/inputswitch-alt', '../assets/widgets/ionrangeslider/ionrangeslider', '../assets/widgets/jcrop/jcrop', '../assets/widgets/jgrowl-notifications/jgrowl', '../assets/widgets/loading-bar/loadingbar', '../assets/widgets/maps/vector-maps/vectormaps', '../assets/widgets/markdown/markdown', '../assets/widgets/modal/modal', '../assets/widgets/multi-select/multiselect', '../assets/widgets/multi-upload/fileupload', '../assets/widgets/nestable/nestable', '../assets/widgets/noty-notifications/noty', '../assets/widgets/popover/popover', '../assets/widgets/pretty-photo/prettyphoto', '../assets/widgets/progressbar/progressbar', '../assets/widgets/range-slider/rangeslider', '../assets/widgets/slidebars/slidebars', '../assets/widgets/slider-ui/slider', '../assets/widgets/summernote-wysiwyg/summernote-wysiwyg', '../assets/widgets/tabs-ui/tabs', '../assets/widgets/timepicker/timepicker', '../assets/widgets/tocify/tocify', '../assets/widgets/tooltip/tooltip', '../assets/widgets/touchspin/touchspin', '../assets/widgets/uniform/uniform', '../assets/widgets/wizard/wizard', '../assets/widgets/xeditable/xeditable', '../assets/snippets/chat', '../assets/snippets/files-box', '../assets/snippets/login-box', '../assets/snippets/notification-box', '../assets/snippets/progress-box', '../assets/snippets/todo', '../assets/snippets/user-profile', '../assets/snippets/mobile-navigation', '../assets/applications/mailbox', '../assets/themes/admin/layout', '../assets/themes/admin/color-schemes/default', '../assets/themes/components/default', '../assets/themes/components/border-radius', '../assets/helpers/responsive-elements', '../assets/helpers/admin-responsive','../assets/icons/elusive/elusive', 'update', 'opentok-whiteboard'));?>
 
 <?= $this->Html->script(array('../assets/js-core/jquery-core', '../assets/js-core/jquery-ui-core', '../assets/js-core/jquery-ui-widget', '../assets/js-core/jquery-ui-mouse', '../assets/js-core/jquery-ui-position', '../assets/js-core/transition', '../assets/js-core/modernizr', '../assets/js-core/jquery-cookie', '../assets/widgets/wizard/wizard', '../assets/widgets/wizard/wizard-demo', '../assets/widgets/tabs/tabs', '../assets/widgets/modal/modal', '../assets/widgets/chosen/chosen', '../assets/widgets/chosen/chosen-demo')) ?>
+
 <?= $this->fetch('meta') ?>
 <?= $this->fetch('css') ?>
 <?= $this->fetch('script') ?>
@@ -52,8 +53,10 @@ $(window).load(function(){
       <div class="scroll-sidebar">
         <ul id="sidebar-menu">
           <li class="header"><span>Overview</span></li>
+
           <li><a href="<?= $this->Url->build(array("controller"=> "users","action" => "company"));?>" title="Company"><i class="glyph-icon icon-linecons-tv"></i> <span>Company</span></a></li>
           <li><a href="<?= $this->Url->build(array("controller"=> "users","action" => "projects"));?>" title="Projects Menu"><i class="glyph-icon icon-linecons-diamond"></i> <span>Projects</span></a>
+
               <div class="sidebar-submenu" style="display: block;">
               <ul>
               <li><a href="<?= $this->Url->build(array("controller"=> "users","action" => "projects"));?>" title="Projects"><span>Projects</span></a></li>
@@ -65,17 +68,19 @@ $(window).load(function(){
               <li><a href="images.html" title="Images"><span>Images</span></a></li>
               </ul></div>
           </li>
+
           <li><a href="<?= $this->Url->build(array("controller"=> "tasks","action" => "tasks"));?>" title="Add Tasks"><i class="glyph-icon icon-elusive-group"></i> <span>Tasks</span></a></li>
 
           <li><a href="<?= $this->Url->build(array("controller"=> "users","action" => "users"));?>" title="Add Users"><i class="glyph-icon icon-elusive-group"></i> <span>Users</span></a></li>
 
+
           <!-- elango menus -->
-          <li><a href="<?= $this->Url->build(array("action" => "response"));?>" title="Leave Requests">
+          <li><a href="<?= $this->Url->build(array("controller" => "leaverequests","action" => "response"));?>" title="Leave Requests">
           <i class="glyph-icon icon-linecons-tv">
-          <i class="bs-badge badge-warning"><?=  $this->Custom->get_leave_equest_count();?></i></i> 
+          <i class="bs-badge badge-warning"><?=  $this->Custom->get_leave_request_count($loggedInUser['id']);?></i></i> 
           <span>Leave Requests</span></a></li>
 
-          <li><a href="<?= $this->Url->build(array("action" => "request"));?>" title="Leave Requests">
+          <li><a href="<?= $this->Url->build(array("controller" => "leaverequests","action" => "request"));?>" title="Leave Requests">
           <i class="glyph-icon icon-linecons-tv"></i> <span>My Leave Requests</span></a></li>
 
           <!-- elango menus end -->
