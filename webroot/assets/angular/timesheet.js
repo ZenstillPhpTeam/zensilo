@@ -1,9 +1,7 @@
-var app = angular.module("TimesheetApp", []);
-app.controller('TimesheetCtrl', function($scope,$http,$location,$rootScope,$filter) {
+angular_module
+.controller('TimesheetCtrl', function($scope,$http,$location,$rootScope,$filter) {
 
 	var siteUrl = 'http://localhost/elango/zensilo/';
-
-	
 
 	$scope.TimeSheetData = [];
 
