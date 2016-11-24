@@ -340,6 +340,7 @@ class UsersController extends AppController
                 if ($user_save) {
                     //echo  $data['id'];
                     $client = $this->UserDetails->find('all',['conditions' => ['user_details.user_id' => $data["id"]]])->first();
+                   unset($this->request->data['id']);
                     $client = $this->UserDetails->patchEntity($client, $this->request->data);
                     $client_save  = $this->UserDetails->save($client);
                     $this->Flash->success('Company Details has been updated successfully!!');
@@ -371,7 +372,7 @@ class UsersController extends AppController
        }
        elseif($id)
        {
-            $client = $this->UserDetails->find('all', ['conditions' => ['users.id' => $id]])->contain('Users', function(\Cake\ORM\Query $q) {
+            $client = $this->UserDetails->find('all', ['conditions' => ['Users.id' => $id]])->contain('Users', function(\Cake\ORM\Query $q) {
                     return $q->where(['Users.id' => $id]);
                    })->first();
                 $this->set('client', $client);
