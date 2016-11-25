@@ -8,7 +8,7 @@ use Cake\Auth\DefaultPasswordHasher;
 use Cake\Datasource\ConnectionManager;
 use Cake\Mailer\Email;
 use Cake\Routing\Router;
-class CompanyController extends AppController
+class CompanyController extends UsersController
 {
 
     public function initialize()
@@ -176,6 +176,72 @@ class CompanyController extends AppController
       $parent_id = $this->Auth->user('userrole') == "company" ? $this->Auth->user('id') : $this->Auth->user('parent_id');
        
        $designation = $this->LeaveType->find('all',['conditions' => ["company_id" => $parent_id ]]);
+      
+       
+       $this->set('designation', $designation);
+       $this->set('siteurl', $siteurl);
+    }
+
+
+    public function expensetypes($id = 0, $action = ''){
+       
+       $this->ExpenseType = TableRegistry::get('expense_types');
+
+       $siteurl =  Router::url('/', true);
+
+
+       if($action == 'delete')
+       {
+            $this->ExpenseType->delete($this->ExpenseType->get($id));
+            $this->Flash->success('Leave Type has been deleted successfully!!');
+            $this->redirect(array("action" => 'leavetypes'));
+       }
+       elseif ($this->request->is('post') )
+       {
+            $data = $this->request->data;
+
+            if(isset($data['id'])){
+                $user = $this->ExpenseType->get($data['id']);
+                $user = $this->ExpenseType->patchEntity($user, $this->request->data);
+                $user_save  = $this->ExpenseType->save($user);
+                if ($user_save) {
+                    //echo  $data['id'];
+                   
+                    $this->Flash->success('Leave Type has been updated successfully!!');
+                    //$this->set('success_msg', 'Client Details has been updated successfully!!');
+                }
+            }
+            else{
+                $user = $this->ExpenseType->newEntity();
+                if($this->Auth->user('userrole') != "admin")
+                 $this->request->data['company_id'] = $this->Auth->user('userrole') == "company" ? $this->Auth->user('id') : $this->Auth->user('parent_id');
+             //$this->request->data['company_id'] = 8;
+            //print_r($this->request->data);exit;
+             //pr($user);exit;
+                $user = $this->ExpenseType->patchEntity($user, $this->request->data);
+                    //pr($user);exit;
+                $user_save  = $this->ExpenseType->save($user);
+               
+                if ($user_save) {
+                   
+                    $this->Flash->success('New Leave Type has been added successfully!!');
+                    //$this->set('success_msg', 'New Client has been added successfully!!');
+
+                }else
+                $this->Flash->error('Unable to add Leave Type!!');
+                }
+
+            $this->redirect(array("action" => 'leavetypes'));
+       }
+       elseif($id)
+       {
+            $designation = $this->ExpenseType->get($id);
+                $this->set('client', $designation);
+       }
+
+      $parent_id = $this->Auth->user('userrole') == "company" ? $this->Auth->user('id') : $this->Auth->user('parent_id');
+       
+       $designation = $this->ExpenseType->find('all',['conditions' => ["company_id" => $parent_id ]]);
       
        
        $this->set('designation', $designation);
