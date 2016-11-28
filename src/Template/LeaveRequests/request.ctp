@@ -1,4 +1,4 @@
-
+<?php ?>
   <div class="panel">
     <div class="panel-body content-box">
       <h3 class="title-hero bg-primary">Leave Request</h3>

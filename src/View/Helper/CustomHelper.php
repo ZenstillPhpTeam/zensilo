@@ -18,6 +18,14 @@ class CustomHelper extends Helper
         return count($requests);
     }
 
+    public function get_time_sheet_count($user_id) {
+        
+        $this->TimeSheetWeek = TableRegistry::get('time_sheet_weeks');
+    
+        $requests =  $this->TimeSheetWeek->find('all')->where(['manager_id' => $user_id,'status' => 1])->select(['id'])->toArray();
+
+        return count($requests);
+    }
 
     public function current_week_range($date) {
         
@@ -25,5 +33,7 @@ class CustomHelper extends Helper
         $start = (date('w', $ts) == 0) ? $ts : strtotime('last sunday', $ts);
         return array(date('Y-m-d', $start),date('Y-m-d', strtotime('next saturday', $start)));
     }
+
+    
 
 }
