@@ -37,7 +37,7 @@
         Expense Type
         </th>
        
-        <th tabindex="0" aria-controls="datatable-example" rowspan="1" colspan="1"  >Actions</th>
+        <th tabindex="0" aria-controls="datatable-example" rowspan="1" colspan="1" >Actions</th>
         
         </tr>
         </thead>
