@@ -9,7 +9,7 @@ use Cake\Datasource\ConnectionManager;
 use Cake\Mailer\Email;
 use Cake\Routing\Router;
 
-class LeaveRequestsController extends UsersController
+class LeaverequestsController extends UsersController
 {
 
     public function request($id = 0, $action = '')

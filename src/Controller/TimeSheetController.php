@@ -10,7 +10,7 @@ use Cake\Mailer\Email;
 use Cake\Routing\Router;
 use Cake\View\Helper\CustomHelper;
 
-class TimeSheetController extends UsersController
+class TimesheetController extends UsersController
 {
 
     public function add()
