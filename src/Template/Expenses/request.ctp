@@ -143,7 +143,7 @@
                 <div class="form-group .bordered-row">
                   <label class="col-sm-3 control-label">Date</label>
                   <div class="col-sm-6">
-                    <input name="applied_date" type="text" class="bootstrap-datepicker2 form-control"  data-date-format="yyyy-mm-dd" required="" value="<?= $request->applied_date; ?>"/>
+                    <input name="applied_date" type="text" class="bootstrap-datepicker2 form-control"  data-date-format="yyyy-mm-dd" required="" value="<?= $this->Time->format($request->applied_date, 'Y-MM-dd');?>"/>
                   </div>
                 </div>
 

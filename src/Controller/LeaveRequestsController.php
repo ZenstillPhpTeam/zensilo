@@ -74,15 +74,6 @@ class LeaveRequestsController extends UsersController
                 $this->redirect(array("action"=>'response'));
             }
         }
-        elseif($action == 'reject')
-        {
-            $accept = $this->LeaveRequest->get($id);
-            $accept->status = 2;
-            if($this->LeaveRequest->save($accept)){
-                $this->Flash->success('Leave request has been rejected successfully!!');
-                $this->redirect(array("action"=>'response'));
-            }
-        }
         elseif($id)
         {
             $request = $this->LeaveRequest->find('all')
@@ -93,6 +84,22 @@ class LeaveRequestsController extends UsersController
             $this->set('request', $request);
         }
 
+        if ($this->request->is('post') )
+        { 
+            $reject = $this->request->data;
+
+            if($reject['fmaction'] == 'reject'){
+
+                $rejects = $this->LeaveRequest->get($reject['id']);
+                $rejects->status = 2;
+                $rejects->reject_reason = $reject['reason'];
+                if($this->LeaveRequest->save($rejects)){
+                    $this->Flash->success('Leave request has been rejected successfully!!');
+                    $this->redirect(array("action"=>'response'));
+                }
+            }
+        }
+
         $requests =  $this->LeaveRequest->find('all')->order(['leave_requests.status' => 'ASC','leave_requests.id' => 'DESC'])
         ->leftJoin('users', 'users.id = leave_requests.user_id')
         ->leftJoin('leave_types', 'leave_types.id = leave_requests.type_id')
@@ -100,6 +107,7 @@ class LeaveRequestsController extends UsersController
         ->select(['leave_requests.id','leave_requests.no_of_days','leave_requests.start_date','leave_requests.end_date','leave_requests.reason','leave_requests.status','leave_requests.created','users.username','leave_types.type']);
 
         $this->set('requests', $requests);
+        $this->set('requestid', $id);
     }
    
 }

@@ -60,10 +60,7 @@ $(window).load(function(){
               <li><a href="<?= $this->Url->build(array("controller"=> "users","action" => "projects"));?>" title="Projects"><span>Projects</span></a></li>
               <li><a href="<?= $this->Url->build(array("controller"=> "users","action" => "clients"));?>" title="Clients"><span>Clients</span></a></li>
               <li><a href="<?= $this->Url->build(array("controller"=> "users","action" => "teams"));?>" title="Teams"><span>Teams</span></a></li>
-              <li><a href="icons.html" title="Icons"><span>Icons</span></a></li>
-              <li><a href="nav-menus.html" title="Navigation menus"><span>Navigation menus</span></a></li>
-              <li><a href="response-messages.html" title="Response messages"><span>Response messages</span></a></li>
-              <li><a href="images.html" title="Images"><span>Images</span></a></li>
+              
               </ul></div>
           </li>
 
@@ -75,13 +72,22 @@ $(window).load(function(){
 
 
           <!-- elango menus -->
-          <li><a href="<?= $this->Url->build(array("controller" => "leaverequests","action" => "response"));?>" title="Leave Requests">
+          <li><a href="<?= $this->Url->build(array("controller" => "leave_requests","action" => "response"));?>" title="Leave Requests">
           <i class="glyph-icon icon-linecons-tv">
           <i class="bs-badge badge-warning"><?=  $this->Custom->get_leave_request_count($loggedInUser['id']); ?></i></i> 
           <span>Leave Requests</span></a></li>
 
-          <li><a href="<?= $this->Url->build(array("controller" => "leaverequests","action" => "request"));?>" title="Leave Requests">
+          <li><a href="<?= $this->Url->build(array("controller" => "leave_requests","action" => "request"));?>" title="Leave Requests">
           <i class="glyph-icon icon-linecons-tv"></i> <span>My Leave Requests</span></a></li>
+
+          <li><a href="<?= $this->Url->build(array("controller" => "time_sheet","action" => "lists"));?>" title="Leave Requests">
+          <i class="glyph-icon icon-linecons-tv">
+          <i class="bs-badge badge-warning"><?=  $this->Custom->get_time_sheet_count($loggedInUser['id']);?></i></i> 
+          <span>Time Sheet List</span></a></li>
+
+          <li><a href="<?= $this->Url->build(array("controller" => "time_sheet","action" => "add"));?>" title="Leave Requests">
+          <i class="glyph-icon icon-linecons-tv"></i> <span>My Time Sheet</span></a></li>
+
 
           <!-- elango menus end -->
 
@@ -143,8 +149,6 @@ $(window).load(function(){
 
   <script type="text/javascript">
     var angular_module = angular.module('zensilo', ['opentok', 'opentok-whiteboard']);
-
-
   </script>
 
   <?= $this->Html->script(array('../assets/widgets/dropdown/dropdown', '../assets/widgets/tooltip/tooltip', '../assets/widgets/popover/popover', '../assets/widgets/progressbar/progressbar', '../assets/widgets/button/button', '../assets/widgets/collapse/collapse', '../assets/widgets/superclick/superclick', '../assets/widgets/input-switch/inputswitch-alt', '../assets/widgets/slimscroll/slimscroll', '../assets/widgets/slimscroll/slimscroll', '../assets/widgets/slidebars/slidebars', '../assets/widgets/slidebars/slidebars-demo', '../assets/widgets/charts/piegage/piegage', '../assets/widgets/charts/piegage/piegage-demo', '../assets/widgets/screenfull/screenfull', '../assets/widgets/content-box/contentbox', '../assets/widgets/material/material', '../assets/widgets/material/ripples', '../assets/widgets/overlay/overlay', '../assets/js-init/widgets-init', '../assets/themes/admin/layout','../assets/widgets/datatable/datatable','../assets/widgets/datatable/datatable-bootstrap','../assets/widgets/datatable/datatable-tabletools','../assets/widgets/parsley/parsley','../assets/widgets/multi-select/multiselect', '../assets/widgets/wizard/wizard', '../assets/widgets/wizard/wizard-demo', '../assets/widgets/tabs/tabs', '../assets/widgets/chosen/chosen', '../assets/widgets/chosen/chosen-demo','../assets/widgets/parsley/parsley','../assets/widgets/datepicker/datepicker','../assets/widgets/datepicker-ui/datepicker','../assets/widgets/interactions-ui/resizable','../assets/widgets/interactions-ui/draggable','../assets/widgets/interactions-ui/sortable', 'opentok-layout', 'opentok-angular', 'opentok-whiteboard','../assets/angular/timesheet')) ?>
@@ -156,7 +160,7 @@ $(window).load(function(){
   <script>
      $(document).ready(function() {
 
-        $("[type='submit']").click(function(){
+        $("[type='submit']").click(function(){ 
            $(this).parents("form").submit();
         });
         $('#datatable-example').dataTable();
@@ -165,6 +169,13 @@ $(window).load(function(){
             format: 'yyyy-mm-dd'
         });
         $('.bootstrap-datepicker1').bsdatepicker({
+            format: 'yyyy-mm-dd'
+        });
+
+        $('.bootstrap-datepickere').bsdatepicker({
+            format: 'yyyy-mm-dd'
+        });
+        $('.bootstrap-datepickere1').bsdatepicker({
             format: 'yyyy-mm-dd'
         });
 
@@ -183,5 +194,4 @@ $(window).load(function(){
   </script>
   </div>
 </body>
-<!-- Mirrored from agileui.com/demo/delight/demo/admin-template/forms-wizard.html by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 22 Oct 2016 11:08:31 GMT -->
 </html>

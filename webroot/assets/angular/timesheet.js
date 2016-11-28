@@ -1,7 +1,7 @@
 angular_module
 .controller('TimesheetCtrl', function($scope,$http,$location,$rootScope,$filter) {
 
-	var siteUrl = 'http://localhost/elango/zensilo/';
+	var siteUrl = 'http://zensilo.com/';
 
 	$scope.TimeSheetData = [];
 
@@ -9,7 +9,7 @@ angular_module
   $scope.SelectWeek = 'Select week';
   $scope.nextTSWeekId = 0;
 
-	$http.get(siteUrl+'timesheet/getData').then(function (res) {
+	$http.get(siteUrl+'time_sheet/getData').then(function (res) {
 
 		$scope.TimeSheetData = res.data; 
 
@@ -33,7 +33,7 @@ angular_module
   $scope.save_timeSheet = function(data,status){
 
     var data = {'status': status,'data':data};
-    $http.post(siteUrl+'timesheet/add',data).then(function (res) {
+    $http.post(siteUrl+'time_sheet/add',data).then(function (res) {
 
       //console.log(res);
           
@@ -62,7 +62,7 @@ angular_module
 
   $scope.change_timeSheet_range = function(id){
 
-    $http.get(siteUrl+'timesheet/getData/'+id).then(function (res) {
+    $http.get(siteUrl+'time_sheet/getData/'+id).then(function (res) {
 
       $scope.TimeSheetData = res.data; 
       $scope.SelectMonth = 'Select month';
