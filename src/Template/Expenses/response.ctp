@@ -19,8 +19,7 @@
         </th>
         <th class="sorting" tabindex="0" aria-controls="datatable-example" rowspan="1" colspan="1" aria-label="Engine version: activate to sort column ascending" > Name </th>
         <th class="sorting" tabindex="0" aria-controls="datatable-example" rowspan="1" colspan="1" aria-label="Engine version: activate to sort column ascending" > Type </th>
-        <th class="sorting" tabindex="0" aria-controls="datatable-example" rowspan="1" colspan="1" aria-label="Engine version: activate to sort column ascending" > Start Date</th>
-        <th class="sorting" tabindex="0" aria-controls="datatable-example" rowspan="1" colspan="1" aria-label="Engine version: activate to sort column ascending" > End Date</th>
+        <th class="sorting" tabindex="0" aria-controls="datatable-example" rowspan="1" colspan="1" aria-label="Engine version: activate to sort column ascending" > Applied Date</th>
         <th class="sorting" tabindex="0" aria-controls="datatable-example" rowspan="1" colspan="1" aria-label="Rendering engine: activate to sort column ascending">
         No Of Days
         </th>
@@ -39,9 +38,8 @@
               <td><?= $k+1?></td>
               <td class="sorting_1"><?= $request_det->users['username']; ?></td>
               <td class="sorting_1"><?= $request_det->leave_types['type']; ?></td>
-              <td class="sorting_1"><?= $request_det->start_date ?></td>
-              <td class="center"><?= $request_det->end_date ?></td>
-              <td class="center"><?= $request_det->no_of_days ?></td>
+              <td class="sorting_1"><?= $request_det->applied_date ?></td>
+              <td class="center"><?= $request_det->amount ?></td>
               <td class="center"><?= $request_det->reason ?></td>
               <td class="center"><?= $request_det->created ?></td>
               <td class="center"> 

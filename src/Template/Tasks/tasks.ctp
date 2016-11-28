@@ -103,9 +103,7 @@
 </script>  
  <?php if(isset($copy_task)){ ?> 
   <script type="text/javascript">
-  
-     $("#addclient").trigger("click");
-    
+     $("#addclient").trigger("click");  
   </script>  <?php } ?>
     
 <div class="modal fade bs-edit-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
