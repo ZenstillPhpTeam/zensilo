@@ -75,20 +75,20 @@ $(window).load(function(){
 
 
           <!-- elango menus -->
-          <li><a href="<?= $this->Url->build(array("controller" => "leaverequests","action" => "response"));?>" title="Leave Requests">
+          <li><a href="<?= $this->Url->build(array("controller" => "leave_requests","action" => "response"));?>" title="Leave Requests">
           <i class="glyph-icon icon-linecons-tv">
           <i class="bs-badge badge-warning"><?=  $this->Custom->get_leave_request_count($loggedInUser['id']); ?></i></i> 
           <span>Leave Requests</span></a></li>
 
-          <li><a href="<?= $this->Url->build(array("controller" => "leaverequests","action" => "request"));?>" title="Leave Requests">
+          <li><a href="<?= $this->Url->build(array("controller" => "leave_requests","action" => "request"));?>" title="Leave Requests">
           <i class="glyph-icon icon-linecons-tv"></i> <span>My Leave Requests</span></a></li>
 
-          <li><a href="<?= $this->Url->build(array("controller" => "timesheet","action" => "lists"));?>" title="Leave Requests">
+          <li><a href="<?= $this->Url->build(array("controller" => "time_sheet","action" => "lists"));?>" title="Leave Requests">
           <i class="glyph-icon icon-linecons-tv">
           <i class="bs-badge badge-warning"><?=  $this->Custom->get_time_sheet_count($loggedInUser['id']);?></i></i> 
           <span>Time Sheet List</span></a></li>
 
-          <li><a href="<?= $this->Url->build(array("controller" => "timesheet","action" => "add"));?>" title="Leave Requests">
+          <li><a href="<?= $this->Url->build(array("controller" => "time_sheet","action" => "add"));?>" title="Leave Requests">
           <i class="glyph-icon icon-linecons-tv"></i> <span>My Time Sheet</span></a></li>
 
 

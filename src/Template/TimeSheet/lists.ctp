@@ -174,12 +174,6 @@
 
 <?php } ?>
 
-
-<script src="http://blueimp.github.io/JavaScript-Templates/js/tmpl.min.js"></script>
-<script src="http://blueimp.github.io/JavaScript-Load-Image/js/load-image.all.min.js"></script>
-<script src="http://blueimp.github.io/JavaScript-Canvas-to-Blob/js/canvas-to-blob.min.js"></script>
-<script src="http://blueimp.github.io/Gallery/js/jquery.blueimp-gallery.min.js"></script>
-
 <script>
 function setprojectid(id){
   //console.log(id);
