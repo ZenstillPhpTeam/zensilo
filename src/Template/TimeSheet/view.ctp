@@ -1,24 +1,33 @@
-<?= $this->Html->script(array('../assets/widgets/wizard/wizard', '../assets/widgets/wizard/wizard-demo', '../assets/widgets/tabs/tabs', '../assets/widgets/chosen/chosen', '../assets/widgets/chosen/chosen-demo','../assets/widgets/parsley/parsley','../assets/widgets/datepicker/datepicker','../assets/widgets/datepicker-ui/datepicker','../assets/angular/angular.min','../assets/angular/timesheet')) ?>
-
-  <div ng-app="TimesheetApp" ng-controller="TimesheetCtrl" class="panel">
+<?php ?>
+  <div class="panel">
     <div class="panel-body content-box">
       <h3 class="title-hero bg-primary">Time Sheet</h3>
       <div class="example-box-wrapper">
         <div class="panel" >
           <div class="panel-body">
 
-            <h3 class="title-hero"> Time Sheet Add
+            <h3 class="title-hero"> Time Sheet view  
+
+              <span style=" margin-left: 33%;padding: 10px;" class="bs-label label-info"> 
+      <?php echo date("d M Y", strtotime($result['weekdays'][0])); ?> to <?php echo date("d M Y", strtotime($result['weekdays'][6])); ?>
+              </span>
               
               <div class="float-right" >
-              <button ng-click="add_new_row();" class="btn btn-alt btn-hover btn-primary "  data-toggle="modal" data-target=".bs-example-modal-lg">
-                <span>Add Row</span> <i class="glyph-icon icon-arrow-right"></i><div class="ripple-wrapper"></div>
-              </button>
-              <button ng-click="save_timeSheet(TimeSheetData,0);" class="btn btn-alt btn-hover btn-primary "  data-toggle="modal" data-target=".bs-example-modal-lg">
-                <span>Save</span> <i class="glyph-icon icon-arrow-right"></i><div class="ripple-wrapper"></div>
-              </button>
-               <button ng-click="save_timeSheet(TimeSheetData,1);"  class="btn btn-alt btn-hover btn-primary "  data-toggle="modal" data-target=".bs-example-modal-lg">
-                <span>Submit</span> <i class="glyph-icon icon-arrow-right"></i><div class="ripple-wrapper"></div>
-              </button>
+
+                <a class="btn btn-hover btn-primary" href="<?= $this->Url->build(array("action" => "lists"));?>"> Cancel</a>
+                <?php if($result['status'] == 1) { ?>
+                
+                <a class="btn btn-hover btn-success" href="<?= $this->Url->build(array("action" => "view", $result['id'],'accept'));?>">Accept</a>
+                
+                <a class="btn btn-hover btn-danger" data-toggle="modal" data-target=".rejectModal" href="javascript;">Reject</a>
+                <?php } elseif($result['status'] == 2) { ?>
+                
+                <a class="btn btn-hover btn-danger" data-toggle="modal" data-target=".rejectModal" href="javascript;">Reject</a>
+                <?php } elseif($result['status'] == 3) { ?>
+                
+                <a class="btn btn-hover btn-success" href="<?= $this->Url->build(array("action" => "view", $result['id'] ,'accept'));?>">Accept</a>
+                <?php } ?>
+      
               </div>
 
             </h3>
@@ -31,10 +40,10 @@
                     
                     <div class="col-md-2"> <span style="margin-left:10px;">Project</span> </div>
                     <div class="col-md-2"> <span style="margin-left:10px;">Task</span> </div>
-
-                    <div class="col-md-1" ng-repeat="day in TimeSheetData.dates"> <span>{{day | date: 'EEE d'}}</span> </div>
-
-                    <div class="col-md-1"> <span>Remove</span> </div>
+                    <?php foreach($result['weekdays'] as $k => $res){ ?>
+                    <div class="col-md-1"> <span> <?php echo date("D d", strtotime($res)); ?> </span> </div>
+                    <?php } ?>
+                    <div class="col-md-1"> <span>Total Hrs</span> </div>
 
                   </div>
                   
@@ -42,53 +51,31 @@
                 </div>
 
                 <div class="list-group">
-
-                  <a ng-repeat="(key,days) in TimeSheetData.days" style="border-bottom: 1px solid #4caf50;margin-top: 1px;" class="list-group-item">
+                  <?php foreach($result['days'] as $k => $res){  ?>
+                  <a style="border-bottom: 1px solid #4caf50;margin-top: 1px;" class="list-group-item">
                     <div class="row">
                       
                     <div class="col-md-2"> 
-                      <div class="selector" style="width: 98px;">
-                        <span style="width: 76px; -moz-user-select: none;">{{TimeSheetData.days[key]['project_name']}}</span>
-
-                        <select ng-model="TimeSheetData.days[key]['project']" class="custom-select">
-                          <option ng-click="TimeSheetData.days[key]['project_name'] = 'Select Project'" ng-selected="project.id == TimeSheetData.days[key]['project']" value="0">Select Project</option>
-                          <option ng-click="TimeSheetData.days[key]['project_name'] = project.project_name" ng-selected="project.id == TimeSheetData.days[key]['project']" ng-repeat="project in TimeSheetData.projects" value="{{project.id}}">{{project.project_name}}</option>
-                        </select>
-
-                        <i class="glyph-icon icon-caret-down"></i>
-                      </div> 
+                      <span> <?php echo $res['project_name']; ?> </span> 
                     </div>
 
                     <div class="col-md-2"> 
-                      <div class="selector" style="width: 98px;">
-                        <span style="width: 76px; -moz-user-select: none;">{{TimeSheetData.days[key]['task_name']}}</span>
-
-                        <select ng-model="TimeSheetData.days[key]['task']" name="" class="custom-select">
-                          <option ng-click="TimeSheetData.days[key]['task_name'] = 'Select Task'" ng-selected="task.id == TimeSheetData.days[key]['task']" value="0">Select Task</option>
-                          <option ng-click="TimeSheetData.days[key]['task_name'] = task.task_name" ng-selected="task.id == TimeSheetData.days[key]['task']" ng-repeat="task in TimeSheetData.tasks" 
-                          value="{{task.id}}"> {{task.task_name}}</option>
-                        </select>
-
-                        <i class="glyph-icon icon-caret-down"></i>
-                      </div> 
+                      <span> <?php echo $res['task_name']; ?> </span> 
                     </div>
 
-                    <div ng-repeat="(datehrs,hrs) in days.days_hrs" class="col-md-1">
-                      <div ng-init="isDisabled[key][datehrs] = false" class="input-group">
-                        <input ng-disabled="isDisabled[key][datehrs]" ng-model="TimeSheetData.days[key]['days_hrs'][datehrs]" class="form-control" type="text">
-                         <span class="input-group-addon bg-blue">
-                          <i ng-click="isDisabled[key][datehrs] = false" style="cursor: pointer;" class="glyph-icon icon-pencil"></i>
-                        </span>
-                      </div> 
+                    <?php foreach($res['days_hrs'] as $k1 => $hrs){  ?>
+                    <div class="col-md-1">
+                     <span> <?php echo $hrs; ?> </span> 
                     </div>
+                    <?php } ?>
 
                     <div class="col-md-1" style="text-align: center;"> 
-                      <span><i style="cursor: pointer;" ng-click="remove_row(key);" title="Remove" class="glyph-icon icon-close"></i></span> 
+                      <span> <?php echo $res['total_hrs']; ?> </span> 
                     </div>
 
                     </div>
                   </a> 
-
+                  <?php } ?>
           
                  
                  
@@ -96,9 +83,51 @@
               </div>
             </div>
 
+
+            <div class="example-box-wrapper" style="margin-top: 100px;">
+              <div class="content-box-header clearfix bg-green" style=" border-top-left-radius: 0px;border-top-right-radius: 0px; border-bottom-left-radius: 3px;border-bottom-right-radius: 3px;font-size: 12px;font-weight: bold; padding: 10px !important;">
+                
+              </div>
+            </div>
+           
           </div>
         </div>
       </div>
     </div>
   </div>
       
+<div class="modal fade bs-edit-modal-lg rejectModal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-contentss" style=" background-color: white;">
+    
+      <form method="post" class="form-horizontal bordered-row" data-parsley-validate=""> 
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+          <h4 class="modal-title">Time Sheet Reject</h4>
+        </div>
+        <div class="modal-body">
+          <div class="content-box-wrapper">
+
+              <div class="row">
+
+                <div class="form-group">
+                  <label class="col-sm-3 control-label">Reason for reject</label>
+                  <div class="col-sm-6">
+                    <textarea name="reason" id="" class="form-control" required=""></textarea>
+                  </div>
+                </div>
+
+              </div>
+
+             <input type="hidden" name="fmaction" value="reject">
+             <input type="hidden" name="id" value="<?= $result['id']; ?>">
+          
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default " data-dismiss="modal">Close</button> 
+          <button type="submit" class="btn btn-hover btn-primary">Save changes</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
