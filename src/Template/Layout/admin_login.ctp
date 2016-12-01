@@ -28,7 +28,7 @@ $(window).load(function(){
 <body>
 <div id="loading">
 <div class="svg-icon-loader">
-<img src="<?= $this->Url->build("/"); ?>assets/images/svg-loaders/bars.svg" width="40" alt="">
+<img src="<?= $this->Url->build("/"); ?>img/bars.svg" width="40" alt="">
 </div>
 </div>
 <style type="text/css">html,body {

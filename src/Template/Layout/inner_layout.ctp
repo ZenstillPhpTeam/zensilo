@@ -35,7 +35,7 @@ $(window).load(function(){
   <?= $this->element('slidebar_right');?>
   
   <div id="loading">
-    <div class="svg-icon-loader"><img src="https://agileui.com/demo/delight/assets/images/svg-loaders/bars.svg" width="40" alt=""></div>
+    <div class="svg-icon-loader"><img src="<?= $this->Url->build("/"); ?>img/bars.svg" width="40" alt=""></div>
   </div>
   <div id="page-wrapper">
     <div id="mobile-navigation">
@@ -90,7 +90,7 @@ $(window).load(function(){
               <ul>
               <li><a href="<?= $this->Url->build(array("controller"=> "company", "action" => "designation"));?>" title="Projects"><span>Designation</span></a></li>
               <li><a href="<?= $this->Url->build(array("controller"=> "company","action" => "leavetypes"));?>" title="Clients"><span>Leave Types</span></a></li>
-              <li><a href="<?= $this->Url->build(array("action" => "teams"));?>" title="Teams"><span>Teams</span></a></li>
+              <li><a href="<?= $this->Url->build(array("controller"=> "users", "action" => "teams"));?>" title="Teams"><span>Teams</span></a></li>
               </ul>
               </div>
           </li>
@@ -111,7 +111,7 @@ $(window).load(function(){
                   </div>
                   <div class="divider"></div>
                   
-                  <div class="button-pane button-pane-alt pad5L pad5R text-center"><a href="<?= $this->Url->build(array("action" => "logout"));?>" class="btn btn-flat display-block font-normal btn-danger"><i class="glyph-icon icon-power-off"></i> Logout</a></div>
+                  <div class="button-pane button-pane-alt pad5L pad5R text-center"><a href="<?= $this->Url->build(array("controller"=> "users", "action" => "logout"));?>" class="btn btn-flat display-block font-normal btn-danger"><i class="glyph-icon icon-power-off"></i> Logout</a></div>
                 </div>
               </div>
             </div>
@@ -129,8 +129,8 @@ $(window).load(function(){
               <i class="glyph-icon icon-linecons-paper-plane"></i>
             </a>
           </div>
-        </div>
         
+        </div>
         <?= $this->Flash->render() ?>
         <?= $this->fetch('content') ?>
       </div>

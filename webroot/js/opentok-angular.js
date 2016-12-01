@@ -94,7 +94,7 @@ ng.module('opentok', [])
           });
 
           
-          OT.registerScreenSharingExtension('chrome', extensionId, 2);
+          //OT.registerScreenSharingExtension('chrome', extensionId, 2);
 
           this.trigger('init');
         },

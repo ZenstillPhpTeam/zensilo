@@ -46,7 +46,7 @@ angular_module
             diff = current_time_stamp - v;
             if(!$scope.$$phase) {
               $scope.$apply(function(){
-                if(diff > 15000)
+                if(diff > 10000)
                   $scope.online_users[k] = false;
                 else
                   $scope.online_users[k] = true;
@@ -54,7 +54,7 @@ angular_module
             }
             else
             {
-              if(diff > 15000)
+              if(diff > 10000)
                 $scope.online_users[k] = false;
               else
                 $scope.online_users[k] = true;
@@ -181,18 +181,35 @@ angular_module
           $http.get("<?= $this->Url->build(['controller' => 'ajax', 'action' => 'opentok']);?>").then(function(res){
             if(res['data'])
             {
-                      OTSession.init(res['data'].apikey, res['data'].sessionId, res['data'].token, function (err) {
-                        if (!err) {
-                          $scope.$apply(function () {
-                            $scope.start_video_chat_load = true;
-                            res['data']['user_id'] = <?= $loggedInUser['id']; ?>;
-                            res['data']['type'] = "video_chat";
-                            $scope.current_token = res['data'];
-                            $scope.send_notification(id, res['data']);
-                            $scope.is_initiater = true;
-                          });
-                        }
-                      });
+                OTSession.init(res['data'].apikey, res['data'].sessionId, res['data'].token, function (err) {
+                  if (!err) {
+                    $scope.$apply(function () {
+                      $scope.start_video_chat_load = true;
+                      res['data']['user_id'] = <?= $loggedInUser['id']; ?>;
+                      res['data']['type'] = "video_chat";
+                      $scope.current_token = res['data'];
+                      $scope.send_notification(id, res['data']);
+                      $scope.is_initiater = true;
+                    });
+
+                    OTSession.session.on('signal:joined_meeting', function (event) {
+                      console.log(event);
+                      OTSession.session.signal( 
+                            {  type: 'whiteboard',
+                               data: $scope.whiteboard
+                            }, 
+                            function(error) {
+                                if (error) {
+                                  console.log("signal error ("
+                                         + error.code
+                                         + "): " + error.message);
+                                } else {
+                                  console.log("whiteboard signal sent.");
+                                }
+                            });
+                    });
+                  }
+                });
             }
           });
         };
@@ -205,11 +222,33 @@ angular_module
             $scope.start_video_chat = res.user_id;
             $scope.is_receiver = true;
             OTSession.init(res.apikey, res.sessionId, res.token, function (err) {
-                        if (!err) {
-                          $scope.$apply(function () {
-                            $scope.start_video_chat_load = true;
-                          });
-                        }
+                if (!err) {
+                  $scope.$apply(function () {
+                    $scope.start_video_chat_load = true;
+                  });
+                  
+                  OTSession.session.signal( 
+                  {  type: 'joined_meeting',
+                     data: {}
+                  }, 
+                  function(error) {
+                      if (error) {
+                        console.log("signal error ("
+                               + error.code
+                               + "): " + error.message);
+                      } else {
+                        console.log("joined_meeting signal sent.");
+                      }
+                  });
+
+                  OTSession.session.on('signal:whiteboard', function (event) {
+                    console.log(event);
+                    $scope.$apply(function(){
+                      $scope.whiteboard = event.data;
+                    });
+                  });
+                  
+                }
             });
         }
 
@@ -230,6 +269,25 @@ angular_module
             $scope.current_token = false;
             $scope.is_initiater = false;
             $scope.is_receiver = false;
+        };
+
+        $scope.whiteboard_change = function(st)
+        {
+            $scope.whiteboard = st;
+
+            OTSession.session.signal( 
+            {  type: 'whiteboard',
+               data: $scope.whiteboard
+            }, 
+            function(error) {
+                if (error) {
+                  console.log("signal error ("
+                         + error.code
+                         + "): " + error.message);
+                } else {
+                  console.log("joined_meeting signal sent.");
+                }
+            });
         };
 
     });

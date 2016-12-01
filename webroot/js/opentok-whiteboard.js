@@ -28,7 +28,7 @@ var OpenTokWhiteboard = ng.module('opentok-whiteboard', ['opentok'])
 
             '<div class="OT_panel">' +
 
-            /*'<input type="button" ng-class="{OT_color: true, OT_selected: c[\'background-color\'] === color}" ' +
+            '<input type="button" ng-class="{OT_color: true, OT_selected: c[\'background-color\'] === color}" ' +
             'ng-repeat="c in colors" ng-style="c" ng-click="changeColor(c)">' +
             '</input>' +
 
@@ -38,12 +38,12 @@ var OpenTokWhiteboard = ng.module('opentok-whiteboard', ['opentok'])
 
             '<input type="button" ng-click="redo()" class="OT_capture" value="Redo"></input>' +
 
-            '<input type="button" ng-click="clear()" class="OT_clear" value="Clear"></input>'*/
+            '<input type="button" ng-click="clear()" class="OT_clear" value="Clear"></input>',
 
 
-            '<input type="text" ng-model="color"><input type="text" ng-model="lineWidth">'+
+            /*'<input type="text" ng-model="color"><input type="text" ng-model="lineWidth">'+
             '<input type="button" ng-click="erase()" ng-class="{OT_erase: true, OT_selected: erasing}"' +
-            ' value="Eraser"></input>',
+            ' value="Eraser"></input>',*/
 
         link: function (scope, element, attrs) {
             var canvas = element.context.querySelector("canvas"),

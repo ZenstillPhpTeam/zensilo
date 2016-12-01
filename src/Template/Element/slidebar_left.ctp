@@ -36,7 +36,7 @@
     </div>
   </div>
   
-  <div  class="chat_container">
+  <div ng-cloak class="chat_container">
       <div class="chat_box" ng-repeat="chat in current_chat" ng-show="$index < 2 || $index == current_chat.length-1">
         <div class="chat_header">
           <div class="status-badge"><img class="img-circle" width="20" ng-src="{{getAvatarbyId(chat)}}" alt="">
@@ -70,17 +70,20 @@
                 props="{style: {nameDisplayMode: 'off'}, resolution: '500x300', frameRate: 30}">
               </ot-publisher>
     </ot-layout>
-    <div class="subscriber_layout" >
-      <ot-layout props="{animate:true}" ng-if="start_video_chat">
+    <div class="subscriber_layout" ng-class="{whiteboard_enabled: whiteboard}">
+      <ot-whiteboard ng-if="whiteboard"></ot-whiteboard>
+      <ot-layout props="{animate:true}" ng-if="start_video_chat && !whiteboard">
                 <ot-subscriber ng-repeat="stream in streams" 
                   stream="stream" 
                   props="{style: {nameDisplayMode: 'off'}}">
                 </ot-subscriber>
       </ot-layout>
-      <img class="loading_image" ng-if="!streams.length" src="https://agileui.com/demo/delight/assets/images/svg-loaders/bars.svg" width="40" alt="">
-      <div class="video_call_action">
+      <img class="loading_image" ng-if="!streams.length && !whiteboard" src="<?= $this->Url->build("/"); ?>img/bars.svg" width="40" alt="">
+      <div ng-show="is_initiater" class="video_call_action">
+        <button ng-hide="whiteboard" ng-click="whiteboard_change(true);" class="btn btn-sm btn-warning">Switch to Whiteboard</button>
+        <button ng-show="whiteboard && streams.length" ng-click="whiteboard_change(false);" class="btn btn-sm btn-warning">Back to Video</button>
         <button ng-click="call_again()" class="btn btn-sm btn-warning">Call Again</button>
-        <button ng-click="call_end(1);" class="btn btn-sm btn-danger">End Call</button>
+        <button ng-show="streams.length" ng-click="call_end(1);" class="btn btn-sm btn-danger">End Call</button>
       </div>
     </div>
 </div>
