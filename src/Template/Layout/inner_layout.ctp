@@ -53,19 +53,14 @@ $(window).load(function(){
       <div class="scroll-sidebar">
         <ul id="sidebar-menu">
           <li class="header"><span>Overview</span></li>
-
           <li><a href="<?= $this->Url->build(array("controller"=> "users","action" => "company"));?>" title="Company"><i class="glyph-icon icon-linecons-tv"></i> <span>Company</span></a></li>
           <li><a href="<?= $this->Url->build(array("controller"=> "users","action" => "projects"));?>" title="Projects Menu"><i class="glyph-icon icon-linecons-diamond"></i> <span>Projects</span></a>
-
               <div class="sidebar-submenu" style="display: block;">
               <ul>
               <li><a href="<?= $this->Url->build(array("controller"=> "users","action" => "projects"));?>" title="Projects"><span>Projects</span></a></li>
               <li><a href="<?= $this->Url->build(array("controller"=> "users","action" => "clients"));?>" title="Clients"><span>Clients</span></a></li>
               <li><a href="<?= $this->Url->build(array("controller"=> "users","action" => "teams"));?>" title="Teams"><span>Teams</span></a></li>
-              <li><a href="icons.html" title="Icons"><span>Icons</span></a></li>
-              <li><a href="nav-menus.html" title="Navigation menus"><span>Navigation menus</span></a></li>
-              <li><a href="response-messages.html" title="Response messages"><span>Response messages</span></a></li>
-              <li><a href="images.html" title="Images"><span>Images</span></a></li>
+              
               </ul></div>
           </li>
 
@@ -73,24 +68,36 @@ $(window).load(function(){
 
           <li><a href="<?= $this->Url->build(array("controller"=> "users","action" => "users"));?>" title="Add Users"><i class="glyph-icon icon-elusive-group"></i> <span>Users</span></a></li>
 
+          <li><a href="<?= $this->Url->build(array("controller"=> "expenses","action" => "request"));?>" title="Add Expenses"><i class="glyph-icon icon-elusive-group"></i><span>Expenses</span></a></li>
+
 
           <!-- elango menus -->
           <li><a href="<?= $this->Url->build(array("controller" => "leaverequests","action" => "response"));?>" title="Leave Requests">
           <i class="glyph-icon icon-linecons-tv">
-          <i class="bs-badge badge-warning"><?=  $this->Custom->get_leave_request_count($loggedInUser['id']);?></i></i> 
+          <i class="bs-badge badge-warning"><?=  $this->Custom->get_leave_request_count($loggedInUser['id']); ?></i></i> 
           <span>Leave Requests</span></a></li>
 
           <li><a href="<?= $this->Url->build(array("controller" => "leaverequests","action" => "request"));?>" title="Leave Requests">
           <i class="glyph-icon icon-linecons-tv"></i> <span>My Leave Requests</span></a></li>
+
+          <li><a href="<?= $this->Url->build(array("controller" => "timesheet","action" => "lists"));?>" title="Leave Requests">
+          <i class="glyph-icon icon-linecons-tv">
+          <i class="bs-badge badge-warning"><?=  $this->Custom->get_time_sheet_count($loggedInUser['id']);?></i></i> 
+          <span>Time Sheet List</span></a></li>
+
+          <li><a href="<?= $this->Url->build(array("controller" => "timesheet","action" => "add"));?>" title="Leave Requests">
+          <i class="glyph-icon icon-linecons-tv"></i> <span>My Time Sheet</span></a></li>
+
 
           <!-- elango menus end -->
 
           <li><a href="#" title="Projects Menu"><i class="glyph-icon icon-linecons-diamond"></i> <span>Setting</span></a>
               <div class="sidebar-submenu" style="display: block;">
               <ul>
-              <li><a href="<?= $this->Url->build(array("controller"=> "company", "action" => "designation"));?>" title="Projects"><span>Designation</span></a></li>
-              <li><a href="<?= $this->Url->build(array("controller"=> "company","action" => "leavetypes"));?>" title="Clients"><span>Leave Types</span></a></li>
-              <li><a href="<?= $this->Url->build(array("controller"=> "users", "action" => "teams"));?>" title="Teams"><span>Teams</span></a></li>
+              <li><a href="<?= $this->Url->build(array("controller"=> "company", "action" => "designation"));?>" title="Designation"><span>Designation</span></a></li>
+              <li><a href="<?= $this->Url->build(array("controller"=> "company","action" => "leavetypes"));?>" title="Leave Types"><span>Leave Types</span></a></li>
+              <li><a href="<?= $this->Url->build(array("controller"=> "company","action" => "expensetypes"));?>" title="Expense Types"><span>Expense Types</span></a></li>
+              <li><a href="<?= $this->Url->build(array("action" => "teams"));?>" title="Teams"><span>Teams</span></a></li>
               </ul>
               </div>
           </li>
@@ -152,12 +159,23 @@ $(window).load(function(){
      
   <script>
      $(document).ready(function() {
+
+        $("[type='submit']").click(function(){ 
+           $(this).parents("form").submit();
+        });
         $('#datatable-example').dataTable();
 
         $('.bootstrap-datepicker').bsdatepicker({
             format: 'yyyy-mm-dd'
         });
         $('.bootstrap-datepicker1').bsdatepicker({
+            format: 'yyyy-mm-dd'
+        });
+
+        $('.bootstrap-datepickere').bsdatepicker({
+            format: 'yyyy-mm-dd'
+        });
+        $('.bootstrap-datepickere1').bsdatepicker({
             format: 'yyyy-mm-dd'
         });
 
@@ -176,5 +194,4 @@ $(window).load(function(){
   </script>
   </div>
 </body>
-<!-- Mirrored from agileui.com/demo/delight/demo/admin-template/forms-wizard.html by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 22 Oct 2016 11:08:31 GMT -->
 </html>

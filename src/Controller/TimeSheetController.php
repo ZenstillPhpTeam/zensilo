@@ -10,7 +10,7 @@ use Cake\Mailer\Email;
 use Cake\Routing\Router;
 use Cake\View\Helper\CustomHelper;
 
-class TimeSheetController extends UsersController
+class TimesheetController extends UsersController
 {
 
     public function add()
@@ -72,6 +72,120 @@ class TimeSheetController extends UsersController
             $this->Flash->success(__('The timesheet has been saved.'));
             echo 'success'; exit;
         }
+    }
+
+    public function lists()
+    {
+        $this->TimeSheetWeek = TableRegistry::get('time_sheet_weeks');
+        $this->TimeSheetDay = TableRegistry::get('time_sheet_days');
+
+        $user_id = $this->Auth->user('id');
+        $company_id = $this->Auth->user('parent_id');
+       
+        $requests =  $this->TimeSheetWeek->find('all')->order(['time_sheet_weeks.status' => 'ASC','time_sheet_weeks.id' => 'DESC'])
+        ->leftJoin('users', 'users.id = time_sheet_weeks.user_id')
+        ->where(['time_sheet_weeks.manager_id' => $user_id,'time_sheet_weeks.status >' => 0])
+        ->select(['time_sheet_weeks.id','time_sheet_weeks.start_date','time_sheet_weeks.end_date','time_sheet_weeks.status','time_sheet_weeks.created','time_sheet_weeks.modified','users.username']);
+
+        $this->set('requests', $requests);
+    }
+
+
+    public function view($id = 0, $action = '')
+    {
+        $this->TimeSheetWeek = TableRegistry::get('time_sheet_weeks');
+        $this->TimeSheetDay = TableRegistry::get('time_sheet_days');
+        $this->Project = TableRegistry::get('projects');
+        $this->Task = TableRegistry::get('tasks');
+
+        $user_id = $this->Auth->user('id');
+        $company_id = $this->Auth->user('parent_id');
+
+        $week = $this->TimeSheetWeek->find('all')->where(['time_sheet_weeks.id' => $id])
+                ->leftJoin('users', 'users.id = time_sheet_weeks.user_id')
+                ->select(['time_sheet_weeks.id','time_sheet_weeks.status','time_sheet_weeks.start_date',
+                    'time_sheet_weeks.end_date','users.username'])->first();
+
+        $days = $this->TimeSheetDay->find('all')->where(['time_sheet_days.timesheet_week_id' => $id])
+                ->select(['time_sheet_days.id','time_sheet_days.project_id','time_sheet_days.task_id',
+                    'time_sheet_days.date','time_sheet_days.hours'])->toArray();
+        
+        $projects1 =  $this->Project->find('all')->where(['company_id' =>  $company_id,'status !=' => 'Completed'])
+        ->select(['id','project_name'])->toArray();
+
+        $tasks1 =  $this->Task->find('all')->where(['company_id' => $company_id,'status !=' => 'Completed'])
+        ->select(['id','task_name','project_id'])->toArray();
+               
+        function get_project_name($projects,$pid){
+            foreach ($projects as $project) {
+                if($project->id == $pid) { return $project->project_name;}
+            }
+        }
+
+        function get_task_name($tasks,$tid){
+            foreach ($tasks as $task) {
+                if($task->id == $tid) { return $task->task_name;}
+            }
+        }
+
+        $result = array();
+        
+        $result['id'] = $week->id;
+        $result['username'] = $week->users['username'];
+        $result['status'] = $week->status;
+        $result['start_date'] = $week->start_date;
+        $result['end_date'] = $week->end_date;
+
+        $data = $res = $weekdays = array();
+        foreach ($days as $key => $value) {
+          
+            $tss = strtotime(date($value->date));
+            $data[$value->project_id][$value->task_id][date('Y-m-d', $tss)] = $value->hours; 
+            if(!in_array(date('Y-m-d', $tss), $weekdays)){ $weekdays[] = date('Y-m-d', $tss); }
+        }
+        
+        foreach ($data as $project_id => $project) {
+            foreach ($project as $task_id => $task) {
+                $ress['project'] = $project_id;
+                $ress['project_name'] = get_project_name($projects1,$project_id);
+                $ress['task'] = $task_id;
+                $ress['task_name'] = get_task_name($tasks1,$task_id);
+                $ress['days_hrs'] = $task;
+                $ress['total_hrs'] = array_sum($task);
+                $res[] = $ress;
+            }
+        }
+
+        $result['days'] = $res;
+        $result['weekdays'] = $weekdays;
+
+        $this->set('result', $result);
+
+        if($action == 'accept')
+        {
+            $accept = $this->TimeSheetWeek->get($id);
+            $accept->status = 2;
+            if($this->TimeSheetWeek->save($accept)){
+                $this->Flash->success('Time Sheet has been accepted successfully!!');
+                $this->redirect(array("action"=>'lists'));
+            }
+        }
+
+        if ($this->request->is('post') )
+        { 
+            $reject = $this->request->data;
+            
+            if($reject['fmaction'] == 'reject'){
+                $rejects = $this->TimeSheetWeek->get($reject['id']);
+                $rejects->status = 3;
+                $rejects->reject_reason = $reject['reason'];
+                if($this->TimeSheetWeek->save($rejects)){
+                    $this->Flash->success('Time Sheet has been rejected successfully!!');
+                    $this->redirect(array("action"=>'lists'));
+                }
+            }
+        }
+
     }
 
     public function getData($weeid = null)

@@ -45,7 +45,7 @@
         <div class="input-group-btn ">
                             <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-expanded="true">Actions <span class="caret"></span><div class="ripple-wrapper"></div></button>
                             <ul class="dropdown-menu " role="menu">
-                              <li class="ms-hover"><a href="#">View</a></li>
+                              <li class="ms-hover"><a href="#"  onclick="gettask('<?= $tas->id ?>');">View</a></li>
                               <li class="ms-hover"><a href="#" onclick="settaskid('<?= $tas->id ?>');">Sub Task</a></li>
                               <li class="ms-hover"><a href="<?= $this->Url->build(array("action" => "tasks", $tas->id,"copy"));?>">Copy</a></li>
                               <li class="ms-hover"><a href="#" data-toggle="modal" data-target=".bs-document-modal-lg" onclick="setprojectid('<?= $value->id ?>','<?= $tas->id ?>');" >Documents</a></li>
@@ -61,9 +61,9 @@
         <div class="glyph-icon sort-handle icon-ellipsis-v ui-sortable-handle"></div>
         <label for="sec-todo-1"><?= $tas2->task_name ?></label><span class="bs-label bg-red" title=""><?= $tas2->priority ?></span>
         <div class="float-right">
-          <button class="btn btn-azure tooltip-button" data-toggle="tooltip" data-placement="top" title="" data-original-title="View"><i class="glyph-icon icon-eye" ></i><div class="ripple-wrapper"></div></button>
+          <a class="btn btn-azure tooltip-button" data-toggle="tooltip" data-placement="top" title="" data-original-title="View"  onclick="gettask('<?= $tas2->id ?>');"><i class="glyph-icon icon-eye" ></i><div class="ripple-wrapper"></div></a>
           <a href="<?= $this->Url->build(array("action" => "tasks", $tas2->id));?>" class="btn btn-info tooltip-button" data-toggle="tooltip" data-placement="top" title="" data-original-title="Edit"><i class="glyph-icon icon-edit " ></i><div class="ripple-wrapper"></div></a>       
-          <button class="btn btn-danger tooltip-button" data-toggle="tooltip" data-placement="top" title="" data-original-title="Remove"><i class="glyph-icon icon-remove " ></i><div class="ripple-wrapper"></div></button>
+          <a class="btn btn-danger tooltip-button" data-toggle="tooltip" data-placement="top" title="" data-original-title="Remove" href="<?= $this->Url->build(array("action" => "tasks", $tas->id,"delete"));?>"><i class="glyph-icon icon-remove " ></i><div class="ripple-wrapper"></div></a>
         </div>
         </li>
           <?php } } ?>
@@ -103,9 +103,7 @@
 </script>  
  <?php if(isset($copy_task)){ ?> 
   <script type="text/javascript">
-  
-     $("#addclient").trigger("click");
-    
+     $("#addclient").trigger("click");  
   </script>  <?php } ?>
     
 <div class="modal fade bs-edit-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
@@ -204,6 +202,86 @@
   </div>
 </div>
 <?php } ?>
+
+<div class="modal fade bs-view-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <form method="post" enctype="multipart/form-data" class="form-horizontal bordered-row" data-parsley-validate=""> 
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+          <h4 class="modal-title">View Task</h4>
+        </div>
+        <div class="modal-body">
+          <div class="content-box-wrapper">
+
+              <div class="row">
+                  <div >
+
+                <div class="form-group">
+                  <label class="col-sm-3 control-label">Task Name</label>
+                  <div class="col-sm-6">
+                    <span id="viewtask_name"></span>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="col-sm-3 control-label">Description</label>
+                  <div class="col-sm-6">
+                    <span id="viewdescription"></span>
+                  </div>
+                </div>
+
+                <div class="form-group">
+                  <label class="col-sm-3 control-label">Choose Project</label>
+                  <div class="col-sm-6">
+                    <?php foreach($projects as $key => $value) { ?>
+                      <span class="project_id" id="project_id<?php echo $value['id']; ?>" style="display:none;"><?php echo $value['project_name']; ?></span>
+                      <?php } ?>
+                   
+                  </div>
+                </div>
+
+                <div class="form-group">
+                  <label class="col-sm-3 control-label">Estimated Effort</label>
+                  <div class="col-sm-6">
+                    <span id="viewestimated_effort"></span> Hrs
+                  </div>
+                </div>
+
+                <div class="form-group">
+                  <label class="col-sm-3 control-label">Priority</label>
+                  <div class="col-sm-6">
+                    <span id="viewpriority"></span>
+                  </div>
+                </div>
+
+                <div class="form-group">
+                  <label class="col-sm-3 control-label">Status</label>
+                  <div class="col-sm-6">
+                    <span id="viewstatus"></span>
+                  </div>
+                </div> 
+
+                <div class="form-group .bordered-row">
+                  <label class="col-sm-3 control-label">Due Date</label>
+                  <div class="col-sm-6">
+                    <span id="viewdue_date"></span>
+                  </div>
+                </div>
+                  
+               
+                </div>
+                </div>
+
+            </div>
+          
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default " data-dismiss="modal">Close</button> 
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
         <div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
   <div class="modal-dialog modal-lg">
     <div class="modal-content">
@@ -465,5 +543,22 @@ function setprojectid(pid, tid ){
 function settaskid(tid){
   $('#parent_task_id').val(tid);
   $('#addclient').trigger('click');
+}
+
+function gettask(id){
+  $.get("<?= $this->Url->build(['controller' => 'ajax', 'action' => 'gettask']) ?>/"+id, function(response){
+    response = JSON.parse(response);
+    if(response){
+      $('.bs-view-modal-lg').modal();
+      $('#viewtask_name').text(response.task_name);
+      $('#viewdescription').text(response.description);
+       $('.project_id').css('display','none');
+      $('#project_id'+response.project_id).css('display','block');
+      $('#viewestimated_effort').text(response.estimated_effort);
+      $('#viewpriority').text(response.priority);
+      $('#viewstatus').text(response.status);
+      $('#viewdue_date').text(response.due_date);
+    }
+  });
 }
 </script>

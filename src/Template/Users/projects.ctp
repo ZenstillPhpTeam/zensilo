@@ -49,8 +49,8 @@
         <td class="sorting_1"><?= $project_det->project_name ?></td>
         <td><?= $project_det->description ?></td>
         <td><?= $project_det->estimated_time ?></td>
-        <td class="center"><?= $project_det->estimated_start_date ?></td>
-        <td class="center"><?= $project_det->estimated_end_date ?></td>
+        <td class="center"><?= $this->Time->format($project_det->estimated_start_date, 'Y-MM-dd');?></td>
+        <td class="center"><?= $this->Time->format($project_det->estimated_end_date, 'Y-MM-dd');?></td>
         <td class="center">
               <a href="<?= $this->Url->build(array("action" => "projects", $project_det->id));?>"><i class="glyph-icon demo-icon tooltip-button icon-elusive-pencil" data-toggle="tooltip" data-placement="top" title="" data-original-title="Edit"></i></a>&nbsp;&nbsp;
                 <a href="<?= $this->Url->build(array("action" => "projects", $project_det->id, "delete"));?>" onclick="javascript:confirm('Are you sure want to delete this Project?')"><i class="glyph-icon demo-icon tooltip-button icon-elusive-trash" data-toggle="tooltip" data-placement="top" title="" data-original-title="Delete"></i></a>
@@ -124,14 +124,14 @@
                 <div class="form-group .bordered-row">
                   <label class="col-sm-3 control-label">Estimated Start Date</label>
                   <div class="col-sm-6 input-prepend">
-                    <span class="add-on input-group-addon"><i class="glyph-icon icon-calendar"></i></span><input name="estimated_start_date"  id="" type="text" class="bootstrap-datepicker form-control"  data-date-format="yyyy-mm-dd" required="" value="<?= $project->estimated_start_date ?>"/>
+                    <span class="add-on input-group-addon"><i class="glyph-icon icon-calendar"></i></span><input name="estimated_start_date"  id="" type="text" class="bootstrap-datepickere form-control"  data-date-format="yyyy-mm-dd" required="" value="<?= $this->Time->format($project->estimated_start_date, 'Y-MM-dd');?>"/>
                   </div>
                 </div>
 
                 <div class="form-group">
                   <label class="col-sm-3 control-label">Estimated End Date</label>
                   <div class="col-sm-6 input-prepend">
-                    <span class="add-on input-group-addon"><i class="glyph-icon icon-calendar"></i></span><input name="estimated_end_date"  id="" type="text" class="bootstrap-datepicker1 form-control"   required="" data-date-format="yyyy-mm-dd" value="<?= $project->estimated_end_date ?>" />
+                    <span class="add-on input-group-addon"><i class="glyph-icon icon-calendar"></i></span><input name="estimated_end_date"  id="" type="text" class="bootstrap-datepickere1 form-control"   required="" data-date-format="yyyy-mm-dd" value="<?= $this->Time->format($project->estimated_end_date, 'Y-MM-dd');?>" />
                   </div>
                 </div>
                 
@@ -235,7 +235,7 @@
                 <div class="form-group">
                   <label class="col-sm-3 control-label">Assign Team</label>
                   <div class="col-sm-6">
-                    <select multiple="multiple" class="multi-select" name="teams[]" id="14multiselect" style="position: absolute; left: -9999px;">
+                    <select multiple="multiple" class="multi-select" name="teams[]" id="14multiselect" style="position: absolute; left: -9999px;" required="">
                     <?php foreach($team_members as $key => $value) { ?>
                       <option value="<?php echo $value['user_id']; ?>"><?php echo $value['client_name']; ?></option>
                       <?php } ?>

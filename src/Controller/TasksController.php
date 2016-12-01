@@ -8,46 +8,14 @@ use Cake\Auth\DefaultPasswordHasher;
 use Cake\Datasource\ConnectionManager;
 use Cake\Mailer\Email;
 use Cake\Routing\Router;
-class TasksController extends AppController
+class TasksController extends UsersController
 {
-
-    public function initialize()
-    {
-        parent::initialize();
-        $this->loadComponent('Auth', [
-            'loginRedirect' => [
-                'controller' => 'users',
-                'action' => 'dashboard'
-            ],
-            'logoutRedirect' => [
-                'controller' => 'users',
-                'action' => 'login'
-            ],
-        ]);
-
-    }
-
-    public function beforeFilter(Event $event)
-	{
-	    parent::beforeFilter($event);
-	    // Allow users to register and logout.
-	    // You should not add the "login" action to allow list. Doing so would
-	    // cause problems with normal functioning of AuthComponent.
-
-	    $this->Auth->allow(['index', 'add', 'logout', 'forgotPassword', 'resetPassword','view', 'verify']);
-
-        if($this->Auth->user())
-        {
-            $this->viewBuilder()->layout('inner_layout');
-            $this->set('loggedInUser', $this->Auth->user());
-        }
-        
-	}
 
     public function tasks($id = 0, $action = ''){
 
        $this->Projects = TableRegistry::get('projects');
        $this->Tasks = TableRegistry::get('tasks');
+       $this->ProjectTimeline = TableRegistry::get('project_timeline');
        $siteurl =  Router::url('/', true);
 
        if($action == 'delete')
@@ -114,6 +82,16 @@ class TasksController extends AppController
                 $task_save  = $this->Tasks->save($task);
                 //pr($user);exit;
                 if ($task_save) {
+
+                    $project_timeline = $this->ProjectTimeline->newEntity();
+                        $data['project_id'] = $this->request->data['project_id'];
+                        $data['timeline_type']  = "task";
+                        $data['reference_id']  = $task_save->id;
+                        $data['timeline_text']  = "New Task";
+                        $data['timeline_description']  = "New Task ".$this->request->data['task_name']." Added!!";
+                        $project_timeline = $this->ProjectTimeline->patchEntity($project_timeline, $data);
+                        $project_timeline_save  = $this->ProjectTimeline->save($project_timeline);
+
                     $this->Flash->success('New Task has been added successfully!!');
                     //$this->set('success_msg', 'New Client has been added successfully!!');
                 } else

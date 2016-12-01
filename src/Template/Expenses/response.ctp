@@ -1,4 +1,4 @@
-<?php ?>
+
   <div class="panel">
     <div class="panel-body content-box">
       <h3 class="title-hero bg-primary">Leave Request</h3>
@@ -19,8 +19,7 @@
         </th>
         <th class="sorting" tabindex="0" aria-controls="datatable-example" rowspan="1" colspan="1" aria-label="Engine version: activate to sort column ascending" > Name </th>
         <th class="sorting" tabindex="0" aria-controls="datatable-example" rowspan="1" colspan="1" aria-label="Engine version: activate to sort column ascending" > Type </th>
-        <th class="sorting" tabindex="0" aria-controls="datatable-example" rowspan="1" colspan="1" aria-label="Engine version: activate to sort column ascending" > Start Date</th>
-        <th class="sorting" tabindex="0" aria-controls="datatable-example" rowspan="1" colspan="1" aria-label="Engine version: activate to sort column ascending" > End Date</th>
+        <th class="sorting" tabindex="0" aria-controls="datatable-example" rowspan="1" colspan="1" aria-label="Engine version: activate to sort column ascending" > Applied Date</th>
         <th class="sorting" tabindex="0" aria-controls="datatable-example" rowspan="1" colspan="1" aria-label="Rendering engine: activate to sort column ascending">
         No Of Days
         </th>
@@ -39,9 +38,8 @@
               <td><?= $k+1?></td>
               <td class="sorting_1"><?= $request_det->users['username']; ?></td>
               <td class="sorting_1"><?= $request_det->leave_types['type']; ?></td>
-              <td class="sorting_1"><?= $request_det->start_date ?></td>
-              <td class="center"><?= $request_det->end_date ?></td>
-              <td class="center"><?= $request_det->no_of_days ?></td>
+              <td class="sorting_1"><?= $request_det->applied_date ?></td>
+              <td class="center"><?= $request_det->amount ?></td>
               <td class="center"><?= $request_det->reason ?></td>
               <td class="center"><?= $request_det->created ?></td>
               <td class="center"> 
@@ -162,11 +160,11 @@
           <?php if($req->status == 0) { ?>
           <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Close</button> 
           <a class="btn btn-hover btn-success" href="<?= $this->Url->build(array("action" => "response", $req->id,'accept'));?>">Accept</a>
-          <a class="btn btn-hover btn-danger" data-toggle="modal" data-target=".rejectModal" href="javascript;">Reject</a>
+          <a class="btn btn-hover btn-danger" href="<?= $this->Url->build(array("action" => "response", $req->id,'reject'));?>">Reject</a>
           <?php } elseif($req->status == 1) { ?>
           <button type="button" class="btn btn-default" data-dismiss="modal">Close</button> 
-          <a class="btn btn-hover btn-danger" data-toggle="modal" data-target=".rejectModal" href="javascript;">Reject</a>
-          
+          <a class="btn btn-hover btn-danger" href="<?= $this->Url->build(array("action" => "response", $req->id,'reject'));?>">Reject
+          </a>
           <?php } elseif($req->status == 2) { ?>
           <button type="button" class="btn btn-default" data-dismiss="modal">Close</button> 
           <a class="btn btn-hover btn-success" href="<?= $this->Url->build(array("action" => "response", $req->id,'accept'));?>">Accept</a>
@@ -178,45 +176,7 @@
   </div>
 </div>
 
-
 <?php } ?>
-
-
-<div class="modal fade  rejectModal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
-  <div class="modal-dialog modal-lg">
-    <div class="modal-contentss" style=" background-color: white;">
-    
-      <form method="post" class="form-horizontal bordered-row" data-parsley-validate=""> 
-        <div class="modal-header">
-          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-          <h4 class="modal-title">Time Sheet Reject</h4>
-        </div>
-        <div class="modal-body">
-          <div class="content-box-wrapper">
-
-              <div class="row">
-
-                <div class="form-group">
-                  <label class="col-sm-3 control-label">Reason for reject</label>
-                  <div class="col-sm-6">
-                    <textarea name="reason" id="" class="form-control" required=""></textarea>
-                  </div>
-                </div>
-
-              </div>
-
-             <input type="hidden" name="fmaction" value="reject">
-             <input type="hidden" name="id" value="<?= $requestid; ?>">
-          
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-default " data-dismiss="modal">Close</button> 
-          <button type="submit" class="btn btn-hover btn-primary">Save changes</button>
-        </div>
-      </form>
-    </div>
-  </div>
-</div>
 
 
 <script src="http://blueimp.github.io/JavaScript-Templates/js/tmpl.min.js"></script>

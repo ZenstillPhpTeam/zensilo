@@ -340,6 +340,7 @@ class UsersController extends AppController
                 if ($user_save) {
                     //echo  $data['id'];
                     $client = $this->UserDetails->find('all',['conditions' => ['user_details.user_id' => $data["id"]]])->first();
+                   unset($this->request->data['id']);
                     $client = $this->UserDetails->patchEntity($client, $this->request->data);
                     $client_save  = $this->UserDetails->save($client);
                     $this->Flash->success('Company Details has been updated successfully!!');
@@ -371,7 +372,7 @@ class UsersController extends AppController
        }
        elseif($id)
        {
-            $client = $this->UserDetails->find('all', ['conditions' => ['users.id' => $id]])->contain('Users', function(\Cake\ORM\Query $q) {
+            $client = $this->UserDetails->find('all', ['conditions' => ['Users.id' => $id]])->contain('Users', function(\Cake\ORM\Query $q) {
                     return $q->where(['Users.id' => $id]);
                    })->first();
                 $this->set('client', $client);
@@ -413,6 +414,18 @@ class UsersController extends AppController
                 $project = $this->Projects->patchEntity($project, $this->request->data);
                 $project_save  = $this->Projects->save($project);
                 if ($project_save) {    
+                    $this->ProjectTeams->deleteAll(['project_id' => $id]);
+                        $teams = $this->request->data['teams'];
+                    foreach($teams as $team) {
+                         $team_data['user_id'] = $team;
+                       $team_data['project_id'] = $data['id'];
+                        //exit;
+                        $teamdata = $this->ProjectTeams->newEntity();
+                        $teamdata = $this->ProjectTeams->patchEntity($teamdata, $team_data);
+                        $teamdata_save  = $this->ProjectTeams->save($teamdata);
+                    }
+
+
                         $project_timeline = $this->ProjectTimeline->newEntity();
                         $data1['project_id'] = $data['id'];
                         $data1['timeline_text']  = "Project Update";
@@ -504,6 +517,7 @@ class UsersController extends AppController
        $this->ProjectTimeline = TableRegistry::get('project_timeline');
        $this->ProjectDocuments = TableRegistry::get('project_documents');
        $this->ProjectTeams = TableRegistry::get('project_teams');
+       $this->Tasks = TableRegistry::get('tasks');
        $siteurl =  Router::url('/', true);
 
        if($action == 'delete')
@@ -525,6 +539,8 @@ class UsersController extends AppController
                 if ($project_save) {    
                         $project_timeline = $this->ProjectTimeline->newEntity();
                         $data1['project_id'] = $data['id'];
+                        $data['timeline_type']  = "project";
+                        $data['reference_id']  = $data['id'];
                         $data1['timeline_text']  = "Project Update";
                         $data1['timeline_description']  = "Project ".$this->request->data['project_name']." Details Updated!!";
                         $project_timeline = $this->ProjectTimeline->patchEntity($project_timeline, $data1);
@@ -539,6 +555,8 @@ class UsersController extends AppController
                     if ($project_save) {    
                         $project_timeline = $this->ProjectTimeline->newEntity();
                         $data['project_id'] = $project_save->id;
+                        $data['timeline_type']  = "project";
+                        $data['reference_id']  = $project_save->id;
                         $data['timeline_text']  = "New Project";
                         $data['timeline_description']  = "New Project ".$this->request->data['project_name']." Added!!";
                         $project_timeline = $this->ProjectTimeline->patchEntity($project_timeline, $data);
@@ -556,13 +574,15 @@ class UsersController extends AppController
             $project = $this->Projects->get($id);
             $project_timeline = $this->ProjectTimeline->find('all',['conditions' => ['project_id' => $id]]);
             $documents = $this->ProjectDocuments->find('all',['conditions' => ['project_id' => $id]]);
-            $teams = $this->ProjectTeams->find('all',['conditions' => ['project_id' => $id]]);
+            $teams = $this->ProjectTeams->find('all',['conditions' => ['project_id' => $id]])->count();
+            $tasks = $this->Tasks->find('all',['conditions' => ['project_id' => $id, "parent_task_id" => 0]])->count();
             //$this->dateDiff("2010-01-26", "2004-01-26");exit;
 
             $this->set('project', $project);
             $this->set('project_timeline', $project_timeline);
             $this->set('documents', $documents);
             $this->set('teams', $teams);
+            $this->set('tasks', $tasks);
        }
 
       
@@ -617,7 +637,7 @@ class UsersController extends AppController
             $json['files'][$k]['url'] = $siteurl .'upload/project/'.$imageName;
             $json['files'][$k]['thumbnailUrl'] = $siteurl .'upload/project/'.$imageName;
             $json['files'][$k]['name'] = $imageName;
-            $json['files'][$k]['deleteUrl'] = $siteurl .'users/delete/'.$pre->id;
+            $json['files'][$k]['deleteUrl'] = $siteurl .'users/delete/'.$pre->id ;
             $json['files'][$k]['deleteType'] = "DELETE";
             }
             echo json_encode($json);
@@ -683,7 +703,7 @@ class UsersController extends AppController
        }
        elseif($id)
        {
-            $client = $this->UserDetails->find('all', ['conditions' => ['users.id' => $id]])->contain('Users', function(\Cake\ORM\Query $q) {
+            $client = $this->UserDetails->find('all', ['conditions' => ['Users.id' => $id]])->contain('Users', function(\Cake\ORM\Query $q) {
                     return $q->where(['Users.id' => $id]);
                    })->first();
                 $this->set('client', $client);
@@ -754,7 +774,7 @@ class UsersController extends AppController
        }
        elseif($id)
        {
-            $client = $this->UserDetails->find('all', ['conditions' => ['users.id' => $id]])->contain('Users', function(\Cake\ORM\Query $q) {
+            $client = $this->UserDetails->find('all', ['conditions' => ['Users.id' => $id]])->contain('Users', function(\Cake\ORM\Query $q) {
                     return $q->where(['Users.id' => $id]);
                    })->first();
                 $this->set('client', $client);

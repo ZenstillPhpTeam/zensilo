@@ -2,3 +2,4 @@
 /logs/*
 /webroot/upload/*
 /vendor/*
+/config/*

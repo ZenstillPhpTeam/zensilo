@@ -50,4 +50,13 @@ class AjaxController extends AppController
 		echo json_encode(array('apikey' => $apikey, 'sessionId' => $sessionId, 'token' => $token));
 		exit;
 	}
+
+	public function gettask($id){
+		$this->Tasks = TableRegistry::get('Tasks');
+		$json =array();
+		$json =  $this->Tasks->get($id);
+		if($json)
+		echo json_encode($json);
+		exit;
+	}
 }
