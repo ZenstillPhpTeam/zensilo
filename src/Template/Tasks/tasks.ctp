@@ -15,21 +15,19 @@
         <div class="col-sm-6">
         <div class="dataTables_length" id="datatable-example_length">
         <label>
-        
         </label>
         </div>
         </div>
         <div class="col-sm-6">
         <div id="datatable-example_filter" class="dataTables_filter">
         <label>
-        
         </label>
         </div>
         </div>
         </div>
         
 
-        <?php foreach($tasks as $k=>$value){?>
+        <?php foreach($tasks as $k=>$value){ ?>
         <div class="content-box mrg25B">
         <h3 class="content-box-header bg-blue text-left">
         <i class="glyph-icon icon-comments"></i> <?= $value->project_name ?></h3>
@@ -40,19 +38,21 @@
           <?php if($tas->parent_task_id == 0) { ?>
         <li class="border-red">
         <div class="glyph-icon sort-handle icon-ellipsis-v ui-sortable-handle"></div>
-        <label for="sec-todo-1"><?= $tas->task_name ?></label><span class="bs-label bg-red" title=""><?= $tas->priority ?></span>
+        <label for="sec-todo-1"><?= $tas->task_name ?></label><span class="bs-label bg-red" title=""><?= $tas->priority ?></span><span class="bs-label bg-red" title=""><?= $tas->status ?></span>
         <div class="float-right">
         <div class="input-group-btn ">
-                            <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-expanded="true">Actions <span class="caret"></span><div class="ripple-wrapper"></div></button>
-                            <ul class="dropdown-menu " role="menu">
-                              <li class="ms-hover"><a href="#"  onclick="gettask('<?= $tas->id ?>');">View</a></li>
-                              <li class="ms-hover"><a href="#" onclick="settaskid('<?= $tas->id ?>');">Sub Task</a></li>
-                              <li class="ms-hover"><a href="<?= $this->Url->build(array("action" => "tasks", $tas->id,"copy"));?>">Copy</a></li>
-                              <li class="ms-hover"><a href="#" data-toggle="modal" data-target=".bs-document-modal-lg" onclick="setprojectid('<?= $value->id ?>','<?= $tas->id ?>');" >Documents</a></li>
-                              <li class="ms-hover"><a href="<?= $this->Url->build(array("action" => "tasks", $tas->id));?>">Edit</a></li>
-                              <li class="ms-hover"><a href="<?= $this->Url->build(array("action" => "tasks", $tas->id,"delete"));?>">Delete</a></li>
-                            </ul>
-                          </div>
+            <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-expanded="true">Actions <span class="caret"></span><div class="ripple-wrapper"></div></button>
+            <ul class="dropdown-menu " role="menu">
+              <li class="ms-hover"><a href="#"  onclick="gettask('<?= $tas->id ?>');">View</a></li>
+              <li class="ms-hover"><a href="#" onclick="settaskid('<?= $tas->id ?>','<?= $value->id ?>');">Sub Task</a></li>
+              <li class="ms-hover"><a href="<?= $this->Url->build(array("action" => "tasks", $tas->id,"copy"));?>">Copy</a></li>
+              <li class="ms-hover"><a href="#" data-toggle="modal" data-target=".bs-document-modal-lg" onclick="setprojectid('<?= $value->id ?>','<?= $tas->id ?>');" >Documents</a></li>
+             <?php if($tas->status !='Completed' && $tas->status !='Cancelled') { ?>
+              <li class="ms-hover"><a href="<?= $this->Url->build(array("action" => "tasks", $tas->id));?>">Edit</a></li>
+              <li class="ms-hover"><a href="<?= $this->Url->build(array("action" => "tasks", $tas->id,"delete"));?>">Delete</a></li>
+              <?php } ?>
+            </ul>
+          </div>
           
         </div>
         </li><?php foreach($value->tasks as $tas2) { ?>
@@ -62,8 +62,10 @@
         <label for="sec-todo-1"><?= $tas2->task_name ?></label><span class="bs-label bg-red" title=""><?= $tas2->priority ?></span>
         <div class="float-right">
           <a class="btn btn-azure tooltip-button" data-toggle="tooltip" data-placement="top" title="" data-original-title="View"  onclick="gettask('<?= $tas2->id ?>');"><i class="glyph-icon icon-eye" ></i><div class="ripple-wrapper"></div></a>
+          <?php if($tas2->status !='Completed' && $tas2->status !='Cancelled') { ?>
           <a href="<?= $this->Url->build(array("action" => "tasks", $tas2->id));?>" class="btn btn-info tooltip-button" data-toggle="tooltip" data-placement="top" title="" data-original-title="Edit"><i class="glyph-icon icon-edit " ></i><div class="ripple-wrapper"></div></a>       
           <a class="btn btn-danger tooltip-button" data-toggle="tooltip" data-placement="top" title="" data-original-title="Remove" href="<?= $this->Url->build(array("action" => "tasks", $tas->id,"delete"));?>"><i class="glyph-icon icon-remove " ></i><div class="ripple-wrapper"></div></a>
+          <?php } ?>
         </div>
         </li>
           <?php } } ?>
@@ -213,10 +215,8 @@
         </div>
         <div class="modal-body">
           <div class="content-box-wrapper">
-
               <div class="row">
-                  <div >
-
+                  <div>
                 <div class="form-group">
                   <label class="col-sm-3 control-label">Task Name</label>
                   <div class="col-sm-6">
@@ -282,7 +282,7 @@
     </div>
   </div>
 </div>
-        <div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+<div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
   <div class="modal-dialog modal-lg">
     <div class="modal-content">
       <form method="post" enctype="multipart/form-data" class="form-horizontal bordered-row" data-parsley-validate=""> 
@@ -310,10 +310,10 @@
                   </div>
                 </div>
 
-                <div class="form-group">
+                <div class="form-group" id="project_id_add_div">
                   <label class="col-sm-3 control-label">Choose Project</label>
                   <div class="col-sm-6">
-                    <select  class="form-control" name="project_id"  required="">
+                    <select  class="form-control" name="project_id"  required="" id="project_id_add" >
                       <option value="">Select Project</option>
                     <?php foreach($projects as $key => $value) { ?>
                       <option value="<?php echo $value['id']; ?>" <?= isset($copy_task) ? $copy_task->project_id == $value['id'] ? 'selected' : '' : '';?> ><?php echo $value['project_name']; ?></option>
@@ -349,8 +349,7 @@
                       <option value="New" <?= isset($copy_task) ? $copy_task->status == "New" ? 'selected' : '' : '';?>>New</option>
                       <option value="In Progress" <?= isset($copy_task) ? $copy_task->status == "In Progress" ? 'selected' : '' : '';?>>In Progress</option>
                       <option value="Ready To Test" <?= isset($copy_task) ? $copy_task->status == "Ready To Test" ? 'selected' : '' : '';?>>Ready To Test</option>
-                      <option value="Completed" <?= isset($copy_task) ? $copy_task->status == "Completed" ? 'selected' : '' : '';?>>Completed</option>
-                      <option value="Cancelled" <?= isset($copy_task) ? $copy_task->status == "Cancelled" ? 'selected' : '' : '';?>>Cancelled</option>
+                      <option value="Completed" <?= isset($copy_task) ? $copy_task->status == "Completed" ? 'selected' : '' : '';?>>Completed</option>                      
                     </select>
                   </div>
                 </div> 
@@ -367,7 +366,7 @@
                   <div class="col-sm-6">
                     <select multiple="multiple" class="multi-select" name="assigned_to[]" id="14multiselect" style="position: absolute; left: -9999px;">
                     <?php foreach($team_members as $key => $value) { ?>
-                      <option value="<?php echo $value['user_id']; ?>"  ><?php echo $value['client_name']; ?></option>
+                      <option value="<?php echo $value['user_id']; ?>" ><?php echo $value['client_name']; ?></option>
                       <?php } ?>
                     </select>
 
@@ -388,7 +387,7 @@
   </div>
 </div>
 
- <div class="modal fade bs-document-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+<div class="modal fade bs-document-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
   <div class="modal-dialog modal-lg">
     <div class="modal-content">
       <form id="fileupload" method="post" enctype="multipart/form-data" class="form-horizontal bordered-row" data-parsley-validate=""> 
@@ -540,8 +539,10 @@ function setprojectid(pid, tid ){
   $('#task_doc_id').val(tid);
 }
 
-function settaskid(tid){
+function settaskid(tid,pid){
   $('#parent_task_id').val(tid);
+  $('#project_id_add').val(pid);
+  $('#project_id_add_div').css("display", "none"); 
   $('#addclient').trigger('click');
 }
 
@@ -552,7 +553,7 @@ function gettask(id){
       $('.bs-view-modal-lg').modal();
       $('#viewtask_name').text(response.task_name);
       $('#viewdescription').text(response.description);
-       $('.project_id').css('display','none');
+      $('.project_id').css('display','none');
       $('#project_id'+response.project_id).css('display','block');
       $('#viewestimated_effort').text(response.estimated_effort);
       $('#viewpriority').text(response.priority);

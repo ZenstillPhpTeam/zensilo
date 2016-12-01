@@ -1,5 +1,8 @@
-<?= $this->Html->script(array('../assets/widgets/wizard/wizard', '../assets/widgets/wizard/wizard-demo', '../assets/widgets/tabs/tabs', '../assets/widgets/chosen/chosen', '../assets/widgets/chosen/chosen-demo','../assets/widgets/parsley/parsley')) ?>
-
+<?= $this->Html->script(array('../assets/widgets/wizard/wizard', '../assets/widgets/wizard/wizard-demo', '../assets/widgets/tabs/tabs', '../assets/widgets/chosen/chosen', '../assets/widgets/chosen/chosen-demo','../assets/widgets/parsley/parsley','../assets/geocomplete/jquery.geocomplete','../assets/geocomplete/logger')) ?>
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyABoNKJFpUbthmMDNobEWxO1sICZ6GkfBc&libraries=places"></script>
+<style type="text/css">
+  .pac-container{z-index: 10000!important;}
+</style>
         <div class="panel">
           <div class="panel-body content-box">
             <h3 class="title-hero bg-primary">Companies</h3>
@@ -38,7 +41,7 @@
         </th>
         <th class="sorting" tabindex="0" aria-controls="datatable-example" rowspan="1" colspan="1" aria-label="Browser: activate to sort column ascending" style="width: 258px;">Email</th>
         <th class="sorting" tabindex="0" aria-controls="datatable-example" rowspan="1" colspan="1" aria-label="Platform(s): activate to sort column ascending" style="width: 240px;">Mobile</th>
-        <th class="sorting" tabindex="0" aria-controls="datatable-example" rowspan="1" colspan="1" aria-label="Engine version: activate to sort column ascending" style="width: 170px;">State</th>
+        <th class="sorting" tabindex="0" aria-controls="datatable-example" rowspan="1" colspan="1" aria-label="Engine version: activate to sort column ascending" style="width: 170px;">Location</th>
         <th tabindex="0" aria-controls="datatable-example" rowspan="1" colspan="1"  >Actions</th>
         
         </tr>
@@ -50,7 +53,7 @@
         <td class="sorting_1"><?= $user_det->client_name ?></td>
         <td><?= $user_det->user->email ?></td>
         <td><?= $user_det->mobile ?></td>
-        <td class="center"><?= $user_det->state ?></td>
+        <td class="center"><?= $user_det->location ?></td>
         <td class="center">
               <a href="<?= $this->Url->build(array("action" => "company", $user_det->user_id));?>"><i class="glyph-icon demo-icon tooltip-button icon-elusive-pencil"></i></a>&nbsp;&nbsp;
                 <a href="<?= $this->Url->build(array("action" => "company", $user_det->user_id, "delete"));?>" onclick="javascript:confirm('Are you sure want to delete this Company?')"><i class="glyph-icon demo-icon tooltip-button icon-elusive-trash"></i></a></td>
@@ -83,6 +86,7 @@
 <script type="text/javascript">
   $(document).ready(function(){
     $("#editclient").trigger("click");
+     $("#geocomplete1").geocomplete();
   });
 </script>  
 <div class="modal fade bs-edit-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
@@ -102,7 +106,7 @@
                 <div class="form-group">
                   <label class="col-sm-3 control-label">Company Name</label>
                   <div class="col-sm-6">
-                    <input name="client_name" class="form-control" id="" placeholder="Client Name" type="text" required="" value="<?= $client->client_name ?>" />
+                    <input name="client_name" class="form-control" id="" placeholder="Company Name" type="text" required="" value="<?= $client->client_name ?>" />
                   </div>
                 </div>
                 <div class="form-group">
@@ -136,7 +140,7 @@
                 <div class="form-group">
                   <label class="col-sm-3 control-label">Address 1</label>
                   <div class="col-sm-6">
-                    <input name="address1" class="form-control" id="" type="text" required="" value="<?= $client->address1 ?>"/>
+                    <input name="address1" class="form-control"   type="text" required="" value="<?= $client->address1 ?>"/>
                   </div>
                 </div>
                 <div class="form-group">
@@ -146,17 +150,12 @@
                   </div>
                 </div>
                 <div class="form-group">
-                  <label class="col-sm-3 control-label">City</label>
+                  <label class="col-sm-3 control-label">Location</label>
                   <div class="col-sm-6">
-                    <input name="city" class="form-control" id="" type="text" required="" value="<?= $client->city ?>">
+                    <input name="location" class="form-control" id="geocomplete1" type="text" required="" value="<?= $client->location ?>">
                   </div>
                 </div>
-                <div class="form-group">
-                  <label class="col-sm-3 control-label">State</label>
-                  <div class="col-sm-6">
-                    <input name="state" class="form-control" id="" type="text" required="" value="<?= $client->state ?>">
-                  </div>
-                </div>
+                
                 <div class="form-group">
                   <label class="col-sm-3 control-label">Zip code</label>
                   <div class="col-sm-6">
@@ -191,13 +190,13 @@
         <div class="modal-body">
           <div class="content-box-wrapper">
 
- <div class="row">
+          <div class="row">
                   <div class="col-md-6">
 
                 <div class="form-group">
                   <label class="col-sm-3 control-label">Company Name</label>
                   <div class="col-sm-6">
-                    <input name="client_name" class="form-control" id="" placeholder="Client Name" type="text" required="">
+                    <input name="client_name" class="form-control" id="" placeholder="Company Name" type="text" required="">
                   </div>
                 </div>
                 <div class="form-group">
@@ -241,17 +240,12 @@
                   </div>
                 </div>
                 <div class="form-group">
-                  <label class="col-sm-3 control-label">City</label>
+                  <label class="col-sm-3 control-label">Location</label>
                   <div class="col-sm-6">
-                    <input name="city" class="form-control" id="" type="text" required="">
+                    <input name="location" class="form-control" id="geocomplete" type="text" required="">
                   </div>
                 </div>
-                <div class="form-group">
-                  <label class="col-sm-3 control-label">State</label>
-                  <div class="col-sm-6">
-                    <input name="state" class="form-control" id="" type="text" required="">
-                  </div>
-                </div>
+               
                 <div class="form-group">
                   <label class="col-sm-3 control-label">Zip code</label>
                   <div class="col-sm-6">
@@ -288,3 +282,8 @@
     </div>
   </div>
 </div>
+<script type="text/javascript">
+  $(document).ready(function() {
+  $("#geocomplete").geocomplete();
+  });
+</script>
