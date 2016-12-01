@@ -518,6 +518,7 @@ class UsersController extends AppController
        $this->ProjectDocuments = TableRegistry::get('project_documents');
        $this->ProjectTeams = TableRegistry::get('project_teams');
        $this->Tasks = TableRegistry::get('tasks');
+       $this->TimeSheetDays = TableRegistry::get('time_sheet_days');
        $siteurl =  Router::url('/', true);
 
        if($action == 'delete')
@@ -576,16 +577,29 @@ class UsersController extends AppController
             $documents = $this->ProjectDocuments->find('all',['conditions' => ['project_id' => $id]]);
             $teams = $this->ProjectTeams->find('all',['conditions' => ['project_id' => $id]])->count();
             $tasks = $this->Tasks->find('all',['conditions' => ['project_id' => $id, "parent_task_id" => 0]])->count();
-            //$this->dateDiff("2010-01-26", "2004-01-26");exit;
+            $tasks_completed = $this->Tasks->find('all',['conditions' => ['project_id' => $id, "parent_task_id" => 0,'status' => 'Completed']])->count();
+            $percent_completed = ($tasks_completed / $tasks) * 100;
 
+            $total_effort = $this->Tasks->find('all')
+            ->where(['project_id' => $id]);
+            $total_effort_sum = $total_effort->func()->sum('estimated_effort');
+            $total_effort = $total_effort->select(['total' => $total_effort_sum])->first();
+
+            $actual_effort = $this->TimeSheetDays->find('all')
+            ->where(['project_id' => $id]);
+             $sum = $actual_effort->func()->sum('hours');
+             $actual_effort = $actual_effort->select(['total' => $sum])->first();
+            //$this->dateDiff("2010-01-26", "2004-01-26");exit;
+           // print_r($actual_effort);exit;
             $this->set('project', $project);
             $this->set('project_timeline', $project_timeline);
             $this->set('documents', $documents);
             $this->set('teams', $teams);
             $this->set('tasks', $tasks);
-       }
-
-      
+            $this->set('percent_completed', $percent_completed);
+            $this->set('actual_effort', $actual_effort);
+            $this->set('total_effort', $total_effort);
+       }      
        $this->set('siteurl', $siteurl);
 
     }

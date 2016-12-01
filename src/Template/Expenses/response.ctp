@@ -1,12 +1,12 @@
 
   <div class="panel">
     <div class="panel-body content-box">
-      <h3 class="title-hero bg-primary">Leave Request</h3>
+      <h3 class="title-hero bg-primary">Expense Request</h3>
       <div class="example-box-wrapper">
 
         <div class="panel">
         <div class="panel-body">
-          <h3 class="title-hero"> Leave Request List </h3>
+          <h3 class="title-hero"> Expense Request List </h3>
 
         <div class="example-box-wrapper">
         <div id="datatable-example_wrapper" class="dataTables_wrapper form-inline no-footer">
@@ -93,7 +93,7 @@
       <form method="post" enctype="multipart/form-data" class="form-horizontal bordered-row" data-parsley-validate=""> 
         <div class="modal-header">
           <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-          <h4 class="modal-title">Leave Request</h4>
+          <h4 class="modal-title">Expense Request</h4>
         </div>
         <div class="modal-body">
           <div class="content-box-wrapper form-views">

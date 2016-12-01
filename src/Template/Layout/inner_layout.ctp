@@ -61,7 +61,7 @@ $(window).load(function(){
               <ul>
               <li><a href="<?= $this->Url->build(array("controller"=> "users","action" => "projects"));?>" title="Projects"><span>Projects</span></a></li>
               <li><a href="<?= $this->Url->build(array("controller"=> "users","action" => "clients"));?>" title="Clients"><span>Clients</span></a></li>
-              <li><a href="<?= $this->Url->build(array("controller"=> "users","action" => "teams"));?>" title="Teams"><span>Teams</span></a></li>
+              
               
               </ul></div>
           </li>
@@ -71,7 +71,7 @@ $(window).load(function(){
           <li><a href="<?= $this->Url->build(array("controller"=> "users","action" => "users"));?>" title="Add Users"><i class="glyph-icon icon-elusive-group"></i> <span>Users</span></a></li>
 
           <li><a href="<?= $this->Url->build(array("controller"=> "expenses","action" => "request"));?>" title="Add Expenses"><i class="glyph-icon icon-elusive-group"></i><span>Expenses</span></a></li>
-
+          <li><a href="<?= $this->Url->build(array("controller"=> "expenses","action" => "response"));?>" title="Add Expenses"><i class="glyph-icon icon-elusive-group"></i><span>Expense Requests</span></a></li>
 
           <!-- elango menus -->
           <li><a href="<?= $this->Url->build(array("controller" => "leaverequests","action" => "response"));?>" title="Leave Requests">
@@ -99,7 +99,7 @@ $(window).load(function(){
               <li><a href="<?= $this->Url->build(array("controller"=> "company", "action" => "designation"));?>" title="Designation"><span>Designation</span></a></li>
               <li><a href="<?= $this->Url->build(array("controller"=> "company","action" => "leavetypes"));?>" title="Leave Types"><span>Leave Types</span></a></li>
               <li><a href="<?= $this->Url->build(array("controller"=> "company","action" => "expensetypes"));?>" title="Expense Types"><span>Expense Types</span></a></li>
-              <li><a href="<?= $this->Url->build(array("action" => "teams"));?>" title="Teams"><span>Teams</span></a></li>
+              
               </ul>
               </div>
           </li>
@@ -165,6 +165,9 @@ $(window).load(function(){
         $("[type='submit']").click(function(){ 
            $(this).parents("form").submit();
         });
+
+        // $("#geocomplete").geocomplete();
+
         $('#datatable-example').dataTable();
 
         $('.bootstrap-datepicker').bsdatepicker({
