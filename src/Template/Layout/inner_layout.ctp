@@ -1,6 +1,8 @@
 <!DOCTYPE html><html lang="en">
 <head><style>#loading .svg-icon-loader {position: absolute;top: 50%;left: 50%;margin: -50px 0 0 -50px;}</style>
 <meta charset="UTF-8">
+
+<script type="text/javascript"> var $site_url = "<?= $this->Url->build("/"); ?>";</script>
 <!--[if IE]><meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'><![endif]-->
 <title><?= 'Zensilo'; ?>: <?= $this->fetch('title').' | '. $this->request->params['action']; ?></title>
 <meta name="description" content="">

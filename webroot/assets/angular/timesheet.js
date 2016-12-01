@@ -1,7 +1,6 @@
-angular_module
-.controller('TimesheetCtrl', function($scope,$http,$location,$rootScope,$filter) {
+angular_module.controller('TimesheetCtrl', function($scope,$http,$location,$rootScope,$filter) {
 
-	var siteUrl = 'http://zensilo.com/';
+	var siteUrl = $site_url;
 
 	$scope.TimeSheetData = [];
 
@@ -68,6 +67,38 @@ angular_module
       $scope.SelectMonth = 'Select month';
       $scope.SelectWeek = 'Select week';
       $scope.nextTSWeekId = 0;
+
+    });
+
+  }
+
+
+});
+
+angular_module.controller('LeaveAvailableCtrl', function($scope,$http,$location,$rootScope,$filter) {
+
+  var siteUrl = $site_url;
+
+  $scope.Leaves = {'users':[], 'info':[]};
+
+  $scope.SelectUser = 'Select User';
+
+  $http.get(siteUrl+'leaverequests/getUserLeave').then(function (res) {
+
+    $scope.Leaves.users = res.data;
+    $scope.Leaves.info = []; 
+
+  });
+
+  
+
+  $scope.get_user_leaves = function(user){
+
+    $scope.SelectUser = user.username;
+
+    $http.get(siteUrl+'leaverequests/getUserLeave/'+user.id).then(function (res) {
+
+      $scope.Leaves.info = res.data; 
 
     });
 

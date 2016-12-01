@@ -6,7 +6,17 @@
 
         <div class="panel">
         <div class="panel-body">
-          <h3 class="title-hero"> Leave Request List </h3>
+          <h3 class="title-hero"> Leave Request List 
+
+            <div class="float-right">
+
+              <a class="btn btn-alt btn-hover btn-primary" href="<?= $this->Url->build(array("action" => "info"));?>">
+              <span>Leave Info</span> <i class="glyph-icon icon-arrow-right"></i></a>
+
+            </div>
+
+
+          </h3>
 
         <div class="example-box-wrapper">
         <div id="datatable-example_wrapper" class="dataTables_wrapper form-inline no-footer">
