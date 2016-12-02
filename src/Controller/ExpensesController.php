@@ -78,43 +78,43 @@ class ExpensesController extends UsersController
 
     public function response($id = 0, $action = '')
     {
-        $this->LeaveRequest = TableRegistry::get('leave_requests');
+        $this->ExpenseRequest = TableRegistry::get('expense_requests');
         
         $user_id = $this->Auth->user('id');
         
         if($action == 'accept')
         {
-            $accept = $this->LeaveRequest->get($id);
+            $accept = $this->ExpenseRequest->get($id);
             $accept->status = 1;
-            if($this->LeaveRequest->save($accept)){
-                $this->Flash->success('Leave request has been accepted successfully!!');
+            if($this->ExpenseRequest->save($accept)){
+                $this->Flash->success('Expense request has been accepted successfully!!');
                 $this->redirect(array("action"=>'response'));
             }
         }
         elseif($action == 'reject')
         {
-            $accept = $this->LeaveRequest->get($id);
+            $accept = $this->ExpenseRequest->get($id);
             $accept->status = 2;
-            if($this->LeaveRequest->save($accept)){
-                $this->Flash->success('Leave request has been rejected successfully!!');
+            if($this->ExpenseRequest->save($accept)){
+                $this->Flash->success('Expense request has been rejected successfully!!');
                 $this->redirect(array("action"=>'response'));
             }
         }
         elseif($id)
         {
-            $request = $this->LeaveRequest->find('all')
-            ->leftJoin('users', 'users.id = leave_requests.user_id')
-            ->leftJoin('leave_types', 'leave_types.id = leave_requests.type_id')
-            ->where(['leave_requests.id' => $id,'users.lead_id' => $user_id])
-            ->select(['leave_requests.id','leave_requests.no_of_days','leave_requests.start_date','leave_requests.end_date','leave_requests.reason','leave_requests.status','leave_requests.created','users.username','leave_types.type']);
+            $request = $this->ExpenseRequest->find('all')
+            ->leftJoin('users', 'users.id = expense_requests.user_id')
+            ->leftJoin('expense_types', 'expense_types.id = expense_requests.type_id')
+            ->where(['expense_requests.id' => $id,'users.lead_id' => $user_id])
+            ->select(['expense_requests.id','expense_requests.amount','expense_requests.applied_date','expense_requests.reason','expense_requests.status','expense_requests.created','users.username','expense_types.type']);
             $this->set('request', $request);
         }
 
-        $requests =  $this->LeaveRequest->find('all')->order(['leave_requests.status' => 'ASC','leave_requests.id' => 'DESC'])
-        ->leftJoin('users', 'users.id = leave_requests.user_id')
-        ->leftJoin('leave_types', 'leave_types.id = leave_requests.type_id')
+        $requests =  $this->ExpenseRequest->find('all')->order(['expense_requests.status' => 'ASC','expense_requests.id' => 'DESC'])
+        ->leftJoin('users', 'users.id = expense_requests.user_id')
+        ->leftJoin('expense_types', 'expense_types.id = expense_requests.type_id')
         ->where(['users.lead_id' => $user_id])
-        ->select(['leave_requests.id','leave_requests.no_of_days','leave_requests.start_date','leave_requests.end_date','leave_requests.reason','leave_requests.status','leave_requests.created','users.username','leave_types.type']);
+        ->select(['expense_requests.id','expense_requests.amount','expense_requests.applied_date','expense_requests.reason','expense_requests.status','expense_requests.created','users.username','expense_types.type']);
 
         $this->set('requests', $requests);
     }

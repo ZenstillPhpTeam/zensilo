@@ -1,31 +1,30 @@
 <?= $this->Html->script(array('../assets/widgets/wizard/wizard', '../assets/widgets/wizard/wizard-demo', '../assets/widgets/tabs/tabs', '../assets/widgets/chosen/chosen', '../assets/widgets/chosen/chosen-demo','../assets/widgets/parsley/parsley','../assets/widgets/datepicker/datepicker','../assets/widgets/datepicker-ui/datepicker')) ?>
 
   
-<div id="page-title" style="padding: 25px 35px;"><h2><?= $project->project_name ?>&nbsp;&nbsp; <span class="bs-label label-success"><?= $project->status ?></span></h2><p><br/><?= $project->description ?></p></div>
-            
+<div id="page-title" style="padding: 25px 35px;"><h2><?= $project->project_name ?>&nbsp;&nbsp; <span class="bs-label label-success"><?= $project->status ?></span></h2><p><br/><?= $project->description ?></p><a href="<?= $this->Url->build(array("action" => "projects"));?>" class="btn btn-alt btn-hover btn-primary float-right" ><span>Back</span> <i class="glyph-icon icon-arrow-left"></i><div class="ripple-wrapper"></div></a></div>
+           
        <div class="panel">
        <div class="panel-body">
        <h3 class="title-hero">Project Summary</h3>
        <div class="example-box-wrapper">
        <div class="row">
 
-        <div class="col-md-4"><a href="#" title="Example box" class="tile-box btn btn-default"><div class="tile-header">Estimated Start Date<div class="float-right"><i class="glyph-icon icon-caret-up"></i> </div></div><div class="tile-content-wrapper"><i class="glyph-icon icon-tachometer"></i><div class="tile-content"><?= $project->estimated_start_date ?></div><small><i class="glyph-icon icon-caret-up"></i> </small></div><div class="ripple-wrapper"></div></a></div>
+        <div class="col-md-4"><a href="#" title="Example box" class="tile-box btn btn-default"><div class="tile-header">Start Date<div class="float-right"><i class="glyph-icon icon-caret-up"></i> </div></div><div class="tile-content-wrapper"><i class="glyph-icon icon-tachometer"></i><div class="tile-content"><?= $project->estimated_start_date ?></div><small><i class="glyph-icon icon-caret-up"></i> </small></div><div class="ripple-wrapper"></div></a></div>
 
-        <div class="col-md-4"><a href="#" title="Example box" class="tile-box btn btn-default"><div class="tile-header">Estimated End Date<div class="float-right"><i class="glyph-icon icon-caret-up"></i> </div></div><div class="tile-content-wrapper"><i class="glyph-icon icon-tachometer"></i><div class="tile-content"><?= $project->estimated_end_date ?></div><small><i class="glyph-icon icon-caret-up"></i> </small></div><div class="ripple-wrapper"></div></a></div>
+        <div class="col-md-4"><a href="#" title="Example box" class="tile-box btn btn-default"><div class="tile-header">End Date<div class="float-right"><i class="glyph-icon icon-caret-up"></i> </div></div><div class="tile-content-wrapper"><i class="glyph-icon icon-tachometer"></i><div class="tile-content"><?= $project->estimated_end_date ?></div><small><i class="glyph-icon icon-caret-up"></i> </small></div><div class="ripple-wrapper"></div></a></div>
 
-        <div class="col-md-4"><a href="#" title="Example box" class="tile-box btn btn-default"><div class="tile-header">Estimated Hours<div class="float-right"><i class="glyph-icon icon-caret-up"></i> </div></div><div class="tile-content-wrapper"><i class="glyph-icon icon-tachometer"></i><div class="tile-content"><?= $project->estimated_time ?></div><small><i class="glyph-icon icon-caret-up"></i> </small></div><div class="ripple-wrapper"></div></a></div>
+        <div class="col-md-4"><a href="#" title="Example box" class="tile-box btn btn-default"><div class="tile-header">Hours<div class="float-right"><i class="glyph-icon icon-caret-up"></i> </div></div><div class="tile-content-wrapper"><i class="glyph-icon icon-tachometer"></i><div class="tile-content"><?php echo $total_effort['total']; ?></div><small><i class="glyph-icon icon-caret-up"></i> Actual Effort Taken : <?php echo $actual_effort['total']; ?>  hours</small></div><div class="ripple-wrapper"></div></a></div>
 
 
         <br/>
         <div class="col-md-2"></div>
-       <div class="col-md-2"><a href="#" title="Example tile shortcut" class="tile-box tile-box-alt btn-primary"><div class="tile-header">Tasks</div><div class="tile-content-wrapper"><div class="chart-alt-10 easyPieChart" data-percent="<?= $tasks; ?>" style="width: 100px; height: 100px; line-height: 100px;"><span><?= $tasks; ?></span><canvas width="100" height="100"></canvas></div></div></a></div>
+       <div class="col-md-2"><a href="#" title="Example tile shortcut" class="tile-box tile-box-alt btn-primary"><div class="tile-header">Tasks</div><div class="tile-content-wrapper"><div class="chart-alt-9 easyPieChart" data-percent="<?= $tasks; ?>" style="width: 100px; height: 100px; line-height: 100px;"><span><?= $tasks; ?></span><canvas width="100" height="100"></canvas></div></div></a></div>
        
-
-       <div class="col-md-2"><a href="#" title="Example tile shortcut" class="tile-box tile-box-alt btn-black"><div class="tile-header">Team Members</div><div class="tile-content-wrapper"><div class="chart-alt-10 easyPieChart" data-percent="<?= $teams ?>" style="width: 100px; height: 100px; line-height: 100px;"><span><?php echo $teams; ?><?= $teams; ?></span><canvas width="100" height="100"></canvas></div></div></a></div>
+       <div class="col-md-2"><a href="#" title="Example tile shortcut" class="tile-box tile-box-alt btn-black"><div class="tile-header">Team Members</div><div class="tile-content-wrapper"><div class="chart-alt-11 easyPieChart" data-percent="<?= $teams ?>" style="width: 100px; height: 100px; line-height: 100px;"><span><?= $teams; ?></span><canvas width="100" height="100"></canvas></div></div></a></div>
 
        <div class="col-md-2"><a href="#" title="Example tile shortcut" class="tile-box tile-box-alt btn-danger"><div class="tile-header">Conversations</div><div class="tile-content-wrapper"><div class="chart-alt-10 easyPieChart" data-percent="55" style="width: 100px; height: 100px; line-height: 100px;"><span>54</span>%<canvas width="100" height="100"></canvas></div></div></a></div>
 
-       <div class="col-md-2"><a href="#" title="Example tile shortcut" class="tile-box tile-box-alt btn-success"><div class="tile-header">Progress</div><div class="tile-content-wrapper"><div class="chart-alt-10 easyPieChart" data-percent="43" style="width: 100px; height: 100px; line-height: 100px;"><span>42</span>%<canvas width="100" height="100"></canvas></div></div></a></div>
+       <div class="col-md-2"><a href="#" title="Example tile shortcut" class="tile-box tile-box-alt btn-success"><div class="tile-header">Progress</div><div class="tile-content-wrapper"><div class="chart-alt-10 easyPieChart" data-percent="<?= $percent_completed ?>" style="width: 100px; height: 100px; line-height: 100px;"><span><?= $percent_completed ?></span>%<canvas width="100" height="100"></canvas></div></div></a></div>
        <div class="col-md-2"></div>
        
        </div>

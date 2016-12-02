@@ -35,9 +35,9 @@
         Project Name
         </th>
         <th class="sorting" tabindex="0" aria-controls="datatable-example" rowspan="1" colspan="1" aria-label="Browser: activate to sort column ascending" style="width: 258px;">Description</th>
-        <th class="sorting" tabindex="0" aria-controls="datatable-example" rowspan="1" colspan="1" aria-label="Platform(s): activate to sort column ascending" >Estimated Hours</th>
-        <th class="sorting" tabindex="0" aria-controls="datatable-example" rowspan="1" colspan="1" aria-label="Engine version: activate to sort column ascending" >Estimated Start Date</th>
-        <th class="sorting" tabindex="0" aria-controls="datatable-example" rowspan="1" colspan="1" aria-label="Engine version: activate to sort column ascending" >Estimated End Date</th>
+        <th class="sorting" tabindex="0" aria-controls="datatable-example" rowspan="1" colspan="1" aria-label="Platform(s): activate to sort column ascending" >Hours</th>
+        <th class="sorting" tabindex="0" aria-controls="datatable-example" rowspan="1" colspan="1" aria-label="Engine version: activate to sort column ascending" >Start Date</th>
+        <th class="sorting" tabindex="0" aria-controls="datatable-example" rowspan="1" colspan="1" aria-label="Engine version: activate to sort column ascending" >End Date</th>
         <th tabindex="0" aria-controls="datatable-example" rowspan="1" colspan="1">Actions</th>
         
         </tr>
@@ -105,7 +105,7 @@
                   <div class="form-group">
                   <label class="col-sm-3 control-label">Project Name</label>
                   <div class="col-sm-6">
-                    <input name="project_name" class="form-control" id="" placeholder="Client Name" type="text" required="" value="<?= $project->project_name ?>">
+                    <input name="project_name" class="form-control" id="" placeholder="Project Name" type="text" required="" value="<?= $project->project_name ?>">
                   </div>
                 </div>
                 <div class="form-group">
@@ -115,21 +115,16 @@
                   </div>
                 </div>
                 
-                <div class="form-group">
-                  <label class="col-sm-3 control-label">Estimated Hours</label>
-                  <div class="col-sm-6">
-                    <input name="estimated_time" class="form-control" id="" type="text" data-parsley-type="digits" required=""  data-parsley-maxlength="10" value="<?= $project->estimated_time ?>">
-                  </div>
-                </div>
+                
                 <div class="form-group .bordered-row">
-                  <label class="col-sm-3 control-label">Estimated Start Date</label>
+                  <label class="col-sm-3 control-label">Start Date</label>
                   <div class="col-sm-6 input-prepend">
                     <span class="add-on input-group-addon"><i class="glyph-icon icon-calendar"></i></span><input name="estimated_start_date"  id="" type="text" class="bootstrap-datepickere form-control"  data-date-format="yyyy-mm-dd" required="" value="<?= $this->Time->format($project->estimated_start_date, 'Y-MM-dd');?>"/>
                   </div>
                 </div>
 
                 <div class="form-group">
-                  <label class="col-sm-3 control-label">Estimated End Date</label>
+                  <label class="col-sm-3 control-label">End Date</label>
                   <div class="col-sm-6 input-prepend">
                     <span class="add-on input-group-addon"><i class="glyph-icon icon-calendar"></i></span><input name="estimated_end_date"  id="" type="text" class="bootstrap-datepickere1 form-control"   required="" data-date-format="yyyy-mm-dd" value="<?= $this->Time->format($project->estimated_end_date, 'Y-MM-dd');?>" />
                   </div>
@@ -138,9 +133,9 @@
                 <div class="form-group">
                   <label class="col-sm-3 control-label">Assign Team</label>
                   <div class="col-sm-6">
-                    <select multiple="multiple" class="multi-select" name="teams[]" id="14multiselect" style="position: absolute; left: -9999px;">
+                    <select multiple="multiple" class="multi-select" name="teams[]" id="14multiselect" style="position: absolute; left: -9999px;" required>
                     <?php foreach($team_members as $key => $value) { ?>
-                      <option value="<?php echo $value['user_id']; ?>" <?= $project->client_id == $value['user_id'] ? 'selected' : '';?> ><?php echo $value['client_name']; ?></option>
+                      <option value="<?php echo $value['user_id']; ?>"  ><?php echo $value['client_name']; ?></option>
                       <?php } ?>
                     </select>
                   </div>
@@ -189,7 +184,7 @@
                 <div class="form-group">
                   <label class="col-sm-3 control-label">Project Name</label>
                   <div class="col-sm-6">
-                    <input name="project_name" class="form-control" id="" placeholder="Client Name" type="text" required="">
+                    <input name="project_name" class="form-control" id="" placeholder="Project Name" type="text" required="">
                   </div>
                 </div>
                 <div class="form-group">
@@ -211,21 +206,16 @@
                     </select>
                   </div>
                 </div>
-                <div class="form-group">
-                  <label class="col-sm-3 control-label">Estimated Hours</label>
-                  <div class="col-sm-6">
-                    <input name="estimated_time" class="form-control" id="" type="text" data-parsley-type="digits" required=""  data-parsley-maxlength="10">
-                  </div>
-                </div>
+                
                 <div class="form-group .bordered-row">
-                  <label class="col-sm-3 control-label">Estimated Start Date</label>
+                  <label class="col-sm-3 control-label">Start Date</label>
                   <div class="col-sm-6">
                     <input name="estimated_start_date"  id="" type="text" class="bootstrap-datepicker form-control"  data-date-format="yyyy-mm-dd" required="">
                   </div>
                 </div>
 
                 <div class="form-group">
-                  <label class="col-sm-3 control-label">Estimated End Date</label>
+                  <label class="col-sm-3 control-label">End Date</label>
                   <div class="col-sm-6">
                     <input name="estimated_end_date"  id="" type="text" class="bootstrap-datepicker1 form-control"  data-date-format="yyyy-mm-dd" required="">
                   </div>
@@ -415,8 +405,6 @@
 
 <script>
 function setprojectid(id){
-  //console.log(id);
   $('#project_doc_id').val(id);
-  //console.log($('#project_doc_id').val());
 }
 </script>

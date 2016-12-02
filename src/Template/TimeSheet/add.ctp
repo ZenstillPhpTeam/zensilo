@@ -1,4 +1,4 @@
-
+<?php ?>
   <div ng-controller="TimesheetCtrl" class="panel">
     <div class="panel-body content-box">
       <h3 class="title-hero bg-primary">Time Sheet</h3>
@@ -54,7 +54,7 @@
 
                         <select ng-model="TimeSheetData.days[key]['project']" class="custom-select">
                           <option ng-click="TimeSheetData.days[key]['project_name'] = 'Select Project'" ng-selected="project.id == TimeSheetData.days[key]['project']" value="0">Select Project</option>
-                          <option ng-show="is_already_taken(project.id, 'project',key);" ng-click="TimeSheetData.days[key]['project_name'] = project.project_name" ng-selected="project.id == TimeSheetData.days[key]['project']" ng-repeat="project in TimeSheetData.projects" value="{{project.id}}">{{project.project_name}}</option>
+                          <option ng-click="TimeSheetData.days[key]['project_name'] = project.project_name" ng-selected="project.id == TimeSheetData.days[key]['project']" ng-repeat="project in TimeSheetData.projects" value="{{project.id}}">{{project.project_name}}</option>
                         </select>
 
                         <i class="glyph-icon icon-caret-down"></i>

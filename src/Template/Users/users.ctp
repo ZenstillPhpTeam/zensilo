@@ -1,4 +1,8 @@
-<?= $this->Html->script(array('../assets/widgets/wizard/wizard', '../assets/widgets/wizard/wizard-demo', '../assets/widgets/tabs/tabs', '../assets/widgets/chosen/chosen', '../assets/widgets/chosen/chosen-demo','../assets/widgets/parsley/parsley')) ?>
+<?= $this->Html->script(array('../assets/widgets/wizard/wizard', '../assets/widgets/wizard/wizard-demo', '../assets/widgets/tabs/tabs', '../assets/widgets/chosen/chosen', '../assets/widgets/chosen/chosen-demo','../assets/widgets/parsley/parsley','../assets/geocomplete/jquery.geocomplete','../assets/geocomplete/logger')) ?>
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyABoNKJFpUbthmMDNobEWxO1sICZ6GkfBc&libraries=places"></script>
+<style type="text/css">
+  .pac-container{z-index: 10000!important;}
+</style>
 
         <div class="panel">
           <div class="panel-body content-box">
@@ -88,6 +92,7 @@
 <script type="text/javascript">
   $(document).ready(function(){
     $("#editclient").trigger("click");
+     $("#geocomplete1").geocomplete();
   });
 </script>  
 <div class="modal fade bs-edit-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
@@ -107,7 +112,7 @@
                 <div class="form-group">
                   <label class="col-sm-3 control-label">Name</label>
                   <div class="col-sm-6">
-                    <input name="client_name" class="form-control" id="" placeholder="Client Name" type="text" required="" value="<?= $client->client_name ?>" />
+                    <input name="client_name" class="form-control" id="" placeholder="Name" type="text" required="" value="<?= $client->client_name ?>" />
                   </div>
                 </div>
                 
@@ -157,17 +162,12 @@
                   </div>
                 </div>
                 <div class="form-group">
-                  <label class="col-sm-3 control-label">City</label>
+                  <label class="col-sm-3 control-label">Location</label>
                   <div class="col-sm-6">
-                    <input name="city" class="form-control" id="" type="text" required="" value="<?= $client->city ?>">
+                    <input name="location" class="form-control" id="geocomplete1" type="text" required="" value="<?= $client->location ?>" />
                   </div>
                 </div>
-                <div class="form-group">
-                  <label class="col-sm-3 control-label">State</label>
-                  <div class="col-sm-6">
-                    <input name="state" class="form-control" id="" type="text" required="" value="<?= $client->state ?>">
-                  </div>
-                </div>
+                
                 <div class="form-group">
                   <label class="col-sm-3 control-label">Zip code</label>
                   <div class="col-sm-6">
@@ -208,7 +208,7 @@
                 <div class="form-group">
                   <label class="col-sm-3 control-label">Name</label>
                   <div class="col-sm-6">
-                    <input name="client_name" class="form-control" id="" placeholder="Client Name" type="text" required="">
+                    <input name="client_name" class="form-control" id="" placeholder="Name" type="text" required="">
                   </div>
                 </div>
 
@@ -233,10 +233,22 @@
                 <div class="form-group">
                   <label class="col-sm-3 control-label">Designation</label>
                   <div class="col-sm-6">
-                    <select class="form-control" name="designation">
-                      <option value="0">Select Designation</option>
+                    <select class="form-control" name="designation" required="">
+                      <option value="">Select Designation</option>
                       <?php foreach ($designation as $key => $design) { ?>
                       <option value="<?php echo $design['id']; ?>"><?php echo $design['designation']; ?></option>
+                      <?php } ?>
+                    </select>
+                  </div>
+                </div>
+
+                <div class="form-group">
+                  <label class="col-sm-3 control-label">Choose Lead</label>
+                  <div class="col-sm-6">
+                    <select class="form-control" name="lead_id" required="">
+                      <option value="">Select Lead</option>
+                      <?php foreach ($users as $key => $user) { ?>
+                      <option value="<?php echo $user['user_id']; ?>"><?php echo $user['client_name']; ?></option>
                       <?php } ?>
                     </select>
                   </div>
@@ -258,15 +270,9 @@
                   </div>
                 </div>
                 <div class="form-group">
-                  <label class="col-sm-3 control-label">City</label>
+                  <label class="col-sm-3 control-label">Location</label>
                   <div class="col-sm-6">
-                    <input name="city" class="form-control" id="" type="text" required=""/>
-                  </div>
-                </div>
-                <div class="form-group">
-                  <label class="col-sm-3 control-label">State</label>
-                  <div class="col-sm-6">
-                    <input name="state" class="form-control" id="" type="text" required=""/>
+                    <input name="location" class="form-control" id="geocomplete" type="text" />
                   </div>
                 </div>
                 <div class="form-group">
@@ -302,3 +308,8 @@
     </div>
   </div>
 </div>
+<script type="text/javascript">
+  $(document).ready(function() {
+  $("#geocomplete").geocomplete();
+  });
+</script>
