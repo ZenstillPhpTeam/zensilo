@@ -140,7 +140,7 @@
               <i class="glyph-icon icon-linecons-paper-plane"></i>
             </a>
             <a id="stickynotes" class="hdr-btn" href="#" title="Chat sidebar">
-              <i class="glyph-icon icon-linecons-paper-plane"></i>
+              <i class="glyph-icon icon-linecons-note"></i>
             </a>
           </div>
         
