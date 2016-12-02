@@ -21,11 +21,12 @@
 <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.8/angular.min.js"></script>
 <script src='https://cdn.firebase.com/js/client/2.2.1/firebase.js'></script>
 <script type="text/javascript">
-$(window).load(function(){
-            setTimeout(function() {
-                $('#loading').fadeOut( 400, "linear" );
-            }, 300);
-        });
+  $(window).load(function(){
+      setTimeout(function() {
+          $('#loading').fadeOut( 400, "linear" );
+      }, 300);
+  });
+  var angular_module = angular.module('zensilo', ['opentok', 'opentok-whiteboard']);
 </script>
 </head>
 <body class="closed-sidebar" ng-app="zensilo">
@@ -33,6 +34,7 @@ $(window).load(function(){
 
   <?= $this->element('slidebar_left');?>
   <?= $this->element('slidebar_right');?>
+  <?= $this->element('sticky_notes');?>
   
   <div id="loading">
     <div class="svg-icon-loader"><img src="<?= $this->Url->build("/"); ?>img/bars.svg" width="40" alt=""></div>
@@ -135,6 +137,9 @@ $(window).load(function(){
             <a id="chatbox-btn" class="hdr-btn sb-toggle-left" href="#" title="Chat sidebar">
               <i class="glyph-icon icon-linecons-paper-plane"></i>
             </a>
+            <a id="stickynotes" class="hdr-btn" href="#" title="Chat sidebar">
+              <i class="glyph-icon icon-linecons-paper-plane"></i>
+            </a>
           </div>
         
         </div>
@@ -146,10 +151,6 @@ $(window).load(function(){
   
   <script src="https://cdnjs.cloudflare.com/ajax/libs/paper.js/0.9.25/paper-core.min.js" type="text/javascript" charset="utf-8"></script>
   <script src="//static.opentok.com/v2/js/opentok.js" type="text/javascript" charset="utf-8"></script>
-
-  <script type="text/javascript">
-    var angular_module = angular.module('zensilo', ['opentok', 'opentok-whiteboard']);
-  </script>
 
   <?= $this->Html->script(array('../assets/widgets/dropdown/dropdown', '../assets/widgets/tooltip/tooltip', '../assets/widgets/popover/popover', '../assets/widgets/progressbar/progressbar', '../assets/widgets/button/button', '../assets/widgets/collapse/collapse', '../assets/widgets/superclick/superclick', '../assets/widgets/input-switch/inputswitch-alt', '../assets/widgets/slimscroll/slimscroll', '../assets/widgets/slimscroll/slimscroll', '../assets/widgets/slidebars/slidebars', '../assets/widgets/slidebars/slidebars-demo', '../assets/widgets/charts/piegage/piegage', '../assets/widgets/charts/piegage/piegage-demo', '../assets/widgets/screenfull/screenfull', '../assets/widgets/content-box/contentbox', '../assets/widgets/material/material', '../assets/widgets/material/ripples', '../assets/widgets/overlay/overlay', '../assets/js-init/widgets-init', '../assets/themes/admin/layout','../assets/widgets/datatable/datatable','../assets/widgets/datatable/datatable-bootstrap','../assets/widgets/datatable/datatable-tabletools','../assets/widgets/parsley/parsley','../assets/widgets/multi-select/multiselect', '../assets/widgets/wizard/wizard', '../assets/widgets/wizard/wizard-demo', '../assets/widgets/tabs/tabs', '../assets/widgets/chosen/chosen', '../assets/widgets/chosen/chosen-demo','../assets/widgets/parsley/parsley','../assets/widgets/datepicker/datepicker','../assets/widgets/datepicker-ui/datepicker','../assets/widgets/interactions-ui/resizable','../assets/widgets/interactions-ui/draggable','../assets/widgets/interactions-ui/sortable', 'opentok-layout', 'opentok-angular', 'opentok-whiteboard','../assets/angular/timesheet')) ?>
   

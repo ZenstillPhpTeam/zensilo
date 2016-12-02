@@ -50,10 +50,10 @@
           <div ng-repeat="msg in all_chat_data[chat]" on-finish-render="{{chat}}" ng-class="{own_msg: msg.id == <?= $loggedInUser['id']; ?>, opponent_msg: msg.id != <?= $loggedInUser['id']; ?>}">
             <div class="clearfix" ng-if="msg.msg && msg.id == <?= $loggedInUser['id']; ?>">
               <div><p>{{msg.msg}}<p></div>
-              <img src="http://identicon.org/?t=<?= $loggedInUser['email']; ?>&s=20">
+              <img ng-src="http://identicon.org/?t=<?= $loggedInUser['email']; ?>&s=20">
             </div>
             <div class="clearfix" ng-if="msg.msg && msg.id != <?= $loggedInUser['id']; ?>">
-              <img src="{{getAvatarbyId(msg.id)}}">
+              <img ng-src="{{getAvatarbyId(msg.id)}}">
               <div><p>{{msg.msg}}</p></div>
             </div>
           </div>
@@ -86,5 +86,5 @@
         <button ng-show="streams.length" ng-click="call_end(1);" class="btn btn-sm btn-danger">End Call</button>
       </div>
     </div>
+  </div>
 </div>
-  
