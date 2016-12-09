@@ -105,6 +105,9 @@
               </ul>
               </div>
           </li>
+
+          <li class="ms-hover sfHover"><a href="<?= $this->Url->build(array("controller"=> "mail"));?>" title="Mailbox"><i class="glyph-icon icon-linecons-mail"></i> <span>Mailbox</span> <span class="bs-badge badge-danger"><?= $this->Custom->inbox_count($loggedInUser['id']);?></span></a></li>
+
         </ul>
 
       </div>

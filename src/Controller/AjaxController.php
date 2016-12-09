@@ -59,4 +59,42 @@ class AjaxController extends AppController
 		echo json_encode($json);
 		exit;
 	}
+
+	public function updateImportantMail($id, $status){
+		$this->Mail = TableRegistry::get('mails');
+		$data =  $this->Mail->get($id);
+		$data = $this->Mail->patchEntity($data, array('starred' => $status));
+		$data = $this->Mail->save($data);
+		exit;
+	}
+
+	public function bulkAction(){
+		if(isset($this->request->data['ids']))
+		{
+			$this->Mail = TableRegistry::get('mails');
+
+			if($this->request->data['action'] == 'trash')
+				$udata = array('status' => 2);
+			elseif($this->request->data['action'] == 'important')
+				$udata = array('starred' => 1);
+			elseif($this->request->data['action'] == 'unimportant')
+				$udata = array('starred' => 0);
+			elseif($this->request->data['action'] == 'revert')
+				$udata = array('status' => 0);
+
+			foreach ($this->request->data['ids'] as $key => $value) {
+				$data = $this->Mail->get($value);
+				
+				if($this->request->data['action'] == 'remove')
+				{
+					$this->Mail->delete($data);
+				}
+				else
+				{
+					$this->Mail->save($this->Mail->patchEntity($data, $udata));
+				}
+			}
+		}
+		exit;
+	}
 }

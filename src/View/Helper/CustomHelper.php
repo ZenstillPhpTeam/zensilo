@@ -34,6 +34,30 @@ class CustomHelper extends Helper
         return array(date('Y-m-d', $start),date('Y-m-d', strtotime('next saturday', $start)));
     }
 
-    
+    public function inbox_count($user_id)
+    {
+        $this->Mail = TableRegistry::get('mails');
+        $this->MailParticipant = TableRegistry::get('mail_participants');
 
+        $mailids = array_values($this->MailParticipant->find('list', ['conditions' => ['user_id' => $user_id], 'keyField' => 'id', 'valueField' => 'mail_id'])->toArray());
+        if(count($mailids))
+            return $this->Mail->find('all', ['conditions' => ['id IN' => array_values($mailids)]])->count();
+        else
+            return 0;
+    }
+
+    public function getemailbyid($user_id)
+    {
+        $this->User = TableRegistry::get('users');
+
+        $res = $this->User->find('all', ['conditions' => ['id IN ' => $user_id]])->all();
+
+        $arr = array();
+
+        foreach ($res as $key => $value) {
+            $arr[] = $value->email;
+        }
+
+        return implode(",", $arr);
+    }
 }

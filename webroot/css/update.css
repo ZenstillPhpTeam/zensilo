@@ -97,3 +97,10 @@ float: right;}
 .sticky_notes .notes_content{background: #FDFCC2;border:none;margin: 5px;font-size: 14px;}
 .sticky_notes .notes_header .icon-plus{position: absolute;left: 5px;top: 5px;}
 .sticky_notes .notes_header .icon-trash{position: absolute;right: 5px;top: 5px;}
+.mail_pagination li{list-style: none;}
+.table-hover tr.unread_mail td {
+    background: #fffdf4 none repeat scroll 0 0;
+    color: #000;
+}
+.mail_list_table tr td .important_mail_info{color: #ccc;}
+.mail_list_table tr td .important_mail_info.important_mail{color: #000;}
