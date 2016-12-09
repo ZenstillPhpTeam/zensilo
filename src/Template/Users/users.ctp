@@ -145,7 +145,17 @@
                     </select>
                   </div>
                 </div>
-
+                <div class="form-group">
+                  <label class="col-sm-3 control-label">Choose Lead</label>
+                  <div class="col-sm-6">
+                    <select class="form-control" name="lead_id" >
+                      <option value="">Select Lead</option>
+                      <?php foreach ($users as $key => $user) { ?>
+                      <option value="<?php echo $user['user_id']; ?>" <?= $client->lead_id == $user['user_id'] ? 'selected' : '';?>><?php echo $user['client_name']; ?></option>
+                      <?php } ?>
+                    </select>
+                  </div>
+                </div>
                 </div>
                   <div class="col-md-6">
 
@@ -245,7 +255,7 @@
                 <div class="form-group">
                   <label class="col-sm-3 control-label">Choose Lead</label>
                   <div class="col-sm-6">
-                    <select class="form-control" name="lead_id" required="">
+                    <select class="form-control" name="lead_id" >
                       <option value="">Select Lead</option>
                       <?php foreach ($users as $key => $user) { ?>
                       <option value="<?php echo $user['user_id']; ?>"><?php echo $user['client_name']; ?></option>
