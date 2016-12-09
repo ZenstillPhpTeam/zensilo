@@ -62,7 +62,7 @@ class AjaxController extends AppController
 
 	public function updateImportantMail($id, $status){
 		$this->Mail = TableRegistry::get('mails');
-		$data =  $this->Mail->get($id);
+		$data = $this->Mail->get($id);
 		$data = $this->Mail->patchEntity($data, array('starred' => $status));
 		$data = $this->Mail->save($data);
 		exit;

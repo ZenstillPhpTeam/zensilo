@@ -185,11 +185,15 @@ class MailController extends UsersController
     {
     	$this->Mail = TableRegistry::get('mails');
 
+    	$data = $this->Mail->get($id);
+		$data = $this->Mail->patchEntity($data, array('readed' => 1));
+		$data = $this->Mail->save($data);
+
     	$data = $this->Mail->find('all', [
 		    'conditions' => ['mails.id' => $id],
 		    'contain' => ['MailParticipants', 'Users']
 		])->first();
-    	
+
     	$this->viewBuilder()->layout(false);
     	$this->set(compact('data'));
     }
