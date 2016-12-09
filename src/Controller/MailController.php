@@ -63,8 +63,11 @@ class MailController extends UsersController
 	       	$important_count = $this->Mail->find('all', ['conditions' => ['starred' => 1, 'status' => 0, 'id IN' => array_values($mailids)]])->count();
 	       	$trash_count = $this->Mail->find('all', ['conditions' => ['OR' => ['id IN ' => $mailids, 'mail_from' => $this->loggedInUser['id']], 'status' => 2]])->count();
 		}
-		elseif($type == 'sent' || $type == 'drafts')
+		elseif($type == 'sent' || $type == 'drafts' || $type == 'trash')
 		{
+			if($type == 'trash')
+	        	$conditions = ['Mails.mail_from' => $this->loggedInUser['id'], 'Mails.status' => 2];
+
 			if($type == 'sent')
 	        	$conditions = ['Mails.mail_from' => $this->loggedInUser['id'], 'Mails.status' => 0];
 
@@ -76,6 +79,8 @@ class MailController extends UsersController
 	        $this->paginate['contain'] = ['MailParticipants', 'Users'];
 
 	        $mails = $this->paginate('Mails');
+
+	        $trash_count = $this->Mail->find('all', ['conditions' => ['mail_from' => $this->loggedInUser['id'], 'status' => 2]])->count();
 		}
 
 		$sent_count = $this->Mail->find('all', ['conditions' => ['mail_from' => $this->loggedInUser['id'], 'status' => 0]])->count();
