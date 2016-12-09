@@ -26,12 +26,16 @@ class MailController extends UsersController
 
 		$mailids = array_values($this->MailParticipant->find('list', ['conditions' => ['user_id' => $this->loggedInUser['id']], 'keyField' => 'id', 'valueField' => 'mail_id'])->toArray());
 
+		$mails = array();
+		$inbox_count = $important_count = $draft_count = $trash_count = $sent_count = 0;
+
+		$this->paginate['order'] = [
+            'Mails.id' => 'desc'
+        ];
+
 		if(count($mailids))
 		{
-			$this->paginate['order'] = [
-	            'Mails.id' => 'desc'
-	        ];
-
+			
 	        $conditions = [
 	            'Mails.id IN ' => $mailids,
 	            'Mails.status' => 0
@@ -57,16 +61,25 @@ class MailController extends UsersController
 
 	        $inbox_count = $this->Mail->find('all', ['conditions' => ['status' => 0, 'id IN' => array_values($mailids)]])->count();
 	       	$important_count = $this->Mail->find('all', ['conditions' => ['starred' => 1, 'status' => 0, 'id IN' => array_values($mailids)]])->count();
-	       	$draft_count = $this->Mail->find('all', ['conditions' => ['mail_from' => $this->loggedInUser['id'], 'status' => 1]])->count();
 	       	$trash_count = $this->Mail->find('all', ['conditions' => ['OR' => ['id IN ' => $mailids, 'mail_from' => $this->loggedInUser['id']], 'status' => 2]])->count();
-	       	$sent_count = $this->Mail->find('all', ['conditions' => ['mail_from' => $this->loggedInUser['id'], 'status' => 0]])->count();
 		}
-		else
+		elseif($type == 'sent' || $type == 'drafts')
 		{
-			$mails = array();
-			$inbox_count = $important_count = $draft_count = $trash_count = $sent_count = 0;
+			if($type == 'sent')
+	        	$conditions = ['Mails.mail_from' => $this->loggedInUser['id'], 'Mails.status' => 0];
+
+	        if($type == 'drafts')
+	        	$conditions = ['Mails.mail_from' => $this->loggedInUser['id'], 'Mails.status' => 1];
+
+			$this->paginate['conditions'] = $conditions;
+	        
+	        $this->paginate['contain'] = ['MailParticipants', 'Users'];
+
+	        $mails = $this->paginate('Mails');
 		}
 
+		$sent_count = $this->Mail->find('all', ['conditions' => ['mail_from' => $this->loggedInUser['id'], 'status' => 0]])->count();
+		$draft_count = $this->Mail->find('all', ['conditions' => ['mail_from' => $this->loggedInUser['id'], 'status' => 1]])->count();
 		$this->set(compact('type', 'mails', 'inbox_count', 'important_count', 'draft_count', 'trash_count', 'sent_count'));
 
 		if($ajax)
