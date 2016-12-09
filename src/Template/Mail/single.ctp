@@ -21,7 +21,7 @@ foreach($data->mail_participants as $us)
   <div class="float-left mrg10L">
     <b><?= $data->user->username;?></b> (<?= $data->user->email;?>) <i>to</i> <b><?= $this->Custom->getemailbyid($to); ?></b>
     <?php if(count($cc)){?><p>cc : <?= $this->Custom->getemailbyid($cc); ?></p><?php }?>
-    <?php if(count($bcc)){?><p>bcc : <?= $this->Custom->getemailbyid($bcc); ?></p><?php }?>
+    <?php if(count($bcc) && $data->mail_from == $loggedInUser['id']){?><p>bcc : <?= $this->Custom->getemailbyid($bcc); ?></p><?php }?>
   </div>
   <div class="float-right opacity-80"><i class="glyph-icon icon-clock-o mrg5R"></i> <?= $data->created;?></div>
 </div>
