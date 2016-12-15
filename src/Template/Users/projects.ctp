@@ -38,8 +38,7 @@
         <th class="sorting" tabindex="0" aria-controls="datatable-example" rowspan="1" colspan="1" aria-label="Platform(s): activate to sort column ascending" >Hours</th>
         <th class="sorting" tabindex="0" aria-controls="datatable-example" rowspan="1" colspan="1" aria-label="Engine version: activate to sort column ascending" >Start Date</th>
         <th class="sorting" tabindex="0" aria-controls="datatable-example" rowspan="1" colspan="1" aria-label="Engine version: activate to sort column ascending" >End Date</th>
-        <th tabindex="0" aria-controls="datatable-example" rowspan="1" colspan="1">Actions</th>
-        
+        <th tabindex="0" rowspan="1" colspan="1">Actions</th>        
         </tr>
         </thead>
         <tbody>

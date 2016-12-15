@@ -16,6 +16,7 @@ class TasksController extends UsersController
        $this->Projects = TableRegistry::get('projects');
        $this->Tasks = TableRegistry::get('tasks');
        $this->ProjectTimeline = TableRegistry::get('project_timeline');
+       $this->TaskTeams = TableRegistry::get('task_teams');
        $siteurl =  Router::url('/', true);
 
        if($action == 'delete')
@@ -78,6 +79,17 @@ class TasksController extends UsersController
                 $this->request->data['assigned_by'] = $this->Auth->user('id');
                         $teams = implode(",",$this->request->data['assigned_to']);
                         $this->request->data['assigned_to'] = $teams;
+                        
+                         $teams = $this->request->data['assigned_to'];
+                    foreach($teams as $team) {
+                         $team_data['user_id'] = $team;
+                       $team_data['task_id'] = $project_save->id;
+                        //exit;
+                        $teamdata = $this->TaskTeams->newEntity();
+                        $teamdata = $this->TaskTeams->patchEntity($teamdata, $team_data);
+                        $teamdata_save  = $this->TaskTeams->save($teamdata);
+                    }
+
                 $task = $this->Tasks->patchEntity($task, $this->request->data);
                 $task_save  = $this->Tasks->save($task);
                 //pr($user);exit;

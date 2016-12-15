@@ -161,7 +161,7 @@ class CompanyController extends UsersController
                     $this->Flash->success('New Leave Type has been added successfully!!');
                     //$this->set('success_msg', 'New Client has been added successfully!!');
 
-                }else
+                } else
                 $this->Flash->error('Unable to add Leave Type!!');
                 }
 
@@ -231,7 +231,7 @@ class CompanyController extends UsersController
                 $this->Flash->error('Unable to add Leave Type!!');
                 }
 
-            $this->redirect(array("action" => 'leavetypes'));
+            $this->redirect(array("action" => 'expensetypes'));
        }
        elseif($id)
        {
