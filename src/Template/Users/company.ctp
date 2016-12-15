@@ -104,32 +104,32 @@
                   <div class="col-md-6">
 
                 <div class="form-group">
-                  <label class="col-sm-3 control-label">Company Name</label>
-                  <div class="col-sm-6">
+                  <label class="col-sm-4 control-label">Company Name</label>
+                  <div class="col-sm-8">
                     <input name="client_name" class="form-control" id="" placeholder="Company Name" type="text" required="" value="<?= $client->client_name ?>" />
                   </div>
                 </div>
                 <div class="form-group">
-                  <label class="col-sm-3 control-label">About Company</label>
-                  <div class="col-sm-6">
+                  <label class="col-sm-4 control-label">About Company</label>
+                  <div class="col-sm-8">
                     <textarea name="about_client" id="" class="form-control" required=""><?= $client->about_client ?></textarea>
                   </div>
                 </div>
                 <div class="form-group">
-                  <label class="col-sm-3 control-label">Email</label>
-                  <div class="col-sm-6">
+                  <label class="col-sm-4 control-label">Email</label>
+                  <div class="col-sm-8">
                     <input name="email" class="form-control" id="" type="text" data-parsley-type="email" required="" value="<?= $client->user->email ?>"/>
                   </div>
                 </div>
                 <div class="form-group">
-                  <label class="col-sm-3 control-label">Mobile</label>
-                  <div class="col-sm-6">
+                  <label class="col-sm-4 control-label">Mobile</label>
+                  <div class="col-sm-8">
                     <input name="mobile" class="form-control" id="" type="text" data-parsley-type="digits" required="" data-parsley-minlength="10" data-parsley-maxlength="10" value="<?= $client->mobile ?>"/>
                   </div>
                 </div>
                 <div class="form-group .bordered-row">
-                  <label class="col-sm-3 control-label">Username</label>
-                  <div class="col-sm-6">
+                  <label class="col-sm-4 control-label">Username</label>
+                  <div class="col-sm-8">
                     <input name="username" class="form-control" id="" type="text" data-parsley-type="alphanum" required="" readonly value="<?= $client->user->username ?>">
                   </div>
                 </div>
@@ -138,27 +138,27 @@
                   <div class="col-md-6">
 
                 <div class="form-group">
-                  <label class="col-sm-3 control-label">Address 1</label>
-                  <div class="col-sm-6">
+                  <label class="col-sm-4 control-label">Address 1</label>
+                  <div class="col-sm-8">
                     <input name="address1" class="form-control"   type="text" required="" value="<?= $client->address1 ?>"/>
                   </div>
                 </div>
                 <div class="form-group">
-                  <label class="col-sm-3 control-label">Address 2</label>
-                  <div class="col-sm-6">
+                  <label class="col-sm-4 control-label">Address 2</label>
+                  <div class="col-sm-8">
                     <input name="address2" class="form-control" id="" type="text" value="<?= $client->address2 ?>"/>
                   </div>
                 </div>
                 <div class="form-group">
-                  <label class="col-sm-3 control-label">Location</label>
-                  <div class="col-sm-6">
+                  <label class="col-sm-4 control-label">Location</label>
+                  <div class="col-sm-8">
                     <input name="location" class="form-control" id="geocomplete1" type="text" required="" value="<?= $client->location ?>">
                   </div>
                 </div>
                 
                 <div class="form-group">
-                  <label class="col-sm-3 control-label">Zip code</label>
-                  <div class="col-sm-6">
+                  <label class="col-sm-4 control-label">Zip code</label>
+                  <div class="col-sm-8">
                     <input name="zip" class="form-control" id="" type="text" data-parsley-type="digits" required="" value="<?= $client->zip ?>">
                   </div>
                 </div>
@@ -194,32 +194,32 @@
                   <div class="col-md-6">
 
                 <div class="form-group">
-                  <label class="col-sm-3 control-label">Company Name</label>
-                  <div class="col-sm-6">
+                  <label class="col-sm-4 control-label">Company Name</label>
+                  <div class="col-sm-8">
                     <input name="client_name" class="form-control" id="" placeholder="Company Name" type="text" required="">
                   </div>
                 </div>
                 <div class="form-group">
-                  <label class="col-sm-3 control-label">About Company</label>
-                  <div class="col-sm-6">
+                  <label class="col-sm-4 control-label">About Company</label>
+                  <div class="col-sm-8">
                     <textarea name="about_client" id="" class="form-control" required=""></textarea>
                   </div>
                 </div>
                 <div class="form-group">
-                  <label class="col-sm-3 control-label">Email</label>
-                  <div class="col-sm-6">
+                  <label class="col-sm-4 control-label">Email</label>
+                  <div class="col-sm-8">
                     <input name="email" class="form-control" id="" type="text" data-parsley-type="email" required="">
                   </div>
                 </div>
                 <div class="form-group">
-                  <label class="col-sm-3 control-label">Mobile</label>
-                  <div class="col-sm-6">
+                  <label class="col-sm-4 control-label">Mobile</label>
+                  <div class="col-sm-8">
                     <input name="mobile" class="form-control" id="" type="text" data-parsley-type="digits" required="" data-parsley-minlength="10" data-parsley-maxlength="10">
                   </div>
                 </div>
                 <div class="form-group .bordered-row">
-                  <label class="col-sm-3 control-label">Username</label>
-                  <div class="col-sm-6">
+                  <label class="col-sm-4 control-label">Username</label>
+                  <div class="col-sm-8">
                     <input name="username" class="form-control" id="" type="text" data-parsley-type="alphanum" required="">
                   </div>
                 </div>
@@ -228,40 +228,40 @@
                   <div class="col-md-6">
 
                 <div class="form-group">
-                  <label class="col-sm-3 control-label">Address 1</label>
-                  <div class="col-sm-6">
+                  <label class="col-sm-4 control-label">Address 1</label>
+                  <div class="col-sm-8">
                     <input name="address1" class="form-control" id="" type="text" required="">
                   </div>
                 </div>
                 <div class="form-group">
-                  <label class="col-sm-3 control-label">Address 2</label>
-                  <div class="col-sm-6">
+                  <label class="col-sm-4 control-label">Address 2</label>
+                  <div class="col-sm-8">
                     <input name="address2" class="form-control" id="" type="text">
                   </div>
                 </div>
                 <div class="form-group">
-                  <label class="col-sm-3 control-label">Location</label>
-                  <div class="col-sm-6">
+                  <label class="col-sm-4 control-label">Location</label>
+                  <div class="col-sm-8">
                     <input name="location" class="form-control" id="geocomplete" type="text" required="">
                   </div>
                 </div>
                
                 <div class="form-group">
-                  <label class="col-sm-3 control-label">Zip code</label>
-                  <div class="col-sm-6">
+                  <label class="col-sm-4 control-label">Zip code</label>
+                  <div class="col-sm-8">
                     <input name="zip" class="form-control" id="" type="text" data-parsley-type="digits" required="">
                   </div>
                 </div>
                 
                  <div class="form-group">
-                    <label class="col-sm-3 control-label">Password</label>
-                    <div class="col-sm-6">
+                    <label class="col-sm-4 control-label">Password</label>
+                    <div class="col-sm-8">
                       <input type="text" id="ps1" required class="form-control" name="password">
                     </div>
                   </div>
                   <div class="form-group">
-                    <label class="col-sm-3 control-label">Confirm Password</label>
-                    <div class="col-sm-6">
+                    <label class="col-sm-4 control-label">Confirm Password</label>
+                    <div class="col-sm-8">
                       <input type="text" data-parsley-equalto="#ps1" required class="form-control" name="confirm_password">
                     </div>
                   </div>

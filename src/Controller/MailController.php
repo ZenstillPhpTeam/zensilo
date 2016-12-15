@@ -18,7 +18,7 @@ class MailController extends UsersController
 	{
 		if(!$this->Auth->user())
         {    
-        	$this->redirect(["controller" => "users"]);exit;
+        	$this->redirect(["controller" => "users"]);
         }
 
 		$this->Mail = TableRegistry::get('mails');

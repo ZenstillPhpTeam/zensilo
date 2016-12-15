@@ -8,7 +8,7 @@
 	float: right;
 	width: 250px;
 	height: 350px;
-    background: #d9d9d9;
+    background: #f1f1f1;
     margin-right: 30px;
     position: relative;
 }
@@ -25,9 +25,11 @@
     vertical-align: top;
 }
 .chat_container .chat_box .chat_conversation_box {
+     background: #f6f6f6 none repeat scroll 0 0;
     height: 250px;
+    margin: 10px 7px;
     overflow: auto;
-    margin: 10px 0;
+    padding-left: 5px;
 }
 .chat_container .chat_box .chat_input{
     bottom: 0;
@@ -36,6 +38,9 @@
     width: 100%;
 }
 .chat_container .chat_box .chat_input input{
+    background: #fff none repeat scroll 0 0;
+    border: 1px none;
+    box-shadow: 1px -1px 1px 0 #ccc inset;
     padding: 10px 0;
     width: 100%;
 }
@@ -104,3 +109,4 @@ float: right;}
 }
 .mail_list_table tr td .important_mail_info{color: #ccc;}
 .mail_list_table tr td .important_mail_info.important_mail{color: #000;}
+.modal-content{ background: #f1f1f1; }
