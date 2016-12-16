@@ -117,16 +117,18 @@ class UsersController extends AppController
         {
             $projects =  $this->Projects->find('all',['conditions' => ['company_id' => $comp_id]])->count();
             $expense_requests =  $conn->execute("select a.type,sum(b.amount) as sum_amount from expense_types a, expense_requests b where a.id=b.type_id and b.company_id = ".$comp_id." and b.applied_date between '".$last_month."' and '".$date."' group by b.type_id");
-            $leave_requests =  $conn->execute("select a.type,sum(b.no_of_days) as sum_days from leave_types a, leave_requests b where a.id=b.type_id and b.company_id = ".$comp_id." and b.created between '".$last_month."' and '".$date."' group by b.type_id");
+            $leave_requests =  $conn->execute("select a.type,sum(b.no_of_days) as sum_days from leave_types a, leave_requests b where a.id=b.type_id and b.company_id = ".$comp_id." and b.start_date between '".$last_month."' and '".$date."' group by b.type_id");
+            $project_tasks =  $conn->execute("select a.project_name,b.status,count(*) from projects a, tasks b where a.id = b.project_id and  b.company_id = ".$comp_id." group by b.status");
             $clients =  $this->Users->find('all',['conditions' => ['userrole' => "client",'parent_id' => $comp_id]])->count();
             $users =  $this->Users->find('all',['conditions' => ['userrole' => "user",'parent_id' => $comp_id]])->count();
-            $tasks_calendar = $this->Tasks->find('all', ['conditions' => ['company_id' => $comp_id]]);
+            $tasks_calendar = $conn->execute("select * from tasks where company_id=". $comp_id);
 
         }  
         else{
            $projects =  $this->ProjectTeams->find('all',['conditions' => ['user_id' => $comp_id]])->count(); 
            $expense_requests =  $conn->execute("select a.type,sum(b.amount) as sum_amount from expense_types a, expense_requests b where a.id=b.type_id and b.user_id = ".$comp_id." and b.applied_date between '".$last_month."' and '".$date."' group by b.type_id");
-           $leave_requests =  $conn->execute("select a.type,sum(b.no_of_days) as sum_days from leave_types a, leave_requests b where a.id=b.type_id and b.user_id = ".$comp_id." and b.created between '".$last_month."' and '".$date."' group by b.type_id");
+           $leave_requests =  $conn->execute("select a.type,sum(b.no_of_days) as sum_days from leave_types a, leave_requests b where a.id=b.type_id and b.user_id = ".$comp_id." and b.start_date between '".$last_month."' and '".$date."' group by b.type_id");
+           $project_tasks =  $conn->execute("select a.project_name,b.status,count(*) from projects a, tasks b, task_teams c where a.id = b.project_id and c.task_id = b.id and c.user_id = ".$comp_id." group by b.status ");
            $clients = 0;
            $users = 0;
            $tasks_calendar =  $conn->execute("select a.type,sum(b.no_of_days) as sum_days from leave_types a, leave_requests b where a.id=b.type_id and b.user_id = ".$comp_id." and b.created between '".$last_month."' and '".$date."' group by b.type_id");
@@ -168,7 +170,6 @@ class UsersController extends AppController
         $this->set('users', $users);
         $this->set('clients', $clients);
         $this->set('tasks_cal', $tasks_cal);
-        
     }
 
     public function index($st=0)
@@ -554,9 +555,9 @@ class UsersController extends AppController
        $comp_id = $this->Auth->user('userrole') == "company" ? $this->Auth->user('id') : $this->Auth->user('parent_id');
        $projects =  $this->Projects->find('all',['conditions' => ['company_id' => $comp_id]]);
        $conn = ConnectionManager::get('default');
-       $clients = $conn->execute('select a.* from user_details a, users b where a.user_id = b.id and b.userrole="company"');
+       $clients = $conn->execute('select a.* from user_details a, users b where a.user_id = b.id and b.userrole="company" and b.parent_id = '.$comp_id);
        $team_members = $conn->execute('select a.* from user_details a, users b where a.user_id = b.id and b.userrole="user" and b.parent_id = '.$comp_id);
-       $project_clients = $conn->execute('select a.* from user_details a, users b where a.user_id = b.id and b.userrole="client"');
+       $project_clients = $conn->execute('select a.* from user_details a, users b where a.user_id = b.id and b.userrole="client" and b.parent_id = '.$comp_id);
       // $clients = $stmt->fetch('assoc');
        //$clients =  $this->UserDetails->find('all',['conditions' => ['user']]);
       // $users = $this->ClientDetails->find('all')->all()->contain('users');

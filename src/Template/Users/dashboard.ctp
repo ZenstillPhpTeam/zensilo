@@ -123,9 +123,7 @@ footer {
       </li>
       <?php } ?>          
     </ul>
-  </section>
-
-  
+  </section>  
   </div>
   </div>
 
@@ -136,10 +134,8 @@ footer {
       <span class="header-wrapper">Recent Projects </span> 
       <span class="header-buttons"><a href="<?= $this->Url->build(array("action" => "projects"));?>" class="btn btn-sm btn-primary" title="">View All</a></span>
       </h3>
-      <div class="content-box-wrapper">
-      	
+      <div class="content-box-wrapper">     	
       	<div id="chartContainer" style="height: 300px; width: 100%;"></div>
-
       </div>
     </div>
 
@@ -151,9 +147,6 @@ footer {
       </h3>
       <div class="content-box-wrapper"> sfgdfgdfg</div>
     </div>
-
-
-
   
   </div>
   <div class="col-md-6">
@@ -163,7 +156,7 @@ footer {
           <div class="tile-header">Users</div>
           <div class="tile-content-wrapper"><i class="glyph-icon icon-dashboard"></i>
             <div class="tile-content"> <?= $users ?></div>
-            <small><i class="glyph-icon icon-caret-up"></i> +7,6% new users in the first quarter</small></div>
+            <small><i class="glyph-icon icon-caret-up"></i> +7,6% new Users</small></div>
           <a href="<?= $this->Url->build(array("action" => "users"));?>" class="tile-footer tooltip-button" data-placement="bottom" title="" data-original-title="Users!">view details <i class="glyph-icon icon-arrow-right"></i></a></div>
       </div>
       <div class="col-md-6">
@@ -187,7 +180,7 @@ footer {
           <div class="tile-header">Monthly earnings</div>
           <div class="tile-content-wrapper"><i class="glyph-icon icon-camera"></i>
             <div class="tile-content"><span>$</span> 1,212</div>
-            <small><i class="glyph-icon icon-caret-up"></i> +2,6% new users in the first quarter</small></div>
+            <small><i class="glyph-icon icon-caret-up"></i> +2,6% </small></div>
           <a href="#" class="tile-footer tooltip-button" data-placement="bottom" title="" data-original-title="!">view details <i class="glyph-icon icon-arrow-right"></i></a></div>
       </div>
     </div>
@@ -196,33 +189,7 @@ footer {
         <div id="calendar-example-1" class="col-md-10 center-margin fc fc-ltr"></div>
       </div>
     </div>
-    <div class="panel-layout">
-      <div class="panel-box col-xs-6">
-        <div class="panel-content bg-white">
-          <canvas id="icon-cloud" width="80" height="80"></canvas>
-        </div>
-        <div class="panel-content bg-black">
-          <div class="center-vertical">
-            <ul class="center-content nav nav-justified">
-              <li>
-                <h4><i class="glyph-icon font-green opacity-80 icon-chevron-down"></i> 7 º</h4>
-                <p class="opacity-80 text-transform-upr font-size-11 mrg5T">Low</p>
-              </li>
-              <li>
-                <h4><i class="glyph-icon font-red opacity-80 icon-chevron-up"></i> 21 º</h4>
-                <p class="opacity-80 text-transform-upr font-size-11 mrg5T">High</p>
-              </li>
-            </ul>
-          </div>
-        </div>
-      </div>
-      <div class="panel-box col-xs-6 bg-blue-alt">
-        <div class="panel-content">
-          <h3>Bucharest</h3>
-          <h4 class="opacity-60">Romania</h4>
-        </div>
-      </div>
-    </div>
+    
   </div>
 </div>
 <script type="text/javascript">

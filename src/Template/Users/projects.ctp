@@ -35,7 +35,7 @@
         Project Name
         </th>
         <th class="sorting" tabindex="0" aria-controls="datatable-example" rowspan="1" colspan="1" aria-label="Browser: activate to sort column ascending" style="width: 258px;">Description</th>
-        <th class="sorting" tabindex="0" aria-controls="datatable-example" rowspan="1" colspan="1" aria-label="Platform(s): activate to sort column ascending" >Hours</th>
+        
         <th class="sorting" tabindex="0" aria-controls="datatable-example" rowspan="1" colspan="1" aria-label="Engine version: activate to sort column ascending" >Start Date</th>
         <th class="sorting" tabindex="0" aria-controls="datatable-example" rowspan="1" colspan="1" aria-label="Engine version: activate to sort column ascending" >End Date</th>
         <th tabindex="0" rowspan="1" colspan="1">Actions</th>        
@@ -47,7 +47,6 @@
         <td><?= $k+1?></td>
         <td class="sorting_1"><?= $project_det->project_name ?></td>
         <td><?= $project_det->description ?></td>
-        <td><?= $project_det->estimated_time ?></td>
         <td class="center"><?= $this->Time->format($project_det->estimated_start_date, 'Y-MM-dd');?></td>
         <td class="center"><?= $this->Time->format($project_det->estimated_end_date, 'Y-MM-dd');?></td>
         <td class="center">
