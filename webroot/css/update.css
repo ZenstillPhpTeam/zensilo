@@ -41,7 +41,7 @@
     background: #fff none repeat scroll 0 0;
     border: 1px none;
     box-shadow: 1px -1px 1px 0 #ccc inset;
-    padding: 10px 0;
+    padding: 10px 10px;
     width: 100%;
 }
 .chat_container .chat_box .chat_conversation_box .own_msg,.chat_container .chat_box .chat_conversation_box .opponent_msg{margin-top: 15px;}
@@ -109,4 +109,25 @@ float: right;}
 }
 .mail_list_table tr td .important_mail_info{color: #ccc;}
 .mail_list_table tr td .important_mail_info.important_mail{color: #000;}
-.modal-content{ background: #f1f1f1; }
+.modal-content{ background: #f1f1f1; overflow: auto; max-height: 500px; }
+.modal{overflow: hidden !important; overflow-y:hidden !important; }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

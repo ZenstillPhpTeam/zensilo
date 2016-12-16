@@ -31,6 +31,10 @@
     $(".getting_started").click(function(e){
       $("body").toggleClass('show_company_creation_container');
     });
+
+    $(".login_started").click(function(e){
+      $("body").toggleClass('show_company_login_container');
+    });
     
     $(".toggle_link").click(function(){
       $(".reset_pwd").slideToggle();
@@ -158,11 +162,11 @@
                   <option value="lang_english_text" selected="selected">English</option>
                   <option value="lang_tamil_text">தமிழ்</option>
                 </select></li> -->
-              <li><a href="<?= $this->Url->build(array("controller" => "users")); ?>">login</a></li>
+              <li><a href="#" class="login_started">login</a></li>
             </ul>
             <?php if($this->request->params['action'] == 'index'){?>
             <div class="login_form  text-left">
-              <div class="l_pwd">
+              <div class="l_pwd getting_started_signup">
                 <img class="close_container getting_started" src="<?= $this->Url->build("/"); ?>img/icons/delete.png" alt="Image" />
                 <h3>Enter your details</h3>
                 <form autocomplete="off" role="form" method="post" class="company_registration" novalidate="">
@@ -171,6 +175,24 @@
                     <input autocomplete="off" type="text" class="form-control" id="company_name" name="name">
                     <p class="error_text">Company name Already exist</p>
                   </div>
+                  <div class="form-group" >
+                    <label for="email">Email address:</label>
+                    <input autocomplete="off" type="email" class="form-control" id="email" name="email">
+                    <p class="error_text">Email Already exist</p>
+                    <p class="error_text_email">Invalid Email</p>
+                  </div>
+                  <div class="form-group">
+                    <label for="pwd">Password:</label>
+                    <input autocomplete="off" type="password" class="form-control" id="pwd" name="password">
+                  </div>
+                  <button type="submit" class="btn btn-default">Submit</button>
+                </form>
+              </div>
+
+              <div class="l_pwd getting_started_signin">
+                <img class="close_container login_started" src="<?= $this->Url->build("/"); ?>img/icons/delete.png" alt="Image" />
+                <h3>Enter your details</h3>
+                <form autocomplete="off" role="form" method="post" class="company_registration" novalidate="">
                   <div class="form-group" >
                     <label for="email">Email address:</label>
                     <input autocomplete="off" type="email" class="form-control" id="email" name="email">
