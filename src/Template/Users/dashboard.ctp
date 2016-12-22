@@ -1,5 +1,6 @@
 <?php ?>
 <?= $this->Html->script(array('../assets/widgets/wizard/wizard', '../assets/widgets/wizard/wizard-demo', '../assets/widgets/tabs/tabs', '../assets/widgets/chosen/chosen', '../assets/widgets/chosen/chosen-demo','../assets/widgets/parsley/parsley','../assets/widgets/datepicker/datepicker','../assets/widgets/datepicker-ui/datepicker','../assets/widgets/daterangepicker/moment','../assets/widgets/calendar/calendar','../assets/widgets/calendar/calendar-demo','../assets/piechart/canvasjs.min')) ?>
+<?= $this->Html->css(array('../assets/piechart/barchart-css')) ?> 
 <style>
 .pieID,.pieID1 {
   display: inline-block;
@@ -135,7 +136,37 @@ footer {
       <span class="header-buttons"><a href="<?= $this->Url->build(array("action" => "projects"));?>" class="btn btn-sm btn-primary" title="">View All</a></span>
       </h3>
       <div class="content-box-wrapper">     	
-      	<div id="chartContainer" style="height: 300px; width: 100%;"></div>
+      	<div>
+         
+          <table id="q-graph">
+<caption>Quarterly Results</caption>
+<thead>
+<tr>
+<th></th>
+<th class="sent">Invoiced</th>
+<th class="paid">Collected</th>
+</tr>
+</thead>
+<tbody>
+ <?php foreach($pro_task as $pro) { ?>
+    <tr class="qtr" id="q1">
+    <th scope="row"><?php echo $pro['title'] ?></th>
+    <td class="sent bar" style="height: 111px;"><p><?php echo $pro['status']."-".$pro['count'] ?></p></td>
+    </tr>
+<?php } ?>
+</tbody>
+</table>
+
+<div id="ticks">
+<div class="tick" style="height: 59px;"><p>$50,000</p></div>
+<div class="tick" style="height: 59px;"><p>$40,000</p></div>
+<div class="tick" style="height: 59px;"><p>$30,000</p></div>
+<div class="tick" style="height: 59px;"><p>$20,000</p></div>
+<div class="tick" style="height: 59px;"><p>$10,000</p></div>
+</div>
+
+
+        </div>
       </div>
     </div>
 

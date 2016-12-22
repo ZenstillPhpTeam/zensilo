@@ -118,17 +118,17 @@ class UsersController extends AppController
             $projects =  $this->Projects->find('all',['conditions' => ['company_id' => $comp_id]])->count();
             $expense_requests =  $conn->execute("select a.type,sum(b.amount) as sum_amount from expense_types a, expense_requests b where a.id=b.type_id and b.company_id = ".$comp_id." and b.applied_date between '".$last_month."' and '".$date."' group by b.type_id");
             $leave_requests =  $conn->execute("select a.type,sum(b.no_of_days) as sum_days from leave_types a, leave_requests b where a.id=b.type_id and b.company_id = ".$comp_id." and b.start_date between '".$last_month."' and '".$date."' group by b.type_id");
-            $project_tasks =  $conn->execute("select a.project_name,b.status,count(*) from projects a, tasks b where a.id = b.project_id and  b.company_id = ".$comp_id." group by b.status");
+            $project_tasks =  $conn->execute("select a.project_name,b.status,count(*) as sum_days from projects a, tasks b where a.id = b.project_id and  b.company_id = ".$comp_id." group by b.status");
             $clients =  $this->Users->find('all',['conditions' => ['userrole' => "client",'parent_id' => $comp_id]])->count();
             $users =  $this->Users->find('all',['conditions' => ['userrole' => "user",'parent_id' => $comp_id]])->count();
             $tasks_calendar = $conn->execute("select * from tasks where company_id=". $comp_id);
 
         }  
-        else{
+        else {
            $projects =  $this->ProjectTeams->find('all',['conditions' => ['user_id' => $comp_id]])->count(); 
            $expense_requests =  $conn->execute("select a.type,sum(b.amount) as sum_amount from expense_types a, expense_requests b where a.id=b.type_id and b.user_id = ".$comp_id." and b.applied_date between '".$last_month."' and '".$date."' group by b.type_id");
            $leave_requests =  $conn->execute("select a.type,sum(b.no_of_days) as sum_days from leave_types a, leave_requests b where a.id=b.type_id and b.user_id = ".$comp_id." and b.start_date between '".$last_month."' and '".$date."' group by b.type_id");
-           $project_tasks =  $conn->execute("select a.project_name,b.status,count(*) from projects a, tasks b, task_teams c where a.id = b.project_id and c.task_id = b.id and c.user_id = ".$comp_id." group by b.status ");
+           $project_tasks =  $conn->execute("select a.project_name,b.status,count(*) as sum_days from projects a, tasks b, task_teams c where a.id = b.project_id and c.task_id = b.id and c.user_id = ".$comp_id." group by b.status");
            $clients = 0;
            $users = 0;
            $tasks_calendar =  $conn->execute("select a.type,sum(b.no_of_days) as sum_days from leave_types a, leave_requests b where a.id=b.type_id and b.user_id = ".$comp_id." and b.created between '".$last_month."' and '".$date."' group by b.type_id");
@@ -138,7 +138,17 @@ class UsersController extends AppController
 
         //echo "select a.type,sum(b.amount) as sum_amount from expense_types a, expense_requests b where a.id=b.type_id and b.user_id = ".$comp_id." and b.applied_date between ".$date." and ".$last_month." group by b.type_id";
         //exit;
-     //   pr($tasks_calendar);exit;
+        //pr($tasks_calendar);exit;
+
+        $pro_task = array();
+        if($project_tasks){
+        foreach($project_tasks as $k=>$tasks){
+           $pro_task[$k]['title'] = $tasks['project_name'];
+           $pro_task[$k]['status'] = $tasks['status'];
+           $pro_task[$k]['count'] = $tasks['sum_days'];
+        }
+        }
+
         $tasks_cal = array();
         if($tasks_calendar){
         foreach($tasks_calendar as $k=>$tasks){
@@ -146,7 +156,6 @@ class UsersController extends AppController
             $tasks_cal[$k]['start'] = $tasks['due_date'];
         }
         }
-
 
         $expense = array();
         foreach($expense_requests as $k=>$expensereq){
@@ -168,6 +177,7 @@ class UsersController extends AppController
         $this->set('expense', $expense);
         $this->set('tasks', $tasks);
         $this->set('users', $users);
+        $this->set('pro_task', $pro_task);
         $this->set('clients', $clients);
         $this->set('tasks_cal', $tasks_cal);
     }
