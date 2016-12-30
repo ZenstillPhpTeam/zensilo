@@ -1,3 +1,11 @@
+<?php foreach($notifications as $noti){ 
+
+	$name = $this->Custom->get_username($noti->notifrom);
+	$type = $noti->type;=\
+	]function __construct($foo = null) {
+		$this->foo = $foo;
+	}
+?>
 <div>
 <img src="">
 <?php if($type == 'leave_request_new'){?>
@@ -32,3 +40,5 @@
 <p><? $name;?> send a notification to you "Notes".</p>
 <?php }?>
 </div>
+
+<?php }?>

@@ -17,6 +17,7 @@ namespace App\Controller;
 use Cake\Controller\Controller;
 use Cake\Event\Event;
 use Cake\Mailer\Email;
+use Cake\ORM\TableRegistry;
 /**
  * Application Controller
  *
@@ -83,4 +84,14 @@ class AppController extends Controller
             ->send();
     }
 
+    public function sendNotificaion($from, $to, $type, $project_id = 0, $task_id = 0, $notes, $company_id)
+    {
+        $this->Notification = TableRegistry::get('notifications');
+
+        $data = array('from' => $from, 'to' => $to, 'type' => $type, 'project_id' => $project_id, 'task_id' => $task_id, 'notes' => $notes, 'status' => 0);
+
+        $mdata = $this->Notification->newEntity();
+        $mdata = $this->Notification->patchEntity($mdata, $data);
+        $this->Notification->save($mdata);
+    }
 }
