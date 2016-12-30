@@ -60,4 +60,31 @@ class CustomHelper extends Helper
 
         return implode(",", $arr);
     }
+
+    public function get_username($id) {
+        
+        $this->User = TableRegistry::get('users');
+    
+        $requests =  $this->User->find('all')->where(['id' => $id])->first();
+
+        return count($requests) ? $requests->username : '';
+    }
+
+    public function get_projectname($id) {
+        
+        $this->Table = TableRegistry::get('projects');
+    
+        $requests =  $this->Table->find('all')->where(['id' => $id])->first();
+
+        return count($requests) ? $requests->project_name : '';
+    }
+
+    public function get_taskname($id) {
+        
+        $this->User = TableRegistry::get('tasks');
+    
+        $requests =  $this->Table->find('all')->where(['id' => $id])->first();
+
+        return count($requests) ? $requests->task_name : '';
+    }
 }

@@ -1,5 +1,6 @@
 <div ng-controller="TodoListController">
   <div class="sb-slidebar bg-black sb-left sb-style-overlay">
+    <?php if($this->request->params['action'] != 'projectdetail'){?>
     <div class="scrollable-content scrollable-slim-sidebar">
       <div class="pad10A">
         <div class="divider-header">Users</div>
@@ -86,5 +87,18 @@
         <button ng-show="streams.length" ng-click="call_end(1);" class="btn btn-sm btn-danger">End Call</button>
       </div>
     </div>
+    <?php }else{?>
+    <div class="scrollable-content scrollable-slim-sidebar">
+      <div class="pad10A">
+        <div class="divider-header">Group Chat</div>
+        <div class="project_group_chat">
+          
+        </div>
+        <div class="group_chat_input">
+          <textarea ng-model="grmsg"></textarea>
+        </div>
+      </div>
+    </div>
+    <?php }?>
   </div>
 </div>

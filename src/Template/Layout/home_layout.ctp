@@ -84,9 +84,15 @@
       });
 
       if($(".company_registration .form-control.error").length)
+      {  
         $(".login_form .btn-default").removeClass("all_data_filled");
+        $(".company_registration").attr('onsubmit', 'return false;');
+      }
       else
+      {  
         $(".login_form .btn-default").addClass("all_data_filled");
+        $(".company_registration").attr('onsubmit', '');
+      }
     }
 
     $(".company_registration .form-control").bind('keyup change', function(e){
@@ -169,7 +175,7 @@
               <div class="l_pwd getting_started_signup">
                 <img class="close_container getting_started" src="<?= $this->Url->build("/"); ?>img/icons/delete.png" alt="Image" />
                 <h3>Enter your details</h3>
-                <form autocomplete="off" role="form" method="post" class="company_registration" novalidate="">
+                <form onsubmit="return false;" autocomplete="off" role="form" method="post" class="company_registration" novalidate="">
                   <div class="form-group" >
                     <label for="email">Company name:</label>
                     <input autocomplete="off" type="text" class="form-control" id="company_name" name="name">
@@ -192,16 +198,14 @@
               <div class="l_pwd getting_started_signin">
                 <img class="close_container login_started" src="<?= $this->Url->build("/"); ?>img/icons/delete.png" alt="Image" />
                 <h3>Enter your details</h3>
-                <form autocomplete="off" role="form" method="post" class="company_registration" novalidate="">
+                <form action="<?= $this->Url->build(["controller" => "users", "action" => "index"]);?>" autocomplete="off" role="form" method="post" class="company_login" novalidate="">
                   <div class="form-group" >
                     <label for="email">Email address:</label>
-                    <input autocomplete="off" type="email" class="form-control" id="email" name="email">
-                    <p class="error_text">Email Already exist</p>
-                    <p class="error_text_email">Invalid Email</p>
+                    <input autocomplete="off" type="email" class="form-control" name="username">
                   </div>
                   <div class="form-group">
                     <label for="pwd">Password:</label>
-                    <input autocomplete="off" type="password" class="form-control" id="pwd" name="password">
+                    <input autocomplete="off" type="password" class="form-control" name="password">
                   </div>
                   <button type="submit" class="btn btn-default">Submit</button>
                 </form>

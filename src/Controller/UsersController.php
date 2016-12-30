@@ -43,6 +43,7 @@ class UsersController extends AppController
 
             $this->User = TableRegistry::get('users');
             $this->Designation = TableRegistry::get('designations');
+            $this->Notification = TableRegistry::get('notifications');
 
             $user = $this->User->get($this->Auth->user()['id']);
             $this->loggedInUser = $this->Auth->user();
@@ -60,6 +61,9 @@ class UsersController extends AppController
             
             $designation = $this->Designation->find('all',['conditions' =>['company_id' => $this->company_id ]])->all();
             $this->set('designation', $designation);
+
+            $notifications = $this->Notification->find('all',['conditions' =>['company_id' => $this->company_id, 'notito' => $this->loggedInUser['id']]])->all();
+            $this->set('notifications', $notifications);
 
             if($this->loggedInUser['status'] == 0)
                 $this->render('verfiy_email');
@@ -601,7 +605,7 @@ class UsersController extends AppController
             $this->set('total_effort', $total_effort);
        }      
        $this->set('siteurl', $siteurl);
-
+       $this->set('id', $id);
     }
 
     public function server()

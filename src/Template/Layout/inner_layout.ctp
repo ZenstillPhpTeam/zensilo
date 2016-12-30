@@ -116,6 +116,7 @@
       <div id="page-content">
         <div id="page-header">
           <div id="header-nav-left">
+            <a href="#" class="hdr-btn" id="fullscreen-btn" title="Fullscreen"><i class="glyph-icon icon-arrows-alt"></i></a>
             <div class="user-account-btn dropdown"><a href="#" title="My Account" class="user-profile clearfix" data-toggle="dropdown"><img width="28" src="<?= $this->Url->build("/"); ?>assets/image-resources/gravatar.jpg" alt="Profile image"> <span><?= $loggedInUser['username'];?></span> <i class="glyph-icon icon-angle-down"></i></a>
               <div class="dropdown-menu float-right">
                 <div class="box-sm">
@@ -130,14 +131,15 @@
               </div>
             </div>
           </div>
-          <div id="header-nav-right"><a href="#" class="hdr-btn popover-button" title="Search" data-placement="bottom" data-id="#popover-search"><i class="glyph-icon icon-search"></i></a>
+          <div id="header-nav-right">
+            <!-- <a href="#" class="hdr-btn popover-button" title="Search" data-placement="bottom" data-id="#popover-search"><i class="glyph-icon icon-search"></i></a>
             <div class="hide" id="popover-search">
               <div class="pad5A box-md">
                 <div class="input-group">
                   <input type="text" class="form-control" placeholder="Search terms here ...">
                   <span class="input-group-btn"><a class="btn btn-primary" href="#">Search</a></span></div>
               </div>
-            </div>
+            </div> -->
             <a href="#" class="hdr-btn" id="fullscreen-btn" title="Fullscreen"><i class="glyph-icon icon-arrows-alt"></i></a>
             <a id="chatbox-btn" class="hdr-btn sb-toggle-left" href="#" title="Chat sidebar">
               <i class="glyph-icon icon-linecons-paper-plane"></i>
