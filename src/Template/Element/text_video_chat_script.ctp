@@ -290,4 +290,35 @@ angular_module
             });
         };
 
+    })
+    .controller('GroupChatController', function($scope, OTSession, $http) {
+
+        $(".sb-left").click(function(e){
+          e.stopPropagation();
+        });
+
+        var group_chat = new Firebase('https://vinogautam.firebaseio.com/zensilo/group_chat/<?= $project->id; ?>/');
+        
+        $scope.all_chat_data = [];
+        
+        group_chat.on('child_added', function(snapshot) {
+            if(!$scope.$$phase) {
+              $scope.$apply(function(){
+                $scope.all_chat_data.push(snapshot.val());
+              });
+            }
+            else
+            {
+              $scope.all_chat_data.push(snapshot.val());
+            }
+        });
+
+        $scope.add = function(id){
+            group_chat.push({id: <?= $loggedInUser['id']; ?>, email: <?= $loggedInUser['id']; ?>, msg: $scope.grmsg});
+            $scope.grmsg = '';
+        };
+
+        $scope.getAvatarbyId = function(email){
+          return "http://identicon.org/?t="+email+"&s=20";
+        };
     });
