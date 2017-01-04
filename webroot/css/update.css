@@ -111,6 +111,9 @@ float: right;}
 .mail_list_table tr td .important_mail_info.important_mail{color: #000;}
 .modal-content{ background: #f1f1f1; overflow: auto; max-height: 500px; }
 .modal{overflow: hidden !important; overflow-y:hidden !important; }
+.group_chat_input{width: 100%;left: 0;bottom: 0;position: absolute;}
+.group_chat_input textarea{width: 100%;}
+.chat_box_group_chat{height: 80%;overflow: auto;}
 
 
 

@@ -1,6 +1,7 @@
+<?php if($this->request->params['action'] != 'projectdetail'){?>
 <div ng-controller="TodoListController">
   <div class="sb-slidebar bg-black sb-left sb-style-overlay">
-    <?php if($this->request->params['action'] != 'projectdetail'){?>
+    
     <div class="scrollable-content scrollable-slim-sidebar">
       <div class="pad10A">
         <div class="divider-header">Users</div>
@@ -50,7 +51,7 @@
         <div id="chat_box_{{chat}}" class="chat_conversation_box">
           <div ng-repeat="msg in all_chat_data[chat]" on-finish-render="{{chat}}" ng-class="{own_msg: msg.id == <?= $loggedInUser['id']; ?>, opponent_msg: msg.id != <?= $loggedInUser['id']; ?>}">
             <div class="clearfix" ng-if="msg.msg && msg.id == <?= $loggedInUser['id']; ?>">
-              <div><p>{{msg.msg}}<p></div>
+              <div><p>{{msg.msg}}</p></div>
               <img ng-src="http://identicon.org/?t=<?= $loggedInUser['email']; ?>&s=20">
             </div>
             <div class="clearfix" ng-if="msg.msg && msg.id != <?= $loggedInUser['id']; ?>">
@@ -87,18 +88,33 @@
         <button ng-show="streams.length" ng-click="call_end(1);" class="btn btn-sm btn-danger">End Call</button>
       </div>
     </div>
-    <?php }else{?>
-    <div class="scrollable-content scrollable-slim-sidebar">
+    
+  </div>
+</div>
+
+<?php }else{?>
+<div ng-controller="GroupChatController">
+  <div class="sb-slidebar bg-black sb-left sb-style-overlay">
+    <div class="">
       <div class="pad10A">
-        <div class="divider-header">Group Chat</div>
-        <div class="project_group_chat">
-          
-        </div>
-        <div class="group_chat_input">
-          <textarea ng-model="grmsg"></textarea>
+        <div class="divider-header"><?= $project->project_name; ?> Group Chat</div>
+        <div style="hieight:300px;overflow:hidden" id="chat_box_group_chat" class="project_group_chat">
+          <div ng-repeat="msg in all_chat_data" on-finish-render="group_chat" ng-class="{own_msg: msg.id == <?= $loggedInUser['id']; ?>, opponent_msg: msg.id != <?= $loggedInUser['id']; ?>}">
+            <div class="clearfix" ng-if="msg.msg && msg.id == <?= $loggedInUser['id']; ?>">
+              <div><p>{{msg.msg}}</p></div>
+              <img ng-src="http://identicon.org/?t=<?= $loggedInUser['email']; ?>&s=20">
+            </div>
+            <div class="clearfix" ng-if="msg.msg && msg.id != <?= $loggedInUser['id']; ?>">
+              <img ng-src="{{getAvatarbyId(msg.id)}}">
+              <div><p>{{msg.msg}}</p></div>
+            </div>
+          </div>
+          <div class="group_chat_input">
+            <textarea ng-model="grmsg" ng-enter="add();"></textarea>
+          </div>
         </div>
       </div>
     </div>
-    <?php }?>
   </div>
 </div>
+<?php }?>
