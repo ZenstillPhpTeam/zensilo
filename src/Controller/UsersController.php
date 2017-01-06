@@ -106,10 +106,7 @@ class UsersController extends AppController
 
 		if($this->Auth->user())
             $this->redirect($this->Auth->redirectUrl());
-
-        $this->viewBuilder()->layout('admin_login');
-
-	    if ($this->request->is('post') && $this->request->data['username'] && $this->request->data['password']) {
+	    elseif ($this->request->is('post') && $this->request->data['username'] && $this->request->data['password']) {
 
             $user = $this->Auth->identify();
 
@@ -140,13 +137,17 @@ class UsersController extends AppController
                 }
                 else
     	        {
-                    //$this->Flash->error(__('Invalid username or password, try again'));
-                    $this->set('error_msg', 'Wrong credentials.Please try again.');
+                    $this->Flash->error(__('Invalid username or password, try again'));
                 }   
             }
 	    }
-
-        $this->render('index');
+        
+        if(!$this->Auth->user())
+        {
+            $this->redirect(array('controller' => 'home', 'action' => 'index'));
+        }
+        //$this->viewBuilder()->layout('admin_login');
+        //$this->render('index');
 	}
 
     public function login($st=0)
