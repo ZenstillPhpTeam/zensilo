@@ -608,7 +608,7 @@ class UsersController extends AppController
        $this->set('id', $id);
     }
 
-    public function server()
+    public function server($php, $id=0)
     {
         $this->ProjectDocuments = TableRegistry::get('project_documents');
         $this->ProjectTimeline = TableRegistry::get('project_timeline');
@@ -624,23 +624,22 @@ class UsersController extends AppController
             foreach($data['files'] as $k=>$pre)
             {
                 $image = $pre;
-                $uploadPath = WWW_ROOT .'upload/project';
-                $imageName = time().$image['name'];
-                $full_image_path = $uploadPath . '/' . $imageName;
-                if(move_uploaded_file($image['tmp_name'], $full_image_path))
-                    $images[] = $imageName;
+                $imageName = $this->s3upload($image['tmp_name'], time().$image['name']);
+                if($imageName)
+                {    $images[] = $imageName;
 
-            $data['document_name'] = $imageName;
-            $data['type'] = pathinfo($imageName, PATHINFO_EXTENSION);
-            $data['project_id'] = $data['project_doc_id'];
-            $documents = $this->ProjectDocuments->newEntity();
-            $documents = $this->ProjectDocuments->patchEntity($documents, $data);
-            $documents = $this->ProjectDocuments->save($documents);
-            $json['files'][$k]['url'] = $siteurl .'upload/project/'.$imageName;
-            $json['files'][$k]['thumbnailUrl'] = $siteurl .'upload/project/'.$imageName;
-            $json['files'][$k]['name'] = $imageName;
-            $json['files'][$k]['deleteUrl'] = $siteurl .'users/delete/'.$documents->id;
-            $json['files'][$k]['deleteType'] = "DELETE";
+                    $data['document_name'] = $imageName;
+                    $data['type'] = pathinfo($imageName, PATHINFO_EXTENSION);
+                    $data['project_id'] = $data['project_doc_id'];
+                    $documents = $this->ProjectDocuments->newEntity();
+                    $documents = $this->ProjectDocuments->patchEntity($documents, $data);
+                    $documents = $this->ProjectDocuments->save($documents);
+                    $json['files'][$k]['url'] = $imageName;
+                    $json['files'][$k]['thumbnailUrl'] = $imageName;
+                    $json['files'][$k]['name'] = $image['name'];
+                    $json['files'][$k]['deleteUrl'] = $siteurl .'users/delete/'.$documents->id;
+                    $json['files'][$k]['deleteType'] = "DELETE";
+                }
             }
             //print_r($data);exit;
             echo json_encode($json);
@@ -652,9 +651,9 @@ class UsersController extends AppController
             $docs = $this->ProjectDocuments->find('all',['conditions' => ['project_id' => $id]]);
             foreach($docs as $k=>$pre)
             {
-            $json['files'][$k]['url'] = $siteurl .'upload/project/'.$imageName;
-            $json['files'][$k]['thumbnailUrl'] = $siteurl .'upload/project/'.$imageName;
-            $json['files'][$k]['name'] = $imageName;
+            $json['files'][$k]['url'] = $pre->document_name;
+            $json['files'][$k]['thumbnailUrl'] = $pre->document_name;
+            $json['files'][$k]['name'] = basename($pre->document_name);
             $json['files'][$k]['deleteUrl'] = $siteurl .'users/delete/'.$pre->id ;
             $json['files'][$k]['deleteType'] = "DELETE";
             }
