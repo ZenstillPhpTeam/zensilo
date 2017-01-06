@@ -11,7 +11,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 
 <!-- CSS -->
-<?= $this->Html->css(array('bootstrap', 'style', '../assets/icons/fontawesome/fontawesome'));?>
+<?= $this->Html->css(array('bootstrap', 'style', '../assets/helpers/utils', '../assets/icons/fontawesome/fontawesome', '../assets/helpers/colors', '../assets/elements/response-messages'));?>
 
 <!-- FAVICONS -->
 <link rel="shortcut icon" href="img/favicon/favicon.png" type="image/png">
@@ -85,18 +85,38 @@
 
       if($(".company_registration .form-control.error").length)
       {  
-        $(".login_form .btn-default").removeClass("all_data_filled");
+        $(".company_registration .btn-default").removeClass("all_data_filled");
         $(".company_registration").attr('onsubmit', 'return false;');
       }
       else
       {  
-        $(".login_form .btn-default").addClass("all_data_filled");
+        $(".company_registration .btn-default").addClass("all_data_filled");
         $(".company_registration").attr('onsubmit', '');
       }
     }
 
     $(".company_registration .form-control").bind('keyup change', function(e){
       validate();
+    });
+
+    $(".company_login .form-control").bind('keyup change', function(e){
+      $(".company_login .form-control").each(function(){
+        if($(this).val())
+          $(this).removeClass("error");
+        else
+          $(this).addClass("error")
+      });
+
+      if($(".company_login .form-control.error").length)
+      {  
+        $(".company_login .btn-default").removeClass("all_data_filled");
+        $(".company_login").attr('onsubmit', 'return false;');
+      }
+      else
+      {  
+        $(".company_login .btn-default").addClass("all_data_filled");
+        $(".company_login").attr('onsubmit', '');
+      }
     });
 
     $("#company_name").keyup(function(){
@@ -198,7 +218,7 @@
               <div class="l_pwd getting_started_signin">
                 <img class="close_container login_started" src="<?= $this->Url->build("/"); ?>img/icons/delete.png" alt="Image" />
                 <h3>Enter your details</h3>
-                <form action="<?= $this->Url->build(["controller" => "users", "action" => "index"]);?>" autocomplete="off" role="form" method="post" class="company_login" novalidate="">
+                <form onsubmit="return false;" action="<?= $this->Url->build(["controller" => "users", "action" => "index"]);?>" autocomplete="off" role="form" method="post" class="company_login" novalidate="">
                   <div class="form-group" >
                     <label for="email">Email address:</label>
                     <input autocomplete="off" type="email" class="form-control" name="username">

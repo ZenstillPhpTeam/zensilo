@@ -57,8 +57,8 @@
       <div class="scroll-sidebar">
         <ul id="sidebar-menu">
           <li class="header"><span>Overview</span></li>
-          <li><a href="<?= $this->Url->build(array("controller"=> "users","action" => "company"));?>" title="Company"><i class="glyph-icon icon-linecons-tv"></i> <span>Company</span></a></li>
-          <li><a href="<?= $this->Url->build(array("controller"=> "users","action" => "projects"));?>" title="Projects Menu"><i class="glyph-icon icon-linecons-diamond"></i> <span>Projects</span></a>
+          <li><a href="<?= $this->Url->build(array("controller"=> "users","action" => "company"));?>" title="Company"><i class="glyph-icon icon-home"></i> <span>Company</span></a></li>
+          <li><a href="<?= $this->Url->build(array("controller"=> "users","action" => "projects"));?>" title="Projects Menu"><i class="glyph-icon icon-list-alt"></i> <span>Projects</span></a>
               <div class="sidebar-submenu" style="display: block;">
               <ul>
               <li><a href="<?= $this->Url->build(array("controller"=> "users","action" => "projects"));?>" title="Projects"><span>Projects</span></a></li>
@@ -68,34 +68,34 @@
               </ul></div>
           </li>
 
-          <li><a href="<?= $this->Url->build(array("controller"=> "tasks","action" => "tasks"));?>" title="Add Tasks"><i class="glyph-icon icon-elusive-group"></i> <span>Tasks</span></a></li>
+          <li><a href="<?= $this->Url->build(array("controller"=> "tasks","action" => "tasks"));?>" title="Add Tasks"><i class="glyph-icon icon-tasks"></i> <span>Tasks</span></a></li>
 
-          <li><a href="<?= $this->Url->build(array("controller"=> "users","action" => "users"));?>" title="Add Users"><i class="glyph-icon icon-elusive-group"></i> <span>Users</span></a></li>
+          <li><a href="<?= $this->Url->build(array("controller"=> "users","action" => "users"));?>" title="Add Users"><i class="glyph-icon icon-user"></i> <span>Users</span></a></li>
 
-          <li><a href="<?= $this->Url->build(array("controller"=> "expenses","action" => "request"));?>" title="Add Expenses"><i class="glyph-icon icon-elusive-group"></i><span>Expenses</span></a></li>
-          <li><a href="<?= $this->Url->build(array("controller"=> "expenses","action" => "response"));?>" title="Add Expenses"><i class="glyph-icon icon-elusive-group"></i><span>Expense Requests</span></a></li>
+          <li><a href="<?= $this->Url->build(array("controller"=> "expenses","action" => "request"));?>" title="Add Expenses"><i class="glyph-icon icon-tag"></i><span>Expenses</span></a></li>
+          <li><a href="<?= $this->Url->build(array("controller"=> "expenses","action" => "response"));?>" title="Add Expenses"><i class="glyph-icon icon-tags"></i><span>Expense Requests</span></a></li>
 
           <!-- elango menus -->
           <li><a href="<?= $this->Url->build(array("controller" => "leaverequests","action" => "response"));?>" title="Leave Requests">
-          <i class="glyph-icon icon-linecons-tv">
+          <i class="glyph-icon icon-list-alt">
           <i class="bs-badge badge-warning"><?=  $this->Custom->get_leave_request_count($loggedInUser['id']); ?></i></i> 
           <span>Leave Requests</span></a></li>
 
           <li><a href="<?= $this->Url->build(array("controller" => "leaverequests","action" => "request"));?>" title="Leave Requests">
-          <i class="glyph-icon icon-linecons-tv"></i> <span>My Leave Requests</span></a></li>
+          <i class="glyph-icon icon-pencil"></i> <span>My Leave Requests</span></a></li>
 
           <li><a href="<?= $this->Url->build(array("controller" => "timesheet","action" => "lists"));?>" title="Leave Requests">
-          <i class="glyph-icon icon-linecons-tv">
+          <i class="glyph-icon icon-calendar">
           <i class="bs-badge badge-warning"><?=  $this->Custom->get_time_sheet_count($loggedInUser['id']);?></i></i> 
           <span>Time Sheet List</span></a></li>
 
           <li><a href="<?= $this->Url->build(array("controller" => "timesheet","action" => "add"));?>" title="Leave Requests">
-          <i class="glyph-icon icon-linecons-tv"></i> <span>My Time Sheet</span></a></li>
+          <i class="glyph-icon icon-calendar"></i> <span>My Time Sheet</span></a></li>
 
 
           <!-- elango menus end -->
 
-          <li><a href="#" title="Projects Menu"><i class="glyph-icon icon-linecons-diamond"></i> <span>Setting</span></a>
+          <li><a href="#" title="Projects Menu"><i class="glyph-icon icon-cog"></i> <span>Setting</span></a>
               <div class="sidebar-submenu" style="display: block;">
               <ul>
               <li><a href="<?= $this->Url->build(array("controller"=> "company", "action" => "designation"));?>" title="Designation"><span>Designation</span></a></li>
@@ -116,19 +116,8 @@
       <div id="page-content">
         <div id="page-header">
           <div id="header-nav-left">
-            <div class="user-account-btn dropdown"><a href="#" title="My Account" class="user-profile clearfix" data-toggle="dropdown"><img width="28" src="<?= $this->Url->build("/"); ?>assets/image-resources/gravatar.jpg" alt="Profile image"> <span><?= $loggedInUser['username'];?></span> <i class="glyph-icon icon-angle-down"></i></a>
-              <div class="dropdown-menu float-right">
-                <div class="box-sm">
-                  <div class="login-box clearfix">
-                    <div class="user-img"><a href="#" title="" class="change-img">Change photo</a> <img src="<?= $this->Url->build("/"); ?>assets/image-resources/gravatar.jpg" alt=""></div>
-                    <div class="user-info"><span>Michael Lee <i>UX/UI developer</i></span> <a href="#" title="Edit profile">Edit profile</a> <a href="#" title="View notifications">View notifications</a></div>
-                  </div>
-                  <div class="divider"></div>
-                  
-                  <div class="button-pane button-pane-alt pad5L pad5R text-center"><a href="<?= $this->Url->build(array("controller"=> "users", "action" => "logout"));?>" class="btn btn-flat display-block font-normal btn-danger"><i class="glyph-icon icon-power-off"></i> Logout</a></div>
-                </div>
-              </div>
-            </div>
+            <a href="#" title="My Account" class="user-profile clearfix" data-toggle="dropdown"><!-- <img width="28" src="<?= $this->Url->build("/"); ?>assets/image-resources/gravatar.jpg" alt="Profile image"> -->Welcome <strong><?= $loggedInUser['username'];?></strong></a>
+            <a href="<?= $this->Url->build(array("controller"=> "users", "action" => "logout"));?>" class="btn btn-flat font-normal btn-danger"><i class="glyph-icon icon-power-off"></i> Logout</a>
           </div>
           <div id="header-nav-right">
             <!-- <a href="#" class="hdr-btn popover-button" title="Search" data-placement="bottom" data-id="#popover-search"><i class="glyph-icon icon-search"></i></a>
