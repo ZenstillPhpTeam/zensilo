@@ -14,10 +14,13 @@
  */
 namespace App\Controller;
 
+require_once(ROOT . DS. 'webroot' .DS. 's3' .DS. 'S3.php');
+
 use Cake\Controller\Controller;
 use Cake\Event\Event;
 use Cake\Mailer\Email;
 use Cake\ORM\TableRegistry;
+use S3;
 /**
  * Application Controller
  *
@@ -26,6 +29,12 @@ use Cake\ORM\TableRegistry;
  *
  * @link http://book.cakephp.org/3.0/en/controllers.html#the-app-controller
  */
+
+if (!defined('awsAccessKey')) define('awsAccessKey', 'AKIAIWLRT2Q36RRFB7MQ');
+if (!defined('awsSecretKey')) define('awsSecretKey', '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');
+if (!defined('Bucket')) define('Bucket', 'zensilo');
+if (!defined('BucketUrl')) define('BucketUrl', 'https://s3-us-west-2.amazonaws.com/');
+
 class AppController extends Controller
 {
 
@@ -93,5 +102,20 @@ class AppController extends Controller
         $mdata = $this->Notification->newEntity();
         $mdata = $this->Notification->patchEntity($mdata, $data);
         $this->Notification->save($mdata);
+    }
+
+    public function s3upload($tmp, $filename)
+    {
+        $s3 = new S3(awsAccessKey, awsSecretKey);
+        $headers = array(
+                    'Cache-Control' => 'max-age=31536000', 
+                    'Expires'       => gmdate('D, d M Y H:i:s GMT', time() + (365 * 24 * 60 * 60))
+                );
+
+        $filename = str_replace(" ", "_", $filename);
+        if($s3->putObjectFile($tmp, Bucket , $filename, S3::ACL_PUBLIC_READ, $headers))
+            return BucketUrl.Bucket.'/'.$filename;
+        else
+            return false;
     }
 }

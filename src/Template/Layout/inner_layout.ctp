@@ -116,7 +116,6 @@
       <div id="page-content">
         <div id="page-header">
           <div id="header-nav-left">
-            <a href="#" class="hdr-btn" id="fullscreen-btn" title="Fullscreen"><i class="glyph-icon icon-arrows-alt"></i></a>
             <div class="user-account-btn dropdown"><a href="#" title="My Account" class="user-profile clearfix" data-toggle="dropdown"><img width="28" src="<?= $this->Url->build("/"); ?>assets/image-resources/gravatar.jpg" alt="Profile image"> <span><?= $loggedInUser['username'];?></span> <i class="glyph-icon icon-angle-down"></i></a>
               <div class="dropdown-menu float-right">
                 <div class="box-sm">
