@@ -118,7 +118,7 @@ float: right;}
 .content-box-wrapper{ overflow-y: scroll; height: 300px; }
 .modal{overflow-x:hidden;
     overflow-y: hidden;}
-#header-nav-left{width: 230px !important;margin-top: 15px;}
+#header-nav-left{width: 350px !important;margin-top: 15px;margin-right: 20px;text-align: right;}
 #header-nav-left a{display: inline-block !important;}
 
 
