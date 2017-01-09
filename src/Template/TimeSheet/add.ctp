@@ -6,7 +6,7 @@
         <div class="panel" >
           <div class="panel-body">
 
-            <h3 class="title-hero"> Time Sheet Add  
+            <h3 class="title-hero">
 
               <span style=" margin-left: 33%;padding: 10px;" class="bs-label label-info"> 
                   {{TimeSheetData.dates[0] | date: 'd MMM yyyy'}} to {{TimeSheetData.dates[6] | date: 'd MMM yyyy'}} 

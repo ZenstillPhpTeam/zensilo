@@ -6,8 +6,8 @@
 
         <div class="panel">
         <div class="panel-body">
-          <h3 class="title-hero"> Leave Request List 
-            <button class="btn btn-alt btn-hover btn-primary float-right"  data-toggle="modal" data-target=".bs-example-modal-lg">
+          <h3 class="title-hero"> 
+            <button class="btn btn-alt btn-hover btn-primary0 float-right"  data-toggle="modal" data-target=".bs-example-modal-lg">
               <span>Add New</span> <i class="glyph-icon icon-arrow-right"></i><div class="ripple-wrapper"></div>
             </button>
           </h3>

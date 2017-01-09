@@ -6,7 +6,7 @@
         <div class="panel" >
           <div class="panel-body">
 
-            <h3 class="title-hero"> Time Sheet view  
+            <h3 class="title-hero"> 
 
               <span style=" margin-left: 33%;padding: 10px;" class="bs-label label-info"> 
       <?php echo date("d M Y", strtotime($result['weekdays'][0])); ?> to <?php echo date("d M Y", strtotime($result['weekdays'][6])); ?>

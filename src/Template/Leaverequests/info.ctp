@@ -8,10 +8,10 @@
 
             
             <div style="margin-bottom: 20px; " class="btn-group dropdown">
-                <button style="width: 250px;" type="button" class="btn btn-primary">{{SelectUser}}
+                <button style="width: 250px;" type="button" class="btn btn-primary3">{{SelectUser}}
                   <div class="ripple-wrapper"></div>
                 </button> 
-                <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                <button type="button" class="btn btn-primary3 dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
                   <span class="caret"></span> 
                   <span class="sr-only">Toggle Dropdown</span>
                   <div class="ripple-wrapper"></div>

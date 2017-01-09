@@ -6,7 +6,7 @@
 
         <div class="panel">
         <div class="panel-body">
-          <h3 class="title-hero"> Expense Request List </h3>
+          <h3 class="title-hero"> </h3>
 
         <div class="example-box-wrapper">
         <div id="datatable-example_wrapper" class="dataTables_wrapper form-inline no-footer">

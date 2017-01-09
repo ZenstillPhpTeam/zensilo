@@ -11,7 +11,7 @@
 
             <div class="panel">
         <div class="panel-body">
-        <h3 class="title-hero">Users List <button class="btn btn-alt btn-hover btn-primary float-right"  data-toggle="modal" data-target=".bs-example-modal-lg"><span>Add New</span> <i class="glyph-icon icon-arrow-right"></i><div class="ripple-wrapper"></div></button></h3>
+        <h3 class="title-hero"><button class="btn btn-alt btn-hover btn-primary0 float-right"  data-toggle="modal" data-target=".bs-example-modal-lg"><span>Add New</span> <i class="glyph-icon icon-arrow-right"></i><div class="ripple-wrapper"></div></button></h3>
 
         <div class="example-box-wrapper">
         <div id="datatable-example_wrapper" class="dataTables_wrapper form-inline no-footer">
