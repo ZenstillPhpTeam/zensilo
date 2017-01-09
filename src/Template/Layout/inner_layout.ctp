@@ -59,15 +59,8 @@
           <li class="header"><span>Overview</span></li>
           <li><a href="<?= $this->Url->build(array("controller"=> "users","action" => "company"));?>" title="Company"><i class="glyph-icon icon-home"></i> <span>Company</span></a></li>
           <li><a href="<?= $this->Url->build(array("controller"=> "users","action" => "projects"));?>" title="Projects Menu"><i class="glyph-icon icon-list-alt"></i> <span>Projects</span></a>
-              <div class="sidebar-submenu" style="display: block;">
-              <ul>
-              <li><a href="<?= $this->Url->build(array("controller"=> "users","action" => "projects"));?>" title="Projects"><span>Projects</span></a></li>
-              <li><a href="<?= $this->Url->build(array("controller"=> "users","action" => "clients"));?>" title="Clients"><span>Clients</span></a></li>
-              
-              
-              </ul></div>
           </li>
-
+           <li><a href="<?= $this->Url->build(array("controller"=> "users","action" => "clients"));?>" title="Clients"><i class="glyph-icon icon-tasks"></i><span>Clients</span></a></li>
           <li><a href="<?= $this->Url->build(array("controller"=> "tasks","action" => "tasks"));?>" title="Add Tasks"><i class="glyph-icon icon-tasks"></i> <span>Tasks</span></a></li>
 
           <li><a href="<?= $this->Url->build(array("controller"=> "users","action" => "users"));?>" title="Add Users"><i class="glyph-icon icon-user"></i> <span>Users</span></a></li>

@@ -62,4 +62,12 @@ class HomeController extends AppController
             $this->Flash->success(__('Your enquiry submitted successfully. Our Zensilo Team will contact you soon.'));
         }
     }
+    public function tnc()
+    {
+      
+    }
+    public function privacy()
+    {
+      
+    }
 }

@@ -211,7 +211,10 @@
                     <label for="pwd">Password:</label>
                     <input autocomplete="off" type="password" class="form-control" id="pwd" name="password">
                   </div>
-                  <button type="submit" class="btn btn-default">Submit</button>
+                  <div class="form-group">
+                    <label for="pwd">By clicking 'Create account', you agree to the <a href="<?= $this->Url->build(array("controller" => "home", "action" => "tnc")); ?>">Terms of Service</a> and <a href="<?= $this->Url->build(array("controller" => "home", "action" => "privacy")); ?>">Privacy Policy</a>.</label>
+                    </div>
+                  <button type="submit" class="btn btn-default">Create Account</button>
                 </form>
               </div>
 
@@ -226,6 +229,9 @@
                   <div class="form-group">
                     <label for="pwd">Password:</label>
                     <input autocomplete="off" type="password" class="form-control" name="password">
+                  </div>
+                  <div class="form-group">
+                    <label for="pwd"><a href="<?= $this->Url->build(array("controller"=> "users", "action" => "forgotPassword"));?>">Forgot Password</a></label>
                   </div>
                   <button type="submit" class="btn btn-default">Submit</button>
                 </form>

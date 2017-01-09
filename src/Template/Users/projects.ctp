@@ -133,7 +133,7 @@
                 <div class="form-group">
                   <label class="col-sm-3 control-label">Assign Team</label>
                   <div class="col-sm-6">
-                    <select multiple="multiple" class="multi-select" name="teams[]" id="14multiselect" style="position: absolute; left: -9999px;" required>
+                    <select multiple="multiple" class="multi-select" name="teams[]" id="14multiselect" style="position: absolute; left: -9999px;" >
                     <?php foreach($team_members as $key => $value) { ?>
                       <option value="<?php echo $value['user_id']; ?>"  ><?php echo $value['client_name']; ?></option>
                       <?php } ?>
@@ -225,7 +225,7 @@
                 <div class="form-group">
                   <label class="col-sm-3 control-label">Assign Team</label>
                   <div class="col-sm-6">
-                    <select multiple="multiple" class="multi-select" name="teams[]" id="14multiselect" style="position: absolute; left: -9999px;" required="">
+                    <select multiple="multiple" class="multi-select" name="teams[]" id="14multiselect" style="position: absolute; left: -9999px;" >
                     <?php foreach($team_members as $key => $value) { ?>
                       <option value="<?php echo $value['user_id']; ?>"><?php echo $value['client_name']; ?></option>
                       <?php } ?>

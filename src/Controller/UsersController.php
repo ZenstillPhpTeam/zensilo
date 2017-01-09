@@ -264,7 +264,7 @@ class UsersController extends AppController
                                               '###RESETLINK###' => $rlink,
                                                 '###CNAME###' => $profile->company_name)),
                             'email_id' => array($this->request->data['email']),
-                            'subject' => 'Mybuzztm Reset password link',
+                            'subject' => 'Zensilo Reset password link',
                             'apikey' => 'summa_token'
                             ));
                 if(!isset($this->request->data['slug']))
@@ -421,6 +421,7 @@ class UsersController extends AppController
                 if ($project_save) {    
                     $this->ProjectTeams->deleteAll(['project_id' => $id]);
                         $teams = $this->request->data['teams'];
+                        if(count($teams)){
                     foreach($teams as $team) {
                          $team_data['user_id'] = $team;
                        $team_data['project_id'] = $data['id'];
@@ -429,6 +430,7 @@ class UsersController extends AppController
                         $teamdata = $this->ProjectTeams->patchEntity($teamdata, $team_data);
                         $teamdata_save  = $this->ProjectTeams->save($teamdata);
                     }
+                }
 
 
                         $project_timeline = $this->ProjectTimeline->newEntity();
@@ -448,6 +450,7 @@ class UsersController extends AppController
                     $project_save  = $this->Projects->save($project);
 
                     $teams = $this->request->data['teams'];
+                    if(count($teams)){
                     foreach($teams as $team) {
                          $team_data['user_id'] = $team;
                        $team_data['project_id'] = $project_save->id;
@@ -456,6 +459,7 @@ class UsersController extends AppController
                         $teamdata = $this->ProjectTeams->patchEntity($teamdata, $team_data);
                         $teamdata_save  = $this->ProjectTeams->save($teamdata);
                     }
+                }
                     if ($project_save) {    
                         $project_timeline = $this->ProjectTimeline->newEntity();
                         $data['project_id'] = $project_save->id;
