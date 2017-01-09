@@ -31,7 +31,7 @@
   var angular_module = angular.module('zensilo', ['opentok', 'opentok-whiteboard']);
 </script>
 </head>
-<body class="" ng-app="zensilo">
+<body class="<?= $this->request->params['controller'].'_'.$this->request->params['action'].'_page';?>" ng-app="zensilo">
 <div id="sb-site">
 
   <?= $this->element('slidebar_left');?>
