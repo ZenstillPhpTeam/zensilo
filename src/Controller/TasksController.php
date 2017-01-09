@@ -16,6 +16,7 @@ class TasksController extends UsersController
        $this->Projects = TableRegistry::get('projects');
        $this->Tasks = TableRegistry::get('tasks');
        $this->ProjectTimeline = TableRegistry::get('project_timeline');
+       $this->TaskTeams = TableRegistry::get('task_teams');
        $siteurl =  Router::url('/', true);
 
        if($action == 'delete')
@@ -76,12 +77,25 @@ class TasksController extends UsersController
                 $this->request->data['company_id'] = $parent_id;
                 $this->request->data['assigned_by'] = $this->Auth->user('id');
                 $this->request->data['assigned_by'] = $this->Auth->user('id');
-                        $teams = implode(",",$this->request->data['assigned_to']);
-                        $this->request->data['assigned_to'] = $teams;
+                        $teams[] = implode(",",$this->request->data['assigned_to']);
+                        $this->request->data['assigned_to'] = $teams;               
+                 
+
                 $task = $this->Tasks->patchEntity($task, $this->request->data);
                 $task_save  = $this->Tasks->save($task);
                 //pr($user);exit;
                 if ($task_save) {
+
+                    $teams1 = $this->request->data['assigned_to'];
+                    foreach($teams1 as $team) {
+                         $team_data['user_id'] = $team;
+                       $team_data['task_id'] = $task_save->id;
+                       $team_data['project_id'] = $this->request->data['project_id'];
+                        //exit;
+                        $teamdata = $this->TaskTeams->newEntity();
+                        $teamdata = $this->TaskTeams->patchEntity($teamdata, $team_data);
+                        $teamdata_save  = $this->TaskTeams->save($teamdata);
+                     }   
 
                     $project_timeline = $this->ProjectTimeline->newEntity();
                         $data['project_id'] = $this->request->data['project_id'];
@@ -120,7 +134,7 @@ class TasksController extends UsersController
 
     }
 
-     public function server()
+     public function server($php, $id=0)
     {
         $this->TaskDocuments = TableRegistry::get('task_documents');
         $this->ProjectTimeline = TableRegistry::get('project_timeline');

@@ -56,8 +56,8 @@
         <td><?= $user_det->mobile ?></td>
         <td class="center"><?= $user_det->location ?></td>
         <td class="center">
-          <a href="<?= $this->Url->build(array("action" => "users", $user_det->user_id));?>"><i class="glyph-icon demo-icon tooltip-button icon-elusive-pencil"></i></a>&nbsp;&nbsp;
-          <a href="<?= $this->Url->build(array("action" => "users", $user_det->user_id, "delete"));?>" onclick="javascript:confirm('Are you sure want to delete this User?')"><i class="glyph-icon demo-icon tooltip-button icon-elusive-trash"></i></a>
+          <a href="<?= $this->Url->build(array("action" => "clients", $user_det->user_id));?>"><i class="glyph-icon demo-icon tooltip-button icon-elusive-pencil"></i></a>&nbsp;&nbsp;
+          <a href="<?= $this->Url->build(array("action" => "clients", $user_det->user_id, "delete"));?>" onclick="javascript:confirm('Are you sure want to delete this User?')"><i class="glyph-icon demo-icon tooltip-button icon-elusive-trash"></i></a>
         </td>
         </tr>
         <?php } ?>
@@ -157,7 +157,7 @@
                 <div class="form-group">
                   <label class="col-sm-3 control-label">Location</label>
                   <div class="col-sm-6">
-                    <input name="location" class="form-control" id="geocomplete1" type="text" required="" value="<?= $client->location ?>">
+                    <input name="location" class="form-control" id="geocomplete1" type="text" required=""  value="<?= $client->location ?>" >
                   </div>
                 </div>
                 

@@ -188,6 +188,7 @@ class CompanyController extends UsersController
                   $user = $this->LeaveType->patchEntity($user, $data);
                   $user_save  = $this->LeaveType->save($user);
                   $i++;
+
                 }
                
                 if ($i) 
@@ -262,7 +263,7 @@ class CompanyController extends UsersController
                   $this->Flash->error('Unable to add Expense Type!!');
             }
 
-            $this->redirect(array("action" => 'leavetypes'));
+            $this->redirect(array("action" => 'expensetypes'));
        }
        elseif($id)
        {

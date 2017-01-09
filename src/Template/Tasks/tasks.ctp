@@ -1,5 +1,7 @@
 <?= $this->Html->script(array('../assets/widgets/wizard/wizard', '../assets/widgets/wizard/wizard-demo', '../assets/widgets/tabs/tabs', '../assets/widgets/chosen/chosen', '../assets/widgets/chosen/chosen-demo','../assets/widgets/parsley/parsley')) ?>
-
+<style>
+.content-box-wrapper{display: none;}
+</style>
         <div class="panel">
           <div class="panel-body content-box">
             <h3 class="title-hero bg-primary">Task</h3>
@@ -30,8 +32,10 @@
         <?php foreach($tasks as $k=>$value){ ?>
         <div class="content-box mrg25B">
         <h3 class="content-box-header bg-blue text-left">
-        <i class="glyph-icon icon-comments"></i> <?= $value->project_name ?></h3>
-        <div class="content-box-wrapper">
+        <i class="glyph-icon icon-comments"></i> <?= $value->project_name ?>
+
+         <i class="glyph-icon icon-comments" onclick="showhide('<?= $value->id ?>');"></i></h3>
+        <div class="content-box-wrapper" id="box<?= $value->id ?>">
         <div class="scrollable-content scrollable-nice scrollable-medium">
         <ul class="todo-box todo-sort ui-sortable">
         <?php foreach($value->tasks as $tas) { ?>
