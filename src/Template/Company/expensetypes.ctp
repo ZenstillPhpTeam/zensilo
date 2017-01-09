@@ -130,17 +130,16 @@
         <div class="modal-body">
           <div class="content-box-wrapper">
 
-                <div class="row">
-                  <div class="col-md-6">
-
-                <div class="form-group">
+                <div class="row" id="append_more_values">
+                  <div class="form-group list_designation">
                   <label class="col-sm-3 control-label">Expense Type</label>
                   <div class="col-sm-6">
-                    <input name="type" class="form-control" id="" placeholder="Leave Type" type="text" required="">
+                    <input name="type[]" class="form-control" id="" placeholder="Leave Type" type="text" required="">
                   </div>
-                </div>
-                
-                
+                  <div class="col-sm-3">
+                    <i class="glyph-icon icon-plus add_more btn btn-success"></i>
+                    <i class="glyph-icon icon-times delete_more btn btn-danger"></i>
+                  </div>
                 </div>
                 </div>
 
@@ -155,3 +154,34 @@
     </div>
   </div>
 </div>
+
+<script type="text/template" id="add_more_template">
+  <div class="form-group list_designation">
+    <label class="col-sm-3 control-label">Expense Type</label>
+    <div class="col-sm-6">
+      <input name="type[]" class="form-control" id="" placeholder="Leave Type" type="text" required="">
+    </div>
+    <div class="col-sm-3">
+      <i class="glyph-icon icon-plus add_more btn btn-success"></i>
+      <i class="glyph-icon icon-times delete_more btn btn-danger"></i>
+    </div>
+  </div>
+</script>
+
+<script type="text/javascript">
+  $(document).on("click", ".add_more", function(){
+    $(this).parents(".list_designation").after($("#add_more_template").html());
+  });
+  $(document).on("click", ".delete_more", function(){
+    $(this).parents(".list_designation").remove();
+    if($(".list_designation").length == 1)
+    {
+      $(".delete_more").hide();
+    }
+    else
+    {
+      $(".delete_more").show();
+    }
+  });
+  $(document)
+</script>

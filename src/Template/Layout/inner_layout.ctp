@@ -31,7 +31,7 @@
   var angular_module = angular.module('zensilo', ['opentok', 'opentok-whiteboard']);
 </script>
 </head>
-<body class="closed-sidebar" ng-app="zensilo">
+<body class="<?= $this->request->params['controller'].'_'.$this->request->params['action'].'_page';?>" ng-app="zensilo">
 <div id="sb-site">
 
   <?= $this->element('slidebar_left');?>
@@ -64,15 +64,17 @@
           <li><a href="<?= $this->Url->build(array("controller"=> "tasks","action" => "tasks"));?>" title="Add Tasks"><i class="glyph-icon icon-tasks"></i> <span>Tasks</span></a></li>
 
           <li><a href="<?= $this->Url->build(array("controller"=> "users","action" => "users"));?>" title="Add Users"><i class="glyph-icon icon-user"></i> <span>Users</span></a></li>
-
-          <li><a href="<?= $this->Url->build(array("controller"=> "expenses","action" => "request"));?>" title="Add Expenses"><i class="glyph-icon icon-tag"></i><span>Expenses</span></a></li>
-          <li><a href="<?= $this->Url->build(array("controller"=> "expenses","action" => "response"));?>" title="Add Expenses"><i class="glyph-icon icon-tags"></i><span>Expense Requests</span></a></li>
-
+          <li><a href="<?= $this->Url->build(array("controller"=> "expenses","action" => "request"));?>" title="Add Expenses"><i class="glyph-icon icon-elusive-group"></i><span>Expenses</span></a></li>
+          <?php if($loggedInUser['lead_id'] == 0) { ?>
+          <li><a href="<?= $this->Url->build(array("controller"=> "expenses","action" => "response"));?>" title="Add Expenses"><i class="glyph-icon icon-elusive-group"></i><span>Expense Requests</span></a></li>
+          <?php } ?>
           <!-- elango menus -->
+          <?php if($loggedInUser['lead_id'] == 0) { ?>
           <li><a href="<?= $this->Url->build(array("controller" => "leaverequests","action" => "response"));?>" title="Leave Requests">
           <i class="glyph-icon icon-list-alt">
           <i class="bs-badge badge-warning"><?=  $this->Custom->get_leave_request_count($loggedInUser['id']); ?></i></i> 
           <span>Leave Requests</span></a></li>
+          <?php } ?>
 
           <li><a href="<?= $this->Url->build(array("controller" => "leaverequests","action" => "request"));?>" title="Leave Requests">
           <i class="glyph-icon icon-pencil"></i> <span>My Leave Requests</span></a></li>
@@ -109,8 +111,32 @@
       <div id="page-content">
         <div id="page-header">
           <div id="header-nav-left">
-            <a href="#" title="My Account" class="user-profile clearfix" data-toggle="dropdown"><!-- <img width="28" src="<?= $this->Url->build("/"); ?>assets/image-resources/gravatar.jpg" alt="Profile image"> -->Welcome <strong><?= $loggedInUser['username'];?></strong></a>
-            <a href="<?= $this->Url->build(array("controller"=> "users", "action" => "logout"));?>" class="btn btn-flat font-normal btn-danger"><i class="glyph-icon icon-power-off"></i> Logout</a>
+            <div class="user-account-btn dropdown">
+              <a href="#" title="My Account" class="user-profile clearfix" data-toggle="dropdown">
+                <?php if(isset($loggedInUserprofile->image)){?><img width="28" src="<?= $loggedInUserprofile->image;?>" alt="Profile image"><?php }?>
+                <span><?= $loggedInUser['username'];?></span> 
+                <i class="glyph-icon icon-angle-down"></i>
+              </a>
+              <div class="dropdown-menu float-right">
+                <div class="box-sm">
+                  <div class="login-box clearfix">
+                    <div class="user-img">
+                    <?php if(isset($loggedInUserprofile->image)){?><img src="<?= $loggedInUserprofile->image;?>" alt="Profile image"><?php }?>
+                    </div>
+                    <div class="user-info">
+                      <span><?= $loggedInUserprofile->client_name;?><i><?= $loggedInUser['email'];?></i></span> 
+                      <a href="<?= $this->Url->build(array("controller"=> "company", "action" => "setting"));?>" title="Edit profile">Edit profile</a> 
+                      <a href="<?= $this->Url->build(array("controller"=> "company", "action" => "change-password"));?>" title="View notifications">Change password</a>
+                    </div>
+                  </div>
+                  <div class="divider"></div>
+                  
+                  <div class="button-pane button-pane-alt pad5L pad5R text-center"><a href="<?= $this->Url->build(array("controller" => "users", "action" => "logout"));?>" class="btn btn-flat display-block font-normal btn-danger"><i class="glyph-icon icon-power-off"></i> Logout</a></div>
+                </div>
+              </div>
+            </div>
+            <!-- <a href="<?= $this->Url->build(array("controller"=> "company", "action" => "setting"));?>" title="My Account" class="user-profile clearfix" data-toggle="dropdown"><img width="28" src="<?= $this->Url->build("/"); ?>assets/image-resources/gravatar.jpg" alt="Profile image"> Welcome <strong><?= $loggedInUser['username'];?></strong></a>
+            <a href="<?= $this->Url->build(array("controller"=> "users", "action" => "logout"));?>" class="btn btn-flat font-normal btn-danger"><i class="glyph-icon icon-power-off"></i> Logout</a>-->
           </div>
           <div id="header-nav-right">
             <!-- <a href="#" class="hdr-btn popover-button" title="Search" data-placement="bottom" data-id="#popover-search"><i class="glyph-icon icon-search"></i></a>

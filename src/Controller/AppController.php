@@ -30,8 +30,8 @@ use S3;
  * @link http://book.cakephp.org/3.0/en/controllers.html#the-app-controller
  */
 
-if (!defined('awsAccessKey')) define('awsAccessKey', 'AKIAIWLRT2Q36RRFB7MQ');
-if (!defined('awsSecretKey')) define('awsSecretKey', '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');
+if (!defined('awsAccessKey')) define('awsAccessKey', 'AKIAIFVEZSQLL26D2HYQ');
+if (!defined('awsSecretKey')) define('awsSecretKey', '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');
 if (!defined('Bucket')) define('Bucket', 'zensilo');
 if (!defined('BucketUrl')) define('BucketUrl', 'https://s3-us-west-2.amazonaws.com/');
 
