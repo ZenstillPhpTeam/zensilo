@@ -44,11 +44,15 @@ class UsersController extends AppController
             $this->User = TableRegistry::get('users');
             $this->Designation = TableRegistry::get('designations');
             $this->Notification = TableRegistry::get('notifications');
-
+            $this->UserProfiles = TableRegistry::get('UserDetails');
+            
             $user = $this->User->get($this->Auth->user()['id']);
             $this->loggedInUser = $this->Auth->user();
             $this->loggedInUser['status'] = $user->status;
             $this->set('loggedInUser', $this->loggedInUser);
+
+            $profile = $this->UserProfiles->find('all', ['conditions' => ['UserDetails.user_id' => $this->Auth->user()['id']]])->first();
+            $this->set('loggedInUserprofile', $profile);
 
             $this->company_id = ($this->loggedInUser['userrole'] == 'company') ? $this->loggedInUser['id'] : $this->loggedInUser['parent_id'];
             $this->set('company_id', $this->company_id);
@@ -221,29 +225,6 @@ class UsersController extends AppController
             }
             else
                 echo "error";
-    }
-
-    public function changePassword()
-    {
-       $this->Users = TableRegistry::get('Users');
-       $this->viewBuilder()->layout('buzztm_admin');
-       $user_det =$this->Users->get($this->Auth->user('id')); 
-       if ($this->request->is('post')) {
-            $hasher = new DefaultPasswordHasher();          
-            if ($hasher->check($this->request->data['old_password'], $user_det['password'])) {
-                $user = $this->Users->get($this->Auth->user('id'));
-                $data['modified'] = date("Y-m-d H:i:s");  
-                $data['password'] = $hasher->hash($this->request->data['new_password']);
-                $profile = $this->Users->patchEntity($user, $data);
-                $res = $this->Users->save($profile);
-                if($res)
-                     $this->Flash->success(__('Password has been updated successfully!!.'));
-                else
-                    echo 'error';
-            } else {
-                $this->Flash->error(__('Old Password not valid!!.'));
-            }
-        }
     }
 
     public function forgotPassword()

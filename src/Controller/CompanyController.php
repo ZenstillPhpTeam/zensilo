@@ -28,28 +28,58 @@ class CompanyController extends UsersController
     }
 
     public function beforeFilter(Event $event)
-	{
-	    parent::beforeFilter($event);
-	    // Allow users to register and logout.
-	    // You should not add the "login" action to allow list. Doing so would
-	    // cause problems with normal functioning of AuthComponent.
-
-	    $this->Auth->allow(['index', 'add', 'logout', 'forgotPassword', 'resetPassword','view', 'verify']);
-
-        if($this->Auth->user())
-        {
-            $this->viewBuilder()->layout('inner_layout');
-            $this->set('loggedInUser', $this->Auth->user());
-        }
-        
-	}
+  	{
+  	    parent::beforeFilter($event);
+  	}
 
     
 
     public function setting(){
+      $this->User = TableRegistry::get('users');
+      $this->UserProfiles = TableRegistry::get('UserDetails');
+      $myacc = $this->User->get($this->Auth->user()['id']);
+      $profile = $this->UserProfiles->find('all', ['conditions' => ['UserDetails.user_id' => $this->Auth->user()['id']]])->first();
 
+      if ($this->request->is('post')) {
+
+        if(!empty($this->request->data['image']['name']))
+          $this->request->data['image'] = $this->s3upload($this->request->data['image']['tmp_name'], time().$this->request->data['image']['name']);
+        $profile = $this->UserProfiles->patchEntity($profile, $this->request->data);
+        $res = $this->UserProfiles->save($profile);
+        $profile = $this->UserProfiles->find('all', ['conditions' => ['UserDetails.user_id' => $this->Auth->user()['id']]])->first();
+        $this->Flash->success(__('Profile has been updated successfully.'));
+        $this->redirect(array("action" => 'setting'));
+      }
+
+      $this->set(compact('myacc', 'profile'));
     }
 
+    public function changePassword()
+    {
+       $this->Users = TableRegistry::get('Users');
+       $user_det =$this->Users->get($this->Auth->user('id')); 
+       if ($this->request->is('post')) {
+            $hasher = new DefaultPasswordHasher();          
+            if ($hasher->check($this->request->data['old_password'], $user_det['password'])) {
+                $user = $this->Users->get($this->Auth->user('id'));
+                $data['modified'] = date("Y-m-d H:i:s");  
+                $data['password'] = $hasher->hash($this->request->data['new_password']);
+                $profile = $this->Users->patchEntity($user, $data);
+                $res = $this->Users->save($profile);
+                if($res)
+                {     
+                  $this->Flash->success(__('Password has been updated successfully.'));
+                  $this->redirect(array("action" => 'setting'));
+                }
+                else
+                    $this->Flash->error(__('Old Password not valid!'));
+            } else {
+                $this->Flash->error(__('Old Password not valid!'));
+            }
+
+            $this->redirect(array("action" => 'changePassword'));
+        }
+    }
 
     public function designation($id = 0, $action = ''){
        
@@ -80,24 +110,24 @@ class CompanyController extends UsersController
                 }
             }
             else{
-                $user = $this->Designation->newEntity();
-                if($this->Auth->user('userrole') != "admin")
-                 $this->request->data['company_id'] = $this->Auth->user('userrole') == "company" ? $this->Auth->user('id') : $this->Auth->user('parent_id');
-             //$this->request->data['company_id'] = 8;
-            //print_r($this->request->data);exit;
-             //pr($user);exit;
-                $user = $this->Designation->patchEntity($user, $this->request->data);
-                    //pr($user);exit;
-                $user_save  = $this->Designation->save($user);
-               
-                if ($user_save) {
-                   
-                    $this->Flash->success('New Designation has been added successfully!!');
-                    //$this->set('success_msg', 'New Client has been added successfully!!');
-
-                }else
-                $this->Flash->error('Unable to add Designation!!');
+                
+                $i = 0;
+                foreach ($this->request->data['designation'] as $key => $value) {
+                  $user = $this->Designation->newEntity();
+                  
+                  $data['designation'] = $value;
+                  if($this->Auth->user('userrole') != "admin")
+                   $data['company_id'] = $this->Auth->user('userrole') == "company" ? $this->Auth->user('id') : $this->Auth->user('parent_id');
+                  $user = $this->Designation->patchEntity($user, $data);
+                  $user_save  = $this->Designation->save($user);
+                  $i++;
                 }
+               
+                if ($i) 
+                  $this->Flash->success('New Designation has been added successfully!!');
+                else
+                  $this->Flash->error('Unable to add Designation!!');
+            }
 
             $this->redirect(array("action" => 'designation'));
        }
@@ -146,24 +176,25 @@ class CompanyController extends UsersController
                 }
             }
             else{
-                $user = $this->LeaveType->newEntity();
-                if($this->Auth->user('userrole') != "admin")
-                 $this->request->data['company_id'] = $this->Auth->user('userrole') == "company" ? $this->Auth->user('id') : $this->Auth->user('parent_id');
-             //$this->request->data['company_id'] = 8;
-            //print_r($this->request->data);exit;
-             //pr($user);exit;
-                $user = $this->LeaveType->patchEntity($user, $this->request->data);
-                    //pr($user);exit;
-                $user_save  = $this->LeaveType->save($user);
-               
-                if ($user_save) {
-                   
-                    $this->Flash->success('New Leave Type has been added successfully!!');
-                    //$this->set('success_msg', 'New Client has been added successfully!!');
-
-                }else
-                $this->Flash->error('Unable to add Leave Type!!');
+                
+                $i = 0;
+                foreach ($this->request->data['type'] as $key => $value) {
+                  $user = $this->LeaveType->newEntity();
+                  
+                  $data['type'] = $value;
+                  $data['max_allowed_days'] = $this->request->data['max_allowed_days'][$key];
+                  if($this->Auth->user('userrole') != "admin")
+                   $data['company_id'] = $this->Auth->user('userrole') == "company" ? $this->Auth->user('id') : $this->Auth->user('parent_id');
+                  $user = $this->LeaveType->patchEntity($user, $data);
+                  $user_save  = $this->LeaveType->save($user);
+                  $i++;
                 }
+               
+                if ($i) 
+                  $this->Flash->success('New Leave Type has been added successfully!!');
+                else
+                  $this->Flash->error('Unable to add Leave Type!!');
+            }
 
             $this->redirect(array("action" => 'leavetypes'));
        }
@@ -193,8 +224,8 @@ class CompanyController extends UsersController
        if($action == 'delete')
        {
             $this->ExpenseType->delete($this->ExpenseType->get($id));
-            $this->Flash->success('Leave Type has been deleted successfully!!');
-            $this->redirect(array("action" => 'leavetypes'));
+            $this->Flash->success('Expense Type has been deleted successfully!!');
+            $this->redirect(array("action" => 'expensetypes'));
        }
        elseif ($this->request->is('post') )
        {
@@ -207,29 +238,29 @@ class CompanyController extends UsersController
                 if ($user_save) {
                     //echo  $data['id'];
                    
-                    $this->Flash->success('Leave Type has been updated successfully!!');
+                    $this->Flash->success('Expense Type has been updated successfully!!');
                     //$this->set('success_msg', 'Client Details has been updated successfully!!');
                 }
             }
             else{
-                $user = $this->ExpenseType->newEntity();
-                if($this->Auth->user('userrole') != "admin")
-                 $this->request->data['company_id'] = $this->Auth->user('userrole') == "company" ? $this->Auth->user('id') : $this->Auth->user('parent_id');
-             //$this->request->data['company_id'] = 8;
-            //print_r($this->request->data);exit;
-             //pr($user);exit;
-                $user = $this->ExpenseType->patchEntity($user, $this->request->data);
-                    //pr($user);exit;
-                $user_save  = $this->ExpenseType->save($user);
-               
-                if ($user_save) {
-                   
-                    $this->Flash->success('New Leave Type has been added successfully!!');
-                    //$this->set('success_msg', 'New Client has been added successfully!!');
-
-                }else
-                $this->Flash->error('Unable to add Leave Type!!');
+                
+                $i = 0;
+                foreach ($this->request->data['type'] as $key => $value) {
+                  $user = $this->ExpenseType->newEntity();
+                  
+                  $data['type'] = $value;
+                  
+                  if($this->Auth->user('userrole') != "admin")
+                   $data['company_id'] = $this->Auth->user('userrole') == "company" ? $this->Auth->user('id') : $this->Auth->user('parent_id');
+                  $user = $this->ExpenseType->patchEntity($user, $data);
+                  $user_save  = $this->ExpenseType->save($user);
+                  $i++;
                 }
+                if ($i) 
+                  $this->Flash->success('New Expense Type has been added successfully!!');
+                else
+                  $this->Flash->error('Unable to add Expense Type!!');
+            }
 
             $this->redirect(array("action" => 'leavetypes'));
        }
