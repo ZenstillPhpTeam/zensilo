@@ -1,6 +1,6 @@
 <?= $this->Html->script(array('../assets/widgets/wizard/wizard', '../assets/widgets/wizard/wizard-demo', '../assets/widgets/tabs/tabs', '../assets/widgets/chosen/chosen', '../assets/widgets/chosen/chosen-demo','../assets/widgets/parsley/parsley')) ?>
 <style>
-.content-box-wrapper{display: none;}
+.content-box-wrapper.wrapper2{display: none;}
 </style>
         <div class="panel">
           <div class="panel-body content-box">
@@ -35,7 +35,7 @@
         <i class="glyph-icon icon-comments"></i> <?= $value->project_name ?>
 
          <i class="glyph-icon icon-comments" onclick="showhide('<?= $value->id ?>');"></i></h3>
-        <div class="content-box-wrapper" id="box<?= $value->id ?>">
+        <div class="content-box-wrapper wrapper2" id="box<?= $value->id ?>">
         <div class="scrollable-content scrollable-nice scrollable-medium">
         <ul class="todo-box todo-sort ui-sortable">
         <?php foreach($value->tasks as $tas) { ?>
