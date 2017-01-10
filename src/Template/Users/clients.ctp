@@ -273,13 +273,6 @@
                     </div>
                   </div>
                 </div>
-                <div class="panel-body">
-                  <h3 class="title-hero">Secondary Contact</h3>
-
-                  <div class="example-box-wrapper">
-                  </div>
-                </div>
-
                 </div>
 
             </div>
