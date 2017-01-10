@@ -771,7 +771,7 @@ class UsersController extends AppController
                     $client_save  = $this->UserDetails->save($client);
                     $this->Flash->success('New User has been added successfully!!');
 
-                    $vars = ['password' => $user->password,'username' => $this->request->data['username']];
+                    $vars = ['password' => $this->request->data['password'],'username' => $this->request->data['username']];
                     $this->send_email('add_user', $this->request->data['email'], 'New Password', $vars);
 
 
