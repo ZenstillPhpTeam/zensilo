@@ -113,7 +113,7 @@
           <div id="header-nav-left">
             <div class="user-account-btn dropdown">
               <a href="#" title="My Account" class="user-profile clearfix" data-toggle="dropdown">
-                <?php if(isset($loggedInUserprofile->image)){?><img width="28" src="<?= $loggedInUserprofile->image;?>" alt="Profile image"><?php }?>
+                <?php if(isset($profile->image) && !empty($loggedInUserprofile->image)){?><img width="28" src="<?= $loggedInUserprofile->image;?>" alt="Profile image"><?php }?>
                 <span><?= $loggedInUser['username'];?></span> 
                 <i class="glyph-icon icon-angle-down"></i>
               </a>
@@ -121,7 +121,7 @@
                 <div class="box-sm">
                   <div class="login-box clearfix">
                     <div class="user-img">
-                    <?php if(isset($loggedInUserprofile->image)){?><img src="<?= $loggedInUserprofile->image;?>" alt="Profile image"><?php }?>
+                    <?php if(isset($profile->image) && !empty($loggedInUserprofile->image)){?><img src="<?= $loggedInUserprofile->image;?>" alt="Profile image"><?php }?>
                     </div>
                     <div class="user-info">
                       <span><?= $loggedInUserprofile->client_name;?><i><?= $loggedInUser['email'];?></i></span> 

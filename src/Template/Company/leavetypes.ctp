@@ -138,13 +138,13 @@
 
                 <div class="row">
                   <div class="form-group list_designation">
-                      <label class="col-sm-2 control-label">Leave Type</label>
+                      <label class="col-sm-2 control-label">Leave Type<em>*</em></label>
                       <div class="col-sm-3">
                         <input name="type[]" class="form-control" id="" placeholder="Leave Type" type="text" required="">
                       </div>
-                      <label class="col-sm-2 control-label">Maximum Allowed Days</label>
+                      <label class="col-sm-2 control-label">Maximum Allowed Days<em>*</em></label>
                       <div class="col-sm-3">
-                        <input name="max_allowed_days[]" id="" type="text" class="form-control" required=""   />
+                        <input name="max_allowed_days[]" data-parsley-type="number" id="" type="text" class="form-control" required=""   />
                       </div>
                       <div class="col-sm-2">
                         <i class="glyph-icon icon-plus add_more btn btn-success"></i>
@@ -167,13 +167,13 @@
 
 <script type="text/template" id="add_more_template">
   <div class="form-group list_designation">
-    <label class="col-sm-2 control-label">Leave Type</label>
+    <label class="col-sm-2 control-label">Leave Type<em>*</em></label>
     <div class="col-sm-3">
       <input name="type[]" class="form-control" id="" placeholder="Leave Type" type="text" required="">
     </div>
-    <label class="col-sm-2 control-label">Maximum Allowed Days</label>
+    <label class="col-sm-2 control-label">Maximum Allowed Days<em>*</em></label>
     <div class="col-sm-3">
-      <input name="max_allowed_days[]" id="" type="text" class="form-control" required=""   />
+      <input name="max_allowed_days[]" id="" type="text" class="form-control" data-parsley-type="number" required=""   />
     </div>
     <div class="col-sm-2">
       <i class="glyph-icon icon-plus add_more btn btn-success"></i>

@@ -18,14 +18,28 @@ class AjaxController extends AppController
 		$this->autoRender = false;
 	}
 
-	public function checkUniqueData($field, $value)
+	public function checkUniqueData($field='', $value='')
 	{
-		if($field == 'username')
+		if($field == '' && count($_GET))
+		{
+			if(isset($_GET['username']))
+			{
+				$field = 'username';
+				$value = $_GET['username'];
+			}
+			elseif(isset($_GET['email']))
+			{
+				$field = 'email';
+				$value = $_GET['email'];
+			}
+		}
+		elseif($field == 'username')
 			$value = Inflector::slug(strtolower($value), "-");
 
 		$this->Users = TableRegistry::get('Users');
 
-		echo $this->Users->find("all", ["conditions" => [$field => $value]])->count();
+		$res = $this->Users->find("all", ["conditions" => [$field => $value]])->count();
+		echo $res ? false : true;
 		exit;
 	}
 

@@ -79,11 +79,11 @@
                   </div>
                 </div>
                 <div class="form-group">
-                  <label class="col-sm-3 control-label">Image<em>*</em></label>
+                  <label class="col-sm-3 control-label">Image</label>
                   <div class="col-sm-6">
                     <input name="image" class="form-control" type="file"  >
                   </div>
-                  <?php if(isset($profile->image)){?>
+                  <?php if(isset($profile->image) && !empty($profile->image)){?>
                   <img width="100" src="<?= $profile->image;?>">
                   <?php }?>
                 </div>
@@ -94,7 +94,6 @@
 
             </div>
             <div class="modal-footer">
-          <button type="button" class="btn btn-default " data-dismiss="modal">Close</button> 
           <button type="submit" class="btn btn-hover btn-primary">Save changes</button>
         </div>
             </form>
