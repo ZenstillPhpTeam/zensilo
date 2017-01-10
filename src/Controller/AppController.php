@@ -83,6 +83,9 @@ class AppController extends Controller
 
     public function send_email($template, $to, $subject, $vars, $from='krishc@zenstill.com', $from_name='Zensilo')
     {
+        if($this->is_localhost())
+            return;
+
         $email = new Email();
         $email->template($template)
             ->emailFormat('html')

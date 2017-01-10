@@ -110,32 +110,32 @@
                   <div class="col-md-6">
 
                 <div class="form-group">
-                  <label class="col-sm-3 control-label">Name</label>
+                  <label class="col-sm-3 control-label">Name <i class="font-red">*</i> </label>
                   <div class="col-sm-6">
                     <input name="client_name" class="form-control" id="" placeholder="Name" type="text" required="" value="<?= $client->client_name ?>" />
                   </div>
                 </div>
                 
                 <div class="form-group">
-                  <label class="col-sm-3 control-label">Email</label>
+                  <label class="col-sm-3 control-label">Email <i class="font-red">*</i></label>
                   <div class="col-sm-6">
                     <input name="email" class="form-control" id="" type="text" data-parsley-type="email" required="" value="<?= $client->user->email ?>"/>
                   </div>
                 </div>
                 <div class="form-group">
-                  <label class="col-sm-3 control-label">Mobile</label>
+                  <label class="col-sm-3 control-label">Mobile <i class="font-red">*</i></label>
                   <div class="col-sm-6">
                     <input name="mobile" class="form-control" id="" type="text" data-parsley-type="digits" required="" data-parsley-minlength="10" data-parsley-maxlength="10" value="<?= $client->mobile ?>"/>
                   </div>
                 </div>
                 <div class="form-group .bordered-row">
-                  <label class="col-sm-3 control-label">Username</label>
+                  <label class="col-sm-3 control-label">Username <i class="font-red">*</i></label>
                   <div class="col-sm-6">
                     <input name="username" class="form-control" id="" type="text" data-parsley-type="alphanum" required="" readonly value="<?= $client->user->username ?>">
                   </div>
                 </div>
                 <div class="form-group">
-                  <label class="col-sm-3 control-label">Designation</label>
+                  <label class="col-sm-3 control-label">Designation <i class="font-red">*</i></label>
                   <div class="col-sm-6">
                     <select class="form-control" name="designation">
                       <option value="0">Select Designation</option>
@@ -160,7 +160,7 @@
                   <div class="col-md-6">
 
                 <div class="form-group">
-                  <label class="col-sm-3 control-label">Address 1</label>
+                  <label class="col-sm-3 control-label">Address 1 <i class="font-red">*</i></label>
                   <div class="col-sm-6">
                     <input name="address1" class="form-control" id="" type="text" required="" value="<?= $client->address1 ?>"/>
                   </div>
@@ -179,7 +179,7 @@
                 </div>
                 
                 <div class="form-group">
-                  <label class="col-sm-3 control-label">Zip code</label>
+                  <label class="col-sm-3 control-label">Zip code <i class="font-red">*</i></label>
                   <div class="col-sm-6">
                     <input name="zip" class="form-control" id="" type="text" data-parsley-type="digits" required="" value="<?= $client->zip ?>">
                   </div>
@@ -216,32 +216,42 @@
                   <div class="col-md-6">
 
                 <div class="form-group">
+
                   <label class="col-sm-3 control-label">Name<em>*</em></label>
+
                   <div class="col-sm-6">
                     <input name="client_name" class="form-control" id="" placeholder="Name" type="text" required="">
                   </div>
                 </div>
 
                 <div class="form-group">
+
                   <label class="col-sm-3 control-label">Email<em>*</em></label>
+
                   <div class="col-sm-6">
                     <input name="email" data-parsley-remote="<?= $this->Url->build(['controller' => 'ajax', 'action' => 'checkUniqueData'])?>"  class="form-control" id="" type="text" data-parsley-type="email" required="">
                   </div>
                 </div>
                 <div class="form-group">
+
                   <label class="col-sm-3 control-label">Mobile<em>*</em></label>
+
                   <div class="col-sm-6">
                     <input name="mobile" class="form-control" id="" type="text" data-parsley-type="digits" required="" data-parsley-minlength="10" data-parsley-maxlength="10">
                   </div>
                 </div>
                 <div class="form-group .bordered-row">
+
                   <label class="col-sm-3 control-label">Username<em>*</em></label>
+
                   <div class="col-sm-6">
                     <input name="username" data-parsley-remote="<?= $this->Url->build(['controller' => 'ajax', 'action' => 'checkUniqueData'])?>"  class="form-control" id="" type="text" required="">
                   </div>
                 </div>
                 <div class="form-group">
+
                   <label class="col-sm-3 control-label">Designation<em>*</em></label>
+
                   <div class="col-sm-6">
                     <select class="form-control" name="designation" required="">
                       <option value="">Select Designation</option>
@@ -269,6 +279,7 @@
 
                 <div class="form-group">
                   <label class="col-sm-3 control-label">Address 1<em>*</em></label>
+
                   <div class="col-sm-6">
                     <input name="address1" class="form-control" id="" type="text" required=""/>
                   </div>
@@ -286,20 +297,26 @@
                   </div>
                 </div>
                 <div class="form-group">
+
                   <label class="col-sm-3 control-label">Zip code<em>*</em></label>
+
                   <div class="col-sm-6">
                     <input name="zip" class="form-control" id="" type="text" data-parsley-type="digits" required=""/>
                   </div>
                 </div>
                 
                  <div class="form-group">
+
                     <label class="col-sm-3 control-label">Password<em>*</em></label>
+
                     <div class="col-sm-6">
                       <input type="password" id="ps1" required class="form-control" name="password"/>
                     </div>
                   </div>
                   <div class="form-group">
+
                     <label class="col-sm-3 control-label">Confirm Password<em>*</em></label>
+
                     <div class="col-sm-6">
                       <input type="password" data-parsley-equalto="#ps1" required class="form-control" name="confirm_password"/>
                     </div>

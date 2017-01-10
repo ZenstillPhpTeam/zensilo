@@ -19,10 +19,7 @@
 			  	<div class="clearfix"></div>
 			  </div>
 			  <div class="col-lg-8 col-md-8 col-sm-8 col-xs-12 mar-top">
-			  	<input autocomplete="off" type="email" class="form-details lan-view" id="Business" placeholder="Email" name="email" ng-model="email" required="" unique-username>
-			  	<!--<span ng-show="forgot_password.email.$invalid  && (!forgot_password.email.$pristine || clicked)" class="fa fa-times errmsg hide"></span>
-				<span ng-show="forgot_password.email.$valid" class="fa fa-check successmsg"></span>-->
-
+			  	<input autocomplete="off" type="email" class="form-details lan-view" id="Business" placeholder="Email" name="email" ng-model="email" required="" />
 			  </div>
 		  </div>
 		  <div class="row">
@@ -32,11 +29,11 @@
           	</a></p>
 		  </div>
 		  <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 text-left  marg-bot">
-		  <p><a class="btn btn-next" style="margin-right:-15px;" ng-click="submit();">SUBMIT <i class="fa fa-angle-double-right" aria-hidden="true"></i>
-			</a></p>
-		  </div>
-		  
+		  <p><input type="submit" class="btn btn-next" style="margin-right:-15px;" value="Submit"><i class="fa fa-angle-double-right" aria-hidden="true"></i>
+			</input></p>
+		  </div>		  
 	  </div>
+	  </form>
 	  </div>
     </div>
   </div>
