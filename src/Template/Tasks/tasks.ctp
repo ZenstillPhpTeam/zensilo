@@ -245,7 +245,7 @@
                 </div>
 
                 <div class="form-group">
-                  <label class="col-sm-3 control-label">Estimated Effort</label>
+                  <label class="col-sm-3 control-label">Estimated Effort(Hours)</label>
                   <div class="col-sm-6">
                     <span id="viewestimated_effort"></span> Hrs
                   </div>
