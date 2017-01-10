@@ -516,6 +516,8 @@ class UsersController extends AppController
                 //print_r($this->request->data);
                    $project = $this->Projects->newEntity();
                     $this->request->data['status'] = "New";
+                    $comp_id = $this->Auth->user('userrole') == "company" ? $this->Auth->user('id') : $this->Auth->user('parent_id');
+                    $this->request->data['company_id'] = $comp_id;
                     $project = $this->Projects->patchEntity($project, $this->request->data);
                     $project_save  = $this->Projects->save($project);
 
