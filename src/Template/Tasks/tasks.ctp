@@ -150,7 +150,7 @@
                 </div>
 
                 <div class="form-group">
-                  <label class="col-sm-3 control-label">Estimated Effort</label>
+                  <label class="col-sm-3 control-label">Estimated Effort(Hours)</label>
                   <div class="col-sm-6">
                     <input name="estimated_effort" class="form-control" id="" placeholder="Estimated Effort"  required="" value="<?= $task->estimated_effort ?>"/>
                   </div>
@@ -325,7 +325,7 @@
                 </div>
 
                 <div class="form-group">
-                  <label class="col-sm-3 control-label">Estimated Effort(Hours</label>
+                  <label class="col-sm-3 control-label">Estimated Effort(Hours)</label>
                   <div class="col-sm-6">
                     <input name="estimated_effort" class="form-control" id="" placeholder="Estimated Effort"  required="" value="<?= isset($copy_task) ? $copy_task->estimated_effort: ''?>"/>
                   </div>
