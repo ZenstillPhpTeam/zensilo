@@ -20,6 +20,7 @@ use Cake\Controller\Controller;
 use Cake\Event\Event;
 use Cake\Mailer\Email;
 use Cake\ORM\TableRegistry;
+use Cake\Core\Configure;
 use S3;
 /**
  * Application Controller
@@ -30,9 +31,9 @@ use S3;
  * @link http://book.cakephp.org/3.0/en/controllers.html#the-app-controller
  */
 
-if (!defined('awsAccessKey')) define('awsAccessKey', 'AKIAIFVEZSQLL26D2HYQ');
-if (!defined('awsSecretKey')) define('awsSecretKey', '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');
-if (!defined('Bucket')) define('Bucket', 'zensilo');
+if (!defined('awsAccessKey')) define('awsAccessKey', Configure::read("App")['awsAccessKey']);
+if (!defined('awsSecretKey')) define('awsSecretKey', Configure::read("App")['awsSecretKey']);
+if (!defined('Bucket')) define('Bucket', Configure::read("App")['Bucket']);
 if (!defined('BucketUrl')) define('BucketUrl', 'https://s3-us-west-2.amazonaws.com/');
 
 class AppController extends Controller
