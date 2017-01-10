@@ -87,7 +87,10 @@ class UsersController extends AppController
         if($this->is_sub_domain())
         {
             $this->User = TableRegistry::get('users');
-            $user = $this->User->find("all", ["conditions" => ["username" => $this->is_sub_domain()]])->first();
+            if($id)
+                $user = $this->User->find("all", ["conditions" => ["username" => $this->is_sub_domain()]])->first();
+            else
+                $user = $this->User->get($id);
             $this->Auth->setUser($user);
         }
         elseif($id)
