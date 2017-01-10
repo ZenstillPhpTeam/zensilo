@@ -1,7 +1,5 @@
 <?= $this->Html->script(array('../assets/widgets/wizard/wizard', '../assets/widgets/wizard/wizard-demo', '../assets/widgets/tabs/tabs', '../assets/widgets/chosen/chosen', '../assets/widgets/chosen/chosen-demo','../assets/widgets/parsley/parsley')) ?>
-<style>
-.content-box-wrapper.wrapper2{display: none;}
-</style>
+
         <div class="panel">
           <div class="panel-body content-box">
             <h3 class="title-hero bg-primary">Task</h3>
@@ -327,7 +325,7 @@
                 </div>
 
                 <div class="form-group">
-                  <label class="col-sm-3 control-label">Estimated Effort</label>
+                  <label class="col-sm-3 control-label">Estimated Effort(Hours</label>
                   <div class="col-sm-6">
                     <input name="estimated_effort" class="form-control" id="" placeholder="Estimated Effort"  required="" value="<?= isset($copy_task) ? $copy_task->estimated_effort: ''?>"/>
                   </div>

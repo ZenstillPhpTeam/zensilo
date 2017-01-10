@@ -76,14 +76,11 @@ class TasksController extends UsersController
                 $parent_id = $this->Auth->user('userrole') == "company" ? $this->Auth->user('id') : $this->Auth->user('parent_id');
                 $this->request->data['company_id'] = $parent_id;
                 $this->request->data['assigned_by'] = $this->Auth->user('id');
-                $this->request->data['assigned_by'] = $this->Auth->user('id');
-                        $teams[] = implode(",",$this->request->data['assigned_to']);
-                        $this->request->data['assigned_to'] = $teams;               
-                 
+                $this->request->data['assigned_to'] = implode(",",$this->request->data['assigned_to']);    
 
                 $task = $this->Tasks->patchEntity($task, $this->request->data);
                 $task_save  = $this->Tasks->save($task);
-                //pr($user);exit;
+                //print_r($this->request->data);exit;
                 if ($task_save) {
 
                     $teams1 = $this->request->data['assigned_to'];
@@ -122,8 +119,8 @@ class TasksController extends UsersController
 
        $parent_id = $this->Auth->user('userrole') == "company" ? $this->Auth->user('id') : $this->Auth->user('parent_id');
        $projects = $this->Projects->find('all', ['conditions' => ['projects.company_id' => $parent_id]]);
-       $tasks = $this->Projects->find('all', ['conditions' => ['projects.company_id' => $parent_id]])->contain('Tasks');
-
+       $tasks = $this->Projects->find('all', ['conditions' => ['projects.company_id' => $parent_id]])->contain('Tasks')->all();
+//echo "<pre>";print_r($tasks);exit;
        $conn = ConnectionManager::get('default');
        $team_members = $conn->execute('select a.* from user_details a, users b where a.user_id = b.id and b.userrole="user" and b.parent_id = '.$parent_id);
 
