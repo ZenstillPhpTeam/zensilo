@@ -1,2 +1,2387 @@
-!function(a){"function"==typeof define&&define.amd?define(["jquery"],a):a(jQuery)}(function(a){"undefined"==typeof a&&"undefined"!=typeof window.jQuery&&(a=window.jQuery);var b={attr:function(a,b,c){var d,e={},f=this.msieversion(),g=new RegExp("^"+b,"i");if("undefined"==typeof a||"undefined"==typeof a[0])return{};for(var h in a[0].attributes)if(d=a[0].attributes[h],"undefined"!=typeof d&&null!==d&&(!f||f>=8||d.specified)&&g.test(d.name)){if("undefined"!=typeof c&&new RegExp(c+"$","i").test(d.name))return!0;e[this.camelize(d.name.replace(b,""))]=this.deserializeValue(d.value)}return"undefined"==typeof c?e:!1},setAttr:function(a,b,c,d){a[0].setAttribute(this.dasherize(b+c),String(d))},get:function(a,b){for(var c=0,d=(b||"").split(".");this.isObject(a)||this.isArray(a);)if(a=a[d[c++]],c===d.length)return a},hash:function(a){return String(Math.random()).substring(2,a?a+2:9)},isArray:function(a){return"[object Array]"===Object.prototype.toString.call(a)},isObject:function(a){return a===Object(a)},deserializeValue:function(b){var c;try{return b?"true"==b||("false"==b?!1:"null"==b?null:isNaN(c=Number(b))?/^[\[\{]/.test(b)?a.parseJSON(b):b:c):b}catch(d){return b}},camelize:function(a){return a.replace(/-+(.)?/g,function(a,b){return b?b.toUpperCase():""})},dasherize:function(a){return a.replace(/::/g,"/").replace(/([A-Z]+)([A-Z][a-z])/g,"$1_$2").replace(/([a-z\d])([A-Z])/g,"$1_$2").replace(/_/g,"-").toLowerCase()},msieversion:function(){var a=window.navigator.userAgent,b=a.indexOf("MSIE ");return b>0||navigator.userAgent.match(/Trident.*rv\:11\./)?parseInt(a.substring(b+5,a.indexOf(".",b)),10):0}},c={namespace:"data-parsley-",inputs:"input, textarea, select",excluded:"input[type=button], input[type=submit], input[type=reset], input[type=hidden]",priorityEnabled:!0,uiEnabled:!0,validationThreshold:3,focus:"first",trigger:!1,errorClass:"parsley-error",successClass:"parsley-success",classHandler:function(a){},errorsContainer:function(a){},errorsWrapper:'<ul class="parsley-errors-list"></ul>',errorTemplate:"<li></li>"},d=function(){};d.prototype={asyncSupport:!1,actualizeOptions:function(){return this.options=this.OptionsFactory.get(this),this},validateThroughValidator:function(a,b,c){return window.ParsleyValidator.validate.apply(window.ParsleyValidator,[a,b,c])},subscribe:function(b,c){return a.listenTo(this,b.toLowerCase(),c),this},unsubscribe:function(b){return a.unsubscribeTo(this,b.toLowerCase()),this},reset:function(){if("ParsleyForm"!==this.__class__)return a.emit("parsley:field:reset",this);for(var b=0;b<this.fields.length;b++)a.emit("parsley:field:reset",this.fields[b]);a.emit("parsley:form:reset",this)},destroy:function(){if("ParsleyForm"!==this.__class__)return this.$element.removeData("Parsley"),this.$element.removeData("ParsleyFieldMultiple"),void a.emit("parsley:field:destroy",this);for(var b=0;b<this.fields.length;b++)this.fields[b].destroy();this.$element.removeData("Parsley"),a.emit("parsley:form:destroy",this)}},function(a){var b=function(a){return this.__class__="Validator",this.__version__="0.5.8",this.options=a||{},this.bindingKey=this.options.bindingKey||"_validatorjsConstraint",this};b.prototype={constructor:b,validate:function(a,b,c){if("string"!=typeof a&&"object"!=typeof a)throw new Error("You must validate an object or a string");return"string"==typeof a||g(a)?this._validateString(a,b,c):this.isBinded(a)?this._validateBindedObject(a,b):this._validateObject(a,b,c)},bind:function(a,b){if("object"!=typeof a)throw new Error("Must bind a Constraint to an object");return a[this.bindingKey]=new c(b),this},unbind:function(a){return"undefined"==typeof a._validatorjsConstraint?this:(delete a[this.bindingKey],this)},isBinded:function(a){return"undefined"!=typeof a[this.bindingKey]},getBinded:function(a){return this.isBinded(a)?a[this.bindingKey]:null},_validateString:function(a,b,c){var f,h=[];g(b)||(b=[b]);for(var i=0;i<b.length;i++){if(!(b[i]instanceof e))throw new Error("You must give an Assert or an Asserts array to validate a string");f=b[i].check(a,c),f instanceof d&&h.push(f)}return h.length?h:!0},_validateObject:function(a,b,d){if("object"!=typeof b)throw new Error("You must give a constraint to validate an object");return b instanceof c?b.check(a,d):new c(b).check(a,d)},_validateBindedObject:function(a,b){return a[this.bindingKey].check(a,b)}},b.errorCode={must_be_a_string:"must_be_a_string",must_be_an_array:"must_be_an_array",must_be_a_number:"must_be_a_number",must_be_a_string_or_array:"must_be_a_string_or_array"};var c=function(a,b){if(this.__class__="Constraint",this.options=b||{},this.nodes={},a)try{this._bootstrap(a)}catch(c){throw new Error("Should give a valid mapping object to Constraint",c,a)}return this};c.prototype={constructor:c,check:function(a,b){var c,d={};for(var h in this.options.strict?this.nodes:a)if(this.options.strict?this.has(h,a):this.has(h))c=this._check(h,a[h],b),(g(c)&&c.length>0||!g(c)&&!f(c))&&(d[h]=c);else if(this.options.strict)try{(new e).HaveProperty(h).validate(a)}catch(i){d[h]=i}return f(d)?!0:d},add:function(a,b){if(b instanceof e||g(b)&&b[0]instanceof e)return this.nodes[a]=b,this;if("object"==typeof b&&!g(b))return this.nodes[a]=b instanceof c?b:new c(b),this;throw new Error("Should give an Assert, an Asserts array, a Constraint",b)},has:function(a,b){return b="undefined"!=typeof b?b:this.nodes,"undefined"!=typeof b[a]},get:function(a,b){return this.has(a)?this.nodes[a]:b||null},remove:function(a){var b=[];for(var c in this.nodes)c!==a&&(b[c]=this.nodes[c]);return this.nodes=b,this},_bootstrap:function(a){if(a instanceof c)return this.nodes=a.nodes;for(var b in a)this.add(b,a[b])},_check:function(a,b,d){if(this.nodes[a]instanceof e)return this._checkAsserts(b,[this.nodes[a]],d);if(g(this.nodes[a]))return this._checkAsserts(b,this.nodes[a],d);if(this.nodes[a]instanceof c)return this.nodes[a].check(b,d);throw new Error("Invalid node",this.nodes[a])},_checkAsserts:function(a,b,c){for(var d,e=[],f=0;f<b.length;f++)d=b[f].check(a,c),"undefined"!=typeof d&&!0!==d&&e.push(d);return e}};var d=function(a,b,c){if(this.__class__="Violation",!(a instanceof e))throw new Error("Should give an assertion implementing the Assert interface");this.assert=a,this.value=b,"undefined"!=typeof c&&(this.violation=c)};d.prototype={show:function(){var a={assert:this.assert.__class__,value:this.value};return this.violation&&(a.violation=this.violation),a},__toString:function(){return"undefined"!=typeof this.violation&&(this.violation='", '+this.getViolation().constraint+" expected was "+this.getViolation().expected),this.assert.__class__+' assert failed for "'+this.value+this.violation||""},getViolation:function(){var a,b;for(a in this.violation)b=this.violation[a];return{constraint:a,expected:b}}};var e=function(a){return this.__class__="Assert",this.__parentClass__=this.__class__,this.groups=[],"undefined"!=typeof a&&this.addGroup(a),this};e.prototype={construct:e,check:function(a,b){if((!b||this.hasGroup(b))&&(b||!this.hasGroups()))try{return this.validate(a,b)}catch(c){return c}},hasGroup:function(a){return g(a)?this.hasOneOf(a):"Any"===a?!0:this.hasGroups()?-1!==this.groups.indexOf(a):"Default"===a},hasOneOf:function(a){for(var b=0;b<a.length;b++)if(this.hasGroup(a[b]))return!0;return!1},hasGroups:function(){return this.groups.length>0},addGroup:function(a){return g(a)?this.addGroups(a):(this.hasGroup(a)||this.groups.push(a),this)},removeGroup:function(a){for(var b=[],c=0;c<this.groups.length;c++)a!==this.groups[c]&&b.push(this.groups[c]);return this.groups=b,this},addGroups:function(a){for(var b=0;b<a.length;b++)this.addGroup(a[b]);return this},HaveProperty:function(a){return this.__class__="HaveProperty",this.node=a,this.validate=function(a){if("undefined"==typeof a[this.node])throw new d(this,a,{value:this.node});return!0},this},Blank:function(){return this.__class__="Blank",this.validate=function(a){if("string"!=typeof a)throw new d(this,a,{value:b.errorCode.must_be_a_string});if(""!==a.replace(/^\s+/g,"").replace(/\s+$/g,""))throw new d(this,a);return!0},this},Callback:function(a){if(this.__class__="Callback",this.arguments=Array.prototype.slice.call(arguments),1===this.arguments.length?this.arguments=[]:this.arguments.splice(0,1),"function"!=typeof a)throw new Error("Callback must be instanciated with a function");return this.fn=a,this.validate=function(a){var b=this.fn.apply(this,[a].concat(this.arguments));if(!0!==b)throw new d(this,a,{result:b});return!0},this},Choice:function(a){if(this.__class__="Choice",!g(a)&&"function"!=typeof a)throw new Error("Choice must be instanciated with an array or a function");return this.list=a,this.validate=function(a){for(var b="function"==typeof this.list?this.list():this.list,c=0;c<b.length;c++)if(a===b[c])return!0;throw new d(this,a,{choices:b})},this},Collection:function(a){return this.__class__="Collection",this.constraint="undefined"!=typeof a?new c(a):!1,this.validate=function(a,c){var e,h=new b,i=0,j={},k=this.groups.length?this.groups:c;if(!g(a))throw new d(this,array,{value:b.errorCode.must_be_an_array});for(var l=0;l<a.length;l++)e=this.constraint?h.validate(a[l],this.constraint,k):h.validate(a[l],k),f(e)||(j[i]=e),i++;return f(j)?!0:j},this},Count:function(a){return this.__class__="Count",this.count=a,this.validate=function(a){if(!g(a))throw new d(this,a,{value:b.errorCode.must_be_an_array});var c="function"==typeof this.count?this.count(a):this.count;if(isNaN(Number(c)))throw new Error("Count must be a valid interger",c);if(c!==a.length)throw new d(this,a,{count:c});return!0},this},Email:function(){return this.__class__="Email",this.validate=function(a){var c=/^((([a-z]|\d|[!#\$%&'\*\+\-\/=\?\^_`{\|}~]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])+(\.([a-z]|\d|[!#\$%&'\*\+\-\/=\?\^_`{\|}~]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])+)*)|((\x22)((((\x20|\x09)*(\x0d\x0a))?(\x20|\x09)+)?(([\x01-\x08\x0b\x0c\x0e-\x1f\x7f]|\x21|[\x23-\x5b]|[\x5d-\x7e]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(\\([\x01-\x09\x0b\x0c\x0d-\x7f]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]))))*(((\x20|\x09)*(\x0d\x0a))?(\x20|\x09)+)?(\x22)))@((([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])*([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])))\.)+(([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])*([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])))$/i;if("string"!=typeof a)throw new d(this,a,{value:b.errorCode.must_be_a_string});if(!c.test(a))throw new d(this,a);return!0},this},Eql:function(a){if(this.__class__="Eql","undefined"==typeof a)throw new Error("Equal must be instanciated with an Array or an Object");return this.eql=a,this.validate=function(a){var b="function"==typeof this.eql?this.eql(a):this.eql;if(!h.eql(b,a))throw new d(this,a,{eql:b});return!0},this},EqualTo:function(a){if(this.__class__="EqualTo","undefined"==typeof a)throw new Error("EqualTo must be instanciated with a value or a function");return this.reference=a,this.validate=function(a){var b="function"==typeof this.reference?this.reference(a):this.reference;if(b!==a)throw new d(this,a,{value:b});return!0},this},GreaterThan:function(a){if(this.__class__="GreaterThan","undefined"==typeof a)throw new Error("Should give a threshold value");return this.threshold=a,this.validate=function(a){if(""===a||isNaN(Number(a)))throw new d(this,a,{value:b.errorCode.must_be_a_number});if(this.threshold>=a)throw new d(this,a,{threshold:this.threshold});return!0},this},GreaterThanOrEqual:function(a){if(this.__class__="GreaterThanOrEqual","undefined"==typeof a)throw new Error("Should give a threshold value");return this.threshold=a,this.validate=function(a){if(""===a||isNaN(Number(a)))throw new d(this,a,{value:b.errorCode.must_be_a_number});if(this.threshold>a)throw new d(this,a,{threshold:this.threshold});return!0},this},InstanceOf:function(a){if(this.__class__="InstanceOf","undefined"==typeof a)throw new Error("InstanceOf must be instanciated with a value");return this.classRef=a,this.validate=function(a){if(!0!=a instanceof this.classRef)throw new d(this,a,{classRef:this.classRef});return!0},this},IPv4:function(){return this.__class__="IPv4",this.validate=function(a){var c=/^(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$/;if("string"!=typeof a)throw new d(this,a,{value:b.errorCode.must_be_a_string});if(!c.test(a))throw new d(this,a);return!0},this},Length:function(a){if(this.__class__="Length",!a.min&&!a.max)throw new Error("Lenth assert must be instanciated with a { min: x, max: y } object");return this.min=a.min,this.max=a.max,this.validate=function(a){if("string"!=typeof a&&!g(a))throw new d(this,a,{value:b.errorCode.must_be_a_string_or_array});if("undefined"!=typeof this.min&&this.min===this.max&&a.length!==this.min)throw new d(this,a,{min:this.min,max:this.max});if("undefined"!=typeof this.max&&a.length>this.max)throw new d(this,a,{max:this.max});if("undefined"!=typeof this.min&&a.length<this.min)throw new d(this,a,{min:this.min});return!0},this},LessThan:function(a){if(this.__class__="LessThan","undefined"==typeof a)throw new Error("Should give a threshold value");return this.threshold=a,this.validate=function(a){if(""===a||isNaN(Number(a)))throw new d(this,a,{value:b.errorCode.must_be_a_number});if(this.threshold<=a)throw new d(this,a,{threshold:this.threshold});return!0},this},LessThanOrEqual:function(a){if(this.__class__="LessThanOrEqual","undefined"==typeof a)throw new Error("Should give a threshold value");return this.threshold=a,this.validate=function(a){if(""===a||isNaN(Number(a)))throw new d(this,a,{value:b.errorCode.must_be_a_number});if(this.threshold<a)throw new d(this,a,{threshold:this.threshold});return!0},this},Mac:function(){return this.__class__="Mac",this.validate=function(a){var c=/^(?:[0-9A-F]{2}:){5}[0-9A-F]{2}$/i;if("string"!=typeof a)throw new d(this,a,{value:b.errorCode.must_be_a_string});if(!c.test(a))throw new d(this,a);return!0},this},NotNull:function(){return this.__class__="NotNull",this.validate=function(a){if(null===a||"undefined"==typeof a)throw new d(this,a);return!0},this},NotBlank:function(){return this.__class__="NotBlank",this.validate=function(a){if("string"!=typeof a)throw new d(this,a,{value:b.errorCode.must_be_a_string});if(""===a.replace(/^\s+/g,"").replace(/\s+$/g,""))throw new d(this,a);return!0},this},Null:function(){return this.__class__="Null",this.validate=function(a){if(null!==a)throw new d(this,a);return!0},this},Range:function(a,b){if(this.__class__="Range","undefined"==typeof a||"undefined"==typeof b)throw new Error("Range assert expects min and max values");return this.min=a,this.max=b,this.validate=function(a){try{return"string"==typeof a&&isNaN(Number(a))||g(a)?(new e).Length({min:this.min,max:this.max}).validate(a):(new e).GreaterThanOrEqual(this.min).validate(a)&&(new e).LessThanOrEqual(this.max).validate(a),!0}catch(b){throw new d(this,a,b.violation)}return!0},this},Regexp:function(a,c){if(this.__class__="Regexp","undefined"==typeof a)throw new Error("You must give a regexp");return this.regexp=a,this.flag=c||"",this.validate=function(a){if("string"!=typeof a)throw new d(this,a,{value:b.errorCode.must_be_a_string});if(!new RegExp(this.regexp,this.flag).test(a))throw new d(this,a,{regexp:this.regexp,flag:this.flag});return!0},this},Required:function(){return this.__class__="Required",this.validate=function(a){if("undefined"==typeof a)throw new d(this,a);try{"string"==typeof a?(new e).NotNull().validate(a)&&(new e).NotBlank().validate(a):!0===g(a)&&(new e).Length({min:1}).validate(a)}catch(b){throw new d(this,a)}return!0},this},Unique:function(a){return this.__class__="Unique","object"==typeof a&&(this.key=a.key),this.validate=function(a){var c,e=[];if(!g(a))throw new d(this,a,{value:b.errorCode.must_be_an_array});for(var f=0;f<a.length;f++)if(c="object"==typeof a[f]?a[f][this.key]:a[f],"undefined"!=typeof c){if(-1!==e.indexOf(c))throw new d(this,a,{value:c});e.push(c)}return!0},this}},a.Assert=e,a.Validator=b,a.Violation=d,a.Constraint=c,Array.prototype.indexOf||(Array.prototype.indexOf=function(a){if(null===this)throw new TypeError;var b=Object(this),c=b.length>>>0;if(0===c)return-1;var d=0;if(arguments.length>1&&(d=Number(arguments[1]),d!=d?d=0:0!==d&&d!=1/0&&d!=-(1/0)&&(d=(d>0||-1)*Math.floor(Math.abs(d)))),d>=c)return-1;for(var e=d>=0?d:Math.max(c-Math.abs(d),0);c>e;e++)if(e in b&&b[e]===a)return e;return-1});var f=function(a){for(var b in a)return!1;return!0},g=function(a){return"[object Array]"===Object.prototype.toString.call(a)},h={eql:function(a,b){if(a===b)return!0;if("undefined"!=typeof Buffer&&Buffer.isBuffer(a)&&Buffer.isBuffer(b)){if(a.length!==b.length)return!1;for(var c=0;c<a.length;c++)if(a[c]!==b[c])return!1;return!0}return a instanceof Date&&b instanceof Date?a.getTime()===b.getTime():"object"!=typeof a&&"object"!=typeof b?a==b:this.objEquiv(a,b)},isUndefinedOrNull:function(a){return null===a||"undefined"==typeof a},isArguments:function(a){return"[object Arguments]"==Object.prototype.toString.call(a)},keys:function(a){if(Object.keys)return Object.keys(a);var b=[];for(var c in a)Object.prototype.hasOwnProperty.call(a,c)&&b.push(c);return b},objEquiv:function(a,b){if(this.isUndefinedOrNull(a)||this.isUndefinedOrNull(b))return!1;if(a.prototype!==b.prototype)return!1;if(this.isArguments(a))return this.isArguments(b)?eql(pSlice.call(a),pSlice.call(b)):!1;try{var c,d,e=this.keys(a),f=this.keys(b);if(e.length!==f.length)return!1;for(e.sort(),f.sort(),d=e.length-1;d>=0;d--)if(e[d]!=f[d])return!1;for(d=e.length-1;d>=0;d--)if(c=e[d],!this.eql(a[c],b[c]))return!1;return!0}catch(g){return!1}}};"function"==typeof define&&define.amd&&define("validator",[],function(){return a})}("undefined"==typeof exports?this["undefined"!=typeof validatorjs_ns?validatorjs_ns:"Validator"]={}:exports);var e=function(a,b){this.__class__="ParsleyValidator",this.Validator=Validator,this.locale="en",this.init(a||{},b||{})};e.prototype={init:function(b,c){this.catalog=c;for(var d in b)this.addValidator(d,b[d].fn,b[d].priority,b[d].requirementsTransformer);a.emit("parsley:validator:init")},setLocale:function(a){if("undefined"==typeof this.catalog[a])throw new Error(a+" is not available in the catalog");return this.locale=a,this},addCatalog:function(a,b,c){return"object"==typeof b&&(this.catalog[a]=b),!0===c?this.setLocale(a):this},addMessage:function(a,b,c){return"undefined"==typeof this.catalog[a]&&(this.catalog[a]={}),this.catalog[a][b.toLowerCase()]=c,this},validate:function(a,b,c){return(new this.Validator.Validator).validate.apply(new Validator.Validator,arguments)},addValidator:function(b,c,d,e){return this.validators[b.toLowerCase()]=function(b){return a.extend((new Validator.Assert).Callback(c,b),{priority:d,requirementsTransformer:e})},this},updateValidator:function(a,b,c,d){return this.addValidator(a,b,c,d)},removeValidator:function(a){return delete this.validators[a],this},getErrorMessage:function(a){var b;return b="type"===a.name?this.catalog[this.locale][a.name][a.requirements]:this.formatMessage(this.catalog[this.locale][a.name],a.requirements),""!==b?b:this.catalog[this.locale].defaultMessage},formatMessage:function(a,b){if("object"==typeof b){for(var c in b)a=this.formatMessage(a,b[c]);return a}return"string"==typeof a?a.replace(new RegExp("%s","i"),b):""},validators:{notblank:function(){return a.extend((new Validator.Assert).NotBlank(),{priority:2})},required:function(){return a.extend((new Validator.Assert).Required(),{priority:512})},type:function(b){var c;switch(b){case"email":c=(new Validator.Assert).Email();break;case"range":case"number":c=(new Validator.Assert).Regexp("^-?(?:\\d+|\\d{1,3}(?:,\\d{3})+)?(?:\\.\\d+)?$");break;case"integer":c=(new Validator.Assert).Regexp("^-?\\d+$");break;case"digits":c=(new Validator.Assert).Regexp("^\\d+$");break;case"alphanum":c=(new Validator.Assert).Regexp("^\\w+$","i");break;case"url":c=(new Validator.Assert).Regexp("(https?:\\/\\/)?(www\\.)?[-a-zA-Z0-9@:%._\\+~#=]{2,256}\\.[a-z]{2,4}\\b([-a-zA-Z0-9@:%_\\+.~#?&//=]*)","i");break;default:throw new Error("validator type `"+b+"` is not supported")}return a.extend(c,{priority:256})},pattern:function(b){var c="";return/^\/.*\/(?:[gimy]*)$/.test(b)&&(c=b.replace(/.*\/([gimy]*)$/,"$1"),b=b.replace(new RegExp("^/(.*?)/"+c+"$"),"$1")),a.extend((new Validator.Assert).Regexp(b,c),{priority:64})},minlength:function(b){return a.extend((new Validator.Assert).Length({min:b}),{priority:30,requirementsTransformer:function(){return"string"!=typeof b||isNaN(b)?b:parseInt(b,10)}})},maxlength:function(b){return a.extend((new Validator.Assert).Length({max:b}),{priority:30,requirementsTransformer:function(){return"string"!=typeof b||isNaN(b)?b:parseInt(b,10)}})},length:function(b){return a.extend((new Validator.Assert).Length({min:b[0],max:b[1]}),{priority:32})},mincheck:function(a){return this.minlength(a)},maxcheck:function(a){return this.maxlength(a)},check:function(a){return this.length(a)},min:function(b){return a.extend((new Validator.Assert).GreaterThanOrEqual(b),{priority:30,requirementsTransformer:function(){return"string"!=typeof b||isNaN(b)?b:parseInt(b,10)}})},max:function(b){return a.extend((new Validator.Assert).LessThanOrEqual(b),{priority:30,requirementsTransformer:function(){return"string"!=typeof b||isNaN(b)?b:parseInt(b,10)}})},range:function(b){return a.extend((new Validator.Assert).Range(b[0],b[1]),{priority:32,requirementsTransformer:function(){for(var a=0;a<b.length;a++)b[a]="string"!=typeof b[a]||isNaN(b[a])?b[a]:parseInt(b[a],10);return b}})},equalto:function(b){return a.extend((new Validator.Assert).EqualTo(b),{priority:256,requirementsTransformer:function(){return a(b).length?a(b).val():b}})}}};var f=function(a){this.__class__="ParsleyUI"};f.prototype={listen:function(){return a.listen("parsley:form:init",this,this.setupForm),a.listen("parsley:field:init",this,this.setupField),a.listen("parsley:field:validated",this,this.reflow),a.listen("parsley:form:validated",this,this.focus),a.listen("parsley:field:reset",this,this.reset),a.listen("parsley:form:destroy",this,this.destroy),a.listen("parsley:field:destroy",this,this.destroy),this},reflow:function(a){if("undefined"!=typeof a._ui&&!1!==a._ui.active){var b=this._diff(a.validationResult,a._ui.lastValidationResult);a._ui.lastValidationResult=a.validationResult,a._ui.validatedOnce=!0,this.manageStatusClass(a),this.manageErrorsMessages(a,b),this.actualizeTriggers(a),(b.kept.length||b.added.length)&&"undefined"==typeof a._ui.failedOnce&&this.manageFailingFieldTrigger(a)}},getErrorsMessages:function(a){if(!0===a.validationResult)return[];for(var b=[],c=0;c<a.validationResult.length;c++)b.push(this._getErrorMessage(a,a.validationResult[c].assert));return b},manageStatusClass:function(a){!0===a.validationResult?this._successClass(a):a.validationResult.length>0?this._errorClass(a):this._resetClass(a)},manageErrorsMessages:function(b,c){if("undefined"==typeof b.options.errorsMessagesDisabled){if("undefined"!=typeof b.options.errorMessage)return c.added.length||c.kept.length?(0===b._ui.$errorsWrapper.find(".parsley-custom-error-message").length&&b._ui.$errorsWrapper.append(a(b.options.errorTemplate).addClass("parsley-custom-error-message")),b._ui.$errorsWrapper.addClass("filled").find(".parsley-custom-error-message").html(b.options.errorMessage)):b._ui.$errorsWrapper.removeClass("filled").find(".parsley-custom-error-message").remove();for(var d=0;d<c.removed.length;d++)this.removeError(b,c.removed[d].assert.name,!0);for(d=0;d<c.added.length;d++)this.addError(b,c.added[d].assert.name,void 0,c.added[d].assert,!0);for(d=0;d<c.kept.length;d++)this.updateError(b,c.kept[d].assert.name,void 0,c.kept[d].assert,!0)}},addError:function(b,c,d,e,f){b._ui.$errorsWrapper.addClass("filled").append(a(b.options.errorTemplate).addClass("parsley-"+c).html(d||this._getErrorMessage(b,e))),!0!==f&&this._errorClass(b)},updateError:function(a,b,c,d,e){a._ui.$errorsWrapper.addClass("filled").find(".parsley-"+b).html(c||this._getErrorMessage(a,d)),!0!==e&&this._errorClass(a)},removeError:function(a,b,c){a._ui.$errorsWrapper.removeClass("filled").find(".parsley-"+b).remove(),!0!==c&&this.manageStatusClass(a)},focus:function(a){if(!0===a.validationResult||"none"===a.options.focus)return a._focusedField=null;a._focusedField=null;for(var b=0;b<a.fields.length;b++)if(!0!==a.fields[b].validationResult&&a.fields[b].validationResult.length>0&&"undefined"==typeof a.fields[b].options.noFocus){if("first"===a.options.focus)return a._focusedField=a.fields[b].$element,a._focusedField.focus();a._focusedField=a.fields[b].$element}return null===a._focusedField?null:a._focusedField.focus()},_getErrorMessage:function(a,b){var c=b.name+"Message";return"undefined"!=typeof a.options[c]?window.ParsleyValidator.formatMessage(a.options[c],b.requirements):window.ParsleyValidator.getErrorMessage(b)},_diff:function(a,b,c){for(var d=[],e=[],f=0;f<a.length;f++){for(var g=!1,h=0;h<b.length;h++)if(a[f].assert.name===b[h].assert.name){g=!0;break}g?e.push(a[f]):d.push(a[f])}return{kept:e,added:d,removed:c?[]:this._diff(b,a,!0).added}},setupForm:function(b){b.$element.on("submit.Parsley",!1,a.proxy(b.onSubmitValidate,b)),!1!==b.options.uiEnabled&&b.$element.attr("novalidate","")},setupField:function(b){var c={active:!1};!1!==b.options.uiEnabled&&(c.active=!0,b.$element.attr(b.options.namespace+"id",b.__id__),c.$errorClassHandler=this._manageClassHandler(b),c.errorsWrapperId="parsley-id-"+("undefined"!=typeof b.options.multiple?"multiple-"+b.options.multiple:b.__id__),c.$errorsWrapper=a(b.options.errorsWrapper).attr("id",c.errorsWrapperId),c.lastValidationResult=[],c.validatedOnce=!1,c.validationInformationVisible=!1,b._ui=c,this._insertErrorWrapper(b),this.actualizeTriggers(b))},_manageClassHandler:function(b){if("string"==typeof b.options.classHandler&&a(b.options.classHandler).length)return a(b.options.classHandler);var c=b.options.classHandler(b);return"undefined"!=typeof c&&c.length?c:"undefined"==typeof b.options.multiple||b.$element.is("select")?b.$element:b.$element.parent()},_insertErrorWrapper:function(b){var c;if("string"==typeof b.options.errorsContainer){if(a(b.options.errorsContainer).length)return a(b.options.errorsContainer).append(b._ui.$errorsWrapper);window.console&&window.console.warn&&window.console.warn("The errors container `"+b.options.errorsContainer+"` does not exist in DOM")}else"function"==typeof b.options.errorsContainer&&(c=b.options.errorsContainer(b));return"undefined"!=typeof c&&c.length?c.append(b._ui.$errorsWrapper):"undefined"==typeof b.options.multiple?b.$element.after(b._ui.$errorsWrapper):b.$element.parent().after(b._ui.$errorsWrapper)},actualizeTriggers:function(b){var c=this;if(b.options.multiple?a("["+b.options.namespace+'multiple="'+b.options.multiple+'"]').each(function(){a(this).off(".Parsley")}):b.$element.off(".Parsley"),!1!==b.options.trigger){var d=b.options.trigger.replace(/^\s+/g,"").replace(/\s+$/g,"");""!==d&&(b.options.multiple?a("["+b.options.namespace+'multiple="'+b.options.multiple+'"]').each(function(){a(this).on(d.split(" ").join(".Parsley ")+".Parsley",!1,a.proxy("function"==typeof b.eventValidate?b.eventValidate:c.eventValidate,b))}):b.$element.on(d.split(" ").join(".Parsley ")+".Parsley",!1,a.proxy("function"==typeof b.eventValidate?b.eventValidate:this.eventValidate,b)))}},eventValidate:function(a){new RegExp("key").test(a.type)&&!this._ui.validationInformationVisible&&this.getValue().length<=this.options.validationThreshold||(this._ui.validatedOnce=!0,this.validate())},manageFailingFieldTrigger:function(b){return b._ui.failedOnce=!0,b.options.multiple&&a("["+b.options.namespace+'multiple="'+b.options.multiple+'"]').each(function(){return new RegExp("change","i").test(a(this).parsley().options.trigger||"")?void 0:a(this).on("change.ParsleyFailedOnce",!1,a.proxy(b.validate,b))}),b.$element.is("select")&&!new RegExp("change","i").test(b.options.trigger||"")?b.$element.on("change.ParsleyFailedOnce",!1,a.proxy(b.validate,b)):new RegExp("keyup","i").test(b.options.trigger||"")?void 0:b.$element.on("keyup.ParsleyFailedOnce",!1,a.proxy(b.validate,b))},reset:function(b){b.$element.off(".Parsley"),b.$element.off(".ParsleyFailedOnce"),"undefined"!=typeof b._ui&&"ParsleyForm"!==b.__class__&&(b._ui.$errorsWrapper.children().each(function(){a(this).remove()}),this._resetClass(b),b._ui.validatedOnce=!1,b._ui.lastValidationResult=[],b._ui.validationInformationVisible=!1)},destroy:function(a){this.reset(a),"ParsleyForm"!==a.__class__&&("undefined"!=typeof a._ui&&a._ui.$errorsWrapper.remove(),delete a._ui)},_successClass:function(a){a._ui.validationInformationVisible=!0,a._ui.$errorClassHandler.removeClass(a.options.errorClass).addClass(a.options.successClass)},_errorClass:function(a){a._ui.validationInformationVisible=!0,a._ui.$errorClassHandler.removeClass(a.options.successClass).addClass(a.options.errorClass)},_resetClass:function(a){a._ui.$errorClassHandler.removeClass(a.options.successClass).removeClass(a.options.errorClass)}};var g=function(c,d,e,f){this.__class__="OptionsFactory",this.__id__=b.hash(4),this.formOptions=null,this.fieldOptions=null,this.staticOptions=a.extend(!0,{},c,d,e,{namespace:f})};g.prototype={get:function(a){if("undefined"==typeof a.__class__)throw new Error("Parsley Instance expected");switch(a.__class__){case"Parsley":return this.staticOptions;case"ParsleyForm":return this.getFormOptions(a);case"ParsleyField":case"ParsleyFieldMultiple":return this.getFieldOptions(a);default:throw new Error("Instance "+a.__class__+" is not supported")}},getFormOptions:function(c){return this.formOptions=b.attr(c.$element,this.staticOptions.namespace),a.extend({},this.staticOptions,this.formOptions)},getFieldOptions:function(c){return this.fieldOptions=b.attr(c.$element,this.staticOptions.namespace),null===this.formOptions&&"undefined"!=typeof c.parent&&(this.formOptions=this.getFormOptions(c.parent)),a.extend({},this.staticOptions,this.formOptions,this.fieldOptions)}};var h=function(c,d){if(this.__class__="ParsleyForm",this.__id__=b.hash(4),"OptionsFactory"!==b.get(d,"__class__"))throw new Error("You must give an OptionsFactory instance");this.OptionsFactory=d,this.$element=a(c),this.validationResult=null,this.options=this.OptionsFactory.get(this)};h.prototype={onSubmitValidate:function(b){return this.validate(void 0,void 0,b),!1===this.validationResult&&b instanceof a.Event&&(b.stopImmediatePropagation(),b.preventDefault()),this},validate:function(b,c,d){this.submitEvent=d,this.validationResult=!0;var e=[];this._refreshFields(),a.emit("parsley:form:validate",this);for(var f=0;f<this.fields.length;f++)b&&b!==this.fields[f].options.group||(e=this.fields[f].validate(c),!0!==e&&e.length>0&&this.validationResult&&(this.validationResult=!1));return a.emit("parsley:form:validated",this),this.validationResult},isValid:function(a,b){this._refreshFields();for(var c=0;c<this.fields.length;c++)if((!a||a===this.fields[c].options.group)&&!1===this.fields[c].isValid(b))return!1;return!0},_refreshFields:function(){return this.actualizeOptions()._bindFields()},_bindFields:function(){var a=this;return this.fields=[],this.fieldsMappedById={},this.$element.find(this.options.inputs).each(function(){var b=new window.Parsley(this,{},a);"ParsleyField"!==b.__class__&&"ParsleyFieldMultiple"!==b.__class__||b.$element.is(b.options.excluded)||"undefined"==typeof a.fieldsMappedById[b.__class__+"-"+b.__id__]&&(a.fieldsMappedById[b.__class__+"-"+b.__id__]=b,a.fields.push(b))}),this}};var i=function(c,d,e,f,g){if(!new RegExp("ParsleyField").test(b.get(c,"__class__")))throw new Error("ParsleyField or ParsleyFieldMultiple instance expected");if("function"!=typeof window.ParsleyValidator.validators[d]&&"Assert"!==window.ParsleyValidator.validators[d](e).__parentClass__)throw new Error("Valid validator expected");var h=function(a,c){return"undefined"!=typeof a.options[c+"Priority"]?a.options[c+"Priority"]:b.get(window.ParsleyValidator.validators[c](e),"priority")||2;
-};return f=f||h(c,d),"function"==typeof window.ParsleyValidator.validators[d](e).requirementsTransformer&&(e=window.ParsleyValidator.validators[d](e).requirementsTransformer()),a.extend(window.ParsleyValidator.validators[d](e),{name:d,requirements:e,priority:f,groups:[f],isDomConstraint:g||b.attr(c.$element,c.options.namespace,d)})},j=function(c,d,e){this.__class__="ParsleyField",this.__id__=b.hash(4),this.$element=a(c),"undefined"!=typeof e?(this.parent=e,this.OptionsFactory=this.parent.OptionsFactory,this.options=this.OptionsFactory.get(this)):(this.OptionsFactory=d,this.options=this.OptionsFactory.get(this)),this.constraints=[],this.constraintsByName={},this.validationResult=[],this._bindConstraints()};j.prototype={validate:function(b){return this.value=this.getValue(),a.emit("parsley:field:validate",this),a.emit("parsley:field:"+(this.isValid(b,this.value)?"success":"error"),this),a.emit("parsley:field:validated",this),this.validationResult},isValid:function(a,b){this.refreshConstraints();var c=this._getConstraintsSortedPriorities();if(b=b||this.getValue(),0===b.length&&!this._isRequired()&&"undefined"==typeof this.options.validateIfEmpty&&!0!==a)return this.validationResult=[];if(!1===this.options.priorityEnabled)return!0===(this.validationResult=this.validateThroughValidator(b,this.constraints,"Any"));for(var d=0;d<c.length;d++)if(!0!==(this.validationResult=this.validateThroughValidator(b,this.constraints,c[d])))return!1;return!0},getValue:function(){var a;return a="undefined"!=typeof this.options.value?this.options.value:this.$element.val(),"undefined"==typeof a||null===a?"":!0===this.options.trimValue?a.replace(/^\s+|\s+$/g,""):a},refreshConstraints:function(){return this.actualizeOptions()._bindConstraints()},addConstraint:function(a,b,c,d){if(a=a.toLowerCase(),"function"==typeof window.ParsleyValidator.validators[a]){var e=new i(this,a,b,c,d);"undefined"!==this.constraintsByName[e.name]&&this.removeConstraint(e.name),this.constraints.push(e),this.constraintsByName[e.name]=e}return this},removeConstraint:function(a){for(var b=0;b<this.constraints.length;b++)if(a===this.constraints[b].name){this.constraints.splice(b,1);break}return this},updateConstraint:function(a,b,c){return this.removeConstraint(a).addConstraint(a,b,c)},_bindConstraints:function(){for(var a=[],b=0;b<this.constraints.length;b++)!1===this.constraints[b].isDomConstraint&&a.push(this.constraints[b]);this.constraints=a;for(var c in this.options)this.addConstraint(c,this.options[c]);return this._bindHtml5Constraints()},_bindHtml5Constraints:function(){(this.$element.hasClass("required")||this.$element.attr("required"))&&this.addConstraint("required",!0,void 0,!0),"string"==typeof this.$element.attr("pattern")&&this.addConstraint("pattern",this.$element.attr("pattern"),void 0,!0),"undefined"!=typeof this.$element.attr("min")&&"undefined"!=typeof this.$element.attr("max")?this.addConstraint("range",[this.$element.attr("min"),this.$element.attr("max")],void 0,!0):"undefined"!=typeof this.$element.attr("min")?this.addConstraint("min",this.$element.attr("min"),void 0,!0):"undefined"!=typeof this.$element.attr("max")&&this.addConstraint("max",this.$element.attr("max"),void 0,!0);var a=this.$element.attr("type");return"undefined"==typeof a?this:"number"===a?this.addConstraint("type","integer",void 0,!0):new RegExp(a,"i").test("email url range")?this.addConstraint("type",a,void 0,!0):this},_isRequired:function(){return"undefined"==typeof this.constraintsByName.required?!1:!1!==this.constraintsByName.required.requirements},_getConstraintsSortedPriorities:function(){for(var a=[],b=0;b<this.constraints.length;b++)-1===a.indexOf(this.constraints[b].priority)&&a.push(this.constraints[b].priority);return a.sort(function(a,b){return b-a}),a}};var k=function(){this.__class__="ParsleyFieldMultiple"};k.prototype={addElement:function(a){return this.$elements.push(a),this},refreshConstraints:function(){var b;if(this.constraints=[],this.$element.is("select"))return this.actualizeOptions()._bindConstraints(),this;for(var c=0;c<this.$elements.length;c++)if(a("html").has(this.$elements[c]).length){b=this.$elements[c].data("ParsleyFieldMultiple").refreshConstraints().constraints;for(var d=0;d<b.length;d++)this.addConstraint(b[d].name,b[d].requirements,b[d].priority,b[d].isDomConstraint)}else this.$elements.splice(c,1);return this},getValue:function(){if("undefined"!=typeof this.options.value)return this.options.value;if(this.$element.is("input[type=radio]"))return a("["+this.options.namespace+'multiple="'+this.options.multiple+'"]:checked').val()||"";if(this.$element.is("input[type=checkbox]")){var b=[];return a("["+this.options.namespace+'multiple="'+this.options.multiple+'"]:checked').each(function(){b.push(a(this).val())}),b.length?b:[]}return this.$element.is("select")&&null===this.$element.val()?[]:this.$element.val()},_init:function(a){return this.$elements=[this.$element],this.options.multiple=a,this}};var l=a({}),m={};a.listen=function(a){if("undefined"==typeof m[a]&&(m[a]=[]),"function"==typeof arguments[1])return m[a].push({fn:arguments[1]});if("object"==typeof arguments[1]&&"function"==typeof arguments[2])return m[a].push({fn:arguments[2],ctxt:arguments[1]});throw new Error("Wrong parameters")},a.listenTo=function(a,b,c){if("undefined"==typeof m[b]&&(m[b]=[]),!(a instanceof j||a instanceof h))throw new Error("Must give Parsley instance");if("string"!=typeof b||"function"!=typeof c)throw new Error("Wrong parameters");m[b].push({instance:a,fn:c})},a.unsubscribe=function(a,b){if("undefined"!=typeof m[a]){if("string"!=typeof a||"function"!=typeof b)throw new Error("Wrong arguments");for(var c=0;c<m[a].length;c++)if(m[a][c].fn===b)return m[a].splice(c,1)}},a.unsubscribeTo=function(a,b){if("undefined"!=typeof m[b]){if(!(a instanceof j||a instanceof h))throw new Error("Must give Parsley instance");for(var c=0;c<m[b].length;c++)if("undefined"!=typeof m[b][c].instance&&m[b][c].instance.__id__===a.__id__)return m[b].splice(c,1)}},a.unsubscribeAll=function(a){"undefined"!=typeof m[a]&&delete m[a]},a.emit=function(a,b){if("undefined"!=typeof m[a])for(var c=0;c<m[a].length;c++)if("undefined"!=typeof m[a][c].instance){if(b instanceof j||b instanceof h)if(m[a][c].instance.__id__!==b.__id__){if(m[a][c].instance instanceof h&&b instanceof j)for(var d=0;d<m[a][c].instance.fields.length;d++)if(m[a][c].instance.fields[d].__id__===b.__id__){m[a][c].fn.apply(l,Array.prototype.slice.call(arguments,1));continue}}else m[a][c].fn.apply(l,Array.prototype.slice.call(arguments,1))}else m[a][c].fn.apply("undefined"!=typeof m[a][c].ctxt?m[a][c].ctxt:l,Array.prototype.slice.call(arguments,1))},a.subscribed=function(){return m},window.ParsleyConfig=window.ParsleyConfig||{},window.ParsleyConfig.i18n=window.ParsleyConfig.i18n||{},window.ParsleyConfig.i18n.en=a.extend(window.ParsleyConfig.i18n.en||{},{defaultMessage:"This value seems to be invalid.",type:{email:"This value should be a valid email.",url:"This value should be a valid url.",number:"This value should be a valid number.",integer:"This value should be a valid integer.",digits:"This value should be digits.",alphanum:"This value should be alphanumeric."},notblank:"This value should not be blank.",required:"This value is required.",pattern:"This value seems to be invalid.",min:"This value should be greater than or equal to %s.",max:"This value should be lower than or equal to %s.",range:"This value should be between %s and %s.",minlength:"This value is too short. It should have %s characters or more.",maxlength:"This value is too long. It should have %s characters or fewer.",length:"This value length is invalid. It should be between %s and %s characters long.",mincheck:"You must select at least %s choices.",maxcheck:"You must select %s choices or fewer.",check:"You must select between %s and %s choices.",equalto:"This value should be the same."}),"undefined"!=typeof window.ParsleyValidator&&window.ParsleyValidator.addCatalog("en",window.ParsleyConfig.i18n.en,!0);var n=function(c,d,e){if(this.__class__="Parsley",this.__version__="2.0.3",this.__id__=b.hash(4),"undefined"==typeof c)throw new Error("You must give an element");if("undefined"!=typeof e&&"ParsleyForm"!==e.__class__)throw new Error("Parent instance must be a ParsleyForm instance");return this.init(a(c),d,e)};n.prototype={init:function(a,d,e){if(!a.length)throw new Error("You must bind Parsley on an existing element.");if(this.$element=a,this.$element.data("Parsley")){var f=this.$element.data("Parsley");return"undefined"!=typeof e&&(f.parent=e),f}return this.OptionsFactory=new g(c,b.get(window,"ParsleyConfig")||{},d,this.getNamespace(d)),this.options=this.OptionsFactory.get(this),this.$element.is("form")||b.attr(this.$element,this.options.namespace,"validate")&&!this.$element.is(this.options.inputs)?this.bind("parsleyForm"):this.$element.is(this.options.inputs)&&!this.$element.is(this.options.excluded)?this.isMultiple()?this.handleMultiple(e):this.bind("parsleyField",e):this},isMultiple:function(){return this.$element.is("input[type=radio], input[type=checkbox]")&&"undefined"==typeof this.options.multiple||this.$element.is("select")&&"undefined"!=typeof this.$element.attr("multiple")},handleMultiple:function(c){var d,e,f,g=this;if(this.options=a.extend(this.options,c?c.OptionsFactory.get(c):{},b.attr(this.$element,this.options.namespace)),this.options.multiple?e=this.options.multiple:"undefined"!=typeof this.$element.attr("name")&&this.$element.attr("name").length?e=d=this.$element.attr("name"):"undefined"!=typeof this.$element.attr("id")&&this.$element.attr("id").length&&(e=this.$element.attr("id")),this.$element.is("select")&&"undefined"!=typeof this.$element.attr("multiple"))return this.bind("parsleyFieldMultiple",c,e||this.__id__);if("undefined"==typeof e)return window.console&&window.console.warn&&window.console.warn("To be binded by Parsley, a radio, a checkbox and a multiple select input must have either a name or a multiple option.",this.$element),this;if(e=e.replace(/(:|\.|\[|\]|\$)/g,""),"undefined"!=typeof d&&a('input[name="'+d+'"]').each(function(){a(this).is("input[type=radio], input[type=checkbox]")&&a(this).attr(g.options.namespace+"multiple",e)}),a("["+this.options.namespace+"multiple="+e+"]").length)for(var h=0;h<a("["+this.options.namespace+"multiple="+e+"]").length;h++)if("undefined"!=typeof a(a("["+this.options.namespace+"multiple="+e+"]").get(h)).data("Parsley")){f=a(a("["+this.options.namespace+"multiple="+e+"]").get(h)).data("Parsley"),this.$element.data("ParsleyFieldMultiple")||(f.addElement(this.$element),this.$element.attr(this.options.namespace+"id",f.__id__));break}return this.bind("parsleyField",c,e,!0),f||this.bind("parsleyFieldMultiple",c,e)},getNamespace:function(a){return"undefined"!=typeof this.$element.data("parsleyNamespace")?this.$element.data("parsleyNamespace"):"undefined"!=typeof b.get(a,"namespace")?a.namespace:"undefined"!=typeof b.get(window,"ParsleyConfig.namespace")?window.ParsleyConfig.namespace:c.namespace},bind:function(c,e,f,g){var i;switch(c){case"parsleyForm":i=a.extend(new h(this.$element,this.OptionsFactory),new d,window.ParsleyExtend)._bindFields();break;case"parsleyField":i=a.extend(new j(this.$element,this.OptionsFactory,e),new d,window.ParsleyExtend);break;case"parsleyFieldMultiple":i=a.extend(new j(this.$element,this.OptionsFactory,e),new d,new k,window.ParsleyExtend)._init(f);break;default:throw new Error(c+"is not a supported Parsley type")}return"undefined"!=typeof f&&b.setAttr(this.$element,this.options.namespace,"multiple",f),"undefined"!=typeof g?(this.$element.data("ParsleyFieldMultiple",i),i):(new RegExp("ParsleyF","i").test(i.__class__)&&(this.$element.data("Parsley",i),a.emit("parsley:"+("parsleyForm"===c?"form":"field")+":init",i)),i)}},a.fn.parsley=a.fn.psly=function(b){if(this.length>1){var c=[];return this.each(function(){c.push(a(this).parsley(b))}),c}return a(this).length?new n(this,b):void(window.console&&window.console.warn&&window.console.warn("You must bind Parsley on an existing element."))},window.ParsleyUI="function"==typeof b.get(window,"ParsleyConfig.ParsleyUI")?(new window.ParsleyConfig.ParsleyUI).listen():(new f).listen(),"undefined"==typeof window.ParsleyExtend&&(window.ParsleyExtend={}),"undefined"==typeof window.ParsleyConfig&&(window.ParsleyConfig={}),window.Parsley=window.psly=n,window.ParsleyUtils=b,window.ParsleyValidator=new e(window.ParsleyConfig.validators,window.ParsleyConfig.i18n),!1!==b.get(window,"ParsleyConfig.autoBind")&&a(document).ready(function(){a("[data-parsley-validate]").length&&a("[data-parsley-validate]").parsley()})});
+/*!
+* Parsley.js
+* Version 2.6.2 - built Wed, Jan 4th 2017, 8:58 am
+* http://parsleyjs.org
+* Guillaume Potier - <guillaume@wisembly.com>
+* Marc-Andre Lafortune - <petroselinum@marc-andre.ca>
+* MIT Licensed
+*/
+
+// The source code below is generated by babel as
+// Parsley is written in ECMAScript 6
+//
+var _slice = Array.prototype.slice;
+
+function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) arr2[i] = arr[i]; return arr2; } else { return Array.from(arr); } }
+
+(function (global, factory) {
+  typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory(require('jquery')) : typeof define === 'function' && define.amd ? define(['jquery'], factory) : global.parsley = factory(global.jQuery);
+})(this, function ($) {
+  'use strict';
+
+  var globalID = 1;
+  var pastWarnings = {};
+
+  var ParsleyUtils__ParsleyUtils = {
+    // Parsley DOM-API
+    // returns object from dom attributes and values
+    attr: function attr($element, namespace, obj) {
+      var i;
+      var attribute;
+      var attributes;
+      var regex = new RegExp('^' + namespace, 'i');
+
+      if ('undefined' === typeof obj) obj = {};else {
+        // Clear all own properties. This won't affect prototype's values
+        for (i in obj) {
+          if (obj.hasOwnProperty(i)) delete obj[i];
+        }
+      }
+
+      if ('undefined' === typeof $element || 'undefined' === typeof $element[0]) return obj;
+
+      attributes = $element[0].attributes;
+      for (i = attributes.length; i--;) {
+        attribute = attributes[i];
+
+        if (attribute && attribute.specified && regex.test(attribute.name)) {
+          obj[this.camelize(attribute.name.slice(namespace.length))] = this.deserializeValue(attribute.value);
+        }
+      }
+
+      return obj;
+    },
+
+    checkAttr: function checkAttr($element, namespace, _checkAttr) {
+      return $element.is('[' + namespace + _checkAttr + ']');
+    },
+
+    setAttr: function setAttr($element, namespace, attr, value) {
+      $element[0].setAttribute(this.dasherize(namespace + attr), String(value));
+    },
+
+    generateID: function generateID() {
+      return '' + globalID++;
+    },
+
+    /** Third party functions **/
+    // Zepto deserialize function
+    deserializeValue: function deserializeValue(value) {
+      var num;
+
+      try {
+        return value ? value == "true" || (value == "false" ? false : value == "null" ? null : !isNaN(num = Number(value)) ? num : /^[\[\{]/.test(value) ? $.parseJSON(value) : value) : value;
+      } catch (e) {
+        return value;
+      }
+    },
+
+    // Zepto camelize function
+    camelize: function camelize(str) {
+      return str.replace(/-+(.)?/g, function (match, chr) {
+        return chr ? chr.toUpperCase() : '';
+      });
+    },
+
+    // Zepto dasherize function
+    dasherize: function dasherize(str) {
+      return str.replace(/::/g, '/').replace(/([A-Z]+)([A-Z][a-z])/g, '$1_$2').replace(/([a-z\d])([A-Z])/g, '$1_$2').replace(/_/g, '-').toLowerCase();
+    },
+
+    warn: function warn() {
+      var _window$console;
+
+      if (window.console && 'function' === typeof window.console.warn) (_window$console = window.console).warn.apply(_window$console, arguments);
+    },
+
+    warnOnce: function warnOnce(msg) {
+      if (!pastWarnings[msg]) {
+        pastWarnings[msg] = true;
+        this.warn.apply(this, arguments);
+      }
+    },
+
+    _resetWarnings: function _resetWarnings() {
+      pastWarnings = {};
+    },
+
+    trimString: function trimString(string) {
+      return string.replace(/^\s+|\s+$/g, '');
+    },
+
+    namespaceEvents: function namespaceEvents(events, namespace) {
+      events = this.trimString(events || '').split(/\s+/);
+      if (!events[0]) return '';
+      return $.map(events, function (evt) {
+        return evt + '.' + namespace;
+      }).join(' ');
+    },
+
+    difference: function difference(array, remove) {
+      // This is O(N^2), should be optimized
+      var result = [];
+      $.each(array, function (_, elem) {
+        if (remove.indexOf(elem) == -1) result.push(elem);
+      });
+      return result;
+    },
+
+    // Alter-ego to native Promise.all, but for jQuery
+    all: function all(promises) {
+      // jQuery treats $.when() and $.when(singlePromise) differently; let's avoid that and add spurious elements
+      return $.when.apply($, _toConsumableArray(promises).concat([42, 42]));
+    },
+
+    // Object.create polyfill, see https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/create#Polyfill
+    objectCreate: Object.create || (function () {
+      var Object = function Object() {};
+      return function (prototype) {
+        if (arguments.length > 1) {
+          throw Error('Second argument not supported');
+        }
+        if (typeof prototype != 'object') {
+          throw TypeError('Argument must be an object');
+        }
+        Object.prototype = prototype;
+        var result = new Object();
+        Object.prototype = null;
+        return result;
+      };
+    })(),
+
+    _SubmitSelector: 'input[type="submit"], button:submit'
+  };
+
+  var ParsleyUtils__default = ParsleyUtils__ParsleyUtils;
+
+  // All these options could be overriden and specified directly in DOM using
+  // `data-parsley-` default DOM-API
+  // eg: `inputs` can be set in DOM using `data-parsley-inputs="input, textarea"`
+  // eg: `data-parsley-stop-on-first-failing-constraint="false"`
+
+  var ParsleyDefaults = {
+    // ### General
+
+    // Default data-namespace for DOM API
+    namespace: 'data-parsley-',
+
+    // Supported inputs by default
+    inputs: 'input, textarea, select',
+
+    // Excluded inputs by default
+    excluded: 'input[type=button], input[type=submit], input[type=reset], input[type=hidden]',
+
+    // Stop validating field on highest priority failing constraint
+    priorityEnabled: true,
+
+    // ### Field only
+
+    // identifier used to group together inputs (e.g. radio buttons...)
+    multiple: null,
+
+    // identifier (or array of identifiers) used to validate only a select group of inputs
+    group: null,
+
+    // ### UI
+    // Enable\Disable error messages
+    uiEnabled: true,
+
+    // Key events threshold before validation
+    validationThreshold: 3,
+
+    // Focused field on form validation error. 'first'|'last'|'none'
+    focus: 'first',
+
+    // event(s) that will trigger validation before first failure. eg: `input`...
+    trigger: false,
+
+    // event(s) that will trigger validation after first failure.
+    triggerAfterFailure: 'input',
+
+    // Class that would be added on every failing validation Parsley field
+    errorClass: 'parsley-error',
+
+    // Same for success validation
+    successClass: 'parsley-success',
+
+    // Return the `$element` that will receive these above success or error classes
+    // Could also be (and given directly from DOM) a valid selector like `'#div'`
+    classHandler: function classHandler(ParsleyField) {},
+
+    // Return the `$element` where errors will be appended
+    // Could also be (and given directly from DOM) a valid selector like `'#div'`
+    errorsContainer: function errorsContainer(ParsleyField) {},
+
+    // ul elem that would receive errors' list
+    errorsWrapper: '<ul class="parsley-errors-list"></ul>',
+
+    // li elem that would receive error message
+    errorTemplate: '<li></li>'
+  };
+
+  var ParsleyAbstract = function ParsleyAbstract() {
+    this.__id__ = ParsleyUtils__default.generateID();
+  };
+
+  ParsleyAbstract.prototype = {
+    asyncSupport: true, // Deprecated
+
+    _pipeAccordingToValidationResult: function _pipeAccordingToValidationResult() {
+      var _this = this;
+
+      var pipe = function pipe() {
+        var r = $.Deferred();
+        if (true !== _this.validationResult) r.reject();
+        return r.resolve().promise();
+      };
+      return [pipe, pipe];
+    },
+
+    actualizeOptions: function actualizeOptions() {
+      ParsleyUtils__default.attr(this.$element, this.options.namespace, this.domOptions);
+      if (this.parent && this.parent.actualizeOptions) this.parent.actualizeOptions();
+      return this;
+    },
+
+    _resetOptions: function _resetOptions(initOptions) {
+      this.domOptions = ParsleyUtils__default.objectCreate(this.parent.options);
+      this.options = ParsleyUtils__default.objectCreate(this.domOptions);
+      // Shallow copy of ownProperties of initOptions:
+      for (var i in initOptions) {
+        if (initOptions.hasOwnProperty(i)) this.options[i] = initOptions[i];
+      }
+      this.actualizeOptions();
+    },
+
+    _listeners: null,
+
+    // Register a callback for the given event name
+    // Callback is called with context as the first argument and the `this`
+    // The context is the current parsley instance, or window.Parsley if global
+    // A return value of `false` will interrupt the calls
+    on: function on(name, fn) {
+      this._listeners = this._listeners || {};
+      var queue = this._listeners[name] = this._listeners[name] || [];
+      queue.push(fn);
+
+      return this;
+    },
+
+    // Deprecated. Use `on` instead
+    subscribe: function subscribe(name, fn) {
+      $.listenTo(this, name.toLowerCase(), fn);
+    },
+
+    // Unregister a callback (or all if none is given) for the given event name
+    off: function off(name, fn) {
+      var queue = this._listeners && this._listeners[name];
+      if (queue) {
+        if (!fn) {
+          delete this._listeners[name];
+        } else {
+          for (var i = queue.length; i--;) if (queue[i] === fn) queue.splice(i, 1);
+        }
+      }
+      return this;
+    },
+
+    // Deprecated. Use `off`
+    unsubscribe: function unsubscribe(name, fn) {
+      $.unsubscribeTo(this, name.toLowerCase());
+    },
+
+    // Trigger an event of the given name
+    // A return value of `false` interrupts the callback chain
+    // Returns false if execution was interrupted
+    trigger: function trigger(name, target, extraArg) {
+      target = target || this;
+      var queue = this._listeners && this._listeners[name];
+      var result;
+      var parentResult;
+      if (queue) {
+        for (var i = queue.length; i--;) {
+          result = queue[i].call(target, target, extraArg);
+          if (result === false) return result;
+        }
+      }
+      if (this.parent) {
+        return this.parent.trigger(name, target, extraArg);
+      }
+      return true;
+    },
+
+    // Reset UI
+    reset: function reset() {
+      // Field case: just emit a reset event for UI
+      if ('ParsleyForm' !== this.__class__) {
+        this._resetUI();
+        return this._trigger('reset');
+      }
+
+      // Form case: emit a reset event for each field
+      for (var i = 0; i < this.fields.length; i++) this.fields[i].reset();
+
+      this._trigger('reset');
+    },
+
+    // Destroy Parsley instance (+ UI)
+    destroy: function destroy() {
+      // Field case: emit destroy event to clean UI and then destroy stored instance
+      this._destroyUI();
+      if ('ParsleyForm' !== this.__class__) {
+        this.$element.removeData('Parsley');
+        this.$element.removeData('ParsleyFieldMultiple');
+        this._trigger('destroy');
+
+        return;
+      }
+
+      // Form case: destroy all its fields and then destroy stored instance
+      for (var i = 0; i < this.fields.length; i++) this.fields[i].destroy();
+
+      this.$element.removeData('Parsley');
+      this._trigger('destroy');
+    },
+
+    asyncIsValid: function asyncIsValid(group, force) {
+      ParsleyUtils__default.warnOnce("asyncIsValid is deprecated; please use whenValid instead");
+      return this.whenValid({ group: group, force: force });
+    },
+
+    _findRelated: function _findRelated() {
+      return this.options.multiple ? this.parent.$element.find('[' + this.options.namespace + 'multiple="' + this.options.multiple + '"]') : this.$element;
+    }
+  };
+
+  var requirementConverters = {
+    string: function string(_string) {
+      return _string;
+    },
+    integer: function integer(string) {
+      if (isNaN(string)) throw 'Requirement is not an integer: "' + string + '"';
+      return parseInt(string, 10);
+    },
+    number: function number(string) {
+      if (isNaN(string)) throw 'Requirement is not a number: "' + string + '"';
+      return parseFloat(string);
+    },
+    reference: function reference(string) {
+      // Unused for now
+      var result = $(string);
+      if (result.length === 0) throw 'No such reference: "' + string + '"';
+      return result;
+    },
+    boolean: function boolean(string) {
+      return string !== 'false';
+    },
+    object: function object(string) {
+      return ParsleyUtils__default.deserializeValue(string);
+    },
+    regexp: function regexp(_regexp) {
+      var flags = '';
+
+      // Test if RegExp is literal, if not, nothing to be done, otherwise, we need to isolate flags and pattern
+      if (/^\/.*\/(?:[gimy]*)$/.test(_regexp)) {
+        // Replace the regexp literal string with the first match group: ([gimy]*)
+        // If no flag is present, this will be a blank string
+        flags = _regexp.replace(/.*\/([gimy]*)$/, '$1');
+        // Again, replace the regexp literal string with the first match group:
+        // everything excluding the opening and closing slashes and the flags
+        _regexp = _regexp.replace(new RegExp('^/(.*?)/' + flags + '$'), '$1');
+      } else {
+        // Anchor regexp:
+        _regexp = '^' + _regexp + '$';
+      }
+      return new RegExp(_regexp, flags);
+    }
+  };
+
+  var convertArrayRequirement = function convertArrayRequirement(string, length) {
+    var m = string.match(/^\s*\[(.*)\]\s*$/);
+    if (!m) throw 'Requirement is not an array: "' + string + '"';
+    var values = m[1].split(',').map(ParsleyUtils__default.trimString);
+    if (values.length !== length) throw 'Requirement has ' + values.length + ' values when ' + length + ' are needed';
+    return values;
+  };
+
+  var convertRequirement = function convertRequirement(requirementType, string) {
+    var converter = requirementConverters[requirementType || 'string'];
+    if (!converter) throw 'Unknown requirement specification: "' + requirementType + '"';
+    return converter(string);
+  };
+
+  var convertExtraOptionRequirement = function convertExtraOptionRequirement(requirementSpec, string, extraOptionReader) {
+    var main = null;
+    var extra = {};
+    for (var key in requirementSpec) {
+      if (key) {
+        var value = extraOptionReader(key);
+        if ('string' === typeof value) value = convertRequirement(requirementSpec[key], value);
+        extra[key] = value;
+      } else {
+        main = convertRequirement(requirementSpec[key], string);
+      }
+    }
+    return [main, extra];
+  };
+
+  // A Validator needs to implement the methods `validate` and `parseRequirements`
+
+  var ParsleyValidator = function ParsleyValidator(spec) {
+    $.extend(true, this, spec);
+  };
+
+  ParsleyValidator.prototype = {
+    // Returns `true` iff the given `value` is valid according the given requirements.
+    validate: function validate(value, requirementFirstArg) {
+      if (this.fn) {
+        // Legacy style validator
+
+        if (arguments.length > 3) // If more args then value, requirement, instance...
+          requirementFirstArg = [].slice.call(arguments, 1, -1); // Skip first arg (value) and last (instance), combining the rest
+        return this.fn.call(this, value, requirementFirstArg);
+      }
+
+      if ($.isArray(value)) {
+        if (!this.validateMultiple) throw 'Validator `' + this.name + '` does not handle multiple values';
+        return this.validateMultiple.apply(this, arguments);
+      } else {
+        if (this.validateNumber) {
+          if (isNaN(value)) return false;
+          arguments[0] = parseFloat(arguments[0]);
+          return this.validateNumber.apply(this, arguments);
+        }
+        if (this.validateString) {
+          return this.validateString.apply(this, arguments);
+        }
+        throw 'Validator `' + this.name + '` only handles multiple values';
+      }
+    },
+
+    // Parses `requirements` into an array of arguments,
+    // according to `this.requirementType`
+    parseRequirements: function parseRequirements(requirements, extraOptionReader) {
+      if ('string' !== typeof requirements) {
+        // Assume requirement already parsed
+        // but make sure we return an array
+        return $.isArray(requirements) ? requirements : [requirements];
+      }
+      var type = this.requirementType;
+      if ($.isArray(type)) {
+        var values = convertArrayRequirement(requirements, type.length);
+        for (var i = 0; i < values.length; i++) values[i] = convertRequirement(type[i], values[i]);
+        return values;
+      } else if ($.isPlainObject(type)) {
+        return convertExtraOptionRequirement(type, requirements, extraOptionReader);
+      } else {
+        return [convertRequirement(type, requirements)];
+      }
+    },
+    // Defaults:
+    requirementType: 'string',
+
+    priority: 2
+
+  };
+
+  var ParsleyValidatorRegistry = function ParsleyValidatorRegistry(validators, catalog) {
+    this.__class__ = 'ParsleyValidatorRegistry';
+
+    // Default Parsley locale is en
+    this.locale = 'en';
+
+    this.init(validators || {}, catalog || {});
+  };
+
+  var typeRegexes = {
+    email: /^((([a-z]|\d|[!#\$%&'\*\+\-\/=\?\^_`{\|}~]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])+(\.([a-z]|\d|[!#\$%&'\*\+\-\/=\?\^_`{\|}~]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])+)*)|((\x22)((((\x20|\x09)*(\x0d\x0a))?(\x20|\x09)+)?(([\x01-\x08\x0b\x0c\x0e-\x1f\x7f]|\x21|[\x23-\x5b]|[\x5d-\x7e]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(\\([\x01-\x09\x0b\x0c\x0d-\x7f]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]))))*(((\x20|\x09)*(\x0d\x0a))?(\x20|\x09)+)?(\x22)))@((([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])*([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])))\.)+(([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])*([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])))$/i,
+
+    // Follow https://www.w3.org/TR/html5/infrastructure.html#floating-point-numbers
+    number: /^-?(\d*\.)?\d+(e[-+]?\d+)?$/i,
+
+    integer: /^-?\d+$/,
+
+    digits: /^\d+$/,
+
+    alphanum: /^\w+$/i,
+
+    url: new RegExp("^" +
+    // protocol identifier
+    "(?:(?:https?|ftp)://)?" + // ** mod: make scheme optional
+    // user:pass authentication
+    "(?:\\S+(?::\\S*)?@)?" + "(?:" +
+    // IP address exclusion
+    // private & local networks
+    // "(?!(?:10|127)(?:\\.\\d{1,3}){3})" +   // ** mod: allow local networks
+    // "(?!(?:169\\.254|192\\.168)(?:\\.\\d{1,3}){2})" +  // ** mod: allow local networks
+    // "(?!172\\.(?:1[6-9]|2\\d|3[0-1])(?:\\.\\d{1,3}){2})" +  // ** mod: allow local networks
+    // IP address dotted notation octets
+    // excludes loopback network 0.0.0.0
+    // excludes reserved space >= 224.0.0.0
+    // excludes network & broacast addresses
+    // (first & last IP address of each class)
+    "(?:[1-9]\\d?|1\\d\\d|2[01]\\d|22[0-3])" + "(?:\\.(?:1?\\d{1,2}|2[0-4]\\d|25[0-5])){2}" + "(?:\\.(?:[1-9]\\d?|1\\d\\d|2[0-4]\\d|25[0-4]))" + "|" +
+    // host name
+    '(?:(?:[a-z\\u00a1-\\uffff0-9]-*)*[a-z\\u00a1-\\uffff0-9]+)' +
+    // domain name
+    '(?:\\.(?:[a-z\\u00a1-\\uffff0-9]-*)*[a-z\\u00a1-\\uffff0-9]+)*' +
+    // TLD identifier
+    '(?:\\.(?:[a-z\\u00a1-\\uffff]{2,}))' + ")" +
+    // port number
+    "(?::\\d{2,5})?" +
+    // resource path
+    "(?:/\\S*)?" + "$", 'i')
+  };
+  typeRegexes.range = typeRegexes.number;
+
+  // See http://stackoverflow.com/a/10454560/8279
+  var decimalPlaces = function decimalPlaces(num) {
+    var match = ('' + num).match(/(?:\.(\d+))?(?:[eE]([+-]?\d+))?$/);
+    if (!match) {
+      return 0;
+    }
+    return Math.max(0,
+    // Number of digits right of decimal point.
+    (match[1] ? match[1].length : 0) - (
+    // Adjust for scientific notation.
+    match[2] ? +match[2] : 0));
+  };
+
+  ParsleyValidatorRegistry.prototype = {
+    init: function init(validators, catalog) {
+      this.catalog = catalog;
+      // Copy prototype's validators:
+      this.validators = $.extend({}, this.validators);
+
+      for (var name in validators) this.addValidator(name, validators[name].fn, validators[name].priority);
+
+      window.Parsley.trigger('parsley:validator:init');
+    },
+
+    // Set new messages locale if we have dictionary loaded in ParsleyConfig.i18n
+    setLocale: function setLocale(locale) {
+      if ('undefined' === typeof this.catalog[locale]) throw new Error(locale + ' is not available in the catalog');
+
+      this.locale = locale;
+
+      return this;
+    },
+
+    // Add a new messages catalog for a given locale. Set locale for this catalog if set === `true`
+    addCatalog: function addCatalog(locale, messages, set) {
+      if ('object' === typeof messages) this.catalog[locale] = messages;
+
+      if (true === set) return this.setLocale(locale);
+
+      return this;
+    },
+
+    // Add a specific message for a given constraint in a given locale
+    addMessage: function addMessage(locale, name, message) {
+      if ('undefined' === typeof this.catalog[locale]) this.catalog[locale] = {};
+
+      this.catalog[locale][name] = message;
+
+      return this;
+    },
+
+    // Add messages for a given locale
+    addMessages: function addMessages(locale, nameMessageObject) {
+      for (var name in nameMessageObject) this.addMessage(locale, name, nameMessageObject[name]);
+
+      return this;
+    },
+
+    // Add a new validator
+    //
+    //    addValidator('custom', {
+    //        requirementType: ['integer', 'integer'],
+    //        validateString: function(value, from, to) {},
+    //        priority: 22,
+    //        messages: {
+    //          en: "Hey, that's no good",
+    //          fr: "Aye aye, pas bon du tout",
+    //        }
+    //    })
+    //
+    // Old API was addValidator(name, function, priority)
+    //
+    addValidator: function addValidator(name, arg1, arg2) {
+      if (this.validators[name]) ParsleyUtils__default.warn('Validator "' + name + '" is already defined.');else if (ParsleyDefaults.hasOwnProperty(name)) {
+        ParsleyUtils__default.warn('"' + name + '" is a restricted keyword and is not a valid validator name.');
+        return;
+      }
+      return this._setValidator.apply(this, arguments);
+    },
+
+    updateValidator: function updateValidator(name, arg1, arg2) {
+      if (!this.validators[name]) {
+        ParsleyUtils__default.warn('Validator "' + name + '" is not already defined.');
+        return this.addValidator.apply(this, arguments);
+      }
+      return this._setValidator.apply(this, arguments);
+    },
+
+    removeValidator: function removeValidator(name) {
+      if (!this.validators[name]) ParsleyUtils__default.warn('Validator "' + name + '" is not defined.');
+
+      delete this.validators[name];
+
+      return this;
+    },
+
+    _setValidator: function _setValidator(name, validator, priority) {
+      if ('object' !== typeof validator) {
+        // Old style validator, with `fn` and `priority`
+        validator = {
+          fn: validator,
+          priority: priority
+        };
+      }
+      if (!validator.validate) {
+        validator = new ParsleyValidator(validator);
+      }
+      this.validators[name] = validator;
+
+      for (var locale in validator.messages || {}) this.addMessage(locale, name, validator.messages[locale]);
+
+      return this;
+    },
+
+    getErrorMessage: function getErrorMessage(constraint) {
+      var message;
+
+      // Type constraints are a bit different, we have to match their requirements too to find right error message
+      if ('type' === constraint.name) {
+        var typeMessages = this.catalog[this.locale][constraint.name] || {};
+        message = typeMessages[constraint.requirements];
+      } else message = this.formatMessage(this.catalog[this.locale][constraint.name], constraint.requirements);
+
+      return message || this.catalog[this.locale].defaultMessage || this.catalog.en.defaultMessage;
+    },
+
+    // Kind of light `sprintf()` implementation
+    formatMessage: function formatMessage(string, parameters) {
+      if ('object' === typeof parameters) {
+        for (var i in parameters) string = this.formatMessage(string, parameters[i]);
+
+        return string;
+      }
+
+      return 'string' === typeof string ? string.replace(/%s/i, parameters) : '';
+    },
+
+    // Here is the Parsley default validators list.
+    // A validator is an object with the following key values:
+    //  - priority: an integer
+    //  - requirement: 'string' (default), 'integer', 'number', 'regexp' or an Array of these
+    //  - validateString, validateMultiple, validateNumber: functions returning `true`, `false` or a promise
+    // Alternatively, a validator can be a function that returns such an object
+    //
+    validators: {
+      notblank: {
+        validateString: function validateString(value) {
+          return (/\S/.test(value)
+          );
+        },
+        priority: 2
+      },
+      required: {
+        validateMultiple: function validateMultiple(values) {
+          return values.length > 0;
+        },
+        validateString: function validateString(value) {
+          return (/\S/.test(value)
+          );
+        },
+        priority: 512
+      },
+      type: {
+        validateString: function validateString(value, type) {
+          var _ref = arguments.length <= 2 || arguments[2] === undefined ? {} : arguments[2];
+
+          var _ref$step = _ref.step;
+          var step = _ref$step === undefined ? 'any' : _ref$step;
+          var _ref$base = _ref.base;
+          var base = _ref$base === undefined ? 0 : _ref$base;
+
+          var regex = typeRegexes[type];
+          if (!regex) {
+            throw new Error('validator type `' + type + '` is not supported');
+          }
+          if (!regex.test(value)) return false;
+          if ('number' === type) {
+            if (!/^any$/i.test(step || '')) {
+              var nb = Number(value);
+              var decimals = Math.max(decimalPlaces(step), decimalPlaces(base));
+              if (decimalPlaces(nb) > decimals) // Value can't have too many decimals
+                return false;
+              // Be careful of rounding errors by using integers.
+              var toInt = function toInt(f) {
+                return Math.round(f * Math.pow(10, decimals));
+              };
+              if ((toInt(nb) - toInt(base)) % toInt(step) != 0) return false;
+            }
+          }
+          return true;
+        },
+        requirementType: {
+          '': 'string',
+          step: 'string',
+          base: 'number'
+        },
+        priority: 256
+      },
+      pattern: {
+        validateString: function validateString(value, regexp) {
+          return regexp.test(value);
+        },
+        requirementType: 'regexp',
+        priority: 64
+      },
+      minlength: {
+        validateString: function validateString(value, requirement) {
+          return value.length >= requirement;
+        },
+        requirementType: 'integer',
+        priority: 30
+      },
+      maxlength: {
+        validateString: function validateString(value, requirement) {
+          return value.length <= requirement;
+        },
+        requirementType: 'integer',
+        priority: 30
+      },
+      length: {
+        validateString: function validateString(value, min, max) {
+          return value.length >= min && value.length <= max;
+        },
+        requirementType: ['integer', 'integer'],
+        priority: 30
+      },
+      mincheck: {
+        validateMultiple: function validateMultiple(values, requirement) {
+          return values.length >= requirement;
+        },
+        requirementType: 'integer',
+        priority: 30
+      },
+      maxcheck: {
+        validateMultiple: function validateMultiple(values, requirement) {
+          return values.length <= requirement;
+        },
+        requirementType: 'integer',
+        priority: 30
+      },
+      check: {
+        validateMultiple: function validateMultiple(values, min, max) {
+          return values.length >= min && values.length <= max;
+        },
+        requirementType: ['integer', 'integer'],
+        priority: 30
+      },
+      min: {
+        validateNumber: function validateNumber(value, requirement) {
+          return value >= requirement;
+        },
+        requirementType: 'number',
+        priority: 30
+      },
+      max: {
+        validateNumber: function validateNumber(value, requirement) {
+          return value <= requirement;
+        },
+        requirementType: 'number',
+        priority: 30
+      },
+      range: {
+        validateNumber: function validateNumber(value, min, max) {
+          return value >= min && value <= max;
+        },
+        requirementType: ['number', 'number'],
+        priority: 30
+      },
+      equalto: {
+        validateString: function validateString(value, refOrValue) {
+          var $reference = $(refOrValue);
+          if ($reference.length) return value === $reference.val();else return value === refOrValue;
+        },
+        priority: 256
+      }
+    }
+  };
+
+  var ParsleyUI = {};
+
+  var diffResults = function diffResults(newResult, oldResult, deep) {
+    var added = [];
+    var kept = [];
+
+    for (var i = 0; i < newResult.length; i++) {
+      var found = false;
+
+      for (var j = 0; j < oldResult.length; j++) if (newResult[i].assert.name === oldResult[j].assert.name) {
+        found = true;
+        break;
+      }
+
+      if (found) kept.push(newResult[i]);else added.push(newResult[i]);
+    }
+
+    return {
+      kept: kept,
+      added: added,
+      removed: !deep ? diffResults(oldResult, newResult, true).added : []
+    };
+  };
+
+  ParsleyUI.Form = {
+
+    _actualizeTriggers: function _actualizeTriggers() {
+      var _this2 = this;
+
+      this.$element.on('submit.Parsley', function (evt) {
+        _this2.onSubmitValidate(evt);
+      });
+      this.$element.on('click.Parsley', ParsleyUtils__default._SubmitSelector, function (evt) {
+        _this2.onSubmitButton(evt);
+      });
+
+      // UI could be disabled
+      if (false === this.options.uiEnabled) return;
+
+      this.$element.attr('novalidate', '');
+    },
+
+    focus: function focus() {
+      this._focusedField = null;
+
+      if (true === this.validationResult || 'none' === this.options.focus) return null;
+
+      for (var i = 0; i < this.fields.length; i++) {
+        var field = this.fields[i];
+        if (true !== field.validationResult && field.validationResult.length > 0 && 'undefined' === typeof field.options.noFocus) {
+          this._focusedField = field.$element;
+          if ('first' === this.options.focus) break;
+        }
+      }
+
+      if (null === this._focusedField) return null;
+
+      return this._focusedField.focus();
+    },
+
+    _destroyUI: function _destroyUI() {
+      // Reset all event listeners
+      this.$element.off('.Parsley');
+    }
+
+  };
+
+  ParsleyUI.Field = {
+
+    _reflowUI: function _reflowUI() {
+      this._buildUI();
+
+      // If this field doesn't have an active UI don't bother doing something
+      if (!this._ui) return;
+
+      // Diff between two validation results
+      var diff = diffResults(this.validationResult, this._ui.lastValidationResult);
+
+      // Then store current validation result for next reflow
+      this._ui.lastValidationResult = this.validationResult;
+
+      // Handle valid / invalid / none field class
+      this._manageStatusClass();
+
+      // Add, remove, updated errors messages
+      this._manageErrorsMessages(diff);
+
+      // Triggers impl
+      this._actualizeTriggers();
+
+      // If field is not valid for the first time, bind keyup trigger to ease UX and quickly inform user
+      if ((diff.kept.length || diff.added.length) && !this._failedOnce) {
+        this._failedOnce = true;
+        this._actualizeTriggers();
+      }
+    },
+
+    // Returns an array of field's error message(s)
+    getErrorsMessages: function getErrorsMessages() {
+      // No error message, field is valid
+      if (true === this.validationResult) return [];
+
+      var messages = [];
+
+      for (var i = 0; i < this.validationResult.length; i++) messages.push(this.validationResult[i].errorMessage || this._getErrorMessage(this.validationResult[i].assert));
+
+      return messages;
+    },
+
+    // It's a goal of Parsley that this method is no longer required [#1073]
+    addError: function addError(name) {
+      var _ref2 = arguments.length <= 1 || arguments[1] === undefined ? {} : arguments[1];
+
+      var message = _ref2.message;
+      var assert = _ref2.assert;
+      var _ref2$updateClass = _ref2.updateClass;
+      var updateClass = _ref2$updateClass === undefined ? true : _ref2$updateClass;
+
+      this._buildUI();
+      this._addError(name, { message: message, assert: assert });
+
+      if (updateClass) this._errorClass();
+    },
+
+    // It's a goal of Parsley that this method is no longer required [#1073]
+    updateError: function updateError(name) {
+      var _ref3 = arguments.length <= 1 || arguments[1] === undefined ? {} : arguments[1];
+
+      var message = _ref3.message;
+      var assert = _ref3.assert;
+      var _ref3$updateClass = _ref3.updateClass;
+      var updateClass = _ref3$updateClass === undefined ? true : _ref3$updateClass;
+
+      this._buildUI();
+      this._updateError(name, { message: message, assert: assert });
+
+      if (updateClass) this._errorClass();
+    },
+
+    // It's a goal of Parsley that this method is no longer required [#1073]
+    removeError: function removeError(name) {
+      var _ref4 = arguments.length <= 1 || arguments[1] === undefined ? {} : arguments[1];
+
+      var _ref4$updateClass = _ref4.updateClass;
+      var updateClass = _ref4$updateClass === undefined ? true : _ref4$updateClass;
+
+      this._buildUI();
+      this._removeError(name);
+
+      // edge case possible here: remove a standard Parsley error that is still failing in this.validationResult
+      // but highly improbable cuz' manually removing a well Parsley handled error makes no sense.
+      if (updateClass) this._manageStatusClass();
+    },
+
+    _manageStatusClass: function _manageStatusClass() {
+      if (this.hasConstraints() && this.needsValidation() && true === this.validationResult) this._successClass();else if (this.validationResult.length > 0) this._errorClass();else this._resetClass();
+    },
+
+    _manageErrorsMessages: function _manageErrorsMessages(diff) {
+      if ('undefined' !== typeof this.options.errorsMessagesDisabled) return;
+
+      // Case where we have errorMessage option that configure an unique field error message, regardless failing validators
+      if ('undefined' !== typeof this.options.errorMessage) {
+        if (diff.added.length || diff.kept.length) {
+          this._insertErrorWrapper();
+
+          if (0 === this._ui.$errorsWrapper.find('.parsley-custom-error-message').length) this._ui.$errorsWrapper.append($(this.options.errorTemplate).addClass('parsley-custom-error-message'));
+
+          return this._ui.$errorsWrapper.addClass('filled').find('.parsley-custom-error-message').html(this.options.errorMessage);
+        }
+
+        return this._ui.$errorsWrapper.removeClass('filled').find('.parsley-custom-error-message').remove();
+      }
+
+      // Show, hide, update failing constraints messages
+      for (var i = 0; i < diff.removed.length; i++) this._removeError(diff.removed[i].assert.name);
+
+      for (i = 0; i < diff.added.length; i++) this._addError(diff.added[i].assert.name, { message: diff.added[i].errorMessage, assert: diff.added[i].assert });
+
+      for (i = 0; i < diff.kept.length; i++) this._updateError(diff.kept[i].assert.name, { message: diff.kept[i].errorMessage, assert: diff.kept[i].assert });
+    },
+
+    _addError: function _addError(name, _ref5) {
+      var message = _ref5.message;
+      var assert = _ref5.assert;
+
+      this._insertErrorWrapper();
+      this._ui.$errorsWrapper.addClass('filled').append($(this.options.errorTemplate).addClass('parsley-' + name).html(message || this._getErrorMessage(assert)));
+    },
+
+    _updateError: function _updateError(name, _ref6) {
+      var message = _ref6.message;
+      var assert = _ref6.assert;
+
+      this._ui.$errorsWrapper.addClass('filled').find('.parsley-' + name).html(message || this._getErrorMessage(assert));
+    },
+
+    _removeError: function _removeError(name) {
+      this._ui.$errorsWrapper.removeClass('filled').find('.parsley-' + name).remove();
+    },
+
+    _getErrorMessage: function _getErrorMessage(constraint) {
+      var customConstraintErrorMessage = constraint.name + 'Message';
+
+      if ('undefined' !== typeof this.options[customConstraintErrorMessage]) return window.Parsley.formatMessage(this.options[customConstraintErrorMessage], constraint.requirements);
+
+      return window.Parsley.getErrorMessage(constraint);
+    },
+
+    _buildUI: function _buildUI() {
+      // UI could be already built or disabled
+      if (this._ui || false === this.options.uiEnabled) return;
+
+      var _ui = {};
+
+      // Give field its Parsley id in DOM
+      this.$element.attr(this.options.namespace + 'id', this.__id__);
+
+      /** Generate important UI elements and store them in this **/
+      // $errorClassHandler is the $element that woul have parsley-error and parsley-success classes
+      _ui.$errorClassHandler = this._manageClassHandler();
+
+      // $errorsWrapper is a div that would contain the various field errors, it will be appended into $errorsContainer
+      _ui.errorsWrapperId = 'parsley-id-' + (this.options.multiple ? 'multiple-' + this.options.multiple : this.__id__);
+      _ui.$errorsWrapper = $(this.options.errorsWrapper).attr('id', _ui.errorsWrapperId);
+
+      // ValidationResult UI storage to detect what have changed bwt two validations, and update DOM accordingly
+      _ui.lastValidationResult = [];
+      _ui.validationInformationVisible = false;
+
+      // Store it in this for later
+      this._ui = _ui;
+    },
+
+    // Determine which element will have `parsley-error` and `parsley-success` classes
+    _manageClassHandler: function _manageClassHandler() {
+      // An element selector could be passed through DOM with `data-parsley-class-handler=#foo`
+      if ('string' === typeof this.options.classHandler && $(this.options.classHandler).length) return $(this.options.classHandler);
+
+      // Class handled could also be determined by function given in Parsley options
+      var $handler = this.options.classHandler.call(this, this);
+
+      // If this function returned a valid existing DOM element, go for it
+      if ('undefined' !== typeof $handler && $handler.length) return $handler;
+
+      return this._inputHolder();
+    },
+
+    _inputHolder: function _inputHolder() {
+      // if simple element (input, texatrea, select...) it will perfectly host the classes and precede the error container
+      if (!this.options.multiple || this.$element.is('select')) return this.$element;
+
+      // But if multiple element (radio, checkbox), that would be their parent
+      return this.$element.parent();
+    },
+
+    _insertErrorWrapper: function _insertErrorWrapper() {
+      var $errorsContainer;
+
+      // Nothing to do if already inserted
+      if (0 !== this._ui.$errorsWrapper.parent().length) return this._ui.$errorsWrapper.parent();
+
+      if ('string' === typeof this.options.errorsContainer) {
+        if ($(this.options.errorsContainer).length) return $(this.options.errorsContainer).append(this._ui.$errorsWrapper);else ParsleyUtils__default.warn('The errors container `' + this.options.errorsContainer + '` does not exist in DOM');
+      } else if ('function' === typeof this.options.errorsContainer) $errorsContainer = this.options.errorsContainer.call(this, this);
+
+      if ('undefined' !== typeof $errorsContainer && $errorsContainer.length) return $errorsContainer.append(this._ui.$errorsWrapper);
+
+      return this._inputHolder().after(this._ui.$errorsWrapper);
+    },
+
+    _actualizeTriggers: function _actualizeTriggers() {
+      var _this3 = this;
+
+      var $toBind = this._findRelated();
+      var trigger;
+
+      // Remove Parsley events already bound on this field
+      $toBind.off('.Parsley');
+      if (this._failedOnce) $toBind.on(ParsleyUtils__default.namespaceEvents(this.options.triggerAfterFailure, 'Parsley'), function () {
+        _this3._validateIfNeeded();
+      });else if (trigger = ParsleyUtils__default.namespaceEvents(this.options.trigger, 'Parsley')) {
+        $toBind.on(trigger, function (event) {
+          _this3._validateIfNeeded(event);
+        });
+      }
+    },
+
+    _validateIfNeeded: function _validateIfNeeded(event) {
+      var _this4 = this;
+
+      // For keyup, keypress, keydown, input... events that could be a little bit obstrusive
+      // do not validate if val length < min threshold on first validation. Once field have been validated once and info
+      // about success or failure have been displayed, always validate with this trigger to reflect every yalidation change.
+      if (event && /key|input/.test(event.type)) if (!(this._ui && this._ui.validationInformationVisible) && this.getValue().length <= this.options.validationThreshold) return;
+
+      if (this.options.debounce) {
+        window.clearTimeout(this._debounced);
+        this._debounced = window.setTimeout(function () {
+          return _this4.validate();
+        }, this.options.debounce);
+      } else this.validate();
+    },
+
+    _resetUI: function _resetUI() {
+      // Reset all event listeners
+      this._failedOnce = false;
+      this._actualizeTriggers();
+
+      // Nothing to do if UI never initialized for this field
+      if ('undefined' === typeof this._ui) return;
+
+      // Reset all errors' li
+      this._ui.$errorsWrapper.removeClass('filled').children().remove();
+
+      // Reset validation class
+      this._resetClass();
+
+      // Reset validation flags and last validation result
+      this._ui.lastValidationResult = [];
+      this._ui.validationInformationVisible = false;
+    },
+
+    _destroyUI: function _destroyUI() {
+      this._resetUI();
+
+      if ('undefined' !== typeof this._ui) this._ui.$errorsWrapper.remove();
+
+      delete this._ui;
+    },
+
+    _successClass: function _successClass() {
+      this._ui.validationInformationVisible = true;
+      this._ui.$errorClassHandler.removeClass(this.options.errorClass).addClass(this.options.successClass);
+    },
+    _errorClass: function _errorClass() {
+      this._ui.validationInformationVisible = true;
+      this._ui.$errorClassHandler.removeClass(this.options.successClass).addClass(this.options.errorClass);
+    },
+    _resetClass: function _resetClass() {
+      this._ui.$errorClassHandler.removeClass(this.options.successClass).removeClass(this.options.errorClass);
+    }
+  };
+
+  var ParsleyForm = function ParsleyForm(element, domOptions, options) {
+    this.__class__ = 'ParsleyForm';
+
+    this.$element = $(element);
+    this.domOptions = domOptions;
+    this.options = options;
+    this.parent = window.Parsley;
+
+    this.fields = [];
+    this.validationResult = null;
+  };
+
+  var ParsleyForm__statusMapping = { pending: null, resolved: true, rejected: false };
+
+  ParsleyForm.prototype = {
+    onSubmitValidate: function onSubmitValidate(event) {
+      var _this5 = this;
+
+      // This is a Parsley generated submit event, do not validate, do not prevent, simply exit and keep normal behavior
+      if (true === event.parsley) return;
+
+      // If we didn't come here through a submit button, use the first one in the form
+      var $submitSource = this._$submitSource || this.$element.find(ParsleyUtils__default._SubmitSelector).first();
+      this._$submitSource = null;
+      this.$element.find('.parsley-synthetic-submit-button').prop('disabled', true);
+      if ($submitSource.is('[formnovalidate]')) return;
+
+      var promise = this.whenValidate({ event: event });
+
+      if ('resolved' === promise.state() && false !== this._trigger('submit')) {
+        // All good, let event go through. We make this distinction because browsers
+        // differ in their handling of `submit` being called from inside a submit event [#1047]
+      } else {
+          // Rejected or pending: cancel this submit
+          event.stopImmediatePropagation();
+          event.preventDefault();
+          if ('pending' === promise.state()) promise.done(function () {
+            _this5._submit($submitSource);
+          });
+        }
+    },
+
+    onSubmitButton: function onSubmitButton(event) {
+      this._$submitSource = $(event.currentTarget);
+    },
+    // internal
+    // _submit submits the form, this time without going through the validations.
+    // Care must be taken to "fake" the actual submit button being clicked.
+    _submit: function _submit($submitSource) {
+      if (false === this._trigger('submit')) return;
+      // Add submit button's data
+      if ($submitSource) {
+        var $synthetic = this.$element.find('.parsley-synthetic-submit-button').prop('disabled', false);
+        if (0 === $synthetic.length) $synthetic = $('<input class="parsley-synthetic-submit-button" type="hidden">').appendTo(this.$element);
+        $synthetic.attr({
+          name: $submitSource.attr('name'),
+          value: $submitSource.attr('value')
+        });
+      }
+
+      this.$element.trigger($.extend($.Event('submit'), { parsley: true }));
+    },
+
+    // Performs validation on fields while triggering events.
+    // @returns `true` if all validations succeeds, `false`
+    // if a failure is immediately detected, or `null`
+    // if dependant on a promise.
+    // Consider using `whenValidate` instead.
+    validate: function validate(options) {
+      if (arguments.length >= 1 && !$.isPlainObject(options)) {
+        ParsleyUtils__default.warnOnce('Calling validate on a parsley form without passing arguments as an object is deprecated.');
+
+        var _arguments = _slice.call(arguments);
+
+        var group = _arguments[0];
+        var force = _arguments[1];
+        var event = _arguments[2];
+
+        options = { group: group, force: force, event: event };
+      }
+      return ParsleyForm__statusMapping[this.whenValidate(options).state()];
+    },
+
+    whenValidate: function whenValidate() {
+      var _ParsleyUtils__default$all$done$fail$always,
+          _this6 = this;
+
+      var _ref7 = arguments.length <= 0 || arguments[0] === undefined ? {} : arguments[0];
+
+      var group = _ref7.group;
+      var force = _ref7.force;
+      var event = _ref7.event;
+
+      this.submitEvent = event;
+      if (event) {
+        this.submitEvent = $.extend({}, event, { preventDefault: function preventDefault() {
+            ParsleyUtils__default.warnOnce("Using `this.submitEvent.preventDefault()` is deprecated; instead, call `this.validationResult = false`");
+            _this6.validationResult = false;
+          } });
+      }
+      this.validationResult = true;
+
+      // fire validate event to eventually modify things before every validation
+      this._trigger('validate');
+
+      // Refresh form DOM options and form's fields that could have changed
+      this._refreshFields();
+
+      var promises = this._withoutReactualizingFormOptions(function () {
+        return $.map(_this6.fields, function (field) {
+          return field.whenValidate({ force: force, group: group });
+        });
+      });
+
+      return (_ParsleyUtils__default$all$done$fail$always = ParsleyUtils__default.all(promises).done(function () {
+        _this6._trigger('success');
+      }).fail(function () {
+        _this6.validationResult = false;
+        _this6.focus();
+        _this6._trigger('error');
+      }).always(function () {
+        _this6._trigger('validated');
+      })).pipe.apply(_ParsleyUtils__default$all$done$fail$always, _toConsumableArray(this._pipeAccordingToValidationResult()));
+    },
+
+    // Iterate over refreshed fields, and stop on first failure.
+    // Returns `true` if all fields are valid, `false` if a failure is detected
+    // or `null` if the result depends on an unresolved promise.
+    // Prefer using `whenValid` instead.
+    isValid: function isValid(options) {
+      if (arguments.length >= 1 && !$.isPlainObject(options)) {
+        ParsleyUtils__default.warnOnce('Calling isValid on a parsley form without passing arguments as an object is deprecated.');
+
+        var _arguments2 = _slice.call(arguments);
+
+        var group = _arguments2[0];
+        var force = _arguments2[1];
+
+        options = { group: group, force: force };
+      }
+      return ParsleyForm__statusMapping[this.whenValid(options).state()];
+    },
+
+    // Iterate over refreshed fields and validate them.
+    // Returns a promise.
+    // A validation that immediately fails will interrupt the validations.
+    whenValid: function whenValid() {
+      var _this7 = this;
+
+      var _ref8 = arguments.length <= 0 || arguments[0] === undefined ? {} : arguments[0];
+
+      var group = _ref8.group;
+      var force = _ref8.force;
+
+      this._refreshFields();
+
+      var promises = this._withoutReactualizingFormOptions(function () {
+        return $.map(_this7.fields, function (field) {
+          return field.whenValid({ group: group, force: force });
+        });
+      });
+      return ParsleyUtils__default.all(promises);
+    },
+
+    _refreshFields: function _refreshFields() {
+      return this.actualizeOptions()._bindFields();
+    },
+
+    _bindFields: function _bindFields() {
+      var _this8 = this;
+
+      var oldFields = this.fields;
+
+      this.fields = [];
+      this.fieldsMappedById = {};
+
+      this._withoutReactualizingFormOptions(function () {
+        _this8.$element.find(_this8.options.inputs).not(_this8.options.excluded).each(function (_, element) {
+          var fieldInstance = new window.Parsley.Factory(element, {}, _this8);
+
+          // Only add valid and not excluded `ParsleyField` and `ParsleyFieldMultiple` children
+          if (('ParsleyField' === fieldInstance.__class__ || 'ParsleyFieldMultiple' === fieldInstance.__class__) && true !== fieldInstance.options.excluded) if ('undefined' === typeof _this8.fieldsMappedById[fieldInstance.__class__ + '-' + fieldInstance.__id__]) {
+            _this8.fieldsMappedById[fieldInstance.__class__ + '-' + fieldInstance.__id__] = fieldInstance;
+            _this8.fields.push(fieldInstance);
+          }
+        });
+
+        $.each(ParsleyUtils__default.difference(oldFields, _this8.fields), function (_, field) {
+          field._trigger('reset');
+        });
+      });
+      return this;
+    },
+
+    // Internal only.
+    // Looping on a form's fields to do validation or similar
+    // will trigger reactualizing options on all of them, which
+    // in turn will reactualize the form's options.
+    // To avoid calling actualizeOptions so many times on the form
+    // for nothing, _withoutReactualizingFormOptions temporarily disables
+    // the method actualizeOptions on this form while `fn` is called.
+    _withoutReactualizingFormOptions: function _withoutReactualizingFormOptions(fn) {
+      var oldActualizeOptions = this.actualizeOptions;
+      this.actualizeOptions = function () {
+        return this;
+      };
+      var result = fn();
+      this.actualizeOptions = oldActualizeOptions;
+      return result;
+    },
+
+    // Internal only.
+    // Shortcut to trigger an event
+    // Returns true iff event is not interrupted and default not prevented.
+    _trigger: function _trigger(eventName) {
+      return this.trigger('form:' + eventName);
+    }
+
+  };
+
+  var ConstraintFactory = function ConstraintFactory(parsleyField, name, requirements, priority, isDomConstraint) {
+    if (!/ParsleyField/.test(parsleyField.__class__)) throw new Error('ParsleyField or ParsleyFieldMultiple instance expected');
+
+    var validatorSpec = window.Parsley._validatorRegistry.validators[name];
+    var validator = new ParsleyValidator(validatorSpec);
+
+    $.extend(this, {
+      validator: validator,
+      name: name,
+      requirements: requirements,
+      priority: priority || parsleyField.options[name + 'Priority'] || validator.priority,
+      isDomConstraint: true === isDomConstraint
+    });
+    this._parseRequirements(parsleyField.options);
+  };
+
+  var capitalize = function capitalize(str) {
+    var cap = str[0].toUpperCase();
+    return cap + str.slice(1);
+  };
+
+  ConstraintFactory.prototype = {
+    validate: function validate(value, instance) {
+      var _validator;
+
+      return (_validator = this.validator).validate.apply(_validator, [value].concat(_toConsumableArray(this.requirementList), [instance]));
+    },
+
+    _parseRequirements: function _parseRequirements(options) {
+      var _this9 = this;
+
+      this.requirementList = this.validator.parseRequirements(this.requirements, function (key) {
+        return options[_this9.name + capitalize(key)];
+      });
+    }
+  };
+
+  var ParsleyField = function ParsleyField(field, domOptions, options, parsleyFormInstance) {
+    this.__class__ = 'ParsleyField';
+
+    this.$element = $(field);
+
+    // Set parent if we have one
+    if ('undefined' !== typeof parsleyFormInstance) {
+      this.parent = parsleyFormInstance;
+    }
+
+    this.options = options;
+    this.domOptions = domOptions;
+
+    // Initialize some properties
+    this.constraints = [];
+    this.constraintsByName = {};
+    this.validationResult = true;
+
+    // Bind constraints
+    this._bindConstraints();
+  };
+
+  var parsley_field__statusMapping = { pending: null, resolved: true, rejected: false };
+
+  ParsleyField.prototype = {
+    // # Public API
+    // Validate field and trigger some events for mainly `ParsleyUI`
+    // @returns `true`, an array of the validators that failed, or
+    // `null` if validation is not finished. Prefer using whenValidate
+    validate: function validate(options) {
+      if (arguments.length >= 1 && !$.isPlainObject(options)) {
+        ParsleyUtils__default.warnOnce('Calling validate on a parsley field without passing arguments as an object is deprecated.');
+        options = { options: options };
+      }
+      var promise = this.whenValidate(options);
+      if (!promise) // If excluded with `group` option
+        return true;
+      switch (promise.state()) {
+        case 'pending':
+          return null;
+        case 'resolved':
+          return true;
+        case 'rejected':
+          return this.validationResult;
+      }
+    },
+
+    // Validate field and trigger some events for mainly `ParsleyUI`
+    // @returns a promise that succeeds only when all validations do
+    // or `undefined` if field is not in the given `group`.
+    whenValidate: function whenValidate() {
+      var _whenValid$always$done$fail$always,
+          _this10 = this;
+
+      var _ref9 = arguments.length <= 0 || arguments[0] === undefined ? {} : arguments[0];
+
+      var force = _ref9.force;
+      var group = _ref9.group;
+
+      // do not validate a field if not the same as given validation group
+      this.refreshConstraints();
+      if (group && !this._isInGroup(group)) return;
+
+      this.value = this.getValue();
+
+      // Field Validate event. `this.value` could be altered for custom needs
+      this._trigger('validate');
+
+      return (_whenValid$always$done$fail$always = this.whenValid({ force: force, value: this.value, _refreshed: true }).always(function () {
+        _this10._reflowUI();
+      }).done(function () {
+        _this10._trigger('success');
+      }).fail(function () {
+        _this10._trigger('error');
+      }).always(function () {
+        _this10._trigger('validated');
+      })).pipe.apply(_whenValid$always$done$fail$always, _toConsumableArray(this._pipeAccordingToValidationResult()));
+    },
+
+    hasConstraints: function hasConstraints() {
+      return 0 !== this.constraints.length;
+    },
+
+    // An empty optional field does not need validation
+    needsValidation: function needsValidation(value) {
+      if ('undefined' === typeof value) value = this.getValue();
+
+      // If a field is empty and not required, it is valid
+      // Except if `data-parsley-validate-if-empty` explicitely added, useful for some custom validators
+      if (!value.length && !this._isRequired() && 'undefined' === typeof this.options.validateIfEmpty) return false;
+
+      return true;
+    },
+
+    _isInGroup: function _isInGroup(group) {
+      if ($.isArray(this.options.group)) return -1 !== $.inArray(group, this.options.group);
+      return this.options.group === group;
+    },
+
+    // Just validate field. Do not trigger any event.
+    // Returns `true` iff all constraints pass, `false` if there are failures,
+    // or `null` if the result can not be determined yet (depends on a promise)
+    // See also `whenValid`.
+    isValid: function isValid(options) {
+      if (arguments.length >= 1 && !$.isPlainObject(options)) {
+        ParsleyUtils__default.warnOnce('Calling isValid on a parsley field without passing arguments as an object is deprecated.');
+
+        var _arguments3 = _slice.call(arguments);
+
+        var force = _arguments3[0];
+        var value = _arguments3[1];
+
+        options = { force: force, value: value };
+      }
+      var promise = this.whenValid(options);
+      if (!promise) // Excluded via `group`
+        return true;
+      return parsley_field__statusMapping[promise.state()];
+    },
+
+    // Just validate field. Do not trigger any event.
+    // @returns a promise that succeeds only when all validations do
+    // or `undefined` if the field is not in the given `group`.
+    // The argument `force` will force validation of empty fields.
+    // If a `value` is given, it will be validated instead of the value of the input.
+    whenValid: function whenValid() {
+      var _this11 = this;
+
+      var _ref10 = arguments.length <= 0 || arguments[0] === undefined ? {} : arguments[0];
+
+      var _ref10$force = _ref10.force;
+      var force = _ref10$force === undefined ? false : _ref10$force;
+      var value = _ref10.value;
+      var group = _ref10.group;
+      var _refreshed = _ref10._refreshed;
+
+      // Recompute options and rebind constraints to have latest changes
+      if (!_refreshed) this.refreshConstraints();
+      // do not validate a field if not the same as given validation group
+      if (group && !this._isInGroup(group)) return;
+
+      this.validationResult = true;
+
+      // A field without constraint is valid
+      if (!this.hasConstraints()) return $.when();
+
+      // Value could be passed as argument, needed to add more power to 'field:validate'
+      if ('undefined' === typeof value || null === value) value = this.getValue();
+
+      if (!this.needsValidation(value) && true !== force) return $.when();
+
+      var groupedConstraints = this._getGroupedConstraints();
+      var promises = [];
+      $.each(groupedConstraints, function (_, constraints) {
+        // Process one group of constraints at a time, we validate the constraints
+        // and combine the promises together.
+        var promise = ParsleyUtils__default.all($.map(constraints, function (constraint) {
+          return _this11._validateConstraint(value, constraint);
+        }));
+        promises.push(promise);
+        if (promise.state() === 'rejected') return false; // Interrupt processing if a group has already failed
+      });
+      return ParsleyUtils__default.all(promises);
+    },
+
+    // @returns a promise
+    _validateConstraint: function _validateConstraint(value, constraint) {
+      var _this12 = this;
+
+      var result = constraint.validate(value, this);
+      // Map false to a failed promise
+      if (false === result) result = $.Deferred().reject();
+      // Make sure we return a promise and that we record failures
+      return ParsleyUtils__default.all([result]).fail(function (errorMessage) {
+        if (!(_this12.validationResult instanceof Array)) _this12.validationResult = [];
+        _this12.validationResult.push({
+          assert: constraint,
+          errorMessage: 'string' === typeof errorMessage && errorMessage
+        });
+      });
+    },
+
+    // @returns Parsley field computed value that could be overrided or configured in DOM
+    getValue: function getValue() {
+      var value;
+
+      // Value could be overriden in DOM or with explicit options
+      if ('function' === typeof this.options.value) value = this.options.value(this);else if ('undefined' !== typeof this.options.value) value = this.options.value;else value = this.$element.val();
+
+      // Handle wrong DOM or configurations
+      if ('undefined' === typeof value || null === value) return '';
+
+      return this._handleWhitespace(value);
+    },
+
+    // Actualize options that could have change since previous validation
+    // Re-bind accordingly constraints (could be some new, removed or updated)
+    refreshConstraints: function refreshConstraints() {
+      return this.actualizeOptions()._bindConstraints();
+    },
+
+    /**
+    * Add a new constraint to a field
+    *
+    * @param {String}   name
+    * @param {Mixed}    requirements      optional
+    * @param {Number}   priority          optional
+    * @param {Boolean}  isDomConstraint   optional
+    */
+    addConstraint: function addConstraint(name, requirements, priority, isDomConstraint) {
+
+      if (window.Parsley._validatorRegistry.validators[name]) {
+        var constraint = new ConstraintFactory(this, name, requirements, priority, isDomConstraint);
+
+        // if constraint already exist, delete it and push new version
+        if ('undefined' !== this.constraintsByName[constraint.name]) this.removeConstraint(constraint.name);
+
+        this.constraints.push(constraint);
+        this.constraintsByName[constraint.name] = constraint;
+      }
+
+      return this;
+    },
+
+    // Remove a constraint
+    removeConstraint: function removeConstraint(name) {
+      for (var i = 0; i < this.constraints.length; i++) if (name === this.constraints[i].name) {
+        this.constraints.splice(i, 1);
+        break;
+      }
+      delete this.constraintsByName[name];
+      return this;
+    },
+
+    // Update a constraint (Remove + re-add)
+    updateConstraint: function updateConstraint(name, parameters, priority) {
+      return this.removeConstraint(name).addConstraint(name, parameters, priority);
+    },
+
+    // # Internals
+
+    // Internal only.
+    // Bind constraints from config + options + DOM
+    _bindConstraints: function _bindConstraints() {
+      var constraints = [];
+      var constraintsByName = {};
+
+      // clean all existing DOM constraints to only keep javascript user constraints
+      for (var i = 0; i < this.constraints.length; i++) if (false === this.constraints[i].isDomConstraint) {
+        constraints.push(this.constraints[i]);
+        constraintsByName[this.constraints[i].name] = this.constraints[i];
+      }
+
+      this.constraints = constraints;
+      this.constraintsByName = constraintsByName;
+
+      // then re-add Parsley DOM-API constraints
+      for (var name in this.options) this.addConstraint(name, this.options[name], undefined, true);
+
+      // finally, bind special HTML5 constraints
+      return this._bindHtml5Constraints();
+    },
+
+    // Internal only.
+    // Bind specific HTML5 constraints to be HTML5 compliant
+    _bindHtml5Constraints: function _bindHtml5Constraints() {
+      // html5 required
+      if (this.$element.attr('required')) this.addConstraint('required', true, undefined, true);
+
+      // html5 pattern
+      if ('string' === typeof this.$element.attr('pattern')) this.addConstraint('pattern', this.$element.attr('pattern'), undefined, true);
+
+      // range
+      if (this.$element.attr('type') !== 'date' && 'undefined' !== typeof this.$element.attr('min') && 'undefined' !== typeof this.$element.attr('max')) this.addConstraint('range', [this.$element.attr('min'), this.$element.attr('max')], undefined, true);
+
+      // HTML5 min
+      else if (this.$element.attr('type') !== 'date' && 'undefined' !== typeof this.$element.attr('min')) this.addConstraint('min', this.$element.attr('min'), undefined, true);
+
+        // HTML5 max
+        else if (this.$element.attr('type') !== 'date' && 'undefined' !== typeof this.$element.attr('max')) this.addConstraint('max', this.$element.attr('max'), undefined, true);
+
+      // length
+      if ('undefined' !== typeof this.$element.attr('minlength') && 'undefined' !== typeof this.$element.attr('maxlength')) this.addConstraint('length', [this.$element.attr('minlength'), this.$element.attr('maxlength')], undefined, true);
+
+      // HTML5 minlength
+      else if ('undefined' !== typeof this.$element.attr('minlength')) this.addConstraint('minlength', this.$element.attr('minlength'), undefined, true);
+
+        // HTML5 maxlength
+        else if ('undefined' !== typeof this.$element.attr('maxlength')) this.addConstraint('maxlength', this.$element.attr('maxlength'), undefined, true);
+
+      // html5 types
+      var type = this.$element.attr('type');
+
+      if ('undefined' === typeof type) return this;
+
+      // Small special case here for HTML5 number: integer validator if step attribute is undefined or an integer value, number otherwise
+      if ('number' === type) {
+        return this.addConstraint('type', ['number', {
+          step: this.$element.attr('step') || '1',
+          base: this.$element.attr('min') || this.$element.attr('value')
+        }], undefined, true);
+        // Regular other HTML5 supported types
+      } else if (/^(email|url|range)$/i.test(type)) {
+          return this.addConstraint('type', type, undefined, true);
+        }
+      return this;
+    },
+
+    // Internal only.
+    // Field is required if have required constraint without `false` value
+    _isRequired: function _isRequired() {
+      if ('undefined' === typeof this.constraintsByName.required) return false;
+
+      return false !== this.constraintsByName.required.requirements;
+    },
+
+    // Internal only.
+    // Shortcut to trigger an event
+    _trigger: function _trigger(eventName) {
+      return this.trigger('field:' + eventName);
+    },
+
+    // Internal only
+    // Handles whitespace in a value
+    // Use `data-parsley-whitespace="squish"` to auto squish input value
+    // Use `data-parsley-whitespace="trim"` to auto trim input value
+    _handleWhitespace: function _handleWhitespace(value) {
+      if (true === this.options.trimValue) ParsleyUtils__default.warnOnce('data-parsley-trim-value="true" is deprecated, please use data-parsley-whitespace="trim"');
+
+      if ('squish' === this.options.whitespace) value = value.replace(/\s{2,}/g, ' ');
+
+      if ('trim' === this.options.whitespace || 'squish' === this.options.whitespace || true === this.options.trimValue) value = ParsleyUtils__default.trimString(value);
+
+      return value;
+    },
+
+    // Internal only.
+    // Returns the constraints, grouped by descending priority.
+    // The result is thus an array of arrays of constraints.
+    _getGroupedConstraints: function _getGroupedConstraints() {
+      if (false === this.options.priorityEnabled) return [this.constraints];
+
+      var groupedConstraints = [];
+      var index = {};
+
+      // Create array unique of priorities
+      for (var i = 0; i < this.constraints.length; i++) {
+        var p = this.constraints[i].priority;
+        if (!index[p]) groupedConstraints.push(index[p] = []);
+        index[p].push(this.constraints[i]);
+      }
+      // Sort them by priority DESC
+      groupedConstraints.sort(function (a, b) {
+        return b[0].priority - a[0].priority;
+      });
+
+      return groupedConstraints;
+    }
+
+  };
+
+  var parsley_field = ParsleyField;
+
+  var ParsleyMultiple = function ParsleyMultiple() {
+    this.__class__ = 'ParsleyFieldMultiple';
+  };
+
+  ParsleyMultiple.prototype = {
+    // Add new `$element` sibling for multiple field
+    addElement: function addElement($element) {
+      this.$elements.push($element);
+
+      return this;
+    },
+
+    // See `ParsleyField.refreshConstraints()`
+    refreshConstraints: function refreshConstraints() {
+      var fieldConstraints;
+
+      this.constraints = [];
+
+      // Select multiple special treatment
+      if (this.$element.is('select')) {
+        this.actualizeOptions()._bindConstraints();
+
+        return this;
+      }
+
+      // Gather all constraints for each input in the multiple group
+      for (var i = 0; i < this.$elements.length; i++) {
+
+        // Check if element have not been dynamically removed since last binding
+        if (!$('html').has(this.$elements[i]).length) {
+          this.$elements.splice(i, 1);
+          continue;
+        }
+
+        fieldConstraints = this.$elements[i].data('ParsleyFieldMultiple').refreshConstraints().constraints;
+
+        for (var j = 0; j < fieldConstraints.length; j++) this.addConstraint(fieldConstraints[j].name, fieldConstraints[j].requirements, fieldConstraints[j].priority, fieldConstraints[j].isDomConstraint);
+      }
+
+      return this;
+    },
+
+    // See `ParsleyField.getValue()`
+    getValue: function getValue() {
+      // Value could be overriden in DOM
+      if ('function' === typeof this.options.value) return this.options.value(this);else if ('undefined' !== typeof this.options.value) return this.options.value;
+
+      // Radio input case
+      if (this.$element.is('input[type=radio]')) return this._findRelated().filter(':checked').val() || '';
+
+      // checkbox input case
+      if (this.$element.is('input[type=checkbox]')) {
+        var values = [];
+
+        this._findRelated().filter(':checked').each(function () {
+          values.push($(this).val());
+        });
+
+        return values;
+      }
+
+      // Select multiple case
+      if (this.$element.is('select') && null === this.$element.val()) return [];
+
+      // Default case that should never happen
+      return this.$element.val();
+    },
+
+    _init: function _init() {
+      this.$elements = [this.$element];
+
+      return this;
+    }
+  };
+
+  var ParsleyFactory = function ParsleyFactory(element, options, parsleyFormInstance) {
+    this.$element = $(element);
+
+    // If the element has already been bound, returns its saved Parsley instance
+    var savedparsleyFormInstance = this.$element.data('Parsley');
+    if (savedparsleyFormInstance) {
+
+      // If the saved instance has been bound without a ParsleyForm parent and there is one given in this call, add it
+      if ('undefined' !== typeof parsleyFormInstance && savedparsleyFormInstance.parent === window.Parsley) {
+        savedparsleyFormInstance.parent = parsleyFormInstance;
+        savedparsleyFormInstance._resetOptions(savedparsleyFormInstance.options);
+      }
+
+      if ('object' === typeof options) {
+        $.extend(savedparsleyFormInstance.options, options);
+      }
+
+      return savedparsleyFormInstance;
+    }
+
+    // Parsley must be instantiated with a DOM element or jQuery $element
+    if (!this.$element.length) throw new Error('You must bind Parsley on an existing element.');
+
+    if ('undefined' !== typeof parsleyFormInstance && 'ParsleyForm' !== parsleyFormInstance.__class__) throw new Error('Parent instance must be a ParsleyForm instance');
+
+    this.parent = parsleyFormInstance || window.Parsley;
+    return this.init(options);
+  };
+
+  ParsleyFactory.prototype = {
+    init: function init(options) {
+      this.__class__ = 'Parsley';
+      this.__version__ = '2.6.2';
+      this.__id__ = ParsleyUtils__default.generateID();
+
+      // Pre-compute options
+      this._resetOptions(options);
+
+      // A ParsleyForm instance is obviously a `<form>` element but also every node that is not an input and has the `data-parsley-validate` attribute
+      if (this.$element.is('form') || ParsleyUtils__default.checkAttr(this.$element, this.options.namespace, 'validate') && !this.$element.is(this.options.inputs)) return this.bind('parsleyForm');
+
+      // Every other element is bound as a `ParsleyField` or `ParsleyFieldMultiple`
+      return this.isMultiple() ? this.handleMultiple() : this.bind('parsleyField');
+    },
+
+    isMultiple: function isMultiple() {
+      return this.$element.is('input[type=radio], input[type=checkbox]') || this.$element.is('select') && 'undefined' !== typeof this.$element.attr('multiple');
+    },
+
+    // Multiples fields are a real nightmare :(
+    // Maybe some refactoring would be appreciated here...
+    handleMultiple: function handleMultiple() {
+      var _this13 = this;
+
+      var name;
+      var multiple;
+      var parsleyMultipleInstance;
+
+      // Handle multiple name
+      if (this.options.multiple) ; // We already have our 'multiple' identifier
+      else if ('undefined' !== typeof this.$element.attr('name') && this.$element.attr('name').length) this.options.multiple = name = this.$element.attr('name');else if ('undefined' !== typeof this.$element.attr('id') && this.$element.attr('id').length) this.options.multiple = this.$element.attr('id');
+
+      // Special select multiple input
+      if (this.$element.is('select') && 'undefined' !== typeof this.$element.attr('multiple')) {
+        this.options.multiple = this.options.multiple || this.__id__;
+        return this.bind('parsleyFieldMultiple');
+
+        // Else for radio / checkboxes, we need a `name` or `data-parsley-multiple` to properly bind it
+      } else if (!this.options.multiple) {
+          ParsleyUtils__default.warn('To be bound by Parsley, a radio, a checkbox and a multiple select input must have either a name or a multiple option.', this.$element);
+          return this;
+        }
+
+      // Remove special chars
+      this.options.multiple = this.options.multiple.replace(/(:|\.|\[|\]|\{|\}|\$)/g, '');
+
+      // Add proper `data-parsley-multiple` to siblings if we have a valid multiple name
+      if ('undefined' !== typeof name) {
+        $('input[name="' + name + '"]').each(function (i, input) {
+          if ($(input).is('input[type=radio], input[type=checkbox]')) $(input).attr(_this13.options.namespace + 'multiple', _this13.options.multiple);
+        });
+      }
+
+      // Check here if we don't already have a related multiple instance saved
+      var $previouslyRelated = this._findRelated();
+      for (var i = 0; i < $previouslyRelated.length; i++) {
+        parsleyMultipleInstance = $($previouslyRelated.get(i)).data('Parsley');
+        if ('undefined' !== typeof parsleyMultipleInstance) {
+
+          if (!this.$element.data('ParsleyFieldMultiple')) {
+            parsleyMultipleInstance.addElement(this.$element);
+          }
+
+          break;
+        }
+      }
+
+      // Create a secret ParsleyField instance for every multiple field. It will be stored in `data('ParsleyFieldMultiple')`
+      // And will be useful later to access classic `ParsleyField` stuff while being in a `ParsleyFieldMultiple` instance
+      this.bind('parsleyField', true);
+
+      return parsleyMultipleInstance || this.bind('parsleyFieldMultiple');
+    },
+
+    // Return proper `ParsleyForm`, `ParsleyField` or `ParsleyFieldMultiple`
+    bind: function bind(type, doNotStore) {
+      var parsleyInstance;
+
+      switch (type) {
+        case 'parsleyForm':
+          parsleyInstance = $.extend(new ParsleyForm(this.$element, this.domOptions, this.options), new ParsleyAbstract(), window.ParsleyExtend)._bindFields();
+          break;
+        case 'parsleyField':
+          parsleyInstance = $.extend(new parsley_field(this.$element, this.domOptions, this.options, this.parent), new ParsleyAbstract(), window.ParsleyExtend);
+          break;
+        case 'parsleyFieldMultiple':
+          parsleyInstance = $.extend(new parsley_field(this.$element, this.domOptions, this.options, this.parent), new ParsleyMultiple(), new ParsleyAbstract(), window.ParsleyExtend)._init();
+          break;
+        default:
+          throw new Error(type + 'is not a supported Parsley type');
+      }
+
+      if (this.options.multiple) ParsleyUtils__default.setAttr(this.$element, this.options.namespace, 'multiple', this.options.multiple);
+
+      if ('undefined' !== typeof doNotStore) {
+        this.$element.data('ParsleyFieldMultiple', parsleyInstance);
+
+        return parsleyInstance;
+      }
+
+      // Store the freshly bound instance in a DOM element for later access using jQuery `data()`
+      this.$element.data('Parsley', parsleyInstance);
+
+      // Tell the world we have a new ParsleyForm or ParsleyField instance!
+      parsleyInstance._actualizeTriggers();
+      parsleyInstance._trigger('init');
+
+      return parsleyInstance;
+    }
+  };
+
+  var vernums = $.fn.jquery.split('.');
+  if (parseInt(vernums[0]) <= 1 && parseInt(vernums[1]) < 8) {
+    throw "The loaded version of jQuery is too old. Please upgrade to 1.8.x or better.";
+  }
+  if (!vernums.forEach) {
+    ParsleyUtils__default.warn('Parsley requires ES5 to run properly. Please include https://github.com/es-shims/es5-shim');
+  }
+  // Inherit `on`, `off` & `trigger` to Parsley:
+  var Parsley = $.extend(new ParsleyAbstract(), {
+    $element: $(document),
+    actualizeOptions: null,
+    _resetOptions: null,
+    Factory: ParsleyFactory,
+    version: '2.6.2'
+  });
+
+  // Supplement ParsleyField and Form with ParsleyAbstract
+  // This way, the constructors will have access to those methods
+  $.extend(parsley_field.prototype, ParsleyUI.Field, ParsleyAbstract.prototype);
+  $.extend(ParsleyForm.prototype, ParsleyUI.Form, ParsleyAbstract.prototype);
+  // Inherit actualizeOptions and _resetOptions:
+  $.extend(ParsleyFactory.prototype, ParsleyAbstract.prototype);
+
+  // ### jQuery API
+  // `$('.elem').parsley(options)` or `$('.elem').psly(options)`
+  $.fn.parsley = $.fn.psly = function (options) {
+    if (this.length > 1) {
+      var instances = [];
+
+      this.each(function () {
+        instances.push($(this).parsley(options));
+      });
+
+      return instances;
+    }
+
+    // Return undefined if applied to non existing DOM element
+    if (!$(this).length) {
+      ParsleyUtils__default.warn('You must bind Parsley on an existing element.');
+
+      return;
+    }
+
+    return new ParsleyFactory(this, options);
+  };
+
+  // ### ParsleyField and ParsleyForm extension
+  // Ensure the extension is now defined if it wasn't previously
+  if ('undefined' === typeof window.ParsleyExtend) window.ParsleyExtend = {};
+
+  // ### Parsley config
+  // Inherit from ParsleyDefault, and copy over any existing values
+  Parsley.options = $.extend(ParsleyUtils__default.objectCreate(ParsleyDefaults), window.ParsleyConfig);
+  window.ParsleyConfig = Parsley.options; // Old way of accessing global options
+
+  // ### Globals
+  window.Parsley = window.psly = Parsley;
+  window.ParsleyUtils = ParsleyUtils__default;
+
+  // ### Define methods that forward to the registry, and deprecate all access except through window.Parsley
+  var registry = window.Parsley._validatorRegistry = new ParsleyValidatorRegistry(window.ParsleyConfig.validators, window.ParsleyConfig.i18n);
+  window.ParsleyValidator = {};
+  $.each('setLocale addCatalog addMessage addMessages getErrorMessage formatMessage addValidator updateValidator removeValidator'.split(' '), function (i, method) {
+    window.Parsley[method] = $.proxy(registry, method);
+    window.ParsleyValidator[method] = function () {
+      var _window$Parsley;
+
+      ParsleyUtils__default.warnOnce('Accessing the method \'' + method + '\' through ParsleyValidator is deprecated. Simply call \'window.Parsley.' + method + '(...)\'');
+      return (_window$Parsley = window.Parsley)[method].apply(_window$Parsley, arguments);
+    };
+  });
+
+  // ### ParsleyUI
+  // Deprecated global object
+  window.Parsley.UI = ParsleyUI;
+  window.ParsleyUI = {
+    removeError: function removeError(instance, name, doNotUpdateClass) {
+      var updateClass = true !== doNotUpdateClass;
+      ParsleyUtils__default.warnOnce('Accessing ParsleyUI is deprecated. Call \'removeError\' on the instance directly. Please comment in issue 1073 as to your need to call this method.');
+      return instance.removeError(name, { updateClass: updateClass });
+    },
+    getErrorsMessages: function getErrorsMessages(instance) {
+      ParsleyUtils__default.warnOnce('Accessing ParsleyUI is deprecated. Call \'getErrorsMessages\' on the instance directly.');
+      return instance.getErrorsMessages();
+    }
+  };
+  $.each('addError updateError'.split(' '), function (i, method) {
+    window.ParsleyUI[method] = function (instance, name, message, assert, doNotUpdateClass) {
+      var updateClass = true !== doNotUpdateClass;
+      ParsleyUtils__default.warnOnce('Accessing ParsleyUI is deprecated. Call \'' + method + '\' on the instance directly. Please comment in issue 1073 as to your need to call this method.');
+      return instance[method](name, { message: message, assert: assert, updateClass: updateClass });
+    };
+  });
+
+  // ### PARSLEY auto-binding
+  // Prevent it by setting `ParsleyConfig.autoBind` to `false`
+  if (false !== window.ParsleyConfig.autoBind) {
+    $(function () {
+      // Works only on `data-parsley-validate`.
+      if ($('[data-parsley-validate]').length) $('[data-parsley-validate]').parsley();
+    });
+  }
+
+  var o = $({});
+  var deprecated = function deprecated() {
+    ParsleyUtils__default.warnOnce("Parsley's pubsub module is deprecated; use the 'on' and 'off' methods on parsley instances or window.Parsley");
+  };
+
+  // Returns an event handler that calls `fn` with the arguments it expects
+  function adapt(fn, context) {
+    // Store to allow unbinding
+    if (!fn.parsleyAdaptedCallback) {
+      fn.parsleyAdaptedCallback = function () {
+        var args = Array.prototype.slice.call(arguments, 0);
+        args.unshift(this);
+        fn.apply(context || o, args);
+      };
+    }
+    return fn.parsleyAdaptedCallback;
+  }
+
+  var eventPrefix = 'parsley:';
+  // Converts 'parsley:form:validate' into 'form:validate'
+  function eventName(name) {
+    if (name.lastIndexOf(eventPrefix, 0) === 0) return name.substr(eventPrefix.length);
+    return name;
+  }
+
+  // $.listen is deprecated. Use Parsley.on instead.
+  $.listen = function (name, callback) {
+    var context;
+    deprecated();
+    if ('object' === typeof arguments[1] && 'function' === typeof arguments[2]) {
+      context = arguments[1];
+      callback = arguments[2];
+    }
+
+    if ('function' !== typeof callback) throw new Error('Wrong parameters');
+
+    window.Parsley.on(eventName(name), adapt(callback, context));
+  };
+
+  $.listenTo = function (instance, name, fn) {
+    deprecated();
+    if (!(instance instanceof parsley_field) && !(instance instanceof ParsleyForm)) throw new Error('Must give Parsley instance');
+
+    if ('string' !== typeof name || 'function' !== typeof fn) throw new Error('Wrong parameters');
+
+    instance.on(eventName(name), adapt(fn));
+  };
+
+  $.unsubscribe = function (name, fn) {
+    deprecated();
+    if ('string' !== typeof name || 'function' !== typeof fn) throw new Error('Wrong arguments');
+    window.Parsley.off(eventName(name), fn.parsleyAdaptedCallback);
+  };
+
+  $.unsubscribeTo = function (instance, name) {
+    deprecated();
+    if (!(instance instanceof parsley_field) && !(instance instanceof ParsleyForm)) throw new Error('Must give Parsley instance');
+    instance.off(eventName(name));
+  };
+
+  $.unsubscribeAll = function (name) {
+    deprecated();
+    window.Parsley.off(eventName(name));
+    $('form,input,textarea,select').each(function () {
+      var instance = $(this).data('Parsley');
+      if (instance) {
+        instance.off(eventName(name));
+      }
+    });
+  };
+
+  // $.emit is deprecated. Use jQuery events instead.
+  $.emit = function (name, instance) {
+    var _instance;
+
+    deprecated();
+    var instanceGiven = instance instanceof parsley_field || instance instanceof ParsleyForm;
+    var args = Array.prototype.slice.call(arguments, instanceGiven ? 2 : 1);
+    args.unshift(eventName(name));
+    if (!instanceGiven) {
+      instance = window.Parsley;
+    }
+    (_instance = instance).trigger.apply(_instance, _toConsumableArray(args));
+  };
+
+  var pubsub = {};
+
+  $.extend(true, Parsley, {
+    asyncValidators: {
+      'default': {
+        fn: function fn(xhr) {
+          // By default, only status 2xx are deemed successful.
+          // Note: we use status instead of state() because responses with status 200
+          // but invalid messages (e.g. an empty body for content type set to JSON) will
+          // result in state() === 'rejected'.
+          return !!xhr.responseText;
+        },
+        url: false
+      },
+      reverse: {
+        fn: function fn(xhr) {
+          // If reverse option is set, a failing ajax request is considered successful
+          return !!!xhr.responseText;
+        },
+        url: false
+      }
+    },
+
+    addAsyncValidator: function addAsyncValidator(name, fn, url, options) {
+      Parsley.asyncValidators[name] = {
+        fn: fn,
+        url: url || false,
+        options: options || {}
+      };
+
+      return this;
+    }
+
+  });
+
+  Parsley.addValidator('remote', {
+    requirementType: {
+      '': 'string',
+      'validator': 'string',
+      'reverse': 'boolean',
+      'options': 'object'
+    },
+
+    validateString: function validateString(value, url, options, instance) {
+      var data = {};
+      var ajaxOptions;
+      var csr;
+      var validator = options.validator || (true === options.reverse ? 'reverse' : 'default');
+
+      if ('undefined' === typeof Parsley.asyncValidators[validator]) throw new Error('Calling an undefined async validator: `' + validator + '`');
+
+      url = Parsley.asyncValidators[validator].url || url;
+
+      // Fill current value
+      if (url.indexOf('{value}') > -1) {
+        url = url.replace('{value}', encodeURIComponent(value));
+      } else {
+        data[instance.$element.attr('name') || instance.$element.attr('id')] = value;
+      }
+
+      // Merge options passed in from the function with the ones in the attribute
+      var remoteOptions = $.extend(true, options.options || {}, Parsley.asyncValidators[validator].options);
+
+      // All `$.ajax(options)` could be overridden or extended directly from DOM in `data-parsley-remote-options`
+      ajaxOptions = $.extend(true, {}, {
+        url: url,
+        data: data,
+        type: 'GET'
+      }, remoteOptions);
+
+      // Generate store key based on ajax options
+      instance.trigger('field:ajaxoptions', instance, ajaxOptions);
+
+      csr = $.param(ajaxOptions);
+
+      // Initialise querry cache
+      if ('undefined' === typeof Parsley._remoteCache) Parsley._remoteCache = {};
+
+      // Try to retrieve stored xhr
+      var xhr = Parsley._remoteCache[csr] = Parsley._remoteCache[csr] || $.ajax(ajaxOptions);
+
+      var handleXhr = function handleXhr() {
+        var result = Parsley.asyncValidators[validator].fn.call(instance, xhr, url, options);
+        if (!result) // Map falsy results to rejected promise
+          result = $.Deferred().reject();
+        return $.when(result);
+      };
+
+      return xhr.then(handleXhr, handleXhr);
+    },
+
+    priority: -1
+  });
+
+  Parsley.on('form:submit', function () {
+    Parsley._remoteCache = {};
+  });
+
+  window.ParsleyExtend.addAsyncValidator = function () {
+    ParsleyUtils.warnOnce('Accessing the method `addAsyncValidator` through an instance is deprecated. Simply call `Parsley.addAsyncValidator(...)`');
+    return Parsley.addAsyncValidator.apply(Parsley, arguments);
+  };
+
+  // This is included with the Parsley library itself,
+  // thus there is no use in adding it to your project.
+  Parsley.addMessages('en', {
+    defaultMessage: "This value seems to be invalid.",
+    type: {
+      email: "This value should be a valid email.",
+      url: "This value should be a valid url.",
+      number: "This value should be a valid number.",
+      integer: "This value should be a valid integer.",
+      digits: "This value should be digits.",
+      alphanum: "This value should be alphanumeric."
+    },
+    notblank: "This value should not be blank.",
+    required: "This value is required.",
+    pattern: "This value seems to be invalid.",
+    min: "This value should be greater than or equal to %s.",
+    max: "This value should be lower than or equal to %s.",
+    range: "This value should be between %s and %s.",
+    minlength: "This value is too short. It should have %s characters or more.",
+    maxlength: "This value is too long. It should have %s characters or fewer.",
+    length: "This value length is invalid. It should be between %s and %s characters long.",
+    mincheck: "You must select at least %s choices.",
+    maxcheck: "You must select %s choices or fewer.",
+    check: "You must select between %s and %s choices.",
+    equalto: "This value should be the same."
+  });
+
+  Parsley.setLocale('en');
+
+  /**
+   * inputevent - Alleviate browser bugs for input events
+   * https://github.com/marcandre/inputevent
+   * @version v0.0.3 - (built Thu, Apr 14th 2016, 5:58 pm)
+   * @author Marc-Andre Lafortune <github@marc-andre.ca>
+   * @license MIT
+   */
+
+  function InputEvent() {
+    var _this14 = this;
+
+    var globals = window || global;
+
+    // Slightly odd way construct our object. This way methods are force bound.
+    // Used to test for duplicate library.
+    $.extend(this, {
+
+      // For browsers that do not support isTrusted, assumes event is native.
+      isNativeEvent: function isNativeEvent(evt) {
+        return evt.originalEvent && evt.originalEvent.isTrusted !== false;
+      },
+
+      fakeInputEvent: function fakeInputEvent(evt) {
+        if (_this14.isNativeEvent(evt)) {
+          $(evt.target).trigger('input');
+        }
+      },
+
+      misbehaves: function misbehaves(evt) {
+        if (_this14.isNativeEvent(evt)) {
+          _this14.behavesOk(evt);
+          $(document).on('change.inputevent', evt.data.selector, _this14.fakeInputEvent);
+          _this14.fakeInputEvent(evt);
+        }
+      },
+
+      behavesOk: function behavesOk(evt) {
+        if (_this14.isNativeEvent(evt)) {
+          $(document) // Simply unbinds the testing handler
+          .off('input.inputevent', evt.data.selector, _this14.behavesOk).off('change.inputevent', evt.data.selector, _this14.misbehaves);
+        }
+      },
+
+      // Bind the testing handlers
+      install: function install() {
+        if (globals.inputEventPatched) {
+          return;
+        }
+        globals.inputEventPatched = '0.0.3';
+        var _arr = ['select', 'input[type="checkbox"]', 'input[type="radio"]', 'input[type="file"]'];
+        for (var _i = 0; _i < _arr.length; _i++) {
+          var selector = _arr[_i];
+          $(document).on('input.inputevent', selector, { selector: selector }, _this14.behavesOk).on('change.inputevent', selector, { selector: selector }, _this14.misbehaves);
+        }
+      },
+
+      uninstall: function uninstall() {
+        delete globals.inputEventPatched;
+        $(document).off('.inputevent');
+      }
+
+    });
+  };
+
+  var inputevent = new InputEvent();
+
+  inputevent.install();
+
+  var parsley = Parsley;
+
+  return parsley;
+});
+//# sourceMappingURL=parsley.js.map

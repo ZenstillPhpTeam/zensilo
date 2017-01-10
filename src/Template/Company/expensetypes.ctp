@@ -132,7 +132,7 @@
 
                 <div class="row" id="append_more_values">
                   <div class="form-group list_designation">
-                  <label class="col-sm-3 control-label">Expense Type</label>
+                  <label class="col-sm-3 control-label">Expense Type<em>*</em></label>
                   <div class="col-sm-6">
                     <input name="type[]" class="form-control" id="" placeholder="Leave Type" type="text" required="">
                   </div>
@@ -157,7 +157,7 @@
 
 <script type="text/template" id="add_more_template">
   <div class="form-group list_designation">
-    <label class="col-sm-3 control-label">Expense Type</label>
+    <label class="col-sm-3 control-label">Expense Type<em>*</em></label>
     <div class="col-sm-6">
       <input name="type[]" class="form-control" id="" placeholder="Leave Type" type="text" required="">
     </div>

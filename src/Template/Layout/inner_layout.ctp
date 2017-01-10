@@ -57,7 +57,9 @@
       <div class="scroll-sidebar">
         <ul id="sidebar-menu">
           <li class="header"><span>Overview</span></li>
+          <?php if($loggedInUser['userrole'] == "siteadmin") { ?>
           <li><a href="<?= $this->Url->build(array("controller"=> "users","action" => "company"));?>" title="Company"><i class="glyph-icon icon-home"></i> <span>Company</span></a></li>
+          <?php } ?>
           <li><a href="<?= $this->Url->build(array("controller"=> "users","action" => "projects"));?>" title="Projects Menu"><i class="glyph-icon icon-list-alt"></i> <span>Projects</span></a>
           </li>
            <li><a href="<?= $this->Url->build(array("controller"=> "users","action" => "clients"));?>" title="Clients"><i class="glyph-icon icon-briefcase"></i><span>Clients</span></a></li>
@@ -113,7 +115,7 @@
           <div id="header-nav-left">
             <div class="user-account-btn dropdown">
               <a href="#" title="My Account" class="user-profile clearfix" data-toggle="dropdown">
-                <?php if(isset($loggedInUserprofile->image)){?><img width="28" src="<?= $loggedInUserprofile->image;?>" alt="Profile image"><?php }?>
+                <?php if(isset($loggedInUserprofile->image) && !empty($loggedInUserprofile->image)){?><img width="28" src="<?= $loggedInUserprofile->image;?>" alt="Profile image"><?php }?>
                 <span><?= $loggedInUser['username'];?></span> 
                 <i class="glyph-icon icon-angle-down"></i>
               </a>
@@ -121,7 +123,7 @@
                 <div class="box-sm">
                   <div class="login-box clearfix">
                     <div class="user-img">
-                    <?php if(isset($loggedInUserprofile->image)){?><img src="<?= $loggedInUserprofile->image;?>" alt="Profile image"><?php }?>
+                    <?php if(isset($loggedInUserprofile->image) && !empty($loggedInUserprofile->image)){?><img src="<?= $loggedInUserprofile->image;?>" alt="Profile image"><?php }?>
                     </div>
                     <div class="user-info">
                       <span><?= $loggedInUserprofile->client_name;?><i><?= $loggedInUser['email'];?></i></span> 

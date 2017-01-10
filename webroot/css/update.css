@@ -155,6 +155,6 @@ float: right;}
     border: 1px solid #e91e63;
 }
    .panel .panel .panel-body .title-hero{ margin:0; padding: 0; }
-   .panel .panel .panel-body{ padding: 0 20px ; }
    .profile-box { margin-top:20px; }
-   
+   .panel .panel .panel-body{ padding: 0 20px; }
+em,.parsley-errors-list li{color: #f44336;}

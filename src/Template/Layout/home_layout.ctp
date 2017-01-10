@@ -9,7 +9,7 @@
 <meta charset="UTF-8" />
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-
+<link rel="shortcut icon" href="<?= $this->Url->build("/"); ?>assets/images/icons/favicon.png">
 <!-- CSS -->
 <?= $this->Html->css(array('bootstrap', 'style', '../assets/helpers/utils', '../assets/icons/fontawesome/fontawesome', '../assets/helpers/colors', '../assets/elements/response-messages'));?>
 

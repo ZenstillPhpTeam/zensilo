@@ -87,7 +87,10 @@ class UsersController extends AppController
         if($this->is_sub_domain())
         {
             $this->User = TableRegistry::get('users');
-            $user = $this->User->find("all", ["conditions" => ["username" => $this->is_sub_domain()]])->first();
+            if(!$id)
+                $user = $this->User->find("all", ["conditions" => ["username" => $this->is_sub_domain()]])->first();
+            else
+                $user = $this->User->get($id);
             $this->Auth->setUser($user);
         }
         elseif($id)
@@ -201,8 +204,10 @@ class UsersController extends AppController
                     $this->Auth->setUser($user);
                     return $this->redirect($this->Auth->redirectUrl()); 
                 }
+                elseif($user['parent_id'])
+                    return $this->redirect("http://".$this->getCompanyUsername($user['parent_id']).".zensilo.com/users/setlogin/".$user['id']);
                 else
-                    return $this->redirect("http://".$user['username'].".zensilo.com/users/setlogin");
+                    return $this->redirect("http://".$user['username'].".zensilo.com/users/setlogin"); 
 	        }
             else
             {
@@ -217,6 +222,8 @@ class UsersController extends AppController
                         $this->Auth->setUser($user);
                         return $this->redirect($this->Auth->redirectUrl()); 
                     }
+                    elseif($user['parent_id'])
+                        return $this->redirect("http://".$this->getCompanyUsername($user['parent_id']).".zensilo.com/users/setlogin/".$user['id']);
                     else
                         return $this->redirect("http://".$user['username'].".zensilo.com/users/setlogin"); 
                 }
@@ -234,6 +241,13 @@ class UsersController extends AppController
         //$this->viewBuilder()->layout('admin_login');
         //$this->render('index');
 	}
+
+    public function getCompanyUsername($id)
+    {
+        $this->User = TableRegistry::get('users');
+        $user = $this->User->get($id);
+        return $user->username;
+    }
 
     public function login($st=0)
     {
@@ -316,27 +330,21 @@ class UsersController extends AppController
            $user = $this->Users->find('all', ['conditions' => ['Users.email' => $this->request->data['email']]])->first();
            if($user)
            {
-                $rlink = isset($this->request->data['slug']) ? Router::url('/users/reset-password/'.base64_encode(base64_encode($user->id)), true).'/'.$this->request->data['slug']: Router::url('/users/reset-password/'.base64_encode(base64_encode($user->id)), true);
+                              
+                $password = $this->random_password();
+                $vars = ['password' => $password];
+                $this->send_email('reset_password', $this->request->data['email'], 'New Password', $vars);
+                
+                $hasher = new DefaultPasswordHasher();
+                $user->password = $hasher->hash($password);
+                $user_save  = $this->Users->save($user);
 
-                $this->UserProfiles = TableRegistry::get('UserProfiles');
-                $profile = $this->UserProfiles->find('all', ['conditions' => ['UserProfiles.user_id' => $user->id]])->first();
-                $this->send_custom_mail(array(
-                            'html_content' => $this->getEmailTemplate('reset_password', 
-                                        array('###SITEURL###' => Router::url('/', true), 
-                                              '###RESETLINK###' => $rlink,
-                                                '###CNAME###' => $profile->company_name)),
-                            'email_id' => array($this->request->data['email']),
-                            'subject' => 'Zensilo Reset password link',
-                            'apikey' => 'summa_token'
-                            ));
-                if(!isset($this->request->data['slug']))
-                    $this->Flash->success(__('Reset password link has been sent to your email address.'));
+                $this->Flash->success(__('New password has been sent to your email address.'));
            }
            else
            {
-                $this->Flash->success(__('Invalid email address.'));
+                $this->Flash->error(__('Invalid email address.'));
            }
-           exit;
         }
     }
 
@@ -396,7 +404,7 @@ class UsersController extends AppController
             $this->Flash->success('Company has been deleted successfully!!');
             $this->redirect(array("action" => 'company'));
        }
-       elseif ($this->request->is('post') )
+       elseif ($this->request->is('post'))
        {
             $data = $this->request->data;
 
@@ -508,6 +516,8 @@ class UsersController extends AppController
                 //print_r($this->request->data);
                    $project = $this->Projects->newEntity();
                     $this->request->data['status'] = "New";
+                    $comp_id = $this->Auth->user('userrole') == "company" ? $this->Auth->user('id') : $this->Auth->user('parent_id');
+                    $this->request->data['company_id'] = $comp_id;
                     $project = $this->Projects->patchEntity($project, $this->request->data);
                     $project_save  = $this->Projects->save($project);
 
@@ -776,6 +786,11 @@ class UsersController extends AppController
                     $client = $this->UserDetails->patchEntity($client, $this->request->data);
                     $client_save  = $this->UserDetails->save($client);
                     $this->Flash->success('New User has been added successfully!!');
+
+                    $vars = ['password' => $this->request->data['password'],'username' => $this->request->data['username']];
+                    $this->send_email('add_user', $this->request->data['email'], 'New Password', $vars);
+
+
                     //$this->set('success_msg', 'New Client has been added successfully!!');
 
                 }else
@@ -793,7 +808,7 @@ class UsersController extends AppController
        }
 
       $parent_id = $this->Auth->user('userrole') == "company" ? $this->Auth->user('id') : $this->Auth->user('parent_id');
-       $users = $this->UserDetails->find('all', ['conditions' => ['Users.userrole' => 'user', 'Users.parent_id' => $parent_id]])->contain('Users')->all();
+      $users = $this->UserDetails->find('all', ['conditions' => ['Users.userrole' => 'user', 'Users.parent_id' => $parent_id]])->contain('Users')->all();
        
        $this->set('users', $users);
        $this->set('siteurl', $siteurl);
@@ -849,6 +864,8 @@ class UsersController extends AppController
                     $this->Flash->success('New Client has been added successfully!!');
                     //$this->set('success_msg', 'New Client has been added successfully!!');
 
+                    $vars = ['password' => $this->request->data['password'],'username' => $this->request->data['username']];
+                    $this->send_email('add_user', $this->request->data['email'], 'New Password', $vars);
                 }else
                 $this->Flash->error('Unable to add Client!!');
                 }

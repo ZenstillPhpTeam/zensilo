@@ -95,10 +95,11 @@
                   <div class="col-md-6">
 
                 <div class="form-group">
-                  <label class="col-sm-3 control-label">Designation</label>
+                  <label class="col-sm-3 control-label">Designation<em>*</em></label>
                   <div class="col-sm-6">
                     <input name="designation" class="form-control" id="" placeholder="Client Name" type="text" required="" value="<?= $client->designation ?>" />
                   </div>
+                  
                 </div>
                 
                   
@@ -132,9 +133,12 @@
 
               <div class="row" id="append_more_values">
                 <div class="form-group list_designation">
-                  <label class="col-sm-3 control-label">Designation</label>
+                  <label class="col-sm-3 control-label">Designation<em>*</em></label>
                   <div class="col-sm-6">
                     <input name="designation[]" class="form-control" id="" placeholder="Client Name" type="text" required="">
+                    <input type="checkbox" name="">Create Project&nbsp;
+                    <input type="checkbox" name="">Create Client&nbsp;
+                    <input type="checkbox" name="">Settings&nbsp;
                   </div>
                   <div class="col-sm-3">
                     <i class="glyph-icon icon-plus add_more btn btn-success"></i>
@@ -157,7 +161,7 @@
 
 <script type="text/template" id="add_more_template">
   <div class="form-group list_designation">
-    <label class="col-sm-3 control-label">Designation</label>
+    <label class="col-sm-3 control-label">Designation<em>*</em></label>
     <div class="col-sm-6">
       <input name="designation[]" class="form-control" id="" placeholder="Client Name" type="text" required="">
     </div>
