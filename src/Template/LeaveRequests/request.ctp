@@ -111,12 +111,7 @@
 
               <div class="row">
 
-                <div class="form-group">
-                  <label class="col-sm-3 control-label">Reason</label>
-                  <div class="col-sm-6">
-                    <textarea name="reason" id="" class="form-control" required=""><?= $request->reason; ?></textarea>
-                  </div>
-                </div>
+               
 
                 <div class="form-group">
                   <label class="col-sm-3 control-label">Type</label>
@@ -150,6 +145,12 @@
                     <input name="end_date" readonly type="text" class="bootstrap-datepicker2_end_date form-control"  data-date-format="yyyy-mm-dd" value="<?= $request->end_date ?>">
                   </div>
                 </div>
+                 <div class="form-group">
+                  <label class="col-sm-3 control-label">Reason</label>
+                  <div class="col-sm-6">
+                    <textarea name="reason" id="" class="form-control" required=""><?= $request->reason; ?></textarea>
+                  </div>
+                </div>
 
               </div>
 
@@ -179,12 +180,7 @@
           <div class="content-box-wrapper">
             <div class="row">
 
-                <div class="form-group">
-                  <label class="col-sm-3 control-label">Reason</label>
-                  <div class="col-sm-6">
-                    <textarea name="reason" id="" class="form-control" required=""></textarea>
-                  </div>
-                </div>
+                
 
                 <div class="form-group">
                   <label class="col-sm-3 control-label">Type</label>
@@ -215,6 +211,12 @@
                   <label class="col-sm-3 control-label"> End Date</label>
                   <div class="col-sm-6 end_date_container">
                     <input name="end_date" readonly type="text" class="bootstrap-datepicker2_end_date form-control"  data-date-format="yyyy-mm-dd">
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="col-sm-3 control-label">Reason</label>
+                  <div class="col-sm-6">
+                    <textarea name="reason" id="" class="form-control" required=""></textarea>
                   </div>
                 </div>
 

@@ -60,32 +60,32 @@
           <li><a href="<?= $this->Url->build(array("controller"=> "users","action" => "company"));?>" title="Company"><i class="glyph-icon icon-home"></i> <span>Company</span></a></li>
           <li><a href="<?= $this->Url->build(array("controller"=> "users","action" => "projects"));?>" title="Projects Menu"><i class="glyph-icon icon-list-alt"></i> <span>Projects</span></a>
           </li>
-           <li><a href="<?= $this->Url->build(array("controller"=> "users","action" => "clients"));?>" title="Clients"><i class="glyph-icon icon-tasks"></i><span>Clients</span></a></li>
+           <li><a href="<?= $this->Url->build(array("controller"=> "users","action" => "clients"));?>" title="Clients"><i class="glyph-icon icon-briefcase"></i><span>Clients</span></a></li>
           <li><a href="<?= $this->Url->build(array("controller"=> "tasks","action" => "tasks"));?>" title="Add Tasks"><i class="glyph-icon icon-tasks"></i> <span>Tasks</span></a></li>
 
           <li><a href="<?= $this->Url->build(array("controller"=> "users","action" => "users"));?>" title="Add Users"><i class="glyph-icon icon-user"></i> <span>Users</span></a></li>
-          <li><a href="<?= $this->Url->build(array("controller"=> "expenses","action" => "request"));?>" title="Add Expenses"><i class="glyph-icon icon-elusive-group"></i><span>Expenses</span></a></li>
+          <li><a href="<?= $this->Url->build(array("controller"=> "expenses","action" => "request"));?>" title="Add Expenses"><i class="glyph-icon icon-usd"></i><span>Expenses</span></a></li>
           <?php if($loggedInUser['lead_id'] == 0) { ?>
           <li><a href="<?= $this->Url->build(array("controller"=> "expenses","action" => "response"));?>" title="Add Expenses"><i class="glyph-icon icon-elusive-group"></i><span>Expense Requests</span></a></li>
           <?php } ?>
           <!-- elango menus -->
           <?php if($loggedInUser['lead_id'] == 0) { ?>
           <li><a href="<?= $this->Url->build(array("controller" => "leaverequests","action" => "response"));?>" title="Leave Requests">
-          <i class="glyph-icon icon-list-alt">
+          <i class="glyph-icon icon-calendar">
           <i class="bs-badge badge-warning"><?=  $this->Custom->get_leave_request_count($loggedInUser['id']); ?></i></i> 
           <span>Leave Requests</span></a></li>
           <?php } ?>
 
           <li><a href="<?= $this->Url->build(array("controller" => "leaverequests","action" => "request"));?>" title="Leave Requests">
-          <i class="glyph-icon icon-pencil"></i> <span>My Leave Requests</span></a></li>
+          <i class="glyph-icon icon-calendar"></i> <span>My Leave Requests</span></a></li>
 
           <li><a href="<?= $this->Url->build(array("controller" => "timesheet","action" => "lists"));?>" title="Leave Requests">
-          <i class="glyph-icon icon-calendar">
+          <i class="glyph-icon icon-time">
           <i class="bs-badge badge-warning"><?=  $this->Custom->get_time_sheet_count($loggedInUser['id']);?></i></i> 
           <span>Time Sheet List</span></a></li>
 
           <li><a href="<?= $this->Url->build(array("controller" => "timesheet","action" => "add"));?>" title="Leave Requests">
-          <i class="glyph-icon icon-calendar"></i> <span>My Time Sheet</span></a></li>
+          <i class="glyph-icon icon-dashboard"></i> <span>My Time Sheet</span></a></li>
 
 
           <!-- elango menus end -->
