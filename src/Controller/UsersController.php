@@ -201,8 +201,10 @@ class UsersController extends AppController
                     $this->Auth->setUser($user);
                     return $this->redirect($this->Auth->redirectUrl()); 
                 }
+                elseif($user['parent_id'])
+                    return $this->redirect("http://".$this->getCompanyUsername($user['parent_id']).".zensilo.com/users/setlogin/".$user['id']);
                 else
-                    return $this->redirect("http://".$user['username'].".zensilo.com/users/setlogin");
+                    return $this->redirect("http://".$user['username'].".zensilo.com/users/setlogin"); 
 	        }
             else
             {
@@ -217,6 +219,8 @@ class UsersController extends AppController
                         $this->Auth->setUser($user);
                         return $this->redirect($this->Auth->redirectUrl()); 
                     }
+                    elseif($user['parent_id'])
+                        return $this->redirect("http://".$this->getCompanyUsername($user['parent_id']).".zensilo.com/users/setlogin/".$user['id']);
                     else
                         return $this->redirect("http://".$user['username'].".zensilo.com/users/setlogin"); 
                 }
@@ -234,6 +238,13 @@ class UsersController extends AppController
         //$this->viewBuilder()->layout('admin_login');
         //$this->render('index');
 	}
+
+    public function getCompanyUsername($id)
+    {
+        $this->User = TableRegistry::get('users');
+        $user = $this->User->get($id);
+        return $user->username;
+    }
 
     public function login($st=0)
     {
