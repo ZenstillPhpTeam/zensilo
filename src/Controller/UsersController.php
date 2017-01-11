@@ -238,6 +238,8 @@ class UsersController extends AppController
                     $this->Flash->error(__('Invalid username or password, try again'));
                 }   
             }
+
+            $this->redirect(array('controller' => 'home', 'action' => 'index', 'show_company_login_container'));
 	    }
         
         if(!$this->Auth->user())
@@ -346,10 +348,12 @@ class UsersController extends AppController
                 $user_save  = $this->Users->save($user);
 
                 $this->Flash->success(__('New password has been sent to your email address.'));
+                $this->redirect(['controller' => 'home', 'action' => 'index', 'show_company_login_container']);
            }
            else
            {
                 $this->Flash->error(__('Invalid email address.'));
+                $this->redirect(['controller' => 'home', 'action' => 'index', 'show_company_forgot_password']);
            }
         }
     }

@@ -146,7 +146,7 @@
       <form method="post" enctype="multipart/form-data" class="form-horizontal bordered-row" data-parsley-validate=""> 
         <div class="modal-header">
           <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-          <h4 class="modal-title">New Company</h4>
+          <h4 class="modal-title">New Designation</h4>
         </div>
         <div class="modal-body">
           <div class="content-box-wrapper">
