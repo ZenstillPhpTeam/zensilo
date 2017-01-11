@@ -20,10 +20,12 @@ class HomeController extends AppController
             return $this->redirect("http://zensilo.com/".strtolower($this->request->params['controller']).'/'.strtolower($this->request->params['action']));
 	}
 
-	public function index()
+	public function index($form='')
 	{
 		$this->Users = TableRegistry::get('Users');
 		$this->UserDetails = TableRegistry::get('user_details');
+
+        $this->set('acform', $form);
 
 		if ($this->request->is('post')) {
 			$data = $this->request->data;

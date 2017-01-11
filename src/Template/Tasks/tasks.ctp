@@ -8,8 +8,54 @@
             <div class="panel">
         <div class="panel-body">
         <h3 class="title-hero"> <button id="addclient" class="btn btn-alt btn-hover btn-primary0 float-right"  data-toggle="modal" data-target=".bs-example-modal-lg" ><span>Add New</span> <i class="glyph-icon icon-arrow-right"></i><div class="ripple-wrapper"></div></button></h3>
-
-        <div class="example-box-wrapper">
+        <div class="tasks-table table-responsive">
+        <table class="table table-striped" >
+        <tbody>
+        <tr>
+        <th colspan="2">Name</th>
+        <th>Assigned To</th>
+        <th>Start</th>
+        <th>Due</th>
+        <th>Estimation</th>
+        <th>Status</th>
+        <th>Action</th>
+        </tr>
+        <tr>
+        <td colspan="2">Name</td>
+        <td>Assigned To</td>
+        <td>Start</td>
+        <td>Due</td>
+        <td>Estimation</td>
+        <td>Status</td>
+        <td><i class="glyph-icon icon-cog setting"></i></td>
+        </tr>
+        </tbody>
+        </table>
+        <div class="table-menu">
+        <ul>
+        <li>Edit</li>
+        <li>Delete</li>
+        <li>Copy</li>
+        <li>Create Subtask</li>
+        </ul>
+        </div>
+        </div>
+        <style>
+        .tasks-table{ position: relative; } 
+        .tasks-table table tr th{font-weight: 600;}
+        .setting{ font-size: 16px; padding-left:14px; cursor: pointer;}
+         .table-menu{ width:120px; background: #ededed;  position: absolute; right: 0; top:77px;  display: none;}
+        .table-menu ul{ padding: 0px 10px;}
+        .table-menu ul li{ list-style-type: none; padding: 5px 5px; border-bottom: 1px solid #cccccc;}
+        .table-menu ul li:last-child{ border-bottom:none; }
+        .table-menu ul li:hover{ background:#E91E63; color:#fff; }
+        </style>
+        <script>
+        $(".setting").click(function(){
+           $(".table-menu").toggle();
+         });
+        </script>
+        <!--<div class="example-box-wrapper">
         <div id="datatable-example_wrapper" class="dataTables_wrapper form-inline no-footer">
         <div class="row">
         <div class="col-sm-6">
@@ -35,6 +81,7 @@
          <i class="glyph-icon icon-comments" onclick="showhide('<?= $value->id ?>');"></i></h3>
         <div class="content-box-wrapper wrapper2" id="box<?= $value->id ?>">
         <div class="scrollable-content scrollable-nice scrollable-medium">
+
         <ul class="todo-box todo-sort ui-sortable">
         <?php foreach($value->tasks as $tas) { ?>
           <?php if($tas->parent_task_id == 0) { ?>
@@ -89,7 +136,7 @@
         </div>
         </div>
         </div>
-        </div>
+        </div>-->
         </div>
         </div>
 

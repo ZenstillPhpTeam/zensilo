@@ -28,12 +28,19 @@
     $("#email,#pwd,#company_name").val("");
   });
   $(document).ready(function(){
+    
+    $("body").addClass("<?= $acform;?>");
+
     $(".getting_started").click(function(e){
-      $("body").toggleClass('show_company_creation_container');
+      $("body").removeClass('show_company_login_container').removeClass('show_company_forgot_password').toggleClass('show_company_creation_container');
     });
 
     $(".login_started").click(function(e){
-      $("body").toggleClass('show_company_login_container');
+      $("body").removeClass('show_company_creation_container').removeClass('show_company_forgot_password').toggleClass('show_company_login_container');
+    });
+
+    $(".openforgot").click(function(e){
+      $("body").removeClass('show_company_creation_container').removeClass('show_company_login_container').toggleClass('show_company_forgot_password');
     });
     
     $(".toggle_link").click(function(){
@@ -116,6 +123,24 @@
       {  
         $(".company_login .btn-default").addClass("all_data_filled");
         $(".company_login").attr('onsubmit', '');
+      }
+    });
+
+    $(".company_forgot .form-control").bind('keyup change', function(e){
+      if($(".company_forgot .ffemail").val() && validateEmail($(this).val()))
+        $(".company_forgot .ffemail").removeClass("error");
+      else
+        $(".company_forgot .ffemail").addClass("error")
+
+      if($(".company_forgot .form-control.error").length)
+      {  
+        $(".company_forgot .btn-default").removeClass("all_data_filled");
+        $(".company_forgot").attr('onsubmit', 'return false;');
+      }
+      else
+      {  
+        $(".company_forgot .btn-default").addClass("all_data_filled");
+        $(".company_forgot").attr('onsubmit', '');
       }
     });
 
@@ -234,9 +259,21 @@
                   .forgot a{ font-style:italic; color:#E7505A !important;}
                   </style>
                   <div class="form-group">
-                    <label for="pwd" class="forgot"><a href="<?= $this->Url->build(array("controller"=> "users", "action" => "forgotPassword"));?>">Forgot Password</a></label>
+                    <label for="pwd" class="openforgot"><a href="#">Forgot Password</a></label>
                   </div>
                   <button type="submit" class="btn btn-default">Login</button>
+                </form>
+              </div>
+              <div class="l_pwd getting_started_forgot">
+                <img class="close_container login_started" src="<?= $this->Url->build("/"); ?>img/icons/delete.png" alt="Image" />
+                <h3>Forgot your password?</h3>
+                <h5 style="color:#fff;">Please enter the email address registered on your account.</h5>
+                <form onsubmit="return false;" action="<?= $this->Url->build(array("controller"=> "users", "action" => "forgotPassword"));?>" autocomplete="off" role="form" method="post" class="company_forgot" novalidate="">
+                  <div class="form-group" >
+                    <label for="email">Email address</label>
+                    <input autocomplete="off" type="email" class="form-control ffemail" name="email">
+                  </div>
+                  <button type="submit" class="btn btn-default">Reset password</button>
                 </form>
               </div>
             </div>
