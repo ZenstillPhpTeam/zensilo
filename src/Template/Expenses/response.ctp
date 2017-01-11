@@ -90,7 +90,7 @@
     $("#editclient").trigger("click");
   });
 </script>  
-
+<?php foreach($request as $k=>$req){ ?>
 <div class="modal fade bs-remark-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
   <div class="modal-dialog modal-lg">
     <div class="modal-content">
@@ -119,7 +119,7 @@
       </div>
     </div>
   </div>
-
+<?php } ?>
 <div class="modal fade bs-edit-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
   <div class="modal-dialog modal-lg">
     <div class="modal-content">
