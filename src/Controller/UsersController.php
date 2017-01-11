@@ -238,11 +238,13 @@ class UsersController extends AppController
                     $this->Flash->error(__('Invalid username or password, try again'));
                 }   
             }
+
+            $this->redirect(array('controller' => 'home', 'action' => 'index', 'show_company_login_container'));
 	    }
         
         if(!$this->Auth->user())
         {
-            $this->redirect(array('controller' => 'home', 'action' => 'index', 'show_company_login_container'));
+            $this->redirect(array('controller' => 'home', 'action' => 'index'));
         }
         //$this->viewBuilder()->layout('admin_login');
         //$this->render('index');
