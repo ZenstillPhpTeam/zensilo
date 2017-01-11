@@ -41,7 +41,7 @@
               <td><?= $request_det->expense_types['type'] ?></td>
               <td><?= $this->Custom->get_projectname($request_det->expense_name); ?></td>
               <td class="center"><?= $request_det->applied_date ?></td>
-              <td><?= $request_det->amount ?></td>
+              <td><?= $request_det->currency." ".$request_det->amount ?></td>
               <td class="center"><?= $request_det->reason ?></td>
               <td class="center"><?= $request_det->created ?></td>
               <td class="center"> 
