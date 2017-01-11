@@ -1,7 +1,5 @@
 <?= $this->Html->script(array('../assets/widgets/wizard/wizard', '../assets/widgets/wizard/wizard-demo', '../assets/widgets/tabs/tabs', '../assets/widgets/chosen/chosen', '../assets/widgets/chosen/chosen-demo','../assets/widgets/parsley/parsley')) ?>
-<style>
-.content-box-wrapper{display: none;}
-</style>
+
         <div class="panel">
           <div class="panel-body content-box">
             <h3 class="title-hero bg-primary">Task</h3>
@@ -35,7 +33,7 @@
         <i class="glyph-icon icon-comments"></i> <?= $value->project_name ?>
 
          <i class="glyph-icon icon-comments" onclick="showhide('<?= $value->id ?>');"></i></h3>
-        <div class="content-box-wrapper" id="box<?= $value->id ?>">
+        <div class="content-box-wrapper wrapper2" id="box<?= $value->id ?>">
         <div class="scrollable-content scrollable-nice scrollable-medium">
         <ul class="todo-box todo-sort ui-sortable">
         <?php foreach($value->tasks as $tas) { ?>
@@ -152,7 +150,7 @@
                 </div>
 
                 <div class="form-group">
-                  <label class="col-sm-3 control-label">Estimated Effort</label>
+                  <label class="col-sm-3 control-label">Estimated Effort(Hours)</label>
                   <div class="col-sm-6">
                     <input name="estimated_effort" class="form-control" id="" placeholder="Estimated Effort"  required="" value="<?= $task->estimated_effort ?>"/>
                   </div>
@@ -245,7 +243,7 @@
                 </div>
 
                 <div class="form-group">
-                  <label class="col-sm-3 control-label">Estimated Effort</label>
+                  <label class="col-sm-3 control-label">Estimated Effort(Hours)</label>
                   <div class="col-sm-6">
                     <span id="viewestimated_effort"></span> Hrs
                   </div>
@@ -327,7 +325,7 @@
                 </div>
 
                 <div class="form-group">
-                  <label class="col-sm-3 control-label">Estimated Effort</label>
+                  <label class="col-sm-3 control-label">Estimated Effort(Hours)</label>
                   <div class="col-sm-6">
                     <input name="estimated_effort" class="form-control" id="" placeholder="Estimated Effort"  required="" value="<?= isset($copy_task) ? $copy_task->estimated_effort: ''?>"/>
                   </div>

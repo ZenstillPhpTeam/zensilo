@@ -87,7 +87,10 @@ class UsersController extends AppController
         if($this->is_sub_domain())
         {
             $this->User = TableRegistry::get('users');
-            $user = $this->User->find("all", ["conditions" => ["username" => $this->is_sub_domain()]])->first();
+            if(!$id)
+                $user = $this->User->find("all", ["conditions" => ["username" => $this->is_sub_domain()]])->first();
+            else
+                $user = $this->User->get($id);
             $this->Auth->setUser($user);
         }
         elseif($id)
@@ -201,8 +204,10 @@ class UsersController extends AppController
                     $this->Auth->setUser($user);
                     return $this->redirect($this->Auth->redirectUrl()); 
                 }
+                elseif($user['parent_id'])
+                    return $this->redirect("http://".$this->getCompanyUsername($user['parent_id']).".zensilo.com/users/setlogin/".$user['id']);
                 else
-                    return $this->redirect("http://".$user['username'].".zensilo.com/users/setlogin");
+                    return $this->redirect("http://".$user['username'].".zensilo.com/users/setlogin"); 
 	        }
             else
             {
@@ -217,6 +222,8 @@ class UsersController extends AppController
                         $this->Auth->setUser($user);
                         return $this->redirect($this->Auth->redirectUrl()); 
                     }
+                    elseif($user['parent_id'])
+                        return $this->redirect("http://".$this->getCompanyUsername($user['parent_id']).".zensilo.com/users/setlogin/".$user['id']);
                     else
                         return $this->redirect("http://".$user['username'].".zensilo.com/users/setlogin"); 
                 }
@@ -234,6 +241,13 @@ class UsersController extends AppController
         //$this->viewBuilder()->layout('admin_login');
         //$this->render('index');
 	}
+
+    public function getCompanyUsername($id)
+    {
+        $this->User = TableRegistry::get('users');
+        $user = $this->User->get($id);
+        return $user->username;
+    }
 
     public function login($st=0)
     {
@@ -502,6 +516,8 @@ class UsersController extends AppController
                 //print_r($this->request->data);
                    $project = $this->Projects->newEntity();
                     $this->request->data['status'] = "New";
+                    $comp_id = $this->Auth->user('userrole') == "company" ? $this->Auth->user('id') : $this->Auth->user('parent_id');
+                    $this->request->data['company_id'] = $comp_id;
                     $project = $this->Projects->patchEntity($project, $this->request->data);
                     $project_save  = $this->Projects->save($project);
 
@@ -848,6 +864,8 @@ class UsersController extends AppController
                     $this->Flash->success('New Client has been added successfully!!');
                     //$this->set('success_msg', 'New Client has been added successfully!!');
 
+                    $vars = ['password' => $this->request->data['password'],'username' => $this->request->data['username']];
+                    $this->send_email('add_user', $this->request->data['email'], 'New Password', $vars);
                 }else
                 $this->Flash->error('Unable to add Client!!');
                 }

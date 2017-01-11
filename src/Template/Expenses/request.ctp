@@ -22,7 +22,7 @@
         #
         </th>
         <th class="sorting" tabindex="0" aria-controls="datatable-example" rowspan="1" colspan="1" aria-label="Engine version: activate to sort column ascending" > Expense Type</th>
-        <th class="sorting" tabindex="0" aria-controls="datatable-example" rowspan="1" colspan="1" aria-label="Engine version: activate to sort column ascending" > Expense Name</th>
+        <th class="sorting" tabindex="0" aria-controls="datatable-example" rowspan="1" colspan="1" aria-label="Engine version: activate to sort column ascending" > Project </th>
         <th class="sorting" tabindex="0" aria-controls="datatable-example" rowspan="1" colspan="1" aria-label="Rendering engine: activate to sort column ascending">
         Amount</th>
         <th class="sorting" tabindex="0" aria-controls="datatable-example" rowspan="1" colspan="1" aria-label="Browser: activate to sort column ascending" style="width: 258px;">Reason</th>
@@ -108,9 +108,32 @@
               <div class="row">
 
                 <div class="form-group">
-                  <label class="col-sm-3 control-label">Expense Name</label>
+                  <label class="col-sm-3 control-label">Project</label>
                   <div class="col-sm-6">
                     <input name="expense_name" id="" class="form-control" required="" value="<?= $request->expense_name; ?>"/>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="col-sm-3 control-label">Expense Type</label>
+                  <div class="col-sm-6">
+                     <select name="type_id" class="form-control"> 
+                        <?php foreach($leavetype as $k=>$type){?>
+                        <option selected="<?php ($type->id == $request->typeid) ? 'selected' : '' ?>" value="<?= $type->id ?>">
+                        <?= $type->type ?></option>
+                        <?php } ?>
+                     </select>
+                  </div>
+                </div>
+                 <div class="form-group">
+                  <label class="col-sm-3 control-label">Amount</label>
+                  <div class="col-sm-6">
+                    <input name="amount" class="form-control" type="number" value="<?= $request->amount; ?>"/>
+                  </div>
+                </div>
+                 <div class="form-group .bordered-row">
+                  <label class="col-sm-3 control-label">Date</label>
+                  <div class="col-sm-6">
+                    <input name="applied_date" type="text" class="bootstrap-datepicker2 form-control"  data-date-format="yyyy-mm-dd" required="" value="<?= $this->Time->format($request->applied_date, 'Y-MM-dd');?>"/>
                   </div>
                 </div>
 
@@ -121,33 +144,8 @@
                   </div>
                 </div>
 
-                <div class="form-group">
-                  <label class="col-sm-3 control-label">Type</label>
-                  <div class="col-sm-6">
-                     <select name="type_id" class="form-control"> 
-                        <?php foreach($leavetype as $k=>$type){?>
-                        <option selected="<?php ($type->id == $request->typeid) ? 'selected' : '' ?>" value="<?= $type->id ?>">
-                        <?= $type->type ?></option>
-                        <?php } ?>
-                     </select>
-                  </div>
+                
                 </div>
-
-                 <div class="form-group">
-                  <label class="col-sm-3 control-label">Amount</label>
-                  <div class="col-sm-6">
-                    <input name="amount" class="form-control" type="number" value="<?= $request->amount; ?>"/>
-                  </div>
-                </div>
-
-                <div class="form-group .bordered-row">
-                  <label class="col-sm-3 control-label">Date</label>
-                  <div class="col-sm-6">
-                    <input name="applied_date" type="text" class="bootstrap-datepicker2 form-control"  data-date-format="yyyy-mm-dd" required="" value="<?= $this->Time->format($request->applied_date, 'Y-MM-dd');?>"/>
-                  </div>
-                </div>
-
-              </div>
 
              <input type="hidden" name="id" value="<?= $request->id ?>">
           
@@ -176,21 +174,13 @@
             <div class="row">
 
                 <div class="form-group">
-                  <label class="col-sm-3 control-label">Expense Name</label>
+                  <label class="col-sm-3 control-label">Project</label>
                   <div class="col-sm-6">
                     <input name="expense_name" id="" class="form-control" required="" />
                   </div>
                 </div>
-
                 <div class="form-group">
-                  <label class="col-sm-3 control-label">Reason</label>
-                  <div class="col-sm-6">
-                    <textarea name="reason" id="" class="form-control" required=""></textarea>
-                  </div>
-                </div>
-
-                <div class="form-group">
-                  <label class="col-sm-3 control-label">Type</label>
+                  <label class="col-sm-3 control-label">Expense Type</label>
                   <div class="col-sm-6">
                      <select name="type_id" class="form-control">
                         <?php foreach($leavetype as $k=>$type) { ?>
@@ -206,13 +196,21 @@
                     <input name="amount" class="form-control" type="number"/>
                   </div>
                 </div>
-
-                <div class="form-group .bordered-row">
+                 <div class="form-group .bordered-row">
                   <label class="col-sm-3 control-label">Date</label>
                   <div class="col-sm-6">
                     <input name="applied_date" type="text" class="bootstrap-datepicker2 form-control"  data-date-format="yyyy-mm-dd" required=""/>
                   </div>
                 </div>
+
+                <div class="form-group">
+                  <label class="col-sm-3 control-label">Reason</label>
+                  <div class="col-sm-6">
+                    <textarea name="reason" id="" class="form-control" required=""></textarea>
+                  </div>
+                </div>
+
+                        
 
             </div>
           </div>
