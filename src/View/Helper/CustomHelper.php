@@ -87,4 +87,30 @@ class CustomHelper extends Helper
 
         return count($requests) ? $requests->task_name : '';
     }
+
+    public function user_menu_avalablity_check($role, $designation, $menu)
+    {
+        if($role == 'company')
+            return true;
+
+        if($role == 'client' && $menu == 'project')
+            return true;
+
+        if($role == 'user')
+        {
+            if(isset($designation->project_access))
+            {
+                if($designation->project_access && $menu == 'project')
+                    return true;
+                if($designation->client_access && $menu == 'client')
+                    return true;
+                if($designation->user_access && $menu == 'user')
+                    return true;
+                if($designation->setting_access && $menu == 'setting')
+                    return true;
+            }
+        }
+
+        return false;
+    }
 }

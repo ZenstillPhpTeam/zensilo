@@ -66,6 +66,12 @@ class UsersController extends AppController
             $designation = $this->Designation->find('all',['conditions' =>['company_id' => $this->company_id ]])->all();
             $this->set('designation', $designation);
 
+            if($profile->designation)
+            {
+                $current_user_designation = $this->Designation->find('all',['conditions' =>['id' => $profile->designation ]])->first();
+                $this->set('current_user_designation', $current_user_designation);
+            }
+
             $notifications = $this->Notification->find('all',['conditions' =>['company_id' => $this->company_id, 'notito' => $this->loggedInUser['id']]])->all();
             $this->set('notifications', $notifications);
 

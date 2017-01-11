@@ -60,12 +60,24 @@
           <?php if($loggedInUser['userrole'] == "siteadmin") { ?>
           <li><a href="<?= $this->Url->build(array("controller"=> "users","action" => "company"));?>" title="Company"><i class="glyph-icon icon-home"></i> <span>Company</span></a></li>
           <?php } ?>
+          
+          <?php $current_user_designation = isset($current_user_designation) ? $current_user_designation : false; 
+          if($this->Custom->user_menu_avalablity_check($loggedInUser['userrole'], $current_user_designation, 'client')){?>
+          <li><a href="<?= $this->Url->build(array("controller"=> "users","action" => "clients"));?>" title="Clients"><i class="glyph-icon icon-tasks"></i><span>Clients</span></a></li>
+          <?php }?>
+
+          <?php $current_user_designation = isset($current_user_designation) ? $current_user_designation : false; 
+          if($this->Custom->user_menu_avalablity_check($loggedInUser['userrole'], $current_user_designation, 'project')){?>
           <li><a href="<?= $this->Url->build(array("controller"=> "users","action" => "projects"));?>" title="Projects Menu"><i class="glyph-icon icon-list-alt"></i> <span>Projects</span></a>
           </li>
-           <li><a href="<?= $this->Url->build(array("controller"=> "users","action" => "clients"));?>" title="Clients"><i class="glyph-icon icon-tasks"></i><span>Clients</span></a></li>
           <li><a href="<?= $this->Url->build(array("controller"=> "tasks","action" => "tasks"));?>" title="Add Tasks"><i class="glyph-icon icon-tasks"></i> <span>Tasks</span></a></li>
+          <?php }?>
 
+          <?php $current_user_designation = isset($current_user_designation) ? $current_user_designation : false; 
+          if($this->Custom->user_menu_avalablity_check($loggedInUser['userrole'], $current_user_designation, 'user')){?>
           <li><a href="<?= $this->Url->build(array("controller"=> "users","action" => "users"));?>" title="Add Users"><i class="glyph-icon icon-user"></i> <span>Users</span></a></li>
+          <?php }?>
+
           <li><a href="<?= $this->Url->build(array("controller"=> "expenses","action" => "request"));?>" title="Add Expenses"><i class="glyph-icon icon-elusive-group"></i><span>Expenses</span></a></li>
           <?php if($loggedInUser['lead_id'] == 0) { ?>
           <li><a href="<?= $this->Url->build(array("controller"=> "expenses","action" => "response"));?>" title="Add Expenses"><i class="glyph-icon icon-elusive-group"></i><span>Expense Requests</span></a></li>
@@ -91,7 +103,8 @@
 
 
           <!-- elango menus end -->
-
+          <?php $current_user_designation = isset($current_user_designation) ? $current_user_designation : false; 
+          if($this->Custom->user_menu_avalablity_check($loggedInUser['userrole'], $current_user_designation, 'setting')){?>
           <li><a href="#" title="Projects Menu"><i class="glyph-icon icon-cog"></i> <span>Setting</span></a>
               <div class="sidebar-submenu" style="display: block;">
               <ul>
@@ -102,6 +115,7 @@
               </ul>
               </div>
           </li>
+          <?php }?>
 
           <li class="ms-hover sfHover"><a href="<?= $this->Url->build(array("controller"=> "mail"));?>" title="Mailbox"><i class="glyph-icon icon-linecons-mail"></i> <span>Mailbox</span> <span class="bs-badge badge-danger"><?= $this->Custom->inbox_count($loggedInUser['id']);?></span></a></li>
 
