@@ -66,6 +66,12 @@ class UsersController extends AppController
             $designation = $this->Designation->find('all',['conditions' =>['company_id' => $this->company_id ]])->all();
             $this->set('designation', $designation);
 
+            if($profile->designation)
+            {
+                $current_user_designation = $this->Designation->find('all',['conditions' =>['id' => $profile->designation ]])->first();
+                $this->set('current_user_designation', $current_user_designation);
+            }
+
             $notifications = $this->Notification->find('all',['conditions' =>['company_id' => $this->company_id, 'notito' => $this->loggedInUser['id']]])->all();
             $this->set('notifications', $notifications);
 
@@ -840,14 +846,15 @@ class UsersController extends AppController
                 $user_save  = $this->Users->save($user);
                 if ($user_save) {
                     //echo  $data['id'];
-                    $client = $this->UserDetails->find('all',['conditions' => ['user_details.user_id' => $data[" "]]])->first();
+                    $client = $this->UserDetails->find('all',['conditions' => ['user_details.user_id' => $data["id"]]])->first();
                     $client = $this->UserDetails->patchEntity($client, $this->request->data);
                     $client_save  = $this->UserDetails->save($client);
                     $this->Flash->success('Client Details has been updated successfully!!');
                     //$this->set('success_msg', 'Client Details has been updated successfully!!');
                 }
             }
-            else{
+            else
+            {              
                 $user = $this->Users->newEntity();
                 $this->request->data['userrole'] = 'client';
                 $this->request->data['status'] = 1;

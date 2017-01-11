@@ -35,7 +35,10 @@
         </th>
         <th class="sorting_asc" tabindex="0" aria-controls="datatable-example" rowspan="1" colspan="1" aria-label="Rendering engine: activate to sort column ascending"  aria-sort="ascending">
              Designations / User Roles   </th>
-        
+        <th>Access Project</th>
+        <th>Access Client</th>
+        <th>Access User</th>
+        <th>Access Setting</th>
         <th tabindex="0" aria-controls="datatable-example" rowspan="1" colspan="1"  >Actions</th>
         
         </tr>
@@ -45,7 +48,10 @@
         <tr class="gradeA <?php if($k%2 == 0) {?>odd <?php } else { ?> even <?php } ?>" role="row">
         <td><?= $k+1?></td>
         <td class="sorting_1"><?= $user_det->designation ?></td>
-        
+        <td><?= $user_det->project_access ? 'Yes' : 'No';?></td>
+        <td><?= $user_det->client_access ? 'Yes' : 'No';?></td>
+        <td><?= $user_det->user_access ? 'Yes' : 'No';?></td>
+        <td><?= $user_det->setting_access ? 'Yes' : 'No';?></td>
         <td class="center">
               <a href="<?= $this->Url->build(array("controller" => "company", "action" => "designation", $user_det->id));?>"><i class="glyph-icon demo-icon tooltip-button icon-elusive-pencil"></i></a>&nbsp;&nbsp;
                 <a href="<?= $this->Url->build(array("controller" => "company", "action" => "designation", $user_det->id, "delete"));?>" onclick="javascript:confirm('Are you sure want to delete this Designation?')"><i class="glyph-icon demo-icon tooltip-button icon-elusive-trash"></i></a></td>
@@ -92,12 +98,26 @@
           <div class="content-box-wrapper">
 
               <div class="row">
-                  <div class="col-md-6">
+                  <div class="col-md-12">
 
-                <div class="form-group">
+                <div class="form-group append_more_values">
                   <label class="col-sm-3 control-label">Designation<em>*</em></label>
                   <div class="col-sm-6">
                     <input name="designation" class="form-control" id="" placeholder="Client Name" type="text" required="" value="<?= $client->designation ?>" />
+                    <br>
+                    <span>Rights To : </span>
+                    <input type="checkbox" name="checkbox_dummy" <?= $client->project_access ? 'checked' : '' ?>>
+                    <input type="hidden" name="project_access" value="<?= $client->project_access ?>">
+                    <span>Project&nbsp;</span>
+                    <input type="checkbox" name="checkbox_dummy" <?= $client->client_access ? 'checked' : '' ?>>
+                    <input type="hidden" name="client_access" value="<?= $client->client_access ?>">
+                    <span>Client&nbsp;</span>
+                    <input type="checkbox" name="checkbox_dummy" <?= $client->user_access ? 'checked' : '' ?>>
+                    <input type="hidden" name="user_access" value="<?= $client->user_access ?>">
+                    <span>User&nbsp;</span>
+                    <input type="checkbox" name="checkbox_dummy" <?= $client->setting_access ? 'checked' : '' ?>>
+                    <input type="hidden" name="setting_access" value="<?= $client->setting_access ?>">
+                    <span>Settings&nbsp;</span>
                   </div>
                   
                 </div>
@@ -131,14 +151,25 @@
         <div class="modal-body">
           <div class="content-box-wrapper">
 
-              <div class="row" id="append_more_values">
+              <div class="row append_more_values">
                 <div class="form-group list_designation">
                   <label class="col-sm-3 control-label">Designation<em>*</em></label>
                   <div class="col-sm-6">
                     <input name="designation[]" class="form-control" id="" placeholder="Client Name" type="text" required="">
-                    <input type="checkbox" name="">Create Project&nbsp;
-                    <input type="checkbox" name="">Create Client&nbsp;
-                    <input type="checkbox" name="">Settings&nbsp;
+                    <br>
+                    <span>Rights To : </span>
+                    <input type="checkbox" name="checkbox_dummy">
+                    <input type="hidden" name="project_access[]" value="0">
+                    <span>Project&nbsp;</span>
+                    <input type="checkbox" name="checkbox_dummy">
+                    <input type="hidden" name="client_access[]" value="0">
+                    <span>Client&nbsp;</span>
+                    <input type="checkbox" name="checkbox_dummy">
+                    <input type="hidden" name="user_access[]" value="0">
+                    <span>User&nbsp;</span>
+                    <input type="checkbox" name="checkbox_dummy">
+                    <input type="hidden" name="setting_access[]" value="0">
+                    <span>Settings&nbsp;</span>
                   </div>
                   <div class="col-sm-3">
                     <i class="glyph-icon icon-plus add_more btn btn-success"></i>
@@ -164,6 +195,20 @@
     <label class="col-sm-3 control-label">Designation<em>*</em></label>
     <div class="col-sm-6">
       <input name="designation[]" class="form-control" id="" placeholder="Client Name" type="text" required="">
+      <br>
+      <span>Rights To : </span>
+      <input type="checkbox" name="checkbox_dummy">
+      <input type="hidden" name="project_access[]" value="0">
+      <span>Project&nbsp;</span>
+      <input type="checkbox" name="checkbox_dummy">
+      <input type="hidden" name="client_access[]" value="0">
+      <span>Client&nbsp;</span>
+      <input type="checkbox" name="checkbox_dummy">
+      <input type="hidden" name="user_access[]" value="0">
+      <span>User&nbsp;</span>
+      <input type="checkbox" name="checkbox_dummy">
+      <input type="hidden" name="setting_access[]" value="0">
+      <span>Settings&nbsp;</span>
     </div>
     <div class="col-sm-3">
       <i class="glyph-icon icon-plus add_more btn btn-success"></i>
@@ -187,5 +232,7 @@
       $(".delete_more").show();
     }
   });
-  $(document)
+  $(document).on("click", ".append_more_values input[type='checkbox']", function(){
+    $(this).next("input[type='hidden']").val($(this).is(":checked") ? 1 : 0);
+  });
 </script>

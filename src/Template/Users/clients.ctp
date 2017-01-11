@@ -174,6 +174,43 @@
 
             </div>
           
+                 
+                <div class="col-md-6">
+
+                <div class="form-group">
+                  <label class="col-sm-3 control-label">Secondary Name</label>
+                  <div class="col-sm-6">
+                    <input name="secondary_name" class="form-control" id="" placeholder="Secondary Name" type="text" value="<?= $client->secondary_name ?>"  />
+                  </div>
+                </div>
+
+                <div class="form-group">
+                  <label class="col-sm-3 control-label">Secondary Email</label>
+                  <div class="col-sm-6">
+                    <input name="secondary_email" class="form-control" id="" placeholder="Secondary Email" type="text" value="<?= $client->secondary_email ?>" />
+                  </div>
+                </div>
+                </div>
+                <div class="col-md-6">
+                <div class="form-group">
+                  <label class="col-sm-3 control-label">Secondary Mobile</label>
+                  <div class="col-sm-6">
+                    <input name="secondary_mobile" class="form-control" id="" placeholder="Secondary Mobile" type="text" value="<?= $client->secondary_mobile ?>" />
+                  </div>
+                </div>
+
+                <div class="form-group">
+                  <label class="col-sm-3 control-label">Secondary Landline</label>
+                  <div class="col-sm-6">
+                    <input name="secondary_landline" class="form-control" id="" placeholder="Secondary Landline" type="text" value="<?= $client->secondary_landline ?>" />
+                  </div>
+                </div>
+
+                </div>
+
+                </div>
+
+
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-default " data-dismiss="modal">Close</button> 
@@ -273,6 +310,41 @@
                     </div>
                   </div>
                 </div>
+             
+
+                <div class="col-md-6">
+
+                <div class="form-group">
+                  <label class="col-sm-3 control-label">Secondary Name</label>
+                  <div class="col-sm-6">
+                    <input name="secondary_name" class="form-control" id="" placeholder="Secondary Name" type="text"  />
+                  </div>
+                </div>
+
+                <div class="form-group">
+                  <label class="col-sm-3 control-label">Secondary Email</label>
+                  <div class="col-sm-6">
+                    <input name="secondary_email" class="form-control" id="" placeholder="Secondary Email" type="text"  />
+                  </div>
+                </div>
+                </div>
+                <div class="col-md-6">
+                <div class="form-group">
+                  <label class="col-sm-3 control-label">Secondary Mobile</label>
+                  <div class="col-sm-6">
+                    <input name="secondary_mobile" class="form-control" id="" placeholder="Secondary Mobile" type="text"  />
+                  </div>
+                </div>
+
+                <div class="form-group">
+                  <label class="col-sm-3 control-label">Secondary Landline</label>
+                  <div class="col-sm-6">
+                    <input name="secondary_landline" class="form-control" id="" placeholder="Secondary Landline" type="text" />
+                  </div>
+                </div>
+
+                </div>
+
                 </div>
 
             </div>

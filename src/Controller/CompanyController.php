@@ -99,6 +99,7 @@ class CompanyController extends UsersController
             $data = $this->request->data;
 
             if(isset($data['id'])){
+                
                 $user = $this->Designation->get($data['id']);
                 $user = $this->Designation->patchEntity($user, $this->request->data);
                 $user_save  = $this->Designation->save($user);
@@ -112,10 +113,15 @@ class CompanyController extends UsersController
             else{
                 
                 $i = 0;
+
                 foreach ($this->request->data['designation'] as $key => $value) {
                   $user = $this->Designation->newEntity();
                   
                   $data['designation'] = $value;
+                  $data['project_access'] = $this->request->data['project_access'][$key];
+                  $data['client_access'] = $this->request->data['client_access'][$key];
+                  $data['setting_access'] = $this->request->data['setting_access'][$key];
+                  $data['user_access'] = $this->request->data['user_access'][$key];
                   if($this->Auth->user('userrole') != "admin")
                    $data['company_id'] = $this->Auth->user('userrole') == "company" ? $this->Auth->user('id') : $this->Auth->user('parent_id');
                   $user = $this->Designation->patchEntity($user, $data);

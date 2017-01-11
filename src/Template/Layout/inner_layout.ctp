@@ -60,38 +60,54 @@
           <?php if($loggedInUser['userrole'] == "siteadmin") { ?>
           <li><a href="<?= $this->Url->build(array("controller"=> "users","action" => "company"));?>" title="Company"><i class="glyph-icon icon-home"></i> <span>Company</span></a></li>
           <?php } ?>
+          
+          <?php $current_user_designation = isset($current_user_designation) ? $current_user_designation : false; 
+          if($this->Custom->user_menu_avalablity_check($loggedInUser['userrole'], $current_user_designation, 'client')){?>
+          <li><a href="<?= $this->Url->build(array("controller"=> "users","action" => "clients"));?>" title="Clients"><i class="glyph-icon icon-tasks"></i><span>Clients</span></a></li>
+          <?php }?>
+
+          <?php $current_user_designation = isset($current_user_designation) ? $current_user_designation : false; 
+          if($this->Custom->user_menu_avalablity_check($loggedInUser['userrole'], $current_user_designation, 'project')){?>
           <li><a href="<?= $this->Url->build(array("controller"=> "users","action" => "projects"));?>" title="Projects Menu"><i class="glyph-icon icon-list-alt"></i> <span>Projects</span></a>
           </li>
-           <li><a href="<?= $this->Url->build(array("controller"=> "users","action" => "clients"));?>" title="Clients"><i class="glyph-icon icon-briefcase"></i><span>Clients</span></a></li>
           <li><a href="<?= $this->Url->build(array("controller"=> "tasks","action" => "tasks"));?>" title="Add Tasks"><i class="glyph-icon icon-tasks"></i> <span>Tasks</span></a></li>
+          <?php }?>
 
+          <?php $current_user_designation = isset($current_user_designation) ? $current_user_designation : false; 
+          if($this->Custom->user_menu_avalablity_check($loggedInUser['userrole'], $current_user_designation, 'user')){?>
           <li><a href="<?= $this->Url->build(array("controller"=> "users","action" => "users"));?>" title="Add Users"><i class="glyph-icon icon-user"></i> <span>Users</span></a></li>
-          <li><a href="<?= $this->Url->build(array("controller"=> "expenses","action" => "request"));?>" title="Add Expenses"><i class="glyph-icon icon-usd"></i><span>Expenses</span></a></li>
-          <?php if($loggedInUser['lead_id'] == 0) { ?>
-          <li><a href="<?= $this->Url->build(array("controller"=> "expenses","action" => "response"));?>" title="Add Expenses"><i class="glyph-icon icon-elusive-group"></i><span>Expense Requests</span></a></li>
-          <?php } ?>
-          <!-- elango menus -->
-          <?php if($loggedInUser['lead_id'] == 0) { ?>
-          <li><a href="<?= $this->Url->build(array("controller" => "leaverequests","action" => "response"));?>" title="Leave Requests">
-          <i class="glyph-icon icon-calendar">
-          <i class="bs-badge badge-warning"><?=  $this->Custom->get_leave_request_count($loggedInUser['id']); ?></i></i> 
-          <span>Leave Requests</span></a></li>
-          <?php } ?>
+          <?php }?>
 
+          <?php if($loggedInUser['userrole'] == "user") { ?>
+          <li><a href="<?= $this->Url->build(array("controller"=> "expenses","action" => "request"));?>" title="Add Expenses"><i class="glyph-icon icon-usd"></i><span>My Expense Requests</span></a></li>
+          
           <li><a href="<?= $this->Url->build(array("controller" => "leaverequests","action" => "request"));?>" title="Leave Requests">
           <i class="glyph-icon icon-calendar"></i> <span>My Leave Requests</span></a></li>
 
-          <li><a href="<?= $this->Url->build(array("controller" => "timesheet","action" => "lists"));?>" title="Leave Requests">
-          <i class="glyph-icon icon-time">
-          <i class="bs-badge badge-warning"><?=  $this->Custom->get_time_sheet_count($loggedInUser['id']);?></i></i> 
-          <span>Time Sheet List</span></a></li>
-
           <li><a href="<?= $this->Url->build(array("controller" => "timesheet","action" => "add"));?>" title="Leave Requests">
           <i class="glyph-icon icon-dashboard"></i> <span>My Time Sheet</span></a></li>
+          <?php } ?>
 
+          <?php if($this->Custom->is_lead($loggedInUser['id'])) { ?>
+          <li><a href="#" title="Projects Menu"><i class="glyph-icon icon-cog"></i> <span>My Approvals</span></a>
+              <div class="sidebar-submenu" style="display: block;">
+              <ul>
+              <li><a href="<?= $this->Url->build(array("controller" => "leaverequests","action" => "request"));?>" title="Leave Requests"><i class="glyph-icon icon-calendar">
+              <i class="bs-badge badge-warning"><?=  $this->Custom->get_leave_request_count($loggedInUser['id']); ?></i></i> 
+              <span>Leave Requests</span></a></li>
+              <li><a href="<?= $this->Url->build(array("controller"=> "expenses","action" => "response"));?>" title="Add Expenses"><i class="glyph-icon icon-elusive-group"><i class="bs-badge badge-warning"><?=  $this->Custom->get_expense_request_count($loggedInUser['id']); ?></i></i><span>Expense Requests</span></a></li>
+              <li><a href="<?= $this->Url->build(array("controller" => "timesheet","action" => "lists"));?>" title="Leave Requests">
+              <i class="glyph-icon icon-time">
+              <i class="bs-badge badge-warning"><?=  $this->Custom->get_time_sheet_count($loggedInUser['id']);?></i></i> 
+              <span>Time Sheet List</span></a></li>
+              
+              </ul>
+              </div>
+          </li>
+        <?php } ?>
 
-          <!-- elango menus end -->
-
+          <?php $current_user_designation = isset($current_user_designation) ? $current_user_designation : false; 
+          if($this->Custom->user_menu_avalablity_check($loggedInUser['userrole'], $current_user_designation, 'setting')){?>
           <li><a href="#" title="Projects Menu"><i class="glyph-icon icon-cog"></i> <span>Setting</span></a>
               <div class="sidebar-submenu" style="display: block;">
               <ul>
@@ -102,6 +118,7 @@
               </ul>
               </div>
           </li>
+          <?php }?>
 
           <li class="ms-hover sfHover"><a href="<?= $this->Url->build(array("controller"=> "mail"));?>" title="Mailbox"><i class="glyph-icon icon-linecons-mail"></i> <span>Mailbox</span> <span class="bs-badge badge-danger"><?= $this->Custom->inbox_count($loggedInUser['id']);?></span></a></li>
 

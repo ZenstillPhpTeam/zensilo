@@ -17,11 +17,13 @@
         <th class="sorting_asc" tabindex="0" aria-controls="datatable-example" rowspan="1" colspan="1" aria-label="Rendering engine: activate to sort column ascending" aria-sort="ascending">
         #
         </th>
-        <th class="sorting" tabindex="0" aria-controls="datatable-example" rowspan="1" colspan="1" aria-label="Engine version: activate to sort column ascending" > Name </th>
+        <th class="sorting" tabindex="0" aria-controls="datatable-example" rowspan="1" colspan="1" aria-label="Engine version: activate to sort column ascending" > User Name </th>
+        <th class="sorting" tabindex="0" aria-controls="datatable-example" rowspan="1" colspan="1" aria-label="Engine version: activate to sort column ascending" > Project Name </th>
+
         <th class="sorting" tabindex="0" aria-controls="datatable-example" rowspan="1" colspan="1" aria-label="Engine version: activate to sort column ascending" > Type </th>
-        <th class="sorting" tabindex="0" aria-controls="datatable-example" rowspan="1" colspan="1" aria-label="Engine version: activate to sort column ascending" > Applied Date</th>
+        <th class="sorting" tabindex="0" aria-controls="datatable-example" rowspan="1" colspan="1" aria-label="Engine version: activate to sort column ascending" > Incurred Date</th>
         <th class="sorting" tabindex="0" aria-controls="datatable-example" rowspan="1" colspan="1" aria-label="Rendering engine: activate to sort column ascending">
-        No Of Days
+        Amount
         </th>
         <th class="sorting" tabindex="0" aria-controls="datatable-example" rowspan="1" colspan="1" aria-label="Browser: activate to sort column ascending" style="width: 258px;">Reason</th>
         <th class="sorting" tabindex="0" aria-controls="datatable-example" rowspan="1" colspan="1" aria-label="Browser: activate to sort column ascending"">Requested On</th>
@@ -37,15 +39,17 @@
             <tr class="gradeA <?php if($k%2 == 0) {?>odd <?php } else { ?> even <?php } ?>" role="row">
               <td><?= $k+1?></td>
               <td class="sorting_1"><?= $request_det->users['username']; ?></td>
-              <td class="sorting_1"><?= $request_det->leave_types['type']; ?></td>
+              <td class="sorting_1"><?= $this->Custom->get_projectname($request_det->expense_name); ?></td>
+              <td class="sorting_1"><?= $request_det->expense_types['type']; ?></td>
               <td class="sorting_1"><?= $request_det->applied_date ?></td>
-              <td class="center"><?= $request_det->amount ?></td>
+              <td class="center"><?= $request_det->currency." ".$request_det->amount ?></td>
               <td class="center"><?= $request_det->reason ?></td>
               <td class="center"><?= $request_det->created ?></td>
               <td class="center"> 
                 <?php if($request_det->status == 0){ ?> <div class="bs-label bg-yellow"> Pending</div> <?php } ?> 
                 <?php if($request_det->status == 1){ ?> <div class="bs-label bg-green"> Approved</div> <?php } ?>
-                <?php if($request_det->status == 2){ ?> <div class="bs-label bg-red"> Rejected </div> <?php } ?>
+                <?php if($request_det->status == 2){ ?> 
+                <a href="#" class=" popover-button-default bs-label bg-red" data-content="<?= $request_det->approved_remarks ?>" title="" data-trigger="hover" data-placement="top" data-original-title="Reject Reason">Rejected<div class="ripple-wrapper"></div></a>  <?php } ?>
               </td>
               <td class="center">
                
@@ -86,7 +90,36 @@
     $("#editclient").trigger("click");
   });
 </script>  
-
+<?php foreach($request as $k=>$req){ ?>
+<div class="modal fade bs-remark-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <form method="post" enctype="multipart/form-data" class="form-horizontal bordered-row" data-parsley-validate="" action="<?= $this->Url->build(array("action" => "response", $req->id,'reject'));?>"> 
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+          <h4 class="modal-title">Reason for Reject</h4>
+        </div>
+        <div class="modal-body">
+          <div class="content-box-wrapper form-views">
+              <div class="row">
+              <div class="form-group">
+                  <label class="col-sm-3 control-label">Reason</label>
+                  <div class="col-sm-6">
+                    <textarea name="approved_remarks" class="form-control" required></textarea>
+                  </div>
+                </div>
+              </div>
+          </div>
+        </div>
+         <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button> 
+          <button type="submit" class="btn btn-hover btn-primary">Save</button>
+        </div>
+        </form>
+      </div>
+    </div>
+  </div>
+<?php } ?>
 <div class="modal fade bs-edit-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
   <div class="modal-dialog modal-lg">
     <div class="modal-content">
@@ -97,7 +130,6 @@
         </div>
         <div class="modal-body">
           <div class="content-box-wrapper form-views">
-
               <div class="row">
                 <?php foreach($request as $k=>$req){ ?>
 
@@ -123,23 +155,16 @@
                 </div>
 
                 <div class="form-group">
-                  <label class="col-sm-3 control-label">No of days</label>
+                  <label class="col-sm-3 control-label">Amount</label>
                   <div class="col-sm-6">
-                    <span><?= $req->no_of_days; ?></span>
+                    <span><?= $req->amount; ?></span>
                   </div>
                 </div>
 
                 <div class="form-group .bordered-row">
-                  <label class="col-sm-3 control-label">Start Date</label>
+                  <label class="col-sm-3 control-label">Incurred Date</label>
                   <div class="col-sm-6">
-                    <span><?= $req->start_date ?></span>
-                  </div>
-                </div>
-
-                <div class="form-group">
-                  <label class="col-sm-3 control-label">End Date</label>
-                  <div class="col-sm-6">
-                     <span><?= $req->end_date ?></span>
+                    <span><?= $req->applied_date ?></span>
                   </div>
                 </div>
 
@@ -160,10 +185,10 @@
           <?php if($req->status == 0) { ?>
           <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Close</button> 
           <a class="btn btn-hover btn-success" href="<?= $this->Url->build(array("action" => "response", $req->id,'accept'));?>">Accept</a>
-          <a class="btn btn-hover btn-danger" href="<?= $this->Url->build(array("action" => "response", $req->id,'reject'));?>">Reject</a>
+          <a class="btn btn-hover btn-danger reject_button_dismiss" href="#"  data-targett=".bs-edit-modal-lg">Reject</a>
           <?php } elseif($req->status == 1) { ?>
           <button type="button" class="btn btn-default" data-dismiss="modal">Close</button> 
-          <a class="btn btn-hover btn-danger" href="<?= $this->Url->build(array("action" => "response", $req->id,'reject'));?>">Reject
+          <a class="btn btn-hover btn-danger reject_button_dismiss" href="#"   data-targett=".bs-remark-modal-lg">Reject
           </a>
           <?php } elseif($req->status == 2) { ?>
           <button type="button" class="btn btn-default" data-dismiss="modal">Close</button> 
@@ -176,7 +201,12 @@
   </div>
 </div>
 
+
+
 <?php } ?>
+
+
+
 
 
 <script src="http://blueimp.github.io/JavaScript-Templates/js/tmpl.min.js"></script>
@@ -186,8 +216,13 @@
 
 <script>
 function setprojectid(id){
-  //console.log(id);
   $('#project_doc_id').val(id);
-  //console.log($('#project_doc_id').val());
 }
+
+$(document).on("click", ".reject_button_dismiss", function(){
+  $(".bs-edit-modal-lg").modal("hide");
+  setTimeout(function(){
+    $(".bs-remark-modal-lg").modal("show");
+  }, 1500);
+});
 </script>

@@ -18,6 +18,16 @@ class CustomHelper extends Helper
         return count($requests);
     }
 
+     public function get_expense_request_count($user_id)
+    {
+        $this->LeaveRequest = TableRegistry::get('expense_requests');
+    
+        $requests =  $this->LeaveRequest->find('all')->leftJoin('users', 'users.id = expense_requests.user_id')
+         ->where(['users.lead_id' => $user_id,'expense_requests.status' => 0])->select(['expense_requests.id'])->toArray();
+
+        return count($requests);
+    }
+
     public function get_time_sheet_count($user_id) {
         
         $this->TimeSheetWeek = TableRegistry::get('time_sheet_weeks');
@@ -86,5 +96,40 @@ class CustomHelper extends Helper
         $requests =  $this->Table->find('all')->where(['id' => $id])->first();
 
         return count($requests) ? $requests->task_name : '';
+    }
+
+    public function user_menu_avalablity_check($role, $designation, $menu)
+    {
+        if($role == 'company')
+            return true;
+
+        if($role == 'client' && $menu == 'project')
+            return true;
+
+        if($role == 'user')
+        {
+            if(isset($designation->project_access))
+            {
+                if($designation->project_access && $menu == 'project')
+                    return true;
+                if($designation->client_access && $menu == 'client')
+                    return true;
+                if($designation->user_access && $menu == 'user')
+                    return true;
+                if($designation->setting_access && $menu == 'setting')
+                    return true;
+            }
+        }
+
+        return false;
+    }
+
+    public function is_lead($id) {
+        
+        $this->User = TableRegistry::get('users');
+    
+        $requests =  $this->User->find('all')->where(['lead_id' => $id])->count();
+
+        return $requests;
     }
 }
