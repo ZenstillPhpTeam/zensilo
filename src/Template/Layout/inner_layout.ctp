@@ -78,6 +78,7 @@
           <li><a href="<?= $this->Url->build(array("controller"=> "users","action" => "users"));?>" title="Add Users"><i class="glyph-icon icon-user"></i> <span>Users</span></a></li>
           <?php }?>
 
+          <?php if($loggedInUser['userrole'] == "user") { ?>
           <li><a href="<?= $this->Url->build(array("controller"=> "expenses","action" => "request"));?>" title="Add Expenses"><i class="glyph-icon icon-usd"></i><span>My Expense Requests</span></a></li>
           
           <li><a href="<?= $this->Url->build(array("controller" => "leaverequests","action" => "request"));?>" title="Leave Requests">
@@ -85,7 +86,7 @@
 
           <li><a href="<?= $this->Url->build(array("controller" => "timesheet","action" => "add"));?>" title="Leave Requests">
           <i class="glyph-icon icon-dashboard"></i> <span>My Time Sheet</span></a></li>
-
+          <?php } ?>
 
           <?php if($this->Custom->is_lead($loggedInUser['id'])) { ?>
           <li><a href="#" title="Projects Menu"><i class="glyph-icon icon-cog"></i> <span>My Approvals</span></a>

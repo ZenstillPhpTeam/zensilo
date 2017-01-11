@@ -39,7 +39,7 @@
             <tr class="gradeA <?php if($k%2 == 0) {?>odd <?php } else { ?> even <?php } ?>" role="row">
               <td><?= $k+1?></td>
               <td><?= $request_det->expense_types['type'] ?></td>
-              <td><?= $this->custom->get_projectname($request_det->expense_name); ?></td>
+              <td><?= $this->Custom->get_projectname($request_det->expense_name); ?></td>
               <td class="center"><?= $request_det->applied_date ?></td>
               <td><?= $request_det->amount ?></td>
               <td class="center"><?= $request_det->reason ?></td>
