@@ -18,6 +18,16 @@ class CustomHelper extends Helper
         return count($requests);
     }
 
+     public function get_expense_request_count($user_id)
+    {
+        $this->LeaveRequest = TableRegistry::get('expense_requests');
+    
+        $requests =  $this->LeaveRequest->find('all')->leftJoin('users', 'users.id = expense_requests.user_id')
+         ->where(['users.lead_id' => $user_id,'expense_requests.status' => 0])->select(['expense_requests.id'])->toArray();
+
+        return count($requests);
+    }
+
     public function get_time_sheet_count($user_id) {
         
         $this->TimeSheetWeek = TableRegistry::get('time_sheet_weeks');
@@ -112,5 +122,14 @@ class CustomHelper extends Helper
         }
 
         return false;
+    }
+
+    public function is_lead($id) {
+        
+        $this->User = TableRegistry::get('users');
+    
+        $requests =  $this->User->find('all')->where(['lead_id' => $id])->count();
+
+        return $requests;
     }
 }

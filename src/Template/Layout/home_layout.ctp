@@ -223,17 +223,20 @@
                 <h3>Enter your details</h3>
                 <form onsubmit="return false;" action="<?= $this->Url->build(["controller" => "users", "action" => "index"]);?>" autocomplete="off" role="form" method="post" class="company_login" novalidate="">
                   <div class="form-group" >
-                    <label for="email">Email address:</label>
+                    <label for="email">User id:</label>
                     <input autocomplete="off" type="email" class="form-control" name="username">
                   </div>
                   <div class="form-group">
                     <label for="pwd">Password:</label>
                     <input autocomplete="off" type="password" class="form-control" name="password">
                   </div>
+                  <style>
+                  .forgot a{ font-style:italic; color:#E7505A !important;}
+                  </style>
                   <div class="form-group">
-                    <label for="pwd"><a href="<?= $this->Url->build(array("controller"=> "users", "action" => "forgotPassword"));?>">Forgot Password</a></label>
+                    <label for="pwd" class="forgot"><a href="<?= $this->Url->build(array("controller"=> "users", "action" => "forgotPassword"));?>">Forgot Password</a></label>
                   </div>
-                  <button type="submit" class="btn btn-default">Submit</button>
+                  <button type="submit" class="btn btn-default">Login</button>
                 </form>
               </div>
             </div>

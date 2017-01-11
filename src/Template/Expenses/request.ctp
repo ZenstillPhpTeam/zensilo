@@ -22,11 +22,12 @@
         #
         </th>
         <th class="sorting" tabindex="0" aria-controls="datatable-example" rowspan="1" colspan="1" aria-label="Engine version: activate to sort column ascending" > Expense Type</th>
-        <th class="sorting" tabindex="0" aria-controls="datatable-example" rowspan="1" colspan="1" aria-label="Engine version: activate to sort column ascending" > Expense Name</th>
+        <th class="sorting" tabindex="0" aria-controls="datatable-example" rowspan="1" colspan="1" aria-label="Engine version: activate to sort column ascending" > Project Name</th>
+        <th class="sorting" tabindex="0" aria-controls="datatable-example" rowspan="1" colspan="1" aria-label="Browser: activate to sort column ascending"">Date Incurred</th>
         <th class="sorting" tabindex="0" aria-controls="datatable-example" rowspan="1" colspan="1" aria-label="Rendering engine: activate to sort column ascending">
         Amount</th>
         <th class="sorting" tabindex="0" aria-controls="datatable-example" rowspan="1" colspan="1" aria-label="Browser: activate to sort column ascending" style="width: 258px;">Reason</th>
-         <th class="sorting" tabindex="0" aria-controls="datatable-example" rowspan="1" colspan="1" aria-label="Browser: activate to sort column ascending"">Requested On</th>
+         <th class="sorting" tabindex="0" aria-controls="datatable-example" rowspan="1" colspan="1" aria-label="Browser: activate to sort column ascending"">Submitted On</th>
         <th class="sorting" tabindex="0" aria-controls="datatable-example" rowspan="1" colspan="1" aria-label="Platform(s): activate to sort column ascending" > Status </th>      
         <th tabindex="0" aria-controls="datatable-example" rowspan="1" colspan="1">Actions</th>
 
@@ -38,10 +39,11 @@
             <tr class="gradeA <?php if($k%2 == 0) {?>odd <?php } else { ?> even <?php } ?>" role="row">
               <td><?= $k+1?></td>
               <td><?= $request_det->expense_types['type'] ?></td>
-              <td><?= $request_det->expense_name ?></td>
+              <td><?= $this->custom->get_projectname($request_det->expense_name); ?></td>
+              <td class="center"><?= $request_det->applied_date ?></td>
               <td><?= $request_det->amount ?></td>
               <td class="center"><?= $request_det->reason ?></td>
-              <td class="center"><?= $request_det->applied_date ?></td>
+              <td class="center"><?= $request_det->created ?></td>
               <td class="center"> 
                 <?php if($request_det->status == 0){ ?> <div class="bs-label bg-yellow"> Pending</div> <?php } ?> 
                 <?php if($request_det->status == 1){ ?> <div class="bs-label bg-green"> Approved</div> <?php } ?>
@@ -108,9 +110,45 @@
               <div class="row">
 
                 <div class="form-group">
-                  <label class="col-sm-3 control-label">Expense Name</label>
+                  <label class="col-sm-3 control-label">Project</label>
                   <div class="col-sm-6">
-                    <input name="expense_name" id="" class="form-control" required="" value="<?= $request->expense_name; ?>"/>
+                    <select  class="form-control" name="expense_name"  required="">
+                      <option value="">Select Project</option>
+                      <?php foreach($projects as $project) { ?>
+                      <option value="<?php echo $project->id; ?>" <?= $client->expense_name == $project->id ? 'selected' : '';?> ><?php echo $project->project_name; ?></option>
+                      <?php } ?>
+                    </select>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="col-sm-3 control-label">Expense Type</label>
+                  <div class="col-sm-6">
+                     <select name="type_id" class="form-control"> 
+                        <?php foreach($leavetype as $k=>$type){?>
+                        <option selected="<?php ($type->id == $request->typeid) ? 'selected' : '' ?>" value="<?= $type->id ?>">
+                        <?= $type->type ?></option>
+                        <?php } ?>
+                     </select>
+                  </div>
+                </div>
+                 <div class="form-group">
+                  <label class="col-sm-3 control-label">Amount</label>
+                  <div class="col-sm-3">
+                  <select  class="form-control" name="currency"  required="">
+                      <option value="">Select Currency</option>
+                      <option value="INR" <?= $client->currency == "INR" ? 'selected' : '';?>>INR</option>
+                      <option value="USD" <?= $client->currency == "USD" ? 'selected' : '';?>>USD</option>
+                      <option value="EUR" <?= $client->currency == "EUR" ? 'selected' : '';?>>EUR</option>
+                      <option value="GBP" <?= $client->currency == "GBP" ? 'selected' : '';?>>GBP</option>
+                    </select></div>
+                    <div class="col-sm-3">
+                    <input name="amount" class="form-control" type="number" value="<?= $request->amount; ?>"/>
+                  </div>
+                </div>
+                 <div class="form-group .bordered-row">
+                  <label class="col-sm-3 control-label">Date</label>
+                  <div class="col-sm-6">
+                    <input name="applied_date" type="text" class="bootstrap-datepicker2 form-control"  data-date-format="yyyy-mm-dd" required="" value="<?= $this->Time->format($request->applied_date, 'Y-MM-dd');?>"/>
                   </div>
                 </div>
 
@@ -121,33 +159,8 @@
                   </div>
                 </div>
 
-                <div class="form-group">
-                  <label class="col-sm-3 control-label">Type</label>
-                  <div class="col-sm-6">
-                     <select name="type_id" class="form-control"> 
-                        <?php foreach($leavetype as $k=>$type){?>
-                        <option selected="<?php ($type->id == $request->typeid) ? 'selected' : '' ?>" value="<?= $type->id ?>">
-                        <?= $type->type ?></option>
-                        <?php } ?>
-                     </select>
-                  </div>
+                
                 </div>
-
-                 <div class="form-group">
-                  <label class="col-sm-3 control-label">Amount</label>
-                  <div class="col-sm-6">
-                    <input name="amount" class="form-control" type="number" value="<?= $request->amount; ?>"/>
-                  </div>
-                </div>
-
-                <div class="form-group .bordered-row">
-                  <label class="col-sm-3 control-label">Date</label>
-                  <div class="col-sm-6">
-                    <input name="applied_date" type="text" class="bootstrap-datepicker2 form-control"  data-date-format="yyyy-mm-dd" required="" value="<?= $this->Time->format($request->applied_date, 'Y-MM-dd');?>"/>
-                  </div>
-                </div>
-
-              </div>
 
              <input type="hidden" name="id" value="<?= $request->id ?>">
           
@@ -176,21 +189,18 @@
             <div class="row">
 
                 <div class="form-group">
-                  <label class="col-sm-3 control-label">Expense Name</label>
+                  <label class="col-sm-3 control-label">Project</label>
                   <div class="col-sm-6">
-                    <input name="expense_name" id="" class="form-control" required="" />
+                    <select  class="form-control" name="expense_name"  required="">
+                      <option value="">Select Project</option>
+                      <?php foreach($projects as $project) { ?>
+                      <option value="<?php echo $project->id; ?>"><?php echo $project->project_name; ?></option>
+                      <?php } ?>
+                    </select>
                   </div>
                 </div>
-
                 <div class="form-group">
-                  <label class="col-sm-3 control-label">Reason</label>
-                  <div class="col-sm-6">
-                    <textarea name="reason" id="" class="form-control" required=""></textarea>
-                  </div>
-                </div>
-
-                <div class="form-group">
-                  <label class="col-sm-3 control-label">Type</label>
+                  <label class="col-sm-3 control-label">Expense Type</label>
                   <div class="col-sm-6">
                      <select name="type_id" class="form-control">
                         <?php foreach($leavetype as $k=>$type) { ?>
@@ -199,20 +209,34 @@
                      </select>
                   </div>
                 </div>
-
+               
                 <div class="form-group">
                   <label class="col-sm-3 control-label">Amount</label>
-                  <div class="col-sm-6">
+                  <div class="col-sm-3">
+                  <select  class="form-control" name="currency"  required="">
+                      <option value="">Select Currency</option>
+                      <option value="INR">INR</option>
+                      <option value="USD">USD</option>
+                      <option value="EUR">EUR</option>
+                      <option value="GBP">GBP</option>
+                    </select></div>
+                    <div class="col-sm-3">
                     <input name="amount" class="form-control" type="number"/>
                   </div>
                 </div>
-
-                <div class="form-group .bordered-row">
+                 <div class="form-group .bordered-row">
                   <label class="col-sm-3 control-label">Date</label>
                   <div class="col-sm-6">
                     <input name="applied_date" type="text" class="bootstrap-datepicker2 form-control"  data-date-format="yyyy-mm-dd" required=""/>
                   </div>
                 </div>
+
+                <div class="form-group">
+                  <label class="col-sm-3 control-label">Reason</label>
+                  <div class="col-sm-6">
+                    <textarea name="reason" id="" class="form-control" required=""></textarea>
+                  </div>
+                </div>                        
 
             </div>
           </div>
