@@ -16,6 +16,7 @@ class ExpensesController extends UsersController
     {
         $this->ExpenseRequest = TableRegistry::get('expense_requests');
         $this->Expensetype = TableRegistry::get('expense_types');
+        $this->Projects = TableRegistry::get('projects');
         
         $user_id = $this->Auth->user('id'); 
         $company_id = $this->Auth->user('userrole') == "company" ? $this->Auth->user('id') : $this->Auth->user('parent_id');
@@ -68,12 +69,14 @@ class ExpensesController extends UsersController
 
 		$requests =  $this->ExpenseRequest->find('all')->leftJoin('expense_types', 'expense_types.id = expense_requests.type_id')
                     ->where(['user_id' => $user_id])
-                    ->select(['expense_requests.id','expense_requests.amount','expense_requests.applied_date','expense_requests.expense_name','expense_requests.reason','expense_requests.status','expense_requests.created','expense_types.type']);
+                    ->select(['expense_requests.id','expense_requests.amount','expense_requests.applied_date','expense_requests.expense_name','expense_requests.currency','expense_requests.reason','expense_requests.status','expense_requests.created','expense_types.type']);
 
         $leavetype =  $this->Expensetype->find('all')->where(['company_id' => $company_id]);
+        $projects =  $this->Projects->find('all')->where(['company_id' => $company_id]);
 
         $this->set('requests', $requests);
         $this->set('leavetype', $leavetype);
+        $this->set('projects', $projects);
     }
 
     public function response($id = 0, $action = '')
@@ -95,6 +98,7 @@ class ExpensesController extends UsersController
         {
             $accept = $this->ExpenseRequest->get($id);
             $accept->status = 2;
+            $accept->approved_remarks = $this->request->data['approved_remarks'];
             if($this->ExpenseRequest->save($accept)){
                 $this->Flash->success('Expense request has been rejected successfully!!');
                 $this->redirect(array("action"=>'response'));
@@ -106,7 +110,7 @@ class ExpensesController extends UsersController
             ->leftJoin('users', 'users.id = expense_requests.user_id')
             ->leftJoin('expense_types', 'expense_types.id = expense_requests.type_id')
             ->where(['expense_requests.id' => $id,'users.lead_id' => $user_id])
-            ->select(['expense_requests.id','expense_requests.amount','expense_requests.applied_date','expense_requests.reason','expense_requests.status','expense_requests.created','users.username','expense_types.type']);
+            ->select(['expense_requests.id','expense_requests.expense_name','expense_requests.currency','expense_requests.amount','expense_requests.applied_date','expense_requests.reason','expense_requests.status','expense_requests.created','users.username','expense_types.type','expense_requests.approved_remarks']);
             $this->set('request', $request);
         }
 
@@ -114,7 +118,7 @@ class ExpensesController extends UsersController
         ->leftJoin('users', 'users.id = expense_requests.user_id')
         ->leftJoin('expense_types', 'expense_types.id = expense_requests.type_id')
         ->where(['users.lead_id' => $user_id])
-        ->select(['expense_requests.id','expense_requests.amount','expense_requests.applied_date','expense_requests.reason','expense_requests.status','expense_requests.created','users.username','expense_types.type']);
+        ->select(['expense_requests.id','expense_requests.expense_name','expense_requests.currency','expense_requests.amount','expense_requests.applied_date','expense_requests.reason','expense_requests.status','expense_requests.created','users.username','expense_types.type','expense_requests.approved_remarks']);
 
         $this->set('requests', $requests);
     }

@@ -127,6 +127,22 @@
                     <input name="mobile" class="form-control" id="" type="text" data-parsley-type="digits" required="" data-parsley-minlength="10" data-parsley-maxlength="10" value="<?= $client->mobile ?>"/>
                   </div>
                 </div>
+
+                <div class="form-group">
+                  <label class="col-sm-4 control-label">Currency</label>
+                  <div class="col-sm-8">
+                    <select  class="form-control" name="currency"  required="">
+                      <option value="">Select Currency</option>
+                      <option value="INR" <?= $client->currency == "INR" ? 'selected' : '';?>>INR</option>
+                      <option value="USD" <?= $client->currency == "USD" ? 'selected' : '';?>>USD</option>
+                      <option value="EUR" <?= $client->currency == "EUR" ? 'selected' : '';?>>EUR</option>
+                      <option value="GBP" <?= $client->currency == "GBP" ? 'selected' : '';?>>GBP</option>
+                    </select>
+                  </div>
+                </div>
+
+
+
                 <div class="form-group .bordered-row">
                   <label class="col-sm-4 control-label">Username</label>
                   <div class="col-sm-8">
@@ -217,6 +233,21 @@
                     <input name="mobile" class="form-control" id="" type="text" data-parsley-type="digits" required="" data-parsley-minlength="10" data-parsley-maxlength="10">
                   </div>
                 </div>
+
+                <div class="form-group">
+                  <label class="col-sm-4 control-label">Currency</label>
+                  <div class="col-sm-8">
+                    <select  class="form-control" name="currency"  required="">
+                      <option value="">Select Currency</option>
+                      <option value="INR">INR</option>
+                      <option value="USD">USD</option>
+                      <option value="EUR">EUR</option>
+                      <option value="GBP">GBP</option>
+                    </select>
+                  </div>
+                </div>
+
+
                 <div class="form-group .bordered-row">
                   <label class="col-sm-4 control-label">Username<em>*</em></label>
                   <div class="col-sm-8">
