@@ -143,7 +143,7 @@
                 <div class="form-group">
                   <label class="col-sm-3 control-label">Type</label>
                   <div class="col-sm-6">
-                    <span><?= $req->leave_types['type']; ?></span>
+                    <span><?= $req->expense_types['type']; ?></span>
                   </div>
                 </div>
 
@@ -157,7 +157,7 @@
                 <div class="form-group">
                   <label class="col-sm-3 control-label">Amount</label>
                   <div class="col-sm-6">
-                    <span><?= $req->amount; ?></span>
+                    <span><?= $req->currency." ".$req->amount; ?></span>
                   </div>
                 </div>
 
