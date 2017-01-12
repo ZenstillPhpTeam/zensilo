@@ -98,6 +98,22 @@ class CustomHelper extends Helper
         return count($requests) ? $requests->task_name : '';
     }
 
+    public function get_task_teams($id) {
+        
+        $this->Task = TableRegistry::get('task_teams');
+        $this->Users = TableRegistry::get('users');
+        //$parent_id = $this->Auth->user('userrole') == "company" ? $this->Auth->user('id') : $this->Auth->user('parent_id');
+
+        $requests =  array_values($this->Task->find('list',  [ 'conditions' => ['task_id' => $id],'keyField' => 'id', 'valueField' => 'user_id'])->toArray());
+
+         if(count($requests)){
+           $users = array_values($this->Users->find('list', ['conditions' => ['id IN' => array_values($requests)], 'keyField' => 'id', 'valueField' => 'username' ])->toArray());
+           return $username = implode(",", $users);
+         }
+         else
+            return 0;
+    }
+
     public function user_menu_avalablity_check($role, $designation, $menu)
     {
         if($role == 'company')

@@ -47,7 +47,7 @@
     </div>
     <div id="page-sidebar">
       <div id="header-logo" class="logo-bg">
-      <a style="background: none;text-indent: 0;" class="logo-content-big" href="<?= $this->Url->build(array("action" => "dashboard"));?>" title="DelightUI">
+      <a style="background: none;text-indent: 0;" class="logo-content-big" href="<?= $this->Url->build(array("controller"=> "users", "action" => "dashboard"));?>" title="DelightUI">
       <h4>Zensilo</h4>
       <span>Admin panel</span></a> 
       <!--<a class="logo-content-small" href="<?= $this->Url->build(array("action" => "dashboard"));?>" title="DelightUI">

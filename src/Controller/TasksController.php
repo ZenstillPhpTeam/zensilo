@@ -118,8 +118,21 @@ class TasksController extends UsersController
 
        $parent_id = $this->Auth->user('userrole') == "company" ? $this->Auth->user('id') : $this->Auth->user('parent_id');
        $projects = $this->Projects->find('all', ['conditions' => ['projects.company_id' => $parent_id]]);
-       $tasks = $this->Projects->find('all', ['conditions' => ['projects.company_id' => $parent_id]])->contain('Tasks')->all();
-//echo "<pre>";print_r($tasks);exit;
+
+        if($this->Auth->user('userrole') == "company")
+            $tasks =  $this->Tasks->find('all',['conditions' => ['company_id' => $this->Auth->user('id')]]);
+        elseif($this->Auth->user('userrole') == "client")
+            $tasks =  $this->Tasks->find('all')->leftJoin('projects','projects.id = tasks.project_id')->where(['conditions' => ['projects.client_id' => $this->Auth->user('id')]])->select(['tasks.id','tasks.task_name','tasks.parent_task_id','tasks.project_id','tasks.estimated_effort','tasks.due_date','tasks.status'])->all();
+        else
+        {
+            $tasks =  $this->Tasks->find('all')
+            ->leftJoin('task_teams','tasks.id = task_teams.task_id')
+            ->where(['task_teams.user_id' => $this->Auth->user('id')])
+            ->select(['tasks.id','tasks.task_name','tasks.parent_task_id','tasks.project_id','tasks.estimated_effort','tasks.due_date','tasks.status'])
+            ->all();
+        }
+
+      //echo "<pre>";print_r($tasks);exit;
        $conn = ConnectionManager::get('default');
        $team_members = $conn->execute('select a.* from user_details a, users b where a.user_id = b.id and b.userrole="user" and b.parent_id = '.$parent_id);
 
