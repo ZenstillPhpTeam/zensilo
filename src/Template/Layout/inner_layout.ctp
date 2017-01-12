@@ -202,23 +202,10 @@
 
         $('#datatable-example').dataTable();
 
-        $('.bootstrap-datepicker').bsdatepicker({
+        $('.bootstrap-datepicker,.bootstrap-datepicker1,.bootstrap-datepickere,.bootstrap-datepickere1,.bootstrap-datepicker2,.bootstrap-datepicker2_end_date').bsdatepicker({
             format: 'yyyy-mm-dd'
         });
-        $('.bootstrap-datepicker1').bsdatepicker({
-            format: 'yyyy-mm-dd'
-        });
-
-        $('.bootstrap-datepickere').bsdatepicker({
-            format: 'yyyy-mm-dd'
-        });
-        $('.bootstrap-datepickere1').bsdatepicker({
-            format: 'yyyy-mm-dd'
-        });
-
-        $('.bootstrap-datepicker2').bsdatepicker({
-            format: 'yyyy-mm-dd'
-        });
+       
 
         $(".multi-select").multiSelect();
         $(".ms-container").append('<i class="glyph-icon icon-exchange"></i>');

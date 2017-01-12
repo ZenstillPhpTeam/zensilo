@@ -142,7 +142,7 @@
                 <div class="form-group">
                   <label class="col-sm-3 control-label"> End Date</label>
                   <div class="col-sm-6 end_date_container">
-                    <input name="end_date" readonly type="text" class="bootstrap-datepicker2_end_date form-control"  data-date-format="yyyy-mm-dd" value="<?= $request->end_date ?>">
+                    <input name="end_date" readonly type="text" class="bootstrap-datepicker2_end_date form-control"  data-date-format="yyyy-mm-dd" value="<?= $request->end_date ?>" />
                   </div>
                 </div>
                  <div class="form-group">
