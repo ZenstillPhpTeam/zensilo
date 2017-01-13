@@ -114,7 +114,6 @@
                   </div>
                 </div>
                 
-                
                 <div class="form-group .bordered-row">
                   <label class="col-sm-3 control-label">Start Date</label>
                   <div class="col-sm-6 input-prepend">
