@@ -33,7 +33,7 @@ angular_module.controller('TimesheetCtrl', function($scope,$http,$location,$root
 
     var data = {'status': status,'data':data};
     $http.post(siteUrl+'timesheet/add',data).then(function (res) {
-
+      window.location.reload();
       //console.log(res);
           
     });

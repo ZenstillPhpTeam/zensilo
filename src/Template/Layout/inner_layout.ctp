@@ -47,7 +47,7 @@
     </div>
     <div id="page-sidebar">
       <div id="header-logo" class="logo-bg">
-      <a style="background: none;text-indent: 0;" class="logo-content-big" href="<?= $this->Url->build(array("action" => "dashboard"));?>" title="DelightUI">
+      <a style="background: none;text-indent: 0;" class="logo-content-big" href="<?= $this->Url->build(array("controller"=> "users", "action" => "dashboard"));?>" title="DelightUI">
       <h4>Zensilo</h4>
       <span>Admin panel</span></a> 
       <!--<a class="logo-content-small" href="<?= $this->Url->build(array("action" => "dashboard"));?>" title="DelightUI">
@@ -203,23 +203,10 @@
 
         $('#datatable-example').dataTable();
 
-        $('.bootstrap-datepicker').bsdatepicker({
+        $('.bootstrap-datepicker,.bootstrap-datepicker1,.bootstrap-datepickere,.bootstrap-datepickere1,.bootstrap-datepicker2,.bootstrap-datepicker2_end_date').bsdatepicker({
             format: 'yyyy-mm-dd'
         });
-        $('.bootstrap-datepicker1').bsdatepicker({
-            format: 'yyyy-mm-dd'
-        });
-
-        $('.bootstrap-datepickere').bsdatepicker({
-            format: 'yyyy-mm-dd'
-        });
-        $('.bootstrap-datepickere1').bsdatepicker({
-            format: 'yyyy-mm-dd'
-        });
-
-        $('.bootstrap-datepicker2').bsdatepicker({
-            format: 'yyyy-mm-dd'
-        });
+       
 
         $(".multi-select").multiSelect();
         $(".ms-container").append('<i class="glyph-icon icon-exchange"></i>');

@@ -163,3 +163,8 @@
     </div>
   </div>
       
+<script type="text/javascript">
+  $(window).load(function(){
+    $("#close-sidebar").trigger("click");
+  });
+</script>

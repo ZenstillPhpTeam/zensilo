@@ -45,16 +45,15 @@
           <?php foreach($projects as $k=>$project_det){?>
         <tr class="gradeA <?php if($k%2 == 0) {?>odd <?php } else { ?> even <?php } ?>" role="row">
         <td><?= $k+1?></td>
-        <td class="sorting_1"><?= $project_det->project_name ?></td>
-        <td><?= $project_det->description ?></td>
-        <td class="center"><?= $this->Time->format($project_det->estimated_start_date, 'Y-MM-dd');?></td>
-        <td class="center"><?= $this->Time->format($project_det->estimated_end_date, 'Y-MM-dd');?></td>
+        <td class="sorting_1"><?= $project_det->project->project_name ?></td>
+        <td><?= $project_det->project->description ?></td>
+        <td class="center"><?= $this->Time->format($project_det->project->estimated_start_date, 'Y-MM-dd');?></td>
+        <td class="center"><?= $this->Time->format($project_det->project->estimated_end_date, 'Y-MM-dd');?></td>
         <td class="center">
-              <a href="<?= $this->Url->build(array("action" => "projects", $project_det->id));?>"><i class="glyph-icon demo-icon tooltip-button icon-elusive-pencil" data-toggle="tooltip" data-placement="top" title="" data-original-title="Edit"></i></a>&nbsp;&nbsp;
-                <a href="<?= $this->Url->build(array("action" => "projects", $project_det->id, "delete"));?>" onclick="javascript:confirm('Are you sure want to delete this Project?')"><i class="glyph-icon demo-icon tooltip-button icon-elusive-trash" data-toggle="tooltip" data-placement="top" title="" data-original-title="Delete"></i></a>
-                <a href="#" data-toggle="modal" data-target=".bs-document-modal-lg" data-id="<?= $project_det->id ?>" class="project_document" onclick="setprojectid('<?= $project_det->id ?>');"><i class="glyph-icon demo-icon tooltip-button icon-elusive-doc-new" data-toggle="tooltip" data-placement="top" title="" data-original-title="Documents"></i></a>
-                <a href="<?= $this->Url->build(array("action" => "projectdetail", $project_det->id));?>" ><i class="glyph-icon demo-icon tooltip-button icon-elusive-slideshare" data-toggle="tooltip" data-placement="top" title="" data-original-title="View Timeline"></i></a>
-                <a href="<?= $this->Url->build(array("controller"=>"tasks","action" => "tasks"));?>" ><i class="glyph-icon demo-icon tooltip-button icon-elusive-slideshare" data-toggle="tooltip" data-placement="top" title="" data-original-title="Add Tasks"></i></a>
+              <a href="<?= $this->Url->build(array("action" => "projects", $project_det->project->id));?>"><i class="glyph-icon demo-icon tooltip-button icon-elusive-pencil" data-toggle="tooltip" data-placement="top" title="" data-original-title="Edit"></i></a>&nbsp;&nbsp;
+                <a href="<?= $this->Url->build(array("action" => "projects", $project_det->project->id, "delete"));?>" onclick="javascript:confirm('Are you sure want to delete this Project?')"><i class="glyph-icon demo-icon tooltip-button icon-elusive-trash" data-toggle="tooltip" data-placement="top" title="" data-original-title="Delete"></i></a>
+                <a href="#" data-toggle="modal" data-target=".bs-document-modal-lg" data-id="<?= $project_det->project->id ?>" class="project_document" onclick="setprojectid('<?= $project_det->project->id ?>');"><i class="glyph-icon demo-icon tooltip-button icon-elusive-doc-new" data-toggle="tooltip" data-placement="top" title="" data-original-title="Documents"></i></a>
+                <a href="<?= $this->Url->build(array("action" => "projectdetail", $project_det->project->id));?>" ><i class="glyph-icon demo-icon tooltip-button icon-elusive-slideshare" data-toggle="tooltip" data-placement="top" title="" data-original-title="View Timeline"></i></a>
         </td>
         </tr>
         <?php } ?>
@@ -113,6 +112,7 @@
                     <textarea name="description" id="" class="form-control" required=""><?= $project->description ?></textarea>
                   </div>
                 </div>
+                
                 
                 <div class="form-group .bordered-row">
                   <label class="col-sm-3 control-label">Start Date</label>

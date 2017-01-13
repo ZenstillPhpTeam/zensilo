@@ -568,7 +568,14 @@ class UsersController extends AppController
        }
 
        $comp_id = $this->Auth->user('userrole') == "company" ? $this->Auth->user('id') : $this->Auth->user('parent_id');
-       $projects =  $this->Projects->find('all',['conditions' => ['company_id' => $comp_id]]);
+       if($this->Auth->user('userrole') == "company")
+            $projects =  $this->Projects->find('all',['conditions' => ['company_id' => $this->Auth->user('id')]]);
+       elseif($this->Auth->user('userrole') == "client")
+            $projects =  $this->Projects->find('all',['conditions' => ['client_id' => $this->Auth->user('id')]]);
+        else
+            $projects =  $this->ProjectTeams->find('all',['conditions' => ['project_teams.user_id' => $this->Auth->user('id')]])->contain('Projects')->all();
+       // pr($projects);exit;
+
        $conn = ConnectionManager::get('default');
        $clients = $conn->execute('select a.* from user_details a, users b where a.user_id = b.id and b.userrole="company" and b.parent_id = '.$comp_id);
        $team_members = $conn->execute('select a.* from user_details a, users b where a.user_id = b.id and b.userrole="user" and b.parent_id = '.$comp_id);
@@ -583,6 +590,8 @@ class UsersController extends AppController
        $this->set('project_clients', $project_clients);
        $this->set('siteurl', $siteurl);
 
+       if($this->Auth->user('userrole') == "user")
+        $this->render('user_projects');
     }
 
     public function delete($id) {
