@@ -158,3 +158,5 @@ float: right;}
    .profile-box { margin-top:20px; }
    .panel .panel .panel-body{ padding: 0 20px; }
 em,.parsley-errors-list li{color: #f44336;}
+.fliter ul{ padding: 0;  float: right;}
+.fliter ul li{ display: inline-block; list-style-type: none; padding: 0 10px; }
