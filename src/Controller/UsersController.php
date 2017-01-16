@@ -137,7 +137,7 @@ class UsersController extends AppController
             $tasks_calendar = $conn->execute("select * from tasks where company_id=". $comp_id);
 
         }  
-        else {
+        elseif($this->Auth->user('userrole') == "user") {
            $projects =  $this->ProjectTeams->find('all',['conditions' => ['user_id' => $comp_id]])->count(); 
            $expense_requests =  $conn->execute("select a.type,sum(b.amount) as sum_amount from expense_types a, expense_requests b where a.id=b.type_id and b.user_id = ".$comp_id." and b.applied_date between '".$last_month."' and '".$date."' group by b.type_id");
            $leave_requests =  $conn->execute("select a.type,sum(b.no_of_days) as sum_days from leave_types a, leave_requests b where a.id=b.type_id and b.user_id = ".$comp_id." and b.start_date between '".$last_month."' and '".$date."' group by b.type_id");
