@@ -192,7 +192,7 @@
                 <div class="form-group .bordered-row">
                   <label class="col-sm-3 control-label">Due Date</label>
                   <div class="col-sm-6">
-                    <input name="due_date"  id="" type="text" class="bootstrap-datepicker2_end_date form-control"  data-date-format="yyyy-mm-dd" required="" value="<?= $task->due_date ?>">
+                    <input name="due_date"  id="" type="text" class="bootstrap-datepicker2_end_date form-control"  data-date-format="yyyy-mm-dd" required="" value="<?= $task->due_date->format('Y-m-d'); ?>">
                   </div>
                 </div>
                   
