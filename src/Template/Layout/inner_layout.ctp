@@ -89,16 +89,17 @@
           <?php } ?>
 
           <?php if($this->Custom->is_lead($loggedInUser['id'])) { ?>
-          <li><a href="#" title="Projects Menu"><i class="glyph-icon icon-cog"></i> <span>My Approvals</span></a>
+          <li><a href="#" title="Projects Menu"><i class="glyph-icon icon-check"></i> <span>My Approvals</span></a>
               <div class="sidebar-submenu" style="display: block;">
               <ul>
-              <li><a href="<?= $this->Url->build(array("controller" => "leaverequests","action" => "request"));?>" title="Leave Requests"><i class="glyph-icon icon-calendar">
-              <i class="bs-badge badge-warning"><?=  $this->Custom->get_leave_request_count($loggedInUser['id']); ?></i></i> 
+              <li><a href="<?= $this->Url->build(array("controller" => "leaverequests","action" => "request"));?>" title="Leave Requests"><!--<i class="glyph-icon icon-calendar">-->
+              <i class="bs-badge badge-warning"><?=  $this->Custom->get_leave_request_count($loggedInUser['id']); ?></i><!--</i> -->
               <span>Leave Requests</span></a></li>
-              <li><a href="<?= $this->Url->build(array("controller"=> "expenses","action" => "response"));?>" title="Add Expenses"><i class="glyph-icon icon-elusive-group"><i class="bs-badge badge-warning"><?=  $this->Custom->get_expense_request_count($loggedInUser['id']); ?></i></i><span>Expense Requests</span></a></li>
+              <li><a href="<?= $this->Url->build(array("controller"=> "expenses","action" => "response"));?>" title="Add Expenses">
+              <!--<i class="glyph-icon icon-elusive-group">--><i class="bs-badge badge-warning"><?=  $this->Custom->get_expense_request_count($loggedInUser['id']); ?></i><!--</i>--><span>Expense Requests</span></a></li>
               <li><a href="<?= $this->Url->build(array("controller" => "timesheet","action" => "lists"));?>" title="Leave Requests">
-              <i class="glyph-icon icon-time">
-              <i class="bs-badge badge-warning"><?=  $this->Custom->get_time_sheet_count($loggedInUser['id']);?></i></i> 
+              <!--<i class="glyph-icon icon-time">-->
+              <i class="bs-badge badge-warning"><?=  $this->Custom->get_time_sheet_count($loggedInUser['id']);?></i><!--</i>--> 
               <span>Time Sheet List</span></a></li>
               
               </ul>

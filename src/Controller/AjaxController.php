@@ -39,7 +39,10 @@ class AjaxController extends AppController
 		$this->Users = TableRegistry::get('Users');
 
 		$res = $this->Users->find("all", ["conditions" => [$field => $value]])->count();
-		echo $res ? false : true;
+		if(count($_GET))
+			echo $res ? false : true;
+		else
+			echo $res;
 		exit;
 	}
 

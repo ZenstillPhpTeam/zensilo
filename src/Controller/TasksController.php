@@ -213,6 +213,9 @@ class TasksController extends UsersController
             return true;
     }
 
-
+    public function defect()
+    {
+        
+    }
 
 }
