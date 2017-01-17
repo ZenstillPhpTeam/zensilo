@@ -93,7 +93,7 @@ class TasksController extends UsersController
                 $task = $this->Tasks->patchEntity($task, $this->request->data);
                 $task_save  = $this->Tasks->save($task);
                 //print_r($this->request->data);exit;
-                if ($task_save) {
+                 if ($task_save) {
                     if(count($team_members)){
                     foreach($team_members as $team) {
                          $team_data['user_id'] = $team;
@@ -103,7 +103,8 @@ class TasksController extends UsersController
                         $teamdata = $this->TaskTeams->newEntity();
                         $teamdata = $this->TaskTeams->patchEntity($teamdata, $team_data);
                         $teamdata_save  = $this->TaskTeams->save($teamdata);
-                     }   }
+                     }
+                    }
 
                     $project_timeline = $this->ProjectTimeline->newEntity();
                         $data['project_id'] = $this->request->data['project_id'];

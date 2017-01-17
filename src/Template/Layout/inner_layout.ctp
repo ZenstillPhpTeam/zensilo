@@ -92,7 +92,7 @@
           <li><a href="#" title="Projects Menu"><i class="glyph-icon icon-check"></i> <span>My Approvals</span></a>
               <div class="sidebar-submenu" style="display: block;">
               <ul>
-              <li><a href="<?= $this->Url->build(array("controller" => "leaverequests","action" => "request"));?>" title="Leave Requests"><!--<i class="glyph-icon icon-calendar">-->
+              <li><a href="<?= $this->Url->build(array("controller" => "leaverequests","action" => "response"));?>" title="Leave Requests"><!--<i class="glyph-icon icon-calendar">-->
               <i class="bs-badge badge-warning"><?=  $this->Custom->get_leave_request_count($loggedInUser['id']); ?></i><!--</i> -->
               <span>Leave Requests</span></a></li>
               <li><a href="<?= $this->Url->build(array("controller"=> "expenses","action" => "response"));?>" title="Add Expenses">
