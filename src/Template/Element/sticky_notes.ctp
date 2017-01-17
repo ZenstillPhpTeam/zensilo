@@ -25,7 +25,10 @@
 	    		if(snapshot.hasChildren())
 	    			$scope.sticky_data = snapshot.val().data;
 	    		else
+	    		{	
 	    			$scope.sticky_data[0] = {title:"", content:"", left:'50%', top:'15%', width:150, height:150};
+	    			$scope.update();
+	    		}
 	    	});
       	});
 

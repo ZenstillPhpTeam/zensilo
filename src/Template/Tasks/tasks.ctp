@@ -147,15 +147,13 @@
 <?php if(isset($task)){ ?> 
 <button id="editclient" class="btn btn-default" style="display:none;" data-toggle="modal" data-target=".bs-edit-modal-lg">Edit Task</button>
 <script type="text/javascript">
-  $(document).ready(function(){
+  $(window).load(function(){
     $("#editclient").trigger("click");
   });
  
 </script>  
- <?php if(isset($copy_task)){ ?> 
-  <script type="text/javascript">
-     $("#addclient").trigger("click");  
-  </script>  <?php } ?>
+
+ 
     
 <div class="modal fade bs-edit-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
   <div class="modal-dialog modal-lg">
@@ -232,7 +230,7 @@
                 <div class="form-group .bordered-row">
                   <label class="col-sm-3 control-label">Due Date</label>
                   <div class="col-sm-6">
-                    <input name="due_date"  id="" type="text" class="bootstrap-datepicker2 form-control"  data-date-format="yyyy-mm-dd" required="" value="<?= $task->due_date ?>">
+                    <input name="due_date"  id="" type="text" class="bootstrap-datepicker2_end_date form-control"  data-date-format="yyyy-mm-dd" required="" value="<?= $task->due_date->format('Y-m-d'); ?>">
                   </div>
                 </div>
                   
@@ -254,6 +252,13 @@
 </div>
 <?php } ?>
 
+<?php if(isset($copy_task)){ ?> 
+  <script type="text/javascript">
+
+  $(window).load(function(){
+     $(".bs-example-modal-lg").modal("show");  
+   });
+  </script>  <?php } ?>
 <div class="modal fade bs-view-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
   <div class="modal-dialog modal-lg">
     <div class="modal-content">
@@ -406,7 +411,7 @@
                 <div class="form-group .bordered-row">
                   <label class="col-sm-3 control-label">Due Date</label>
                   <div class="col-sm-6">
-                    <input name="due_date"  id="" type="text" class="bootstrap-datepicker2 form-control"  data-date-format="yyyy-mm-dd" required="" value="<?= isset($copy_task) ? $copy_task->due_date: ''?>">
+                    <input name="due_date"  id="" type="text" class="bootstrap-datepicker2 form-control"  data-date-format="yyyy-mm-dd" required="" value="<?= isset($copy_task) ? $copy_task->due_date->format('Y-m-d'): ''?>">
                   </div>
                 </div>
 

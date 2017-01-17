@@ -39,13 +39,25 @@ class TasksController extends UsersController
                         $task = $this->Tasks->newEntity();
                         $parent_id = $this->Auth->user('userrole') == "company" ? $this->Auth->user('id') : $this->Auth->user('parent_id');
                         $this->request->data['company_id'] = $parent_id;
-                        $this->request->data['assigned_by'] = $this->Auth->user('id');
-                        $teams = implode(",",$this->request->data['assigned_to']);
-                        $this->request->data['assigned_to'] = $teams;
+                        $this->request->data['assigned_by'] = $this->Auth->user('id'); 
+                        $team_members = $this->request->data['assigned_to'];    
+                $this->request->data['assigned_to'] = implode(",",$this->request->data['assigned_to']);
                         $task = $this->Tasks->patchEntity($task, $this->request->data);
                         $task_save  = $this->Tasks->save($task);
                         //pr($user);exit;
                         if ($task_save) {
+                            if(count($team_members)){
+                            foreach($team_members as $team) {
+                         $team_data['user_id'] = $team;
+                       $team_data['task_id'] = $task_save->id;
+                       $team_data['project_id'] = $this->request->data['project_id'];
+                        //exit;
+                        $teamdata = $this->TaskTeams->newEntity();
+                        $teamdata = $this->TaskTeams->patchEntity($teamdata, $team_data);
+                        $teamdata_save  = $this->TaskTeams->save($teamdata);
+                     }  }
+
+
                             $this->Flash->success('New Task has been added successfully!!');
                             //$this->set('success_msg', 'New Client has been added successfully!!');
 
@@ -82,7 +94,7 @@ class TasksController extends UsersController
                 $task_save  = $this->Tasks->save($task);
                 //print_r($this->request->data);exit;
                 if ($task_save) {
-
+                    if(count($team_members)){
                     foreach($team_members as $team) {
                          $team_data['user_id'] = $team;
                        $team_data['task_id'] = $task_save->id;
@@ -91,7 +103,7 @@ class TasksController extends UsersController
                         $teamdata = $this->TaskTeams->newEntity();
                         $teamdata = $this->TaskTeams->patchEntity($teamdata, $team_data);
                         $teamdata_save  = $this->TaskTeams->save($teamdata);
-                     }   
+                     }   }
 
                     $project_timeline = $this->ProjectTimeline->newEntity();
                         $data['project_id'] = $this->request->data['project_id'];
