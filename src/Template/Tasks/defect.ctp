@@ -9,15 +9,36 @@
         <div class="row">
         <div class="fliter">
         <ul>
-        <li>Project</li>
-        <li>Priority</li>
-        <li>Severity</li>
-        <li>Status</li>
-        <li>Create On</li>
-        <li>Created By</li>
-        <li>Root Cause</li>
+             <li class="project"><a>Project <span class="caret"></span></a> </li> 
+             <li class="priority">Priority</li>
+             <li class="severity">Severity</li>
+             <li class="status">Status</li>
+             <li class="create">Create On</li>
+             <li class="created">Created By</li>
+             <li class="rootcause">Root Cause</li>
         </ul>
         </div>
+         <div class="table-menu1">
+        <ul>
+        <li>project</li>
+        <li>project1</li>
+        <li>project3</li>
+        <li>project4</li>
+        </ul>
+        </div>
+        <style>
+        .project,.priority,.severity,.status,.create,.created,.rootcause{ position: relative; }
+        .table-menu1 { width:120px; background: #ededed;  position: absolute; right: 450px; top:42px;  display: none; z-index: 1000;}
+        .table-menu1 ul{ padding: 0px 10px;}
+        .table-menu1 ul li{ list-style-type: none; padding: 5px 5px; border-bottom: 1px solid #cccccc;}
+        .table-menu1 ul li:last-child{ border-bottom:none; }
+        .table-menu1 ul li:hover{ background:#E91E63; color:#fff; }
+        </style>
+        <script>
+        $(".project").click(function(){
+           $(".table-menu1").toggle();
+         });
+        </script>
         </div>
         <div class="tasks-table table-responsive" style="overflow-x:auto;">
         <table class="table table-striped" >
@@ -54,34 +75,18 @@
                 <td>Status</td>
                 <td>Due</td>
                 <td>Estimation</td>
-                <td><i class="glyph-icon icon-cog setting"></i></td>
+                <td>details</td>
             </tr>
         </tbody>
         </table>
-        <div class="table-menu">
-        <ul>
-            <li>Edit</li>
-            <li>Delete</li>
-            <li>Copy</li>
-            <li>Create Subtask</li>
-        </ul>
-        </div>
+       
         </div>
         <style>
         .tasks-table{ position: relative; } 
         .tasks-table table tr th{font-weight: 600;}
-        .setting{ font-size: 16px; padding-left:14px; cursor: pointer;}
-         .table-menu{ width:120px; background: #ededed;  position: absolute; right: 0; top:77px;  display: none;}
-        .table-menu ul{ padding: 0px 10px;}
-        .table-menu ul li{ list-style-type: none; padding: 5px 5px; border-bottom: 1px solid #cccccc;}
-        .table-menu ul li:last-child{ border-bottom:none; }
-        .table-menu ul li:hover{ background:#E91E63; color:#fff; }
+      
         </style>
-        <script>
-        $(".setting").click(function(){
-           $(".table-menu").toggle();
-         });
-        </script>       
+          
         </div>
         </div>
         </div>

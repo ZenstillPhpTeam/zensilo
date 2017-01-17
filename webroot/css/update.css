@@ -160,3 +160,22 @@ float: right;}
 em,.parsley-errors-list li{color: #f44336;}
 .fliter ul{ padding: 0;  float: right;}
 .fliter ul li{ display: inline-block; list-style-type: none; padding: 0 10px; }
+.dropdown-menu
+{
+background: #ffffff none repeat scroll 0 0;
+    border-style: solid;
+    border-width: 1px;
+    display: none;
+    left: 341px;
+    list-style: outside none none;
+    margin: 5px 0 0;
+    min-width: 150px;
+    padding: 5px;
+    position: absolute;
+    text-align: left;
+    top: 56px !important;
+    z-index: 1050 !important;
+}
+.open > .dropdown-menu {
+    background: #cccccc none repeat scroll 0 0;
+    }

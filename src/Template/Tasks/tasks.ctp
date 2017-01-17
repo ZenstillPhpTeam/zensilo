@@ -1,6 +1,46 @@
 <?= $this->Html->script(array('../assets/widgets/wizard/wizard', '../assets/widgets/wizard/wizard-demo', '../assets/widgets/tabs/tabs', '../assets/widgets/chosen/chosen', '../assets/widgets/chosen/chosen-demo','../assets/widgets/parsley/parsley')) ?>
 
-   <style>
+        <div class="panel">
+          <div class="panel-body content-box">
+            <h3 class="title-hero bg-primary">Task</h3>
+            <div class="example-box-wrapper">
+
+            <div class="panel">
+        <div class="panel-body">
+        <h3 class="title-hero"> <button id="addclient" class="btn btn-alt btn-hover btn-primary0 float-right"  data-toggle="modal" data-target=".bs-example-modal-lg" ><span>Add New</span> <i class="glyph-icon icon-arrow-right"></i><div class="ripple-wrapper"></div></button></h3>
+        <div class="tasks-table table-responsive">
+        <table class="table table-striped" >
+        <tbody>
+        <tr>
+        <th colspan="2">Name</th>
+        <th>Assigned To</th>
+        <th>Start</th>
+        <th>Due</th>
+        <th>Estimation</th>
+        <th>Status</th>
+        <th>Action</th>
+        </tr>
+        <tr>
+        <td colspan="2">Name</td>
+        <td>Assigned To</td>
+        <td>Start</td>
+        <td>Due</td>
+        <td>Estimation</td>
+        <td>Status</td>
+        <td><i class="glyph-icon icon-cog setting"></i></td>
+        </tr>
+        </tbody>
+        </table>
+        <div class="table-menu">
+        <ul>
+        <li>Edit</li>
+        <li>Delete</li>
+        <li>Copy</li>
+        <li>Create Subtask</li>
+        </ul>
+        </div>
+        </div>
+        <style>
         .tasks-table{ position: relative; } 
         .tasks-table table tr th{font-weight: 600;}
         .setting{ font-size: 16px; padding-left:14px; cursor: pointer;}
@@ -15,72 +55,75 @@
            $(".table-menu").toggle();
          });
         </script>
-
-             <div class="panel">
-          <div class="panel-body content-box">
-            <h3 class="title-hero bg-primary">Task</h3>
-            <div class="example-box-wrapper">
-
-            <div class="panel">
-        <div class="panel-body">
-        <h3 class="title-hero"> <button id="addclient" class="btn btn-alt btn-hover btn-primary0 float-right"  data-toggle="modal" data-target=".bs-example-modal-lg" ><span>Add New</span> <i class="glyph-icon icon-arrow-right"></i><div class="ripple-wrapper"></div></button></h3>
-
-
-        <div class="example-box-wrapper">
+        <!--<div class="example-box-wrapper">
         <div id="datatable-example_wrapper" class="dataTables_wrapper form-inline no-footer">
-      
-        <table cellpadding="0" cellspacing="0" border="0" class="table table-striped table-bordered dataTable no-footer" id="datatable-example" role="grid" aria-describedby="datatable-example_info">
-        <thead>
-        <tr role="row">
-        <th class="sorting_asc" tabindex="0" aria-controls="datatable-example" rowspan="1" colspan="1" aria-label="Rendering engine: activate to sort column ascending" aria-sort="ascending">
-        #
-        </th>
-        <th class="sorting" tabindex="0" aria-controls="datatable-example" rowspan="1" colspan="1" aria-label="Engine version: activate to sort column ascending" > Task Name</th>
-        <th class="sorting" tabindex="0" aria-controls="datatable-example" rowspan="1" colspan="1" aria-label="Engine version: activate to sort column ascending" > Assigned To</th>
-        <th class="sorting" tabindex="0" aria-controls="datatable-example" rowspan="1" colspan="1" aria-label="Engine version: activate to sort column ascending" > Project Name</th>
-        <th class="sorting" tabindex="0" aria-controls="datatable-example" rowspan="1" colspan="1" aria-label="Engine version: activate to sort column ascending" > Due Date</th>
-        <th class="sorting" tabindex="0" aria-controls="datatable-example" rowspan="1" colspan="1" aria-label="Rendering engine: activate to sort column ascending">
-        Estimation
-        </th>
-        <th class="sorting" tabindex="0" aria-controls="datatable-example" rowspan="1" colspan="1" aria-label="Platform(s): activate to sort column ascending" > Status </th>
-      
-        <th tabindex="0" aria-controls="datatable-example" rowspan="1" colspan="1">Actions</th>
+        <div class="row">
+        <div class="col-sm-6">
+        <div class="dataTables_length" id="datatable-example_length">
+        <label>
+        </label>
+        </div>
+        </div>
+        <div class="col-sm-6">
+        <div id="datatable-example_filter" class="dataTables_filter">
+        <label>
+        </label>
+        </div>
+        </div>
+        </div>
+        
 
-        </tr>
-        </thead>
-        <tbody>
-          <?php foreach($tasks as $k=>$tas){ ?>
+        <?php foreach($tasks as $k=>$value){ ?>
+        <div class="content-box mrg25B">
+        <h3 class="content-box-header bg-blue text-left">
+        <i class="glyph-icon icon-comments"></i> <?= $value->project_name ?>
 
-            <tr class="gradeA <?php if($k%2 == 0) {?> odd <?php } else { ?> even <?php } ?>" role="row">
-              <td><?= $k+1?></td>
-              <td><?= $tas->task_name ?></td>
-              <td><?=  $this->Custom->get_task_teams($tas->id) ?></td>
-              <td><?= $this->Custom->get_projectname($tas->project_id) ?></td>
-              <td><?= $tas->due_date ?></td>
-              <td class="center"><?= $tas->estimated_effort ?> Hrs</td>
-              <td class="center"><?= $tas->status ?></td>
-              <td class="center">
-                <div class="input-group-btn ">
-            <span class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-expanded="true"><i class="glyph-icon icon-cog setting"></i></span>
+         <i class="glyph-icon icon-comments" onclick="showhide('<?= $value->id ?>');"></i></h3>
+        <div class="content-box-wrapper wrapper2" id="box<?= $value->id ?>">
+        <div class="scrollable-content scrollable-nice scrollable-medium">
+
+        <ul class="todo-box todo-sort ui-sortable">
+        <?php foreach($value->tasks as $tas) { ?>
+          <?php if($tas->parent_task_id == 0) { ?>
+        <li class="border-red">
+        <div class="glyph-icon sort-handle icon-ellipsis-v ui-sortable-handle"></div>
+        <label for="sec-todo-1"><?= $tas->task_name ?></label><span class="bs-label bg-red" title=""><?= $tas->priority ?></span><span class="bs-label bg-red" title=""><?= $tas->status ?></span>
+        <div class="float-right">
+        <div class="input-group-btn ">
+            <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-expanded="true">Actions <span class="caret"></span><div class="ripple-wrapper"></div></button>
             <ul class="dropdown-menu " role="menu">
               <li class="ms-hover"><a href="#"  onclick="gettask('<?= $tas->id ?>');">View</a></li>
-              <?php if($tas->parent_task_id == 0) { ?>
-              <li class="ms-hover"><a href="#" onclick="settaskid('<?= $tas->id ?>','<?= $tas->project_id ?>');">Sub Task</a></li>
-              <?php } ?>
+              <li class="ms-hover"><a href="#" onclick="settaskid('<?= $tas->id ?>','<?= $value->id ?>');">Sub Task</a></li>
               <li class="ms-hover"><a href="<?= $this->Url->build(array("action" => "tasks", $tas->id,"copy"));?>">Copy</a></li>
-              <li class="ms-hover"><a href="#" data-toggle="modal" data-target=".bs-document-modal-lg" onclick="setprojectid('<?= $tas->project_id ?>','<?= $tas->id ?>');" >Documents</a></li>
+              <li class="ms-hover"><a href="#" data-toggle="modal" data-target=".bs-document-modal-lg" onclick="setprojectid('<?= $value->id ?>','<?= $tas->id ?>');" >Documents</a></li>
              <?php if($tas->status !='Completed' && $tas->status !='Cancelled') { ?>
               <li class="ms-hover"><a href="<?= $this->Url->build(array("action" => "tasks", $tas->id));?>">Edit</a></li>
               <li class="ms-hover"><a href="<?= $this->Url->build(array("action" => "tasks", $tas->id,"delete"));?>">Delete</a></li>
               <?php } ?>
             </ul>
           </div>
-
-              </td>
-            </tr>
+          
+        </div>
+        </li><?php foreach($value->tasks as $tas2) { ?>
+         <?php if($tas2->parent_task_id == $tas->id) {  ?>
+          <li class="border-blue" style="margin-left:30px;">
+        <div class="glyph-icon sort-handle icon-ellipsis-v ui-sortable-handle"></div>
+        <label for="sec-todo-1"><?= $tas2->task_name ?></label><span class="bs-label bg-red" title=""><?= $tas2->priority ?></span>
+        <div class="float-right">
+          <a class="btn btn-azure tooltip-button" data-toggle="tooltip" data-placement="top" title="" data-original-title="View"  onclick="gettask('<?= $tas2->id ?>');"><i class="glyph-icon icon-eye" ></i><div class="ripple-wrapper"></div></a>
+          <?php if($tas2->status !='Completed' && $tas2->status !='Cancelled') { ?>
+          <a href="<?= $this->Url->build(array("action" => "tasks", $tas2->id));?>" class="btn btn-info tooltip-button" data-toggle="tooltip" data-placement="top" title="" data-original-title="Edit"><i class="glyph-icon icon-edit " ></i><div class="ripple-wrapper"></div></a>       
+          <a class="btn btn-danger tooltip-button" data-toggle="tooltip" data-placement="top" title="" data-original-title="Remove" href="<?= $this->Url->build(array("action" => "tasks", $tas->id,"delete"));?>"><i class="glyph-icon icon-remove " ></i><div class="ripple-wrapper"></div></a>
           <?php } ?>
-        </tbody>
-        </table>
+        </div>
+        </li>
+          <?php } } ?>
+        <?php } ?>
+        <?php } ?>
+
+      
+        </ul></div></div></div>
+        <?php } ?>
 
         <div class="row">
         <div class="col-sm-6">
@@ -92,11 +135,8 @@
         </div>
         </div>
         </div>
-
         </div>
-        </div>    
-        
-        
+        </div>-->
         </div>
         </div>
 
