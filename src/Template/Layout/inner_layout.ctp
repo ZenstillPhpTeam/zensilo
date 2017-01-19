@@ -71,6 +71,7 @@
           <li><a href="<?= $this->Url->build(array("controller"=> "users","action" => "projects"));?>" title="Projects Menu"><i class="glyph-icon icon-list-alt"></i> <span>Projects</span></a>
           </li>
           <li><a href="<?= $this->Url->build(array("controller"=> "tasks","action" => "tasks"));?>" title="Add Tasks"><i class="glyph-icon icon-tasks"></i> <span>Tasks</span></a></li>
+          <li><a href="<?= $this->Url->build(array("controller"=> "tasks","action" => "defect"));?>" title="Add defects"><i class="glyph-icon icon-chain-broken"></i> <span>Defects</span></a></li>
           <?php }?>
 
           <?php $current_user_designation = isset($current_user_designation) ? $current_user_designation : false; 
