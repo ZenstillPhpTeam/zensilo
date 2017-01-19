@@ -115,6 +115,8 @@ class UsersController extends AppController
         $this->Users = TableRegistry::get('users');
         $this->Projects = TableRegistry::get('projects');
         $this->ProjectTeams = TableRegistry::get('project_teams');
+        $this->Tasks = TableRegistry::get('tasks');
+        $this->TaskTeams = TableRegistry::get('task_teams');
 
         $this->LeaveRequest = TableRegistry::get('leave_requests');
         $this->Leavetype = TableRegistry::get('leave_types');
@@ -126,6 +128,7 @@ class UsersController extends AppController
          $date = date('Y-m-d');
         $last_month = date('Y-m-d', strtotime("-1 month"));
         $comp_id = $this->Auth->user('id');
+
         if($this->Auth->user('userrole') == "company")
         {
             $projects =  $this->Projects->find('all',['conditions' => ['company_id' => $comp_id]])->count();
@@ -136,39 +139,47 @@ class UsersController extends AppController
             $users =  $this->Users->find('all',['conditions' => ['userrole' => "user",'parent_id' => $comp_id]])->count();
             $tasks_calendar = $conn->execute("select * from tasks where company_id=". $comp_id);
 
+            $pro_task = array();
+            if(count($project_tasks)){
+            foreach($project_tasks as $k=>$tasks){
+               $pro_task[$k]['title'] = $tasks['project_name'];
+               $pro_task[$k]['status'] = $tasks['status'];
+               $pro_task[$k]['count'] = $tasks['sum_days'];
+            }
+            }
+
+            $this->set('pro_task', $pro_task);
+
         }  
-        elseif($this->Auth->user('userrole') == "user") {
+        elseif($this->Auth->user('userrole') == "user") 
+        {
            $projects =  $this->ProjectTeams->find('all',['conditions' => ['user_id' => $comp_id]])->count(); 
            $expense_requests =  $conn->execute("select a.type,sum(b.amount) as sum_amount from expense_types a, expense_requests b where a.id=b.type_id and b.user_id = ".$comp_id." and b.applied_date between '".$last_month."' and '".$date."' group by b.type_id");
            $leave_requests =  $conn->execute("select a.type,sum(b.no_of_days) as sum_days from leave_types a, leave_requests b where a.id=b.type_id and b.user_id = ".$comp_id." and b.start_date between '".$last_month."' and '".$date."' group by b.type_id");
-           $project_tasks =  $conn->execute("select a.project_name,b.status,count(*) as sum_days from projects a, tasks b, task_teams c where a.id = b.project_id and c.task_id = b.id and c.user_id = ".$comp_id." group by b.status");
+           $recent_tasks =  $this->Tasks->find('all')
+            ->leftJoin('task_teams','tasks.id = task_teams.task_id')
+            ->where(['task_teams.user_id' => $this->Auth->user('id')])
+            ->select(['tasks.id','tasks.task_name','tasks.parent_task_id','tasks.project_id','tasks.estimated_effort','tasks.due_date','tasks.status'])
+            ->all();
+           //pr($recent_tasks);exit;
            $clients = 0;
            $users = 0;
            $tasks_calendar =  $conn->execute("select a.type,sum(b.no_of_days) as sum_days from leave_types a, leave_requests b where a.id=b.type_id and b.user_id = ".$comp_id." and b.created between '".$last_month."' and '".$date."' group by b.type_id");
 
+            $this->set('expense_requests', $expense_requests);
         }
-       // echo "select a.type,sum(b.no_of_days) as sum_days from leave_types a, leave_requests b where a.id=b.type_id and b.user_id = ".$comp_id." and b.created between '".$last_month."' and '".$date."' group by b.type_id";
 
-        //echo "select a.type,sum(b.amount) as sum_amount from expense_types a, expense_requests b where a.id=b.type_id and b.user_id = ".$comp_id." and b.applied_date between ".$date." and ".$last_month." group by b.type_id";
-        //exit;
-        //pr($tasks_calendar);exit;
-
-        $pro_task = array();
-        if($project_tasks){
-        foreach($project_tasks as $k=>$tasks){
-           $pro_task[$k]['title'] = $tasks['project_name'];
-           $pro_task[$k]['status'] = $tasks['status'];
-           $pro_task[$k]['count'] = $tasks['sum_days'];
-        }
-        }
+        
 
         $tasks_cal = array();
-        if($tasks_calendar){
-        foreach($tasks_calendar as $k=>$tasks){
+        if(count($recent_tasks)){
+        foreach($recent_tasks as $k=>$tasks){
+            //print_r($tasks);
            $tasks_cal[$k]['title'] = $tasks['task_name'];
             $tasks_cal[$k]['start'] = $tasks['due_date'];
         }
         }
+       // exit;
 
         $expense = array();
         foreach($expense_requests as $k=>$expensereq){
@@ -189,10 +200,15 @@ class UsersController extends AppController
         $this->set('leaves', $leaves);
         $this->set('expense', $expense);
         $this->set('tasks', $tasks);
+        $this->set('recent_tasks', $recent_tasks);
         $this->set('users', $users);
-        $this->set('pro_task', $pro_task);
         $this->set('clients', $clients);
         $this->set('tasks_cal', $tasks_cal);
+
+        
+        if($this->Auth->user('userrole') == "user")
+            $this->render('users_dashboard');
+
     }
 
     public function index($st=0)
@@ -562,7 +578,8 @@ class UsersController extends AppController
        elseif($id)
        {
             $project = $this->Projects->get($id);
-            $project_team = $this->ProjectTeams->find('all', ['conditions' => ['project_id' => $id]]);
+            $project_team = $this->ProjectTeams->find('all', ['conditions' => ['project_id' => $id]])->all();
+            //print_r($project_team);exit;
             $this->set('project', $project);
             $this->set('project_team', $project_team);
        }

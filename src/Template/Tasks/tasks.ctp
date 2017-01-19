@@ -61,20 +61,21 @@
               <td class="center"><?= $tas->status ?></td>
               <td class="center">
                 <div class="input-group-btn ">
-            <span class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-expanded="true"><i class="glyph-icon icon-cog setting"></i></span>
-            <ul class="dropdown-menu " role="menu">
-              <li class="ms-hover"><a href="#"  onclick="gettask('<?= $tas->id ?>');">View</a></li>
-              <?php if($tas->parent_task_id == 0) { ?>
-              <li class="ms-hover"><a href="#" onclick="settaskid('<?= $tas->id ?>','<?= $tas->project_id ?>');">Sub Task</a></li>
-              <?php } ?>
-              <li class="ms-hover"><a href="<?= $this->Url->build(array("action" => "tasks", $tas->id,"copy"));?>">Copy</a></li>
-              <li class="ms-hover"><a href="#" data-toggle="modal" data-target=".bs-document-modal-lg" onclick="setprojectid('<?= $tas->project_id ?>','<?= $tas->id ?>');" >Documents</a></li>
-             <?php if($tas->status !='Completed' && $tas->status !='Cancelled') { ?>
-              <li class="ms-hover"><a href="<?= $this->Url->build(array("action" => "tasks", $tas->id));?>">Edit</a></li>
-              <li class="ms-hover"><a href="<?= $this->Url->build(array("action" => "tasks", $tas->id,"delete"));?>">Delete</a></li>
-              <?php } ?>
-            </ul>
-          </div>
+                    <span class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-expanded="true"><i class="glyph-icon icon-cog setting"></i></span>
+                    <ul class="dropdown-menu " role="menu">
+                      <li class="ms-hover"><a href="#"  onclick="gettask('<?= $tas->id ?>');">View</a></li>
+                      <?php if($tas->parent_task_id == 0) { ?>
+                      <li class="ms-hover"><a href="#" onclick="settaskid('<?= $tas->id ?>','<?= $tas->project_id ?>');">Sub Task</a></li>
+                      <?php } ?>
+                      <li class="ms-hover"><a href="<?= $this->Url->build(array("action" => "tasks", $tas->id,"copy"));?>">Copy</a></li>
+                      <li class="ms-hover"><a href="#" data-toggle="modal" data-target=".bs-document-modal-lg" onclick="setprojectid('<?= $tas->project_id ?>','<?= $tas->id ?>');" >Documents</a></li>
+                      <li class="ms-hover"><a href="<?= $this->Url->build(array("controller"=>"tasks","action" => "defect"));?>" ><i class="glyph-icon tooltip-button demo-icon icon-chain-broken" data-toggle="tooltip" data-placement="top" title="" data-original-title="Add Defects"></i></a></li>
+                     <?php if($tas->status !='Completed' && $tas->status !='Cancelled') { ?>
+                      <li class="ms-hover"><a href="<?= $this->Url->build(array("action" => "tasks", $tas->id));?>">Edit</a></li>
+                      <li class="ms-hover"><a href="<?= $this->Url->build(array("action" => "tasks", $tas->id,"delete"));?>">Delete</a></li>
+                      <?php } ?>
+                    </ul>
+                  </div>
 
               </td>
             </tr>
@@ -377,10 +378,10 @@
 
                 <div class="form-group">
                   <label class="col-sm-3 control-label">Assign Team</label>
-                  <div class="col-sm-6">
+                  <div class="col-sm-6"> <?php $teams = array(); foreach($copy_task_teams as $key => $value) {  $teams[] = $value->user_id; ?> <?php } ?>
                     <select multiple="multiple" class="multi-select" name="assigned_to[]" id="14multiselect" style="position: absolute; left: -9999px;">
                     <?php foreach($team_members as $key => $value) { ?>
-                      <option value="<?php echo $value['user_id']; ?>" ><?php echo $value['client_name']; ?></option>
+                      <option value="<?php echo $value['user_id']; ?>" <?php if(in_array($value['user_id'], $teams)) { ?> selected <?php } ?>><?php echo $value['client_name']; ?></option>
                       <?php } ?>
                     </select>
 

@@ -29,7 +29,9 @@ class TasksController extends UsersController
        elseif($action == 'copy')
        {
             $copy_task = $this->Tasks->get($id);
+            $copy_task_teams = $this->TaskTeams->find('all',['conditions' => ['task_id' => $id]])->all();
             $this->set('copy_task', $copy_task);
+            $this->set('copy_task_teams', $copy_task_teams);
 
             if ($this->request->is('post'))
                {
@@ -41,7 +43,7 @@ class TasksController extends UsersController
                         $this->request->data['company_id'] = $parent_id;
                         $this->request->data['assigned_by'] = $this->Auth->user('id'); 
                         $team_members = $this->request->data['assigned_to'];    
-                $this->request->data['assigned_to'] = implode(",",$this->request->data['assigned_to']);
+                        $this->request->data['assigned_to'] = implode(",",$this->request->data['assigned_to']);
                         $task = $this->Tasks->patchEntity($task, $this->request->data);
                         $task_save  = $this->Tasks->save($task);
                         //pr($user);exit;

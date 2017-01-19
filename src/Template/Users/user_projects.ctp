@@ -132,10 +132,10 @@
                 
                 <div class="form-group">
                   <label class="col-sm-3 control-label">Assign Team</label>
-                  <div class="col-sm-6">
+                  <div class="col-sm-6"><?php $teams1 = array(); foreach($project_team as $key => $value) {   $teams1[] = $value->user_id; ?> <?php } ?>
                     <select multiple="multiple" class="multi-select" name="teams[]" id="14multiselect" style="position: absolute; left: -9999px;" >
                     <?php foreach($team_members as $key => $value) { ?>
-                      <option value="<?php echo $value['user_id']; ?>"  ><?php echo $value['client_name']; ?></option>
+                      <option value="<?php echo $value['user_id']; ?>" <?php if(in_array($value['user_id'], $teams1)) { ?> selected <?php } ?>  ><?php echo $value['client_name']; ?></option>
                       <?php } ?>
                     </select>
                   </div>

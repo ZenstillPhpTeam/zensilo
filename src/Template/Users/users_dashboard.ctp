@@ -91,6 +91,98 @@ footer {
   <p></p>
 </div>
 <div class="row">
+<div class="col-md-12">
+  <div class="content-box">
+  <h3 class="content-box-header content-box-header-alt bg-white"><span class="icon-separator"><i class="glyph-icon icon-linecons-megaphone"></i></span><span class="header-wrapper">Recent Tasks  <small></small></span> 
+  </h3>
+  <div class="content-box-wrapper">
+  <section>
+   <table cellpadding="0" cellspacing="0" border="0" class="table table-striped table-bordered dataTable no-footer" id="datatable-example" role="grid" aria-describedby="datatable-example_info">
+        <thead>
+        <tr role="row">
+        <th class="sorting_asc" tabindex="0" aria-controls="datatable-example" rowspan="1" colspan="1" aria-label="Rendering engine: activate to sort column ascending" aria-sort="ascending">
+        #
+        </th>
+        <th class="sorting" tabindex="0" aria-controls="datatable-example" rowspan="1" colspan="1" aria-label="Engine version: activate to sort column ascending" > Task Name</th>
+        <th class="sorting" tabindex="0" aria-controls="datatable-example" rowspan="1" colspan="1" aria-label="Engine version: activate to sort column ascending" > Assigned To</th>
+        <th class="sorting" tabindex="0" aria-controls="datatable-example" rowspan="1" colspan="1" aria-label="Engine version: activate to sort column ascending" > Project Name</th>
+        <th class="sorting" tabindex="0" aria-controls="datatable-example" rowspan="1" colspan="1" aria-label="Engine version: activate to sort column ascending" > Due Date</th>
+        <th class="sorting" tabindex="0" aria-controls="datatable-example" rowspan="1" colspan="1" aria-label="Rendering engine: activate to sort column ascending">
+        Estimation
+        </th>
+        <th class="sorting" tabindex="0" aria-controls="datatable-example" rowspan="1" colspan="1" aria-label="Platform(s): activate to sort column ascending" > Status </th>
+      
+        
+        </tr>
+        </thead>
+        <tbody>
+          <?php foreach($recent_tasks as $k=>$tas) { ?>
+
+            <tr class="gradeA <?php if($k%2 == 0) {?> odd <?php } else { ?> even <?php } ?>" role="row">
+              <td><?= $k+1?></td>
+              <td><?= $tas->task_name ?></td>
+              <td><?=  $this->Custom->get_task_teams($tas->id) ?></td>
+              <td><?= $this->Custom->get_projectname($tas->project_id) ?></td>
+              <td><?= $tas->due_date ?></td>
+              <td class="center"><?= $tas->estimated_effort ?> Hrs</td>
+              <td class="center"><?= $tas->status ?></td>            
+            </tr>
+          <?php } ?>
+        </tbody>
+        </table>
+</section>
+</div>
+</div>
+</div>
+
+<div class="col-md-12">
+  <div class="content-box">
+  <h3 class="content-box-header content-box-header-alt bg-white"><span class="icon-separator"><i class="glyph-icon icon-linecons-megaphone"></i></span><span class="header-wrapper">Recent Expenses  <small></small></span> 
+  </h3>
+  <div class="content-box-wrapper">
+  <section>
+<table cellpadding="0" cellspacing="0" border="0" class="table table-striped table-bordered dataTable no-footer" id="datatable-example" role="grid" aria-describedby="datatable-example_info">
+        <thead>
+        <tr role="row">
+        <th class="sorting_asc" tabindex="0" aria-controls="datatable-example" rowspan="1" colspan="1" aria-label="Rendering engine: activate to sort column ascending" aria-sort="ascending">
+        #
+        </th>
+        <th class="sorting" tabindex="0" aria-controls="datatable-example" rowspan="1" colspan="1" aria-label="Engine version: activate to sort column ascending" > Expense Type</th>
+        <th class="sorting" tabindex="0" aria-controls="datatable-example" rowspan="1" colspan="1" aria-label="Engine version: activate to sort column ascending" > Project Name</th>
+        <th class="sorting" tabindex="0" aria-controls="datatable-example" rowspan="1" colspan="1" aria-label="Browser: activate to sort column ascending"">Date Incurred</th>
+        <th class="sorting" tabindex="0" aria-controls="datatable-example" rowspan="1" colspan="1" aria-label="Rendering engine: activate to sort column ascending">
+        Amount</th>
+        <th class="sorting" tabindex="0" aria-controls="datatable-example" rowspan="1" colspan="1" aria-label="Browser: activate to sort column ascending" style="width: 258px;">Reason</th>
+         <th class="sorting" tabindex="0" aria-controls="datatable-example" rowspan="1" colspan="1" aria-label="Browser: activate to sort column ascending"">Submitted On</th>
+        <th class="sorting" tabindex="0" aria-controls="datatable-example" rowspan="1" colspan="1" aria-label="Platform(s): activate to sort column ascending" > Status </th>  
+        </tr>
+        </thead>
+        <tbody>
+          <?php foreach($expense_requests as $k=>$request_det){ ?>
+            <tr class="gradeA <?php if($k%2 == 0) {?>odd <?php } else { ?> even <?php } ?>" role="row">
+              <td><?= $k+1?></td>
+              <td><?= $request_det->expense_types['type'] ?></td>
+              <td><?= $this->Custom->get_projectname($request_det->expense_name); ?></td>
+              <td class="center"><?= $request_det->applied_date ?></td>
+              <td><?= $request_det->currency." ".$request_det->amount ?></td>
+              <td class="center"><?= $request_det->reason ?></td>
+              <td class="center"><?= $request_det->created ?></td>
+              <td class="center"> 
+                <?php if($request_det->status == 0){ ?> <div class="bs-label bg-yellow"> Pending</div> <?php } ?> 
+                <?php if($request_det->status == 1){ ?> <div class="bs-label bg-green"> Approved</div> <?php } ?>
+                <?php if($request_det->status == 2){ ?> <div class="bs-label bg-red"> Rejected </div> <?php } ?>
+              </td>
+            </tr>
+          <?php } ?>
+        </tbody>
+        </table>
+</section>
+</div>
+</div>
+</div>
+
+
+
   <div class="col-md-6">
   <div class="content-box">
   <h3 class="content-box-header content-box-header-alt bg-white"><span class="icon-separator"><i class="glyph-icon icon-linecons-megaphone"></i></span> <span class="header-wrapper">Recent Expenses <small></small></span> 

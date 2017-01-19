@@ -5,17 +5,14 @@ use Cake\ORM\Table;
 use Cake\Validation\Validator;
 use Cake\Event\Event;
 
-class TasksTable extends Table
+class TaskTeamsTable extends Table
 {
 
     public function initialize(array $config)
     {
         $this->addBehavior('Timestamp');
 
-        $this->belongsTo('Projects', [
-	    'foreignKey' => 'project_id',
-	    ]);
-	    $this->hasMany('TaskTeams', [
+        $this->belongsTo('Tasks', [
 	    'foreignKey' => 'task_id',
 	    ]);
 

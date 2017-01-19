@@ -35,7 +35,7 @@ class TimesheetController extends UsersController
                 $condition = array('timesheet_week_id' => $postdata['data']['timesheetWeekId']);
                 $this->TimeSheetDay->deleteAll($condition,false);  
 
-            }else{
+            } else {
 
                 $request = $this->TimeSheetWeek->newEntity();
                 $newdata['user_id'] = $user_id;
@@ -70,7 +70,8 @@ class TimesheetController extends UsersController
             }
 
             $this->Flash->success(__('The timesheet has been saved.'));
-            echo 'success'; exit;
+            echo 'success'; 
+            exit;
         }
     }
 

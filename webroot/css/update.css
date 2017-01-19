@@ -160,3 +160,4 @@ float: right;}
 em,.parsley-errors-list li{color: #f44336;}
 .fliter ul{ padding: 0;  float: right;}
 .fliter ul li{ display: inline-block; list-style-type: none; padding: 0 10px; }
+.input-group .form-control {min-width:34px;}
