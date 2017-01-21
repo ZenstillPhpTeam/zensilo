@@ -93,7 +93,7 @@ footer {
 <div class="row">
 <div class="col-md-12">
   <div class="content-box">
-  <h3 class="content-box-header content-box-header-alt bg-white"><span class="icon-separator"><i class="glyph-icon icon-linecons-megaphone"></i></span><span class="header-wrapper">Recent Tasks  <small></small></span> 
+  <h3 class="content-box-header content-box-header-alt bg-white"><span class="icon-separator"><i class="glyph-icon icon-linecons-megaphone"></i></span><span class="header-wrapper"><a href="<?= $this->Url->build(array("controller" => "tasks","action" => "tasks"));?>">Recent Tasks </a><small></small></span> 
   </h3>
   <div class="content-box-wrapper">
   <section>
@@ -137,7 +137,7 @@ footer {
 
 <div class="col-md-12">
   <div class="content-box">
-  <h3 class="content-box-header content-box-header-alt bg-white"><span class="icon-separator"><i class="glyph-icon icon-linecons-megaphone"></i></span><span class="header-wrapper">Recent Expenses  <small></small></span> 
+  <h3 class="content-box-header content-box-header-alt bg-white"><span class="icon-separator"><i class="glyph-icon icon-linecons-megaphone"></i></span><span class="header-wrapper"><a href="<?= $this->Url->build(array("controller" => "expenses","action" => "request"));?>">Recent Expenses</a><small></small></span> 
   </h3>
   <div class="content-box-wrapper">
   <section>

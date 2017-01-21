@@ -196,7 +196,8 @@
                   <div class="col-sm-7">
                     <input name="task_name" class="form-control" id="" placeholder="Task Name" type="text" required="" value="<?= isset($copy_task) ? $copy_task->task_name: ''?>">
                   </div>
-                </div> <div class="form-group">
+                </div> 
+                <div class="form-group">
                   <label class="col-sm-5 control-label">Root Cause</label>
                   <div class="col-sm-7">
                     <select  class="form-control" name="priority"  required="">
@@ -232,10 +233,13 @@
                   </div>
                 </div>
                 </div>
+
+
+
                 </div>
                 </div>
             </div>         
-        </div>
+        
         <div class="modal-footer">
           <button type="button" class="btn btn-default " data-dismiss="modal">Close</button> 
           <button type="submit" class="btn btn-hover btn-primary">Save changes</button>

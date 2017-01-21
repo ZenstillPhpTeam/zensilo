@@ -21,7 +21,7 @@ class TasksController extends UsersController
 
        if($action == 'delete')
        {
-            
+            $this->TaskTeams->deleteAll(['task_id' => $id]);
             $this->Tasks->delete($this->Users->get($id));
             $this->Flash->success('Task has been deleted successfully!!');
             $this->redirect(array("action" => 'tasks'));

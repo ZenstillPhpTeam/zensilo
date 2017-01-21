@@ -501,6 +501,7 @@ class UsersController extends AppController
        if($action == 'delete')
        {
             $this->ProjectTimeline->deleteAll(['project_id' => $id]);
+             $this->ProjectTeams->deleteAll(['project_id' => $id]);
             $this->Projects->delete($this->Projects->get($id));
             $this->Flash->success('Project has been deleted successfully!!');
             $this->redirect(array("action" => 'projects'));
