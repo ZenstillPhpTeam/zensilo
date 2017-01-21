@@ -91,7 +91,7 @@ footer {
   <p></p>
 </div>
 <div class="row">
-<div class="col-md-12">
+<div class="col-md-6">
   <div class="content-box">
   <h3 class="content-box-header content-box-header-alt bg-white"><span class="icon-separator"><i class="glyph-icon icon-linecons-megaphone"></i></span><span class="header-wrapper"><a href="<?= $this->Url->build(array("controller" => "tasks","action" => "tasks"));?>">Recent Tasks </a><small></small></span> 
   </h3>
@@ -104,38 +104,29 @@ footer {
         #
         </th>
         <th class="sorting" tabindex="0" aria-controls="datatable-example" rowspan="1" colspan="1" aria-label="Engine version: activate to sort column ascending" > Task Name</th>
-        <th class="sorting" tabindex="0" aria-controls="datatable-example" rowspan="1" colspan="1" aria-label="Engine version: activate to sort column ascending" > Assigned To</th>
         <th class="sorting" tabindex="0" aria-controls="datatable-example" rowspan="1" colspan="1" aria-label="Engine version: activate to sort column ascending" > Project Name</th>
         <th class="sorting" tabindex="0" aria-controls="datatable-example" rowspan="1" colspan="1" aria-label="Engine version: activate to sort column ascending" > Due Date</th>
-        <th class="sorting" tabindex="0" aria-controls="datatable-example" rowspan="1" colspan="1" aria-label="Rendering engine: activate to sort column ascending">
-        Estimation
-        </th>
-        <th class="sorting" tabindex="0" aria-controls="datatable-example" rowspan="1" colspan="1" aria-label="Platform(s): activate to sort column ascending" > Status </th>
-      
-        
+        <th class="sorting" tabindex="0" aria-controls="datatable-example" rowspan="1" colspan="1" aria-label="Platform(s): activate to sort column ascending" > Status </th>        
         </tr>
         </thead>
         <tbody>
           <?php foreach($recent_tasks as $k=>$tas) { ?>
-
             <tr class="gradeA <?php if($k%2 == 0) {?> odd <?php } else { ?> even <?php } ?>" role="row">
               <td><?= $k+1?></td>
               <td><?= $tas->task_name ?></td>
-              <td><?=  $this->Custom->get_task_teams($tas->id) ?></td>
               <td><?= $this->Custom->get_projectname($tas->project_id) ?></td>
               <td><?= $tas->due_date ?></td>
-              <td class="center"><?= $tas->estimated_effort ?> Hrs</td>
               <td class="center"><?= $tas->status ?></td>            
             </tr>
           <?php } ?>
         </tbody>
         </table>
 </section>
+<div>
+<a href="<?= $this->Url->build(array("controller" => "tasks","action" => "tasks"));?>">View All</a>
 </div>
 </div>
 </div>
-
-<div class="col-md-12">
   <div class="content-box">
   <h3 class="content-box-header content-box-header-alt bg-white"><span class="icon-separator"><i class="glyph-icon icon-linecons-megaphone"></i></span><span class="header-wrapper"><a href="<?= $this->Url->build(array("controller" => "expenses","action" => "request"));?>">Recent Expenses</a><small></small></span> 
   </h3>
@@ -147,14 +138,12 @@ footer {
         <th class="sorting_asc" tabindex="0" aria-controls="datatable-example" rowspan="1" colspan="1" aria-label="Rendering engine: activate to sort column ascending" aria-sort="ascending">
         #
         </th>
-        <th class="sorting" tabindex="0" aria-controls="datatable-example" rowspan="1" colspan="1" aria-label="Engine version: activate to sort column ascending" > Expense Type</th>
-        <th class="sorting" tabindex="0" aria-controls="datatable-example" rowspan="1" colspan="1" aria-label="Engine version: activate to sort column ascending" > Project Name</th>
+        <th class="sorting" tabindex="0" aria-controls="datatable-example" rowspan="1" colspan="1" aria-label="Engine version: activate to sort column ascending" >Expense Type</th>
+        <th class="sorting" tabindex="0" aria-controls="datatable-example" rowspan="1" colspan="1" aria-label="Engine version: activate to sort column ascending" >Project Name</th>
         <th class="sorting" tabindex="0" aria-controls="datatable-example" rowspan="1" colspan="1" aria-label="Browser: activate to sort column ascending"">Date Incurred</th>
         <th class="sorting" tabindex="0" aria-controls="datatable-example" rowspan="1" colspan="1" aria-label="Rendering engine: activate to sort column ascending">
         Amount</th>
-        <th class="sorting" tabindex="0" aria-controls="datatable-example" rowspan="1" colspan="1" aria-label="Browser: activate to sort column ascending" style="width: 258px;">Reason</th>
-         <th class="sorting" tabindex="0" aria-controls="datatable-example" rowspan="1" colspan="1" aria-label="Browser: activate to sort column ascending"">Submitted On</th>
-        <th class="sorting" tabindex="0" aria-controls="datatable-example" rowspan="1" colspan="1" aria-label="Platform(s): activate to sort column ascending" > Status </th>  
+        <th class="sorting" tabindex="0" aria-controls="datatable-example" rowspan="1" colspan="1" aria-label="Platform(s): activate to sort column ascending" >Status</th>  
         </tr>
         </thead>
         <tbody>
@@ -165,8 +154,6 @@ footer {
               <td><?= $this->Custom->get_projectname($request_det->expense_name); ?></td>
               <td class="center"><?= $request_det->applied_date ?></td>
               <td><?= $request_det->currency." ".$request_det->amount ?></td>
-              <td class="center"><?= $request_det->reason ?></td>
-              <td class="center"><?= $request_det->created ?></td>
               <td class="center"> 
                 <?php if($request_det->status == 0){ ?> <div class="bs-label bg-yellow"> Pending</div> <?php } ?> 
                 <?php if($request_det->status == 1){ ?> <div class="bs-label bg-green"> Approved</div> <?php } ?>
@@ -179,141 +166,74 @@ footer {
 </section>
 </div>
 </div>
-</div>
-
-
-
-  <div class="col-md-6">
   <div class="content-box">
-  <h3 class="content-box-header content-box-header-alt bg-white"><span class="icon-separator"><i class="glyph-icon icon-linecons-megaphone"></i></span> <span class="header-wrapper">Recent Expenses <small></small></span> 
+  <h3 class="content-box-header content-box-header-alt bg-white"><span class="icon-separator"><i class="glyph-icon icon-linecons-megaphone"></i></span><span class="header-wrapper"><a href="<?= $this->Url->build(array("controller" => "expenses","action" => "request"));?>">Recent Defects</a><small></small></span> 
   </h3>
   <div class="content-box-wrapper">
   <section>
-  <div class="pieID pie"></div>
-    <ul class="pieID legend">
-    <?php foreach($expense as $expense1) { ?>
-      <li>
-        <em><?= $expense1['legendText'] ?></em>
-        <span><?= $expense1['y'] ?></span>
-      </li>
-      <?php } ?>          
-    </ul>
-  </section>
-  </div>
-  </div>
-
+<table cellpadding="0" cellspacing="0" border="0" class="table table-striped table-bordered dataTable no-footer" id="datatable-example" role="grid" aria-describedby="datatable-example_info">
+        <thead>
+        <tr role="row">
+        <th class="sorting_asc" tabindex="0" aria-controls="datatable-example" rowspan="1" colspan="1" aria-label="Rendering engine: activate to sort column ascending" aria-sort="ascending">
+        #
+        </th>
+        <th class="sorting" tabindex="0" aria-controls="datatable-example" rowspan="1" colspan="1" aria-label="Engine version: activate to sort column ascending" >Expense Type</th>
+        <th class="sorting" tabindex="0" aria-controls="datatable-example" rowspan="1" colspan="1" aria-label="Engine version: activate to sort column ascending" >Project Name</th>
+        <th class="sorting" tabindex="0" aria-controls="datatable-example" rowspan="1" colspan="1" aria-label="Browser: activate to sort column ascending"">Date Incurred</th>
+        <th class="sorting" tabindex="0" aria-controls="datatable-example" rowspan="1" colspan="1" aria-label="Rendering engine: activate to sort column ascending">
+        Amount</th>
+        <th class="sorting" tabindex="0" aria-controls="datatable-example" rowspan="1" colspan="1" aria-label="Platform(s): activate to sort column ascending" >Status</th>  
+        </tr>
+        </thead>
+        <tbody>
+          <?php foreach($expense_requests as $k=>$request_det){ ?>
+            <tr class="gradeA <?php if($k%2 == 0) {?>odd <?php } else { ?> even <?php } ?>" role="row">
+              <td><?= $k+1?></td>
+              <td><?= $request_det->expense_types['type'] ?></td>
+              <td><?= $this->Custom->get_projectname($request_det->expense_name); ?></td>
+              <td class="center"><?= $request_det->applied_date ?></td>
+              <td><?= $request_det->currency." ".$request_det->amount ?></td>
+              <td class="center"> 
+                <?php if($request_det->status == 0){ ?> <div class="bs-label bg-yellow"> Pending</div> <?php } ?> 
+                <?php if($request_det->status == 1){ ?> <div class="bs-label bg-green"> Approved</div> <?php } ?>
+                <?php if($request_det->status == 2){ ?> <div class="bs-label bg-red"> Rejected </div> <?php } ?>
+              </td>
+            </tr>
+          <?php } ?>
+        </tbody>
+        </table>
+</section>
+</div>
+</div>
   <div class="content-box">
   <h3 class="content-box-header content-box-header-alt bg-white"><span class="icon-separator"><i class="glyph-icon icon-linecons-megaphone"></i></span><span class="header-wrapper">Recent Leave Requests  <small></small></span> 
   </h3>
   <div class="content-box-wrapper">
-<section>
-  <div class="pieID1 pie1"></div>
-    <ul class="pieID1 legend1">
-    <?php foreach($leaves as $leave) { ?>
-      <li>
-        <em><?= $leave['legendText'] ?></em>
-        <span><?= $leave['y'] ?></span>
-      </li>
-      <?php } ?>          
-    </ul>
-  </section>  
+  <section>
+    <div class="pieID1 pie1"></div>
+      <ul class="pieID1 legend1">
+      <?php foreach($leaves as $leave) { ?>
+        <li>
+          <em><?= $leave['legendText'] ?></em>
+          <span><?= $leave['y'] ?></span>
+        </li>
+        <?php } ?>          
+      </ul>
+    </section>  
   </div>
+  </div> 
   </div>
 
-
-    <div class="content-box">
-      <h3 class="content-box-header content-box-header-alt bg-white">
-      <span class="icon-separator"><i class="glyph-icon icon-linecons-megaphone"></i></span> 
-      <span class="header-wrapper">Recent Projects </span> 
-      <span class="header-buttons"><a href="<?= $this->Url->build(array("action" => "projects"));?>" class="btn btn-sm btn-primary" title="">View All</a></span>
-      </h3>
-      <div class="content-box-wrapper">     	
-      	<div>
-         
-          <table id="q-graph">
-<caption>Quarterly Results</caption>
-<thead>
-<tr>
-<th></th>
-<th class="sent">Invoiced</th>
-<th class="paid">Collected</th>
-</tr>
-</thead>
-<tbody>
- <?php foreach($pro_task as $pro) { ?>
-    <tr class="qtr" id="q1">
-    <th scope="row"><?php echo $pro['title'] ?></th>
-    <td class="sent bar" style="height: 111px;"><p><?php echo $pro['status']."-".$pro['count'] ?></p></td>
-    </tr>
-<?php } ?>
-</tbody>
-</table>
-
-<div id="ticks">
-<div class="tick" style="height: 59px;"><p>$50,000</p></div>
-<div class="tick" style="height: 59px;"><p>$40,000</p></div>
-<div class="tick" style="height: 59px;"><p>$30,000</p></div>
-<div class="tick" style="height: 59px;"><p>$20,000</p></div>
-<div class="tick" style="height: 59px;"><p>$10,000</p></div>
-</div>
-
-
-        </div>
-      </div>
-    </div>
-
-    <div class="content-box">
-      <h3 class="content-box-header content-box-header-alt bg-white">
-      <span class="icon-separator"><i class="glyph-icon icon-linecons-megaphone"></i></span> 
-      <span class="header-wrapper">Recent Tasks </span> 
-      <span class="header-buttons"><a href="<?= $this->Url->build(array("action" => "projects"));?>" class="btn btn-sm btn-primary" title="">View All</a></span>
-      </h3>
-      <div class="content-box-wrapper"> sfgdfgdfg</div>
-    </div>
-  
-  </div>
-  <div class="col-md-6">
-    <div class="row">
-      <div class="col-md-6">
-        <div class="tile-box tile-box-alt mrg20B bg-green">
-          <div class="tile-header">Users</div>
-          <div class="tile-content-wrapper"><i class="glyph-icon icon-dashboard"></i>
-            <div class="tile-content"> <?= $users ?></div>
-            <small><i class="glyph-icon icon-caret-up"></i> +7,6% new Users</small></div>
-          <a href="<?= $this->Url->build(array("action" => "users"));?>" class="tile-footer tooltip-button" data-placement="bottom" title="" data-original-title="Users!">view details <i class="glyph-icon icon-arrow-right"></i></a></div>
-      </div>
-      <div class="col-md-6">
-        <div class="tile-box tile-box-alt mrg20B bg-red">
-          <div class="tile-header">Projects</div>
-          <div class="tile-content-wrapper"><i class="glyph-icon icon-camera"></i>
-            <div class="tile-content"><span></span> <?= $projects ?></div>
-            <small><i class="glyph-icon icon-caret-up"></i> +% tasks</small></div>
-          <a href="<?= $this->Url->build(array("action" => "projects"));?>" class="tile-footer tooltip-button" data-placement="bottom" title="" data-original-title="Projects!">view details <i class="glyph-icon icon-arrow-right"></i></a></div>
-      </div>
-      <div class="col-md-6">
-        <div class="tile-box tile-box-alt mrg20B bg-orange">
-          <div class="tile-header">Clients</div>
-          <div class="tile-content-wrapper"><i class="glyph-icon icon-tag"></i>
-            <div class="tile-content"><span></span> <?= $clients ?></div>
-            <small><i class="glyph-icon icon-caret-up"></i> +% new projects </small></div>
-          <a href="<?= $this->Url->build(array("action" => "clients"));?>" class="tile-footer tooltip-button" data-placement="bottom" title="" data-original-title="Clients!">view details <i class="glyph-icon icon-arrow-right"></i></a></div>
-      </div>
-      <div class="col-md-6">
-        <div class="tile-box tile-box-alt mrg20B bg-blue-alt">
-          <div class="tile-header">Monthly earnings</div>
-          <div class="tile-content-wrapper"><i class="glyph-icon icon-camera"></i>
-            <div class="tile-content"><span>$</span> 1,212</div>
-            <small><i class="glyph-icon icon-caret-up"></i> +2,6% </small></div>
-          <a href="#" class="tile-footer tooltip-button" data-placement="bottom" title="" data-original-title="!">view details <i class="glyph-icon icon-arrow-right"></i></a></div>
-      </div>
-    </div>
+  <div class="col-md-6">    
     <div class="panel">
+      <h3 class="content-box-header content-box-header-alt bg-white"><span class="icon-separator"><i class="glyph-icon icon-linecons-megaphone"></i></span><span class="header-wrapper"><a href="<?= $this->Url->build(array("controller" => "tasks","action" => "tasks"));?>">Upcoming Milestones</a><small></small></span> 
+      </h3>
       <div class="panel-body">
         <div id="calendar-example-1" class="col-md-10 center-margin fc fc-ltr"></div>
       </div>
-    </div>
-    
+    </div>    
   </div>
+
 </div>
 <script type="text/javascript">
 window.onload = function () {
