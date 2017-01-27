@@ -64,6 +64,12 @@
           <?php $current_user_designation = isset($current_user_designation) ? $current_user_designation : false; 
           if($this->Custom->user_menu_avalablity_check($loggedInUser['userrole'], $current_user_designation, 'client')){?>
           <li><a href="<?= $this->Url->build(array("controller"=> "users","action" => "clients"));?>" title="Clients"><i class="glyph-icon icon-tasks"></i><span>Clients</span></a></li>
+          <?php } ?>
+
+
+          <?php $current_user_designation = isset($current_user_designation) ? $current_user_designation : false; 
+          if($this->Custom->user_menu_avalablity_check($loggedInUser['userrole'], $current_user_designation, 'user')){?>
+          <li><a href="<?= $this->Url->build(array("controller"=> "users","action" => "users"));?>" title="Add Users"><i class="glyph-icon icon-user"></i> <span>Users</span></a></li>
           <?php }?>
 
           <?php $current_user_designation = isset($current_user_designation) ? $current_user_designation : false; 
@@ -74,10 +80,6 @@
           <li><a href="<?= $this->Url->build(array("controller"=> "tasks","action" => "defect"));?>" title="Add defects"><i class="glyph-icon icon-chain-broken"></i> <span>Defects</span></a></li>
           <?php }?>
 
-          <?php $current_user_designation = isset($current_user_designation) ? $current_user_designation : false; 
-          if($this->Custom->user_menu_avalablity_check($loggedInUser['userrole'], $current_user_designation, 'user')){?>
-          <li><a href="<?= $this->Url->build(array("controller"=> "users","action" => "users"));?>" title="Add Users"><i class="glyph-icon icon-user"></i> <span>Users</span></a></li>
-          <?php }?>
 
           <?php if($loggedInUser['userrole'] == "user") { ?>
           <li><a href="<?= $this->Url->build(array("controller"=> "expenses","action" => "request"));?>" title="Add Expenses"><i class="glyph-icon icon-usd"></i><span>My Expense Requests</span></a></li>

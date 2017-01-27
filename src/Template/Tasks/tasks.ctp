@@ -182,6 +182,8 @@
                       <option value="New" <?= $task->status == "New" ? 'selected' : '';?>>New</option>
                       <option value="In Progress" <?= $task->status == "In Progress" ? 'selected' : '';?>>In Progress</option>
                       <option value="Ready To Test" <?= $task->status == "Ready To Test" ? 'selected' : '';?>>Ready To Test</option>
+                      <option value="Rejected" <?= $task->status == "Rejected" ? 'selected' : '';?>>Rejected</option>
+                      <option value="Closed" <?= $task->status == "Closed" ? 'selected' : '';?>>Closed</option>
                       <option value="Completed" <?= $task->status == "Completed" ? 'selected' : '';?>>Completed</option>
                       <option value="Cancelled" <?= $task->status == "Cancelled" ? 'selected' : '';?>>Cancelled</option>
                     </select>
@@ -364,6 +366,9 @@
                       <option value="New" <?= isset($copy_task) ? $copy_task->status == "New" ? 'selected' : '' : '';?>>New</option>
                       <option value="In Progress" <?= isset($copy_task) ? $copy_task->status == "In Progress" ? 'selected' : '' : '';?>>In Progress</option>
                       <option value="Ready To Test" <?= isset($copy_task) ? $copy_task->status == "Ready To Test" ? 'selected' : '' : '';?>>Ready To Test</option>
+                       <option value="Rejected" <?= isset($copy_task) ? $copy_task->status == "Rejected" ? 'selected' : '': '';?>>Rejected</option>
+                      <option value="Closed" <?= isset($copy_task) ? $copy_task->status == "Closed" ? 'selected' : '': '';?>>Closed</option>
+                       <option value="Cancelled" <?= isset($copy_task) ? $copy_task->status == "Cancelled" ? 'selected' : '': '';?>>Cancelled</option>
                       <option value="Completed" <?= isset($copy_task) ? $copy_task->status == "Completed" ? 'selected' : '' : '';?>>Completed</option>                      
                     </select>
                   </div>
