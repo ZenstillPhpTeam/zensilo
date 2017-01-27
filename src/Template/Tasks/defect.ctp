@@ -107,21 +107,21 @@
               <div class="row">
               <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
                 <div class="form-group">
-                  <label class="col-sm-5 control-label">User id</label>
+                  <label class="col-sm-5 control-label">Title</label>
                   <div class="col-sm-7">
                     <input name="task_name" class="form-control" id="" placeholder="Task Name" type="text" required="" value="<?= isset($copy_task) ? $copy_task->task_name: ''?>">
                   </div>
                 </div>
 
                 <div class="form-group">
-                  <label class="col-sm-5 control-label">Project</label>
+                  <label class="col-sm-5 control-label">Description</label>
                   <div class="col-sm-7">
                      <input name="estimated_effort" class="form-control" id="" placeholder="Estimated Effort"  required="" value="<?= isset($copy_task) ? $copy_task->estimated_effort: ''?>"/>
                   </div>
                 </div>
 
                 <div class="form-group" id="project_id_add_div">
-                  <label class="col-sm-5 control-label">Title</label>
+                  <label class="col-sm-5 control-label">Project</label>
                   <div class="col-sm-7">
                     <select  class="form-control" name="project_id"  required="" id="project_id_add" >
                       <option value="">Select Project</option>
@@ -156,9 +156,10 @@
                   <div class="col-sm-7">
                     <select  class="form-control" name="priority"  required="">
                       <option value="">Select Priority</option>
-                      <option value="High" <?= isset($copy_task) ? $copy_task->priority == "High" ? 'selected' : '' : '';?>>High</option>
-                      <option value="Low" <?= isset($copy_task) ? $copy_task->priority == "Low" ? 'selected' : '' : '';?>>Low</option>
-                      <option value="Medium" <?= isset($copy_task) ? $copy_task->priority == "Medium" ? 'selected' : '' : '';?>>Medium</option>
+                      <option value="High" <?= isset($copy_task) ? $copy_task->priority == "High" ? 'selected' : '' : '';?>>BLOCKER</option>
+                      <option value="Low" <?= isset($copy_task) ? $copy_task->priority == "Low" ? 'selected' : '' : '';?>>HIGH</option>
+                      <option value="Medium" <?= isset($copy_task) ? $copy_task->priority == "Medium" ? 'selected' : '' : '';?>>MEDIUM</option>
+                      <option value="Medium" <?= isset($copy_task) ? $copy_task->priority == "Medium" ? 'selected' : '' : '';?>>LOW</option>
                     </select>
                   </div>
                 </div>

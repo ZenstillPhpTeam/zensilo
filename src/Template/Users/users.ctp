@@ -98,7 +98,7 @@
 <div class="modal fade bs-edit-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
   <div class="modal-dialog modal-lg">
     <div class="modal-content">
-      <form method="post" enctype="multipart/form-data" class="form-horizontal bordered-row" data-parsley-validate=""> 
+      <form method="post" enctype="multipart/form-data" class="form-horizontal bordered-row" data-parsley-validate="" autocomplete="off"> 
         <div class="modal-header">
           <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
           <h4 class="modal-title">Edit User</h4>
@@ -160,9 +160,9 @@
                   <div class="col-md-6">
 
                 <div class="form-group">
-                  <label class="col-sm-3 control-label">Address 1 <i class="font-red">*</i></label>
+                  <label class="col-sm-3 control-label">Address 1 </label>
                   <div class="col-sm-6">
-                    <input name="address1" class="form-control" id="" type="text" required="" value="<?= $client->address1 ?>"/>
+                    <input name="address1" class="form-control" id="" type="text"  value="<?= $client->address1 ?>"/>
                   </div>
                 </div>
                 <div class="form-group">
@@ -174,14 +174,14 @@
                 <div class="form-group">
                   <label class="col-sm-3 control-label">Location</label>
                   <div class="col-sm-6">
-                    <input name="location" class="form-control" id="geocomplete1" type="text" required="" value="<?= $client->location ?>" />
+                    <input name="location" class="form-control" id="geocomplete1" type="text"  value="<?= $client->location ?>" />
                   </div>
                 </div>
                 
                 <div class="form-group">
-                  <label class="col-sm-3 control-label">Zip code <i class="font-red">*</i></label>
+                  <label class="col-sm-3 control-label">Zip code </label>
                   <div class="col-sm-6">
-                    <input name="zip" class="form-control" id="" type="text" data-parsley-type="digits" required="" value="<?= $client->zip ?>">
+                    <input name="zip" class="form-control" id="" type="text" data-parsley-type="digits"  value="<?= $client->zip ?>">
                   </div>
                 </div>
                 <input type="hidden" name="id" value="<?= $client->user_id ?>">
@@ -204,7 +204,7 @@
 <div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
   <div class="modal-dialog modal-lg">
     <div class="modal-content">
-      <form method="post" enctype="multipart/form-data" class="form-horizontal bordered-row" data-parsley-validate=""> 
+      <form method="post" enctype="multipart/form-data" class="form-horizontal bordered-row" data-parsley-validate="" autocomplete="off"> 
         <div class="modal-header">
           <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
           <h4 class="modal-title">New User</h4>
@@ -237,7 +237,7 @@
                   <label class="col-sm-3 control-label">Mobile<em>*</em></label>
 
                   <div class="col-sm-6">
-                    <input name="mobile" class="form-control" id="" type="text" data-parsley-type="digits" required="" data-parsley-minlength="10" data-parsley-maxlength="10">
+                    <input name="mobile" class="form-control" id="" type="text" data-parsley-type="digits" required=""  data-parsley-maxlength="20">
                   </div>
                 </div>
                 <div class="form-group .bordered-row">
@@ -278,10 +278,10 @@
                   <div class="col-md-6">
 
                 <div class="form-group">
-                  <label class="col-sm-3 control-label">Address 1<em>*</em></label>
+                  <label class="col-sm-3 control-label">Address 1</label>
 
                   <div class="col-sm-6">
-                    <input name="address1" class="form-control" id="" type="text" required=""/>
+                    <input name="address1" class="form-control" id="" type="text" />
                   </div>
                 </div>
                 <div class="form-group">
@@ -291,17 +291,17 @@
                   </div>
                 </div>
                 <div class="form-group">
-                  <label class="col-sm-3 control-label">Location<em>*</em></label>
+                  <label class="col-sm-3 control-label">Location</label>
                   <div class="col-sm-6">
                     <input name="location" class="form-control" id="geocomplete" type="text" />
                   </div>
                 </div>
                 <div class="form-group">
 
-                  <label class="col-sm-3 control-label">Zip code<em>*</em></label>
+                  <label class="col-sm-3 control-label">Zip code</label>
 
                   <div class="col-sm-6">
-                    <input name="zip" class="form-control" id="" type="text" data-parsley-type="digits" required=""/>
+                    <input name="zip" class="form-control" id="" type="text" data-parsley-type="digits" />
                   </div>
                 </div>
                 
