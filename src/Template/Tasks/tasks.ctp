@@ -383,7 +383,7 @@
 
                 <div class="form-group">
                   <label class="col-sm-3 control-label">Assign Team</label>
-                  <div class="col-sm-6"> <?php $teams = array(); foreach($copy_task_teams as $key => $value) {  $teams[] = $value->user_id; ?> <?php } ?>
+                  <div class="col-sm-6"> <?php $teams = array(); if(isset($copy_task_teams)) { foreach($copy_task_teams as $key => $value) {  $teams[] = $value->user_id; ?> <?php } } ?>
                     <select multiple="multiple" class="multi-select" name="assigned_to[]" id="14multiselect" style="position: absolute; left: -9999px;">
                     <?php foreach($team_members as $key => $value) { ?>
                       <option value="<?php echo $value['user_id']; ?>" <?php if(in_array($value['user_id'], $teams)) { ?> selected <?php } ?>><?php echo $value['client_name']; ?></option>
