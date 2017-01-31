@@ -7,24 +7,50 @@
         <div class="panel-body">
         <h3 class="title-hero"> <button id="addclient" class="btn btn-alt btn-hover btn-primary0 float-right"  data-toggle="modal" data-target=".bs-example-modal-lg" ><span>Add New</span> <i class="glyph-icon icon-arrow-right"></i><div class="ripple-wrapper"></div></button></h3>
         <div class="row">
-        <div class="fliter">
-        <!--<ul>
-             <li class="project"><a>Project <span class="caret"></span></a> </li> 
-             <li class="priority">Priority</li>
-             <li class="severity">Severity</li>
-             <li class="status">Status</li>
-             <li class="create">Create On</li>
-             <li class="created">Created By</li>
-             <li class="rootcause">Root Cause</li>
-        </ul>-->
-        </div>
-         <div class="table-menu1">
-        <ul>
-        <li>project</li>
-        <li>project1</li>
-        <li>project3</li>
-        <li>project4</li>
-        </ul>
+        <div class="fliter text-right">
+        <form name="filterform" method="post">
+        <label>Filter : </label>
+        <select onchange="document.filterform.submit();" class="" name="filter[project_id]"  id="project_id_add" >
+          <option value="">Project</option>
+          <?php foreach($projects as $key => $value) { ?>
+          <option <?= (isset($filter['project_id']) && $filter['project_id'] == $key) ? 'selected' : '';?> value="<?php echo $key; ?>"><?php echo $value; ?></option>
+          <?php } ?>
+        </select>
+
+        <select onchange="document.filterform.submit();" name="filter[priority]"  required>
+          <option value="">Priority</option>
+          <option <?= (isset($filter['priority']) && $filter['priority'] == "P1") ? 'selected' : '';?> value="P1">P1</option>
+          <option <?= (isset($filter['priority']) && $filter['priority'] == "P2") ? 'selected' : '';?> value="P2">P2</option>
+          <option <?= (isset($filter['priority']) && $filter['priority'] == "P3") ? 'selected' : '';?> value="P3">P3</option>
+          <option <?= (isset($filter['priority']) && $filter['priority'] == "P4") ? 'selected' : '';?> value="P4">P4</option>
+        </select>
+
+        <select onchange="document.filterform.submit();" name="filter[severity]"  required>
+          <option value="">Severity</option>
+          <option <?= (isset($filter['severity']) && $filter['severity'] == "BLOCKER") ? 'selected' : '';?> value="BLOCKER">BLOCKER</option>
+          <option <?= (isset($filter['severity']) && $filter['severity'] == "HIGH") ? 'selected' : '';?> value="HIGH">HIGH</option>
+          <option <?= (isset($filter['severity']) && $filter['severity'] == "MEDIUM") ? 'selected' : '';?> value="MEDIUM">MEDIUM</option>
+          <option <?= (isset($filter['severity']) && $filter['severity'] == "LOW") ? 'selected' : '';?> value="LOW">LOW</option>
+        </select>
+
+        <select onchange="document.filterform.submit();" name="filter[status]"  required>
+          <option value="">Status</option>
+          <option <?= (isset($filter['status']) && $filter['status'] == 1) ? 'selected' : '';?> value="1">New</option>
+          <option <?= (isset($filter['status']) && $filter['status'] == 2) ? 'selected' : '';?> value="2">In Progress</option>
+          <option <?= (isset($filter['status']) && $filter['status'] == 3) ? 'selected' : '';?> value="3">Ready To Test</option>
+          <option <?= (isset($filter['status']) && $filter['status'] == 4) ? 'selected' : '';?> value="4">Completed</option>                      
+        </select>
+
+        <select onchange="document.filterform.submit();" name="filter[root_cause]"  required="">
+          <option value="">Select Priority</option>
+          <option <?= (isset($filter['root_cause']) && $filter['root_cause'] == "Requirements") ? 'selected' : '';?> value="Requirements">Requirements</option>
+          <option <?= (isset($filter['root_cause']) && $filter['root_cause'] == "Design") ? 'selected' : '';?> value="Design">Design</option>
+          <option <?= (isset($filter['root_cause']) && $filter['root_cause'] == "Coding") ? 'selected' : '';?> value="Coding">Coding</option>
+          <option <?= (isset($filter['root_cause']) && $filter['root_cause'] == "Data") ? 'selected' : '';?> value="Data">Data</option>
+          <option <?= (isset($filter['root_cause']) && $filter['root_cause'] == "Deployment") ? 'selected' : '';?> value="Deployment">Deployment</option>
+          <option <?= (isset($filter['root_cause']) && $filter['root_cause'] == "Environment") ? 'selected' : '';?> value="Environment">Environment</option>    
+        </select>
+        </form>
         </div>
         <style>
         .project,.priority,.severity,.status,.create,.created,.rootcause{ position: relative; }
@@ -40,6 +66,7 @@
          });
         </script>
         </div>
+        <?php $starr = [1=>'New', 2=>'In Progress', 3=>'Ready to Test', 4=>'Completed'];?>
         <div class="tasks-table table-responsive" style="overflow-x:auto;">
         <table class="table table-striped" >
         <tbody>
@@ -63,7 +90,7 @@
                 <td><?= $res->project_id ? $this->Custom->get_projectname($res->project_id) : '';?>/<?= $res->task_id ? $this->Custom->get_taskname($res->task_id) : '';?></td>
                 <td><?= $res->priority;?></td>
                 <td><?= $res->severity;?></td>
-                <td><?= $res->status;?></td>
+                <td><?= $starr[$res->status];?></td>
                 <td><?= $res->assigned_to ? $this->Custom->get_username($res->assigned_to) : '';?></td>
                 <td><?= $res->root_cause;?></td>
                 <td>
@@ -170,7 +197,7 @@
                   <div class="col-sm-7">
                     <select  class="form-control" name="status"  required>
                       <option value="">Select Status</option>
-                      <option value="1">New</option>
+                      <option selected="" value="1">New</option>
                       <option value="2">In Progress</option>
                       <option value="3">Ready To Test</option>
                       <option value="4">Completed</option>                      
@@ -232,11 +259,14 @@
                 <div class="form-group">
                   <label class="col-sm-5 control-label">Root Cause</label>
                   <div class="col-sm-7">
-                    <select  class="form-control" name="root_cause"  required="">
+                    <select  class="form-control" name="root_cause"  >
                       <option value="">Select Priority</option>
-                      <option value="High">High</option>
-                      <option value="Low">Low</option>
-                      <option value="Medium">Medium</option>
+                      <option value="Requirements">Requirements</option>
+                      <option value="Design">Design</option>
+                      <option value="Coding">Coding</option>
+                      <option value="Data">Data</option>
+                      <option value="Deployment">Deployment</option>
+                      <option value="Environment">Environment</option>
                     </select>
                   </div>
                 </div>
@@ -399,7 +429,7 @@
                 <div class="form-group">
                   <label class="col-sm-5 control-label">Status</label>
                   <div class="col-sm-7">
-                    <select  class="form-control" name="status"  required>
+                    <select  class="form-control dstatus" name="status"  required>
                       <option value="">Select Status</option>
                       <option <?= $defect->status == 1 ? 'selected' : '';?> value="1">New</option>
                       <option <?= $defect->status == 2 ? 'selected' : '';?> value="2">In Progress</option>
@@ -430,7 +460,7 @@
                   <label class="col-sm-5 control-label">Document</label>
                   <div class="col-sm-7">
                     <input name="document" class="form-control" type="file">
-                    <a target="blank" download href="<?= $defect->document;?>">Download</a> 
+                    <a target="blank" download href="<?= $defect->document;?>"><?= basename($defect->document);?></a> 
                   </div>
                 </div>
 
@@ -464,7 +494,7 @@
                 <div class="form-group">
                   <label class="col-sm-5 control-label">Root Cause</label>
                   <div class="col-sm-7">
-                    <select  class="form-control" name="root_cause"  required="">
+                    <select  class="form-control mandatory1 mandatory2" name="root_cause" >
                       <option  value="">Select Priority</option>
                       <option <?= $defect->root_cause == "Requirements" ? 'selected' : '';?> value="Requirements">Requirements</option>
                       <option <?= $defect->root_cause == "Design" ? 'selected' : '';?> value="Design">Design</option>
@@ -478,13 +508,13 @@
                  <div class="form-group">
                   <label class="col-sm-5 control-label">Resolved On</label>
                   <div class="col-sm-7">
-                    <input name="resolved_date" class="bootstrap-datepicker form-control" data-date-format="yyyy-mm-dd" type="text" value="<?= $this->Time->format($defect->resolved_date, 'Y-MM-dd');?>">
+                    <input name="resolved_date" class="bootstrap-datepicker form-control mandatory1 mandatory2" data-date-format="yyyy-mm-dd" type="text" value="<?= $this->Time->format($defect->resolved_date, 'Y-MM-dd');?>">
                   </div>
                 </div>
                  <div class="form-group">
                   <label class="col-sm-5 control-label">Resolved By</label>
                   <div class="col-sm-7">
-                    <select name="resolved_by" class="form-control">
+                    <select name="resolved_by" class="form-control mandatory1 mandatory2">
                       <option value="">Select User</option>
                       <?php foreach($company_users as $us){?>
                       <option <?= $defect->resolved_by == $us->id ? 'selected' : '';?> value="<?= $us->id;?>"><?= $us->username;?></option>
@@ -495,13 +525,13 @@
                  <div class="form-group">
                   <label class="col-sm-5 control-label">Closed On</label>
                   <div class="col-sm-7">
-                    <input name="closed_date" class="bootstrap-datepicker form-control" data-date-format="yyyy-mm-dd" type="text" value="<?= $this->Time->format($defect->closed_date, 'Y-MM-dd');?>">
+                    <input name="closed_date" class="bootstrap-datepicker form-control mandatory2" data-date-format="yyyy-mm-dd" type="text" value="<?= $this->Time->format($defect->closed_date, 'Y-MM-dd');?>">
                   </div>
                 </div>
                 <div class="form-group">
                   <label class="col-sm-5 control-label">Closed By</label>
                   <div class="col-sm-7">
-                    <select name="closed_by" class="form-control">
+                    <select name="closed_by" class="form-control mandatory2">
                       <option value="">Select User</option>
                       <?php foreach($company_users as $us){?>
                       <option <?= $defect->closed_by == $us->id ? 'selected' : '';?> value="<?= $us->id;?>"><?= $us->username;?></option>
@@ -557,6 +587,22 @@
     });
     <?php if(isset($defect)){?>
     $(".edit-modal-lg .taskfield option[data-id=<?= $defect->project_id;?>]").show();
+
+    <?php if($defect->status == 3){?>
+      $(".mandatory1").attr("required", "required");
+    <?php }elseif($defect->status == 4){?>
+      $(".mandatory2").attr("required", "required");
+    <?php }?>
+
+    $(".edit-modal-lg .dstatus").change(function(){
+      $(".mandatory1").removeAttr("required");
+      $(".mandatory2").removeAttr("required");
+      if($(this).val() == '3')
+        $(".mandatory1").attr("required", "required");
+      else if($(this).val() == '4')
+        $(".mandatory2").attr("required", "required");
+    });
+
     <?php }?>
     <?php if($action == 'add_task'){?>
     pd = $(".bs-example-modal-lg .taskfield option[value=<?= $id;?>]").data("id");

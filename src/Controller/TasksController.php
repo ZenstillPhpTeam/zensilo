@@ -240,7 +240,7 @@ class TasksController extends UsersController
             $this->Flash->success('Designation has been deleted successfully!!');
             $this->redirect(array("action" => 'defect'));
        }
-       elseif ($this->request->is('post'))
+       elseif ($this->request->is('post') && !isset($this->request->data['filter']))
         {
             $data = $this->request->data;
 
@@ -285,15 +285,26 @@ class TasksController extends UsersController
         $tasks = $this->Tasks->find('list', ['conditions' => ['company_id' => $parent_id], 'keyField' => 'id', 'valueField' => 'task_name', 'groupField' => 'project_id'])->toArray();
 
         $conditions = ['company_id' => $parent_id];
-
-        if($action == 'add_project')
+        $filter = isset($this->request->data['filter']) ? $this->request->data['filter'] : array();
+        if(isset($this->request->data['filter']))
+        {
+          foreach($this->request->data['filter'] as $kk=>$vv)
+          {
+            if($vv)
+              $conditions[$kk] = $vv;
+          }
+        }
+        elseif($action == 'add_project')
+        {  
           $conditions[] = ['project_id' => $id];
+          $filter['project_id'] = $id;
+        }
         elseif($action == 'add_task')
           $conditions[] = ['task_id' => $id];
 
         $defects = $this->Defects->find('all', ['conditions' => $conditions])->all();
 
-        $this->set(compact('projects', 'tasks', 'defects', 'id', 'action'));
+        $this->set(compact('projects', 'tasks', 'defects', 'id', 'action', 'filter'));
     }
 
 }
