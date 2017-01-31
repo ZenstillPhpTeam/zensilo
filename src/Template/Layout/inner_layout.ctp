@@ -199,6 +199,8 @@
      $(document).ready(function() {
 
         $("[type='submit']").click(function(){ 
+           if($(this).parents("form").attr("id") == 'fileupload')
+            return;
            $(this).parents("form").submit();
         });
 
