@@ -69,7 +69,7 @@
                       <?php } ?>
                       <li class="ms-hover"><a href="<?= $this->Url->build(array("action" => "tasks", $tas->id,"copy"));?>">Copy</a></li>
                       <li class="ms-hover"><a href="#" data-toggle="modal" data-target=".bs-document-modal-lg" onclick="setprojectid('<?= $tas->project_id ?>','<?= $tas->id ?>');" >Documents</a></li>
-                      <li class="ms-hover"><a href="<?= $this->Url->build(array("controller"=>"tasks","action" => "defect"));?>" >Defects</a></li>
+                      <li class="ms-hover"><a href="<?= $this->Url->build(array("controller"=>"tasks","action" => "defect", $tas->id, "add_task"));?>" >Defects</a></li>
                      <?php if($tas->status !='Completed' && $tas->status !='Cancelled') { ?>
                       <li class="ms-hover"><a href="<?= $this->Url->build(array("action" => "tasks", $tas->id));?>">Edit</a></li>
                       <li class="ms-hover"><a href="<?= $this->Url->build(array("action" => "tasks", $tas->id,"delete"));?>">Delete</a></li>
