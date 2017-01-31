@@ -228,9 +228,49 @@ class TasksController extends UsersController
             return true;
     }
 
-    public function defect()
+    public function defect($id = 0, $action = '')
     {
+        $this->Projects = TableRegistry::get('projects');
+        $this->Tasks = TableRegistry::get('tasks');
+        $this->Defects = TableRegistry::get('defects');
         
+        if ($this->request->is('post'))
+        {
+            $data = $this->request->data;
+
+            if(isset($data['id'])){
+                $this->request->data['modified_by'] = $this->Auth->user('id');
+                $task = $this->Defects->get($data['id']);
+                $task = $this->Defects->patchEntity($task, $this->request->data);
+                $task_save  = $this->Defects->save($task);
+                if ($task_save) {
+                    $this->Flash->success('Defect has been updated successfully!!');
+                }
+            }
+            else {
+                $task = $this->Defects->newEntity();
+                $parent_id = $this->Auth->user('userrole') == "company" ? $this->Auth->user('id') : $this->Auth->user('parent_id');
+                $this->request->data['company_id'] = $parent_id;
+                $this->request->data['created_by'] = $this->Auth->user('id');
+                $this->request->data['document'] = $this->s3upload($this->request->data['document']['tmp_name'], time().$this->request->data['document']['name']);
+                $task = $this->Defects->patchEntity($task, $this->request->data);
+                $task_save  = $this->Defects->save($task);
+                if ($task_save) {
+                    $this->Flash->success('New Defect has been added successfully!!');
+                }
+              }
+            $this->redirect(array("action" => 'defect'));
+        }
+
+
+        $parent_id = $this->Auth->user('userrole') == "company" ? $this->Auth->user('id') : $this->Auth->user('parent_id');
+        $projects = $this->Projects->find('list', ['conditions' => ['projects.company_id' => $parent_id], 'keyField' => 'id', 'valueField' => 'project_name'])->toArray();
+
+        $tasks = $this->Tasks->find('list', ['conditions' => ['company_id' => $parent_id], 'keyField' => 'id', 'valueField' => 'task_name', 'groupField' => 'project_id'])->toArray();
+
+        $defects = $this->Defects->find('all', ['conditions' => ['company_id' => $parent_id]])->all();
+
+        $this->set(compact('projects', 'tasks', 'defects'));
     }
 
 }
