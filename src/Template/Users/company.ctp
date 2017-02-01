@@ -56,7 +56,7 @@
         <td class="center"><?= $user_det->location ?></td>
         <td class="center">
               <a href="<?= $this->Url->build(array("action" => "company", $user_det->user_id));?>"><i class="glyph-icon demo-icon tooltip-button icon-elusive-pencil"></i></a>&nbsp;&nbsp;
-                <a href="<?= $this->Url->build(array("action" => "company", $user_det->user_id, "delete"));?>" onclick="javascript:confirm('Are you sure want to delete this Company?')"><i class="glyph-icon demo-icon tooltip-button icon-elusive-trash"></i></a></td>
+                <a href="<?= $this->Url->build(array("action" => "company", $user_det->user_id, "delete"));?>" onclick="return confirm('Are you sure want to delete this Company?')"><i class="glyph-icon demo-icon tooltip-button icon-elusive-trash"></i></a></td>
         </tr>
         <?php } ?>
         

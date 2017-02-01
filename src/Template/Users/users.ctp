@@ -61,7 +61,7 @@
         <td class="center"><?= $designation1[$user_det->designation] ?></td>
         <td class="center">
           <a href="<?= $this->Url->build(array("action" => "users", $user_det->user_id));?>"><i class="glyph-icon demo-icon tooltip-button icon-elusive-pencil"></i></a>&nbsp;&nbsp;
-          <a href="<?= $this->Url->build(array("action" => "users", $user_det->user_id, "delete"));?>" onclick="javascript:confirm('Are you sure want to delete this User?')"><i class="glyph-icon demo-icon tooltip-button icon-elusive-trash"></i></a>
+          <a href="<?= $this->Url->build(array("action" => "users", $user_det->user_id, "delete"));?>" onclick="return confirm('Are you sure want to delete this User?')"><i class="glyph-icon demo-icon tooltip-button icon-elusive-trash"></i></a>
         </td>
         </tr>
         <?php } ?>

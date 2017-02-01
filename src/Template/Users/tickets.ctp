@@ -73,7 +73,7 @@
               <td>
                 <?php if($cat->status == 0){?>
                 <a href="<?= $this->Url->build(array("action" => "tickets", $cat->id, 1));?>"><i class="glyph-icon icon-check"></i></a>&nbsp;&nbsp;
-                <a href="<?= $this->Url->build(array("action" => "tickets", $cat->id, 2));?>" onclick="javascript:confirm('Are you sure want to reject this ticket?')"><i class="glyph-icon icon-times"></i></a>
+                <a href="<?= $this->Url->build(array("action" => "tickets", $cat->id, 2));?>" onclick="return confirm('Are you sure want to reject this ticket?')"><i class="glyph-icon icon-times"></i></a>
                 <?php }elseif($cat->status == 1){?>
                 <span class="bs-label label-success">Approved</span>
                 <?php }else{ ?>

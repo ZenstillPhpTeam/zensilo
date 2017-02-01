@@ -95,7 +95,7 @@
                 <td><?= $res->root_cause;?></td>
                 <td>
                   <a href="<?= $this->Url->build(array("action" => "defect", $res->id));?>"><i class="glyph-icon demo-icon tooltip-button icon-elusive-pencil" data-toggle="tooltip" data-placement="top" title="" data-original-title="Edit"></i></a>&nbsp;&nbsp;
-                  <a href="<?= $this->Url->build(array("action" => "defect", $res->id, "delete"));?>" onclick="javascript:confirm('Are you sure want to delete this Project?')"><i class="glyph-icon demo-icon tooltip-button icon-elusive-trash" data-toggle="tooltip" data-placement="top" title="" data-original-title="Delete"></i></a>
+                  <a href="<?= $this->Url->build(array("action" => "defect", $res->id, "delete"));?>" onclick="return confirm('Are you sure want to delete this Project?')"><i class="glyph-icon demo-icon tooltip-button icon-elusive-trash" data-toggle="tooltip" data-placement="top" title="" data-original-title="Delete"></i></a>
                   <!-- <a class="view_defect" data-defect='<?= json_encode($res)?>'><i class="glyph-icon demo-icon tooltip-button icon-elusive-slideshare" data-toggle="tooltip" data-placement="top" title="" data-original-title="View"></i></a> -->
                 </td>
             </tr>

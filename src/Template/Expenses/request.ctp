@@ -53,7 +53,7 @@
                <?php if($request_det->status == 0){ ?> 
                 <a href="<?= $this->Url->build(array("action" => "request", $request_det->id));?>"><i class="glyph-icon demo-icon tooltip-button icon-elusive-pencil" data-toggle="tooltip" data-placement="top" title="" data-original-title="Edit"></i></a>
                  &nbsp;&nbsp;
-                <a href="<?= $this->Url->build(array("action" => "request", $request_det->id, "delete"));?>" onclick="javascript:confirm('Are you sure want to delete this Request?')"><i class="glyph-icon demo-icon tooltip-button icon-elusive-trash" data-toggle="tooltip" data-placement="top" title="" data-original-title="Delete"></i></a>
+                <a href="<?= $this->Url->build(array("action" => "request", $request_det->id, "delete"));?>" onclick="return confirm('Are you sure want to delete this Request?')"><i class="glyph-icon demo-icon tooltip-button icon-elusive-trash" data-toggle="tooltip" data-placement="top" title="" data-original-title="Delete"></i></a>
                 <?php } else{ ?> 
                 <a href="javascript:;"><i class="glyph-icon demo-icon tooltip-button icon-elusive-pencil" data-toggle="tooltip" data-placement="top" title="" data-original-title="Edit"></i></a>
                  &nbsp;&nbsp;

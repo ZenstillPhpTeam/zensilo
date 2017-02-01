@@ -49,7 +49,7 @@
         <td><?= $user_det->max_allowed_days ?></td>
         <td class="center">
               <a href="<?= $this->Url->build(array("controller" => "company","action" => "leavetypes", $user_det->id));?>"><i class="glyph-icon demo-icon tooltip-button icon-elusive-pencil"></i></a>&nbsp;&nbsp;
-                <a href="<?= $this->Url->build(array("controller" => "company","action" => "leavetypes", $user_det->id, "delete"));?>" onclick="javascript:confirm('Are you sure want to delete this Company?')"><i class="glyph-icon demo-icon tooltip-button icon-elusive-trash"></i></a></td>
+                <a href="<?= $this->Url->build(array("controller" => "company","action" => "leavetypes", $user_det->id, "delete"));?>" onclick="return confirm('Are you sure want to delete this Company?')"><i class="glyph-icon demo-icon tooltip-button icon-elusive-trash"></i></a></td>
         </tr>
         <?php } ?>
         
