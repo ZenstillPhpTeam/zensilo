@@ -151,7 +151,7 @@
                     <select class="form-control" name="lead_id" >
                       <option value="">Select Lead</option>
                       <?php foreach ($users as $key => $user) { ?>
-                      <option value="<?php echo $user['user_id']; ?>" <?= $client->lead_id == $user['user_id'] ? 'selected' : '';?>><?php echo $user['client_name']; ?></option>
+                      <option value="<?php echo $user['user_id']; ?>" <?= $client->user->lead_id == $user['user_id'] ? 'selected' : '';?>><?php echo $user['client_name']; ?></option>
                       <?php } ?>
                     </select>
                   </div>
