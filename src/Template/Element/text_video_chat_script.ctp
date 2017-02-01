@@ -19,7 +19,8 @@ angular_module
                 if (scope.$last === true) {
                     $timeout(function () {
                       //scope.$emit(attr.onFinishRender);
-                      jQuery("#chat_box_"+attr.onFinishRender).scrollTop(jQuery("#chat_box_"+attr.onFinishRender)[0].scrollHeight);
+                      if(jQuery("#chat_box_"+attr.onFinishRender).length)
+                        jQuery("#chat_box_"+attr.onFinishRender).scrollTop(jQuery("#chat_box_"+attr.onFinishRender)[0].scrollHeight);
                     });
                 }
             }
