@@ -52,7 +52,7 @@
                       <div class="selector" style="width: 98px;">
                         <span style="width: 76px; -moz-user-select: none;">{{TimeSheetData.days[key]['project_name']}}</span>
 
-                        <select ng-model="TimeSheetData.days[key]['project']" name="project[]" class="custom-select">
+                        <select ng-model="TimeSheetData.days[key]['project']" name="project[]" >
                           <option ng-click="TimeSheetData.days[key]['project_name'] = 'Select Project'" ng-selected="project.id == TimeSheetData.days[key]['project']" value="0">Select Project</option>
                           <option ng-click="TimeSheetData.days[key]['project_name'] = project.project_name" ng-selected="project.id == TimeSheetData.days[key]['project']" ng-repeat="project in TimeSheetData.projects" value="{{project.id}}">{{project.project_name}}</option>
                         </select>
@@ -65,7 +65,7 @@
                       <div class="selector" style="width: 98px;">
                         <span style="width: 76px; -moz-user-select: none;">{{TimeSheetData.days[key]['task_name']}}</span>
 
-                        <select ng-model="TimeSheetData.days[key]['task']" name="task[]" class="custom-select">
+                        <select ng-model="TimeSheetData.days[key]['task']" name="task[]" >
                           <option ng-click="TimeSheetData.days[key]['task_name'] = 'Select Task'" ng-selected="task.id == TimeSheetData.days[key]['task']" value="0">Select Task</option>
                           <option ng-show="is_already_taken(task.id, 'task',key) && TimeSheetData.days[key]['project'] == task.project_id" ng-click="TimeSheetData.days[key]['task_name'] = task.task_name" ng-selected="task.id == TimeSheetData.days[key]['task']" ng-repeat="task in TimeSheetData.tasks" 
                           value="{{task.id}}"> {{task.task_name}}</option>
