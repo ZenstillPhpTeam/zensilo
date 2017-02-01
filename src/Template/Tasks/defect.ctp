@@ -87,7 +87,7 @@
                 <td><?= $k+1;?></td>
                 <td><?= $res->title;?></td>
                 <td><?= $res->description;?></td>
-                <td><?= $res->project_id ? $this->Custom->get_projectname($res->project_id) : '';?>/<?= $res->task_id ? $this->Custom->get_taskname($res->task_id) : '';?></td>
+                <td><?= $res->project_id ? $this->Custom->get_projectname($res->project_id) : '';?><?= $this->Custom->get_taskname($res->task_id) ? '/'.$this->Custom->get_taskname($res->task_id) : '';?></td>
                 <td><?= $res->priority;?></td>
                 <td><?= $res->severity;?></td>
                 <td><?= $starr[$res->status];?></td>
@@ -260,7 +260,7 @@
                   <label class="col-sm-5 control-label">Root Cause</label>
                   <div class="col-sm-7">
                     <select  class="form-control" name="root_cause"  >
-                      <option value="">Select Priority</option>
+                      <option value="">Select Root Cause</option>
                       <option value="Requirements">Requirements</option>
                       <option value="Design">Design</option>
                       <option value="Coding">Coding</option>
@@ -495,7 +495,7 @@
                   <label class="col-sm-5 control-label">Root Cause</label>
                   <div class="col-sm-7">
                     <select  class="form-control mandatory1 mandatory2" name="root_cause" >
-                      <option  value="">Select Priority</option>
+                      <option  value="">Select Root Cause</option>
                       <option <?= $defect->root_cause == "Requirements" ? 'selected' : '';?> value="Requirements">Requirements</option>
                       <option <?= $defect->root_cause == "Design" ? 'selected' : '';?> value="Design">Design</option>
                       <option <?= $defect->root_cause == "Coding" ? 'selected' : '';?> value="Coding">Coding</option>
