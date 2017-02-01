@@ -72,7 +72,7 @@
                       <li class="ms-hover"><a href="<?= $this->Url->build(array("controller"=>"tasks","action" => "defect", $tas->id, "add_task"));?>" >Defects</a></li>
                      <?php if($tas->status !='Completed' && $tas->status !='Cancelled') { ?>
                       <li class="ms-hover"><a href="<?= $this->Url->build(array("action" => "tasks", $tas->id));?>">Edit</a></li>
-                      <li class="ms-hover"><a href="<?= $this->Url->build(array("action" => "tasks", $tas->id,"delete"));?>">Delete</a></li>
+                      <li class="ms-hover"><a onclick="return confirm('Are you sure want to delete this Client?')" href="<?= $this->Url->build(array("action" => "tasks", $tas->id,"delete"));?>">Delete</a></li>
                       <?php } ?>
                     </ul>
                   </div>

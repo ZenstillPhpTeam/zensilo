@@ -57,7 +57,7 @@
         <td class="center"><?= $user_det->location ?></td>
         <td class="center">
           <a href="<?= $this->Url->build(array("action" => "clients", $user_det->user_id));?>"><i class="glyph-icon demo-icon tooltip-button icon-elusive-pencil"></i></a>&nbsp;&nbsp;
-          <a href="<?= $this->Url->build(array("action" => "clients", $user_det->user_id, "delete"));?>" onclick="return confirm('Are you sure want to delete this User?')"><i class="glyph-icon demo-icon tooltip-button icon-elusive-trash"></i></a>
+          <a href="<?= $this->Url->build(array("action" => "clients", $user_det->user_id, "delete"));?>" onclick="return confirm('Are you sure want to delete this Client?')"><i class="glyph-icon demo-icon tooltip-button icon-elusive-trash"></i></a>
         </td>
         </tr>
         <?php } ?>
@@ -125,12 +125,7 @@
                     <input name="email" class="form-control" id="" type="text" data-parsley-type="email" required="" value="<?= $client->user->email ?>"/>
                   </div>
                 </div>
-                <div class="form-group">
-                  <label class="col-sm-3 control-label">Mobile</label>
-                  <div class="col-sm-6">
-                    <input name="mobile" class="form-control" id="" type="text" data-parsley-type="digits" required="" data-parsley-minlength="10" data-parsley-maxlength="10" value="<?= $client->mobile ?>"/>
-                  </div>
-                </div>
+                
                 <div class="form-group .bordered-row">
                   <label class="col-sm-3 control-label">Username</label>
                   <div class="col-sm-6">
@@ -141,7 +136,12 @@
 
                 </div>
                   <div class="col-md-6">
-
+                    <div class="form-group">
+                  <label class="col-sm-3 control-label">Mobile</label>
+                  <div class="col-sm-6">
+                    <input name="mobile" class="form-control" id="" type="text" data-parsley-type="digits" required="" data-parsley-minlength="10" data-parsley-maxlength="10" value="<?= $client->mobile ?>"/>
+                  </div>
+                </div>
                 <div class="form-group">
                   <label class="col-sm-3 control-label">Address 1</label>
                   <div class="col-sm-6">
@@ -170,11 +170,8 @@
                 <input type="hidden" name="id" value="<?= $client->user_id ?>">
 
                 </div>
-                </div>
-
-            </div>
-          
-                 
+              </div>
+              <div class="row">
                 <div class="col-md-6">
 
                 <div class="form-group">
@@ -210,8 +207,12 @@
 
                 </div>
 
+            </div>
+          
+                 
+                
 
-        </div>
+                </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-default " data-dismiss="modal">Close</button> 
           <button type="submit" class="btn btn-hover btn-primary">Save changes</button>
