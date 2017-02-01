@@ -203,14 +203,14 @@
                 <div class="form-group .bordered-row">
                   <label class="col-sm-3 control-label"> Start Date</label>
                   <div class="col-sm-6">
-                    <input name="start_date" type="text" class="bootstrap-datepicker2 form-control"  data-date-format="yyyy-mm-dd" required="">
+                    <input id="fromDate" name="start_date" type="text" class="form-control"  data-date-format="yyyy-mm-dd" required="">
                   </div>
                 </div>
 
                 <div class="form-group">
                   <label class="col-sm-3 control-label"> End Date</label>
                   <div class="col-sm-6 end_date_container">
-                    <input name="end_date" readonly type="text" class="bootstrap-datepicker2_end_date form-control"  data-date-format="yyyy-mm-dd">
+                    <input id="toDate" name="end_date" readonly type="text" class="form-control"  data-date-format="yyyy-mm-dd">
                   </div>
                 </div>
                 <div class="form-group">
@@ -249,7 +249,7 @@ function setprojectid(id){
 $(document).ready(function () {
 
 
-    $(".bootstrap-datepicker2").datepicker({ 
+    /*$(".bootstrap-datepicker2").datepicker({ 
         autoclose: true,
         minDate: new Date(),
         maxDate: '+2y',
@@ -271,7 +271,7 @@ $(document).ready(function () {
           maxDate: '+2y',
       });
 
-    });
+    });*/
 });
 
 
