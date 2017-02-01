@@ -25,6 +25,17 @@ angular_module.controller('TimesheetCtrl', function($scope,$http,$location,$root
     return val==false ? 'Select Project' : val;
   };
 
+  $scope.task_name = function(id){
+    if($scope.TimeSheetData.tasks === undefined) return 'Select Task';
+    var val = false;
+    angular.forEach($scope.TimeSheetData.tasks, function(v,k){
+      if(v.id == id)
+        val = v.task_name;
+    })
+
+    return val==false ? 'Select Task' : val;
+  };
+
 	$scope.add_new_row = function(){
 
 		var hrs = {};
