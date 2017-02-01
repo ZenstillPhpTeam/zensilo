@@ -47,10 +47,10 @@
 
                   <a ng-repeat="(key,days) in TimeSheetData.days" style="border-bottom: 1px solid #4caf50;margin-top: 1px;" class="list-group-item">
                     <div class="row">
-                     {{TimeSheetData.days[key]}} 
+                      
                     <div class="col-md-2"> 
                       <div class="selector" style="width: 98px;">
-                        <span style="width: 76px; -moz-user-select: none;">{{TimeSheetData.days[key]['project_name']}}</span>
+                        <span style="width: 76px; -moz-user-select: none;">{{project_name(TimeSheetData.days[key]['project'])}}</span>
 
                         <select ng-model="TimeSheetData.days[key]['project']" class="custom-select">
                           <option ng-click="TimeSheetData.days[key]['project_name'] = 'Select Project'" ng-selected="project.id == TimeSheetData.days[key]['project']" value="0">Select Project</option>

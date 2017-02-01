@@ -14,6 +14,17 @@ angular_module.controller('TimesheetCtrl', function($scope,$http,$location,$root
 
   });
 
+  $scope.project_name = function(id){
+    if($scope.TimeSheetData.projects === undefined) return '';
+    var val = '';
+    angular.forEach($scope.TimeSheetData.projects, function(v,k){
+      if(v.id == id)
+        val = v.project_name;
+    })
+
+    return val;
+  };
+
 	$scope.add_new_row = function(){
 
 		var hrs = {};
