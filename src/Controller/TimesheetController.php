@@ -13,6 +13,14 @@ use Cake\View\Helper\CustomHelper;
 class TimesheetController extends UsersController
 {
 
+    public function beforeFilter(Event $event)
+    {
+        parent::beforeFilter($event);
+
+        if(!$this->Auth->user())
+            $this->redirect(['controller' => 'users', 'action' => 'login']);
+    }
+
     public function add()
     {
         $this->TimeSheetWeek = TableRegistry::get('time_sheet_weeks');
