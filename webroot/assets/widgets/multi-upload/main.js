@@ -31,13 +31,30 @@ $(function () {
         )
     );
 
+    $(document).on('click', "#fileupload .delete", function(){
+        $("#fileupload tbody.files").empty();
+        $('#fileupload').addClass('fileupload-processing');
+        $.ajax({
+            // Uncomment the following to send cross-domain cookies:
+            //xhrFields: {withCredentials: true},
+            url: $('#fileupload').fileupload('option', 'url'),
+            dataType: 'json',
+            context: $('#fileupload')[0]
+        }).always(function () {
+            $(this).removeClass('fileupload-processing');
+        }).done(function (result) {
+            $(this).fileupload('option', 'done')
+                .call(this, $.Event('done'), {result: result});
+        });  
+    });
+
     $(".project_document").click(function(){
     	$('#fileupload').fileupload(
 	        'option',
 	        'url',
 	        'server/php/'+$(this).data("id")
 	    );
-
+        $("#fileupload tbody.files").empty();
 	    $('#fileupload').addClass('fileupload-processing');
         $.ajax({
             // Uncomment the following to send cross-domain cookies:
