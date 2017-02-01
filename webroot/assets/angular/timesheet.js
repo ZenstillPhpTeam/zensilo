@@ -15,14 +15,14 @@ angular_module.controller('TimesheetCtrl', function($scope,$http,$location,$root
   });
 
   $scope.project_name = function(id){
-    if($scope.TimeSheetData.projects === undefined) return '';
+    if($scope.TimeSheetData.projects === undefined) return 'Select Project';
     var val = false;
     angular.forEach($scope.TimeSheetData.projects, function(v,k){
       if(v.id == id)
         val = v.project_name;
     })
 
-    return val==false ? val : 'Select Project';
+    return val==false ? 'Select Project' : val;
   };
 
 	$scope.add_new_row = function(){
