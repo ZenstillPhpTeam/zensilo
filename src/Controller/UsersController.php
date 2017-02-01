@@ -76,7 +76,7 @@ class UsersController extends AppController
             $this->set('notifications', $notifications);
 
             if($this->loggedInUser['status'] == 0)
-                $this->render('verfiy_email');
+                $this->render('/Users/verfiy_email');
         }
         elseif($this->request->params['action'] != 'setlogin')
         {
