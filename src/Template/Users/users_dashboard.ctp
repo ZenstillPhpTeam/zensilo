@@ -97,7 +97,7 @@ footer {
   </h3>
   <div class="content-box-wrapper">
   <section>
-   <table cellpadding="0" cellspacing="0" border="0" class="table table-striped table-bordered dataTable no-footer" id="datatable-example" role="grid" aria-describedby="datatable-example_info">
+   <table cellpadding="0" cellspacing="0" border="0" class="table table-striped table-bordered dataTable1 no-footer" id="datatable-example1" role="grid" aria-describedby="datatable-example_info">
         <thead>
         <tr role="row">
         <th class="sorting_asc" tabindex="0" aria-controls="datatable-example" rowspan="1" colspan="1" aria-label="Rendering engine: activate to sort column ascending" aria-sort="ascending">
@@ -132,7 +132,7 @@ footer {
   </h3>
   <div class="content-box-wrapper">
   <section>
-<table cellpadding="0" cellspacing="0" border="0" class="table table-striped table-bordered dataTable no-footer" id="datatable-example" role="grid" aria-describedby="datatable-example_info">
+<table cellpadding="0" cellspacing="0" border="0" class="table table-striped table-bordered dataTable1 no-footer" id="datatable-example1" role="grid" aria-describedby="datatable-example_info">
         <thead>
         <tr role="row">
         <th class="sorting_asc" tabindex="0" aria-controls="datatable-example" rowspan="1" colspan="1" aria-label="Rendering engine: activate to sort column ascending" aria-sort="ascending">
@@ -171,7 +171,7 @@ footer {
   </h3>
   <div class="content-box-wrapper">
   <section>
-<table cellpadding="0" cellspacing="0" border="0" class="table table-striped table-bordered dataTable no-footer" id="datatable-example" role="grid" aria-describedby="datatable-example_info">
+<table cellpadding="0" cellspacing="0" border="0" class="table table-striped table-bordered dataTable1 no-footer" id="datatable-example1" role="grid" aria-describedby="datatable-example_info">
         <thead>
         <tr role="row">
         <th class="sorting_asc" tabindex="0" aria-controls="datatable-example" rowspan="1" colspan="1" aria-label="Rendering engine: activate to sort column ascending" aria-sort="ascending">
@@ -229,7 +229,7 @@ footer {
       <h3 class="content-box-header content-box-header-alt bg-white"><span class="icon-separator"><i class="glyph-icon icon-linecons-megaphone"></i></span><span class="header-wrapper"><a href="<?= $this->Url->build(array("controller" => "tasks","action" => "tasks"));?>">Upcoming Milestones</a><small></small></span> 
       </h3>
       <div class="panel-body">
-        <div id="calendar-example-1" class="col-md-10 center-margin fc fc-ltr"></div>
+        <div id="calendar-example-1" class="col-md-12 center-margin fc fc-ltr"></div>
       </div>
     </div>    
   </div>

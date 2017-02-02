@@ -756,7 +756,8 @@ class UsersController extends AppController
                 $image = $pre;
                 $imageName = $this->s3upload($image['tmp_name'], time().$image['name']);
                 if($imageName)
-                {    $images[] = $imageName;
+                {    
+                    $images[] = $imageName;
 
                     $data['document_name'] = $imageName;
                     $data['type'] = pathinfo($imageName, PATHINFO_EXTENSION);

@@ -217,7 +217,7 @@ footer {
     </div>
     <div class="panel">
       <div class="panel-body">
-        <div id="calendar-example-1" class="col-md-10 center-margin fc fc-ltr"></div>
+        <div id="calendar-example-1" class="col-md-12 center-margin fc fc-ltr"></div>
       </div>
     </div>
     
