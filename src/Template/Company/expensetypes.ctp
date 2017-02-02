@@ -48,7 +48,7 @@
         <td class="sorting_1"><?= $user_det->type ?></td>
         <td class="center">
               <a href="<?= $this->Url->build(array("controller" => "company","action" => "expensetypes", $user_det->id));?>"><i class="glyph-icon demo-icon tooltip-button icon-elusive-pencil"></i></a>&nbsp;&nbsp;
-                <a href="<?= $this->Url->build(array("controller" => "company","action" => "expensetypes", $user_det->id, "delete"));?>" onclick="javascript:confirm('Are you sure want to delete this Expense Type?')"><i class="glyph-icon demo-icon tooltip-button icon-elusive-trash"></i></a></td>
+                <a href="<?= $this->Url->build(array("controller" => "company","action" => "expensetypes", $user_det->id, "delete"));?>" onclick="return confirm('Are you sure want to delete this Expense Type?')"><i class="glyph-icon demo-icon tooltip-button icon-elusive-trash"></i></a></td>
         </tr>
         <?php } ?>
         

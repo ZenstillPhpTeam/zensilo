@@ -51,11 +51,11 @@
         <td class="center"><?= $this->Time->format($project_det->project->estimated_end_date, 'Y-MM-dd');?></td>
         <td class="center">
               <a href="<?= $this->Url->build(array("action" => "projects", $project_det->project->id));?>"><i class="glyph-icon demo-icon tooltip-button icon-elusive-pencil" data-toggle="tooltip" data-placement="top" title="" data-original-title="Edit"></i></a>&nbsp;&nbsp;
-                <a href="<?= $this->Url->build(array("action" => "projects", $project_det->project->id, "delete"));?>" onclick="javascript:confirm('Are you sure want to delete this Project?')"><i class="glyph-icon demo-icon tooltip-button icon-elusive-trash" data-toggle="tooltip" data-placement="top" title="" data-original-title="Delete"></i></a>
+                <a href="<?= $this->Url->build(array("action" => "projects", $project_det->project->id, "delete"));?>" onclick="return confirm('Are you sure want to delete this Project?')"><i class="glyph-icon demo-icon tooltip-button icon-elusive-trash" data-toggle="tooltip" data-placement="top" title="" data-original-title="Delete"></i></a>
                 <a href="#" data-toggle="modal" data-target=".bs-document-modal-lg" data-id="<?= $project_det->project->id ?>" class="project_document" onclick="setprojectid('<?= $project_det->project->id ?>');"><i class="glyph-icon demo-icon tooltip-button icon-elusive-doc-new" data-toggle="tooltip" data-placement="top" title="" data-original-title="Documents"></i></a>
                 <a href="<?= $this->Url->build(array("action" => "projectdetail", $project_det->project->id));?>" ><i class="glyph-icon demo-icon tooltip-button icon-elusive-slideshare" data-toggle="tooltip" data-placement="top" title="" data-original-title="View Timeline"></i></a>
                 <a href="<?= $this->Url->build(array("controller"=>"tasks","action" => "tasks"));?>" ><i class="demo-icon tooltip-button glyph-icon icon-tasks" data-toggle="tooltip" data-placement="top" title="" data-original-title="Add Tasks"></i></a>
-                <a href="<?= $this->Url->build(array("controller"=>"tasks","action" => "defect"));?>" ><i class="glyph-icon tooltip-button demo-icon icon-chain-broken" data-toggle="tooltip" data-placement="top" title="" data-original-title="Add Defects"></i></a>
+                <a href="<?= $this->Url->build(array("controller"=>"tasks","action" => "defect", $project_det->id, "add_project"));?>" ><i class="glyph-icon tooltip-button demo-icon icon-chain-broken" data-toggle="tooltip" data-placement="top" title="" data-original-title="Add Defects"></i></a>
         </td>
         </tr>
         <?php } ?>

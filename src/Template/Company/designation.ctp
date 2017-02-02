@@ -54,7 +54,7 @@
         <td><?= $user_det->setting_access ? 'Yes' : 'No';?></td>
         <td class="center">
               <a href="<?= $this->Url->build(array("controller" => "company", "action" => "designation", $user_det->id));?>"><i class="glyph-icon demo-icon tooltip-button icon-elusive-pencil"></i></a>&nbsp;&nbsp;
-                <a href="<?= $this->Url->build(array("controller" => "company", "action" => "designation", $user_det->id, "delete"));?>" onclick="javascript:confirm('Are you sure want to delete this Designation?')"><i class="glyph-icon demo-icon tooltip-button icon-elusive-trash"></i></a></td>
+                <a href="<?= $this->Url->build(array("controller" => "company", "action" => "designation", $user_det->id, "delete"));?>" onclick="return confirm('Are you sure want to delete this Designation?')"><i class="glyph-icon demo-icon tooltip-button icon-elusive-trash"></i></a></td>
         </tr>
         <?php } ?>
         

@@ -55,7 +55,7 @@
                <?php if($request_det->status == 0){ ?> 
                 <a href="<?= $this->Url->build(array("action" => "request", $request_det->id));?>"><i class="glyph-icon demo-icon tooltip-button icon-elusive-pencil" data-toggle="tooltip" data-placement="top" title="" data-original-title="Edit"></i></a>
                  &nbsp;&nbsp;
-                <a href="<?= $this->Url->build(array("action" => "request", $request_det->id, "delete"));?>" onclick="javascript:confirm('Are you sure want to delete this Project?')"><i class="glyph-icon demo-icon tooltip-button icon-elusive-trash" data-toggle="tooltip" data-placement="top" title="" data-original-title="Delete"></i></a>
+                <a href="<?= $this->Url->build(array("action" => "request", $request_det->id, "delete"));?>" onclick="return confirm('Are you sure want to delete this Project?')"><i class="glyph-icon demo-icon tooltip-button icon-elusive-trash" data-toggle="tooltip" data-placement="top" title="" data-original-title="Delete"></i></a>
                 <?php } else{ ?> 
                 <a href="javascript:;"><i class="glyph-icon demo-icon tooltip-button icon-elusive-pencil" data-toggle="tooltip" data-placement="top" title="" data-original-title="Edit"></i></a>
                  &nbsp;&nbsp;
@@ -203,14 +203,14 @@
                 <div class="form-group .bordered-row">
                   <label class="col-sm-3 control-label"> Start Date</label>
                   <div class="col-sm-6">
-                    <input name="start_date" type="text" class="bootstrap-datepicker2 form-control"  data-date-format="yyyy-mm-dd" required="">
+                    <input id="fromDate" name="start_date" type="text" class="form-control"  data-date-format="yyyy-mm-dd" required="">
                   </div>
                 </div>
 
                 <div class="form-group">
                   <label class="col-sm-3 control-label"> End Date</label>
                   <div class="col-sm-6 end_date_container">
-                    <input name="end_date" readonly type="text" class="bootstrap-datepicker2_end_date form-control"  data-date-format="yyyy-mm-dd">
+                    <input id="toDate" name="end_date" readonly type="text" class="form-control"  data-date-format="yyyy-mm-dd">
                   </div>
                 </div>
                 <div class="form-group">
@@ -249,7 +249,7 @@ function setprojectid(id){
 $(document).ready(function () {
 
 
-    $(".bootstrap-datepicker2").datepicker({ 
+    /*$(".bootstrap-datepicker2").datepicker({ 
         autoclose: true,
         minDate: new Date(),
         maxDate: '+2y',
@@ -271,7 +271,7 @@ $(document).ready(function () {
           maxDate: '+2y',
       });
 
-    });
+    });*/
 });
 
 

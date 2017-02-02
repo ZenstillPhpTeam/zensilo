@@ -26,7 +26,7 @@
               <td><?= $cat->type;?></td>
               <td>
                 <a href="<?= $this->Url->build(array("action" => "color", $cat->id));?>"><i class="glyph-icon icon-pencil"></i></a>&nbsp;&nbsp;
-                <a href="<?= $this->Url->build(array("action" => "color", $cat->id, 'delete'));?>" onclick="javascript:confirm('Are you sure want to delete this color?')"><i class="glyph-icon icon-trash"></i></a>
+                <a href="<?= $this->Url->build(array("action" => "color", $cat->id, 'delete'));?>" onclick="return confirm('Are you sure want to delete this color?')"><i class="glyph-icon icon-trash"></i></a>
               </td>
             </tr>
             <?php }?>

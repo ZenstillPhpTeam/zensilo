@@ -161,3 +161,8 @@ em,.parsley-errors-list li{color: #f44336;}
 .fliter ul{ padding: 0;  float: right;}
 .fliter ul li{ display: inline-block; list-style-type: none; padding: 0 10px; }
 .input-group .form-control {min-width:34px;}
+.fliter select{ background: #ededed none repeat scroll 0 0;
+    border: 1px solid #ededed;
+    box-shadow: 0 1px 1px 0 #ccc;
+    margin: 0 5px 7px;
+    padding: 2px 7px;}

@@ -50,7 +50,7 @@
                       
                     <div class="col-md-2"> 
                       <div class="selector" style="width: 98px;">
-                        <span style="width: 76px; -moz-user-select: none;">{{TimeSheetData.days[key]['project_name']}}</span>
+                        <span style="width: 76px; -moz-user-select: none;">{{project_name(TimeSheetData.days[key]['project'])}}</span>
 
                         <select ng-model="TimeSheetData.days[key]['project']" class="custom-select">
                           <option ng-click="TimeSheetData.days[key]['project_name'] = 'Select Project'" ng-selected="project.id == TimeSheetData.days[key]['project']" value="0">Select Project</option>
@@ -63,7 +63,7 @@
 
                     <div class="col-md-2"> 
                       <div class="selector" style="width: 98px;">
-                        <span style="width: 76px; -moz-user-select: none;">{{TimeSheetData.days[key]['task_name']}}</span>
+                        <span style="width: 76px; -moz-user-select: none;">{{task_name(TimeSheetData.days[key]['task'])}}</span>
 
                         <select ng-model="TimeSheetData.days[key]['task']" name="" class="custom-select">
                           <option ng-click="TimeSheetData.days[key]['task_name'] = 'Select Task'" ng-selected="task.id == TimeSheetData.days[key]['task']" value="0">Select Task</option>

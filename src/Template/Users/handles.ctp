@@ -28,7 +28,7 @@
               <td> <img width="90" src="<?php echo $siteurl.'upload/handle/'.$dor->image; ?>"></td>
               <td>
                 <a href="<?= $this->Url->build(array("action" => "handles", $dor->id));?>"><i class="glyph-icon icon-pencil"></i></a>&nbsp;&nbsp;
-                <a href="<?= $this->Url->build(array("action" => "handles", $dor->id, "delete"));?>" onclick="javascript:confirm('Are you sure want to delete this door?')"><i class="glyph-icon icon-trash"></i></a>
+                <a href="<?= $this->Url->build(array("action" => "handles", $dor->id, "delete"));?>" onclick="return confirm('Are you sure want to delete this door?')"><i class="glyph-icon icon-trash"></i></a>
               </td>
             </tr>
             <?php }?>

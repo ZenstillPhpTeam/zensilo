@@ -234,12 +234,24 @@ class TasksController extends UsersController
         $this->Tasks = TableRegistry::get('tasks');
         $this->Defects = TableRegistry::get('defects');
         
-        if ($this->request->is('post'))
+        if($action == 'delete')
+       {
+            $this->Defects->delete($this->Defects->get($id));
+            $this->Flash->success('Designation has been deleted successfully!!');
+            $this->redirect(array("action" => 'defect'));
+       }
+       elseif ($this->request->is('post') && !isset($this->request->data['filter']))
         {
             $data = $this->request->data;
 
             if(isset($data['id'])){
                 $this->request->data['modified_by'] = $this->Auth->user('id');
+
+                if($this->request->data['document']['tmp_name'])
+                  $this->request->data['document'] = $this->s3upload($this->request->data['document']['tmp_name'], time().$this->request->data['document']['name']);
+                else
+                  unset($this->request->data['document']);
+
                 $task = $this->Defects->get($data['id']);
                 $task = $this->Defects->patchEntity($task, $this->request->data);
                 $task_save  = $this->Defects->save($task);
@@ -261,16 +273,38 @@ class TasksController extends UsersController
               }
             $this->redirect(array("action" => 'defect'));
         }
-
+        elseif($id && $action == '')
+         {
+              $defect = $this->Defects->get($id);
+              $this->set('defect', $defect);
+         }
 
         $parent_id = $this->Auth->user('userrole') == "company" ? $this->Auth->user('id') : $this->Auth->user('parent_id');
         $projects = $this->Projects->find('list', ['conditions' => ['projects.company_id' => $parent_id], 'keyField' => 'id', 'valueField' => 'project_name'])->toArray();
 
         $tasks = $this->Tasks->find('list', ['conditions' => ['company_id' => $parent_id], 'keyField' => 'id', 'valueField' => 'task_name', 'groupField' => 'project_id'])->toArray();
 
-        $defects = $this->Defects->find('all', ['conditions' => ['company_id' => $parent_id]])->all();
+        $conditions = ['company_id' => $parent_id];
+        $filter = isset($this->request->data['filter']) ? $this->request->data['filter'] : array();
+        if(isset($this->request->data['filter']))
+        {
+          foreach($this->request->data['filter'] as $kk=>$vv)
+          {
+            if($vv)
+              $conditions[$kk] = $vv;
+          }
+        }
+        elseif($action == 'add_project')
+        {  
+          $conditions[] = ['project_id' => $id];
+          $filter['project_id'] = $id;
+        }
+        elseif($action == 'add_task')
+          $conditions[] = ['task_id' => $id];
 
-        $this->set(compact('projects', 'tasks', 'defects'));
+        $defects = $this->Defects->find('all', ['conditions' => $conditions])->all();
+
+        $this->set(compact('projects', 'tasks', 'defects', 'id', 'action', 'filter'));
     }
 
 }
